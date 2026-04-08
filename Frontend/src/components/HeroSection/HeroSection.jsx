@@ -3,7 +3,7 @@ import "./HeroSection.css";
 
 import slide1 from "../../assets/image-1.jpg";
 import slide2 from "../../assets/image-2.jpg";
-import hand from "../../assets/content-image-1.png";
+import hand from "../../assets/content-image-1.png"
 
 const HeroSection = () => {
   const slides = [

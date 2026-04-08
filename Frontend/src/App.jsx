@@ -6,9 +6,10 @@ import Home from './Pages/Home/Home'
 function App() {
   return (
     <>
+      <Home/>
       <OurClasses />
       <EnrollSection />
-      <Home/>
+      
     </>
   )
 }
