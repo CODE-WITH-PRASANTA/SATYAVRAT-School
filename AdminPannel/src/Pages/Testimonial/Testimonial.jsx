@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
+import API from "../../api/axios"; // ✅ ADDED
 import {
   FaQuoteLeft,
   FaStar,
@@ -15,7 +16,7 @@ const Testimonial = () => {
 
   const sectionData = {
     smallTitle: "PARENT REVIEWS",
-    heading: "SATYAVRAT VIDYA NIKETAN HIGH SCHOOL",
+    heading: "What Parents Say About Bright Stars Montessori",
   };
 
   const initialForm = {
@@ -30,17 +31,33 @@ const Testimonial = () => {
   const [editId, setEditId] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
+  /* ================= FETCH ================= */
+  const fetchTestimonials = async () => {
+    try {
+      const res = await API.get("/testimonials");
+      setTestimonials(res.data.data || []);
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  /* ================= PREVIEW ================= */
   const previewData = useMemo(() => {
     return {
       parentName: form.parentName || "Parent Name",
       reviewText:
         form.reviewText ||
-        "Your testimonial preview will appear here. Add a parent review to see how it looks in the frontend card design.",
+        "Your testimonial preview will appear here.",
       rating: Number(form.rating) || 5,
       status: form.status || "Active",
     };
   }, [form]);
 
+  /* ================= FORM ================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -50,25 +67,22 @@ const Testimonial = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      ...form,
-      id: editId || Date.now(),
-      rating: Number(form.rating),
-    };
+    try {
+      if (editId) {
+        await API.put(`/testimonials/${editId}`, form);
+      } else {
+        await API.post("/testimonials", form);
+      }
 
-    if (editId) {
-      setTestimonials((prev) =>
-        prev.map((item) => (item.id === editId ? payload : item))
-      );
+      fetchTestimonials(); // ✅ refresh
+      setForm(initialForm);
       setEditId(null);
-    } else {
-      setTestimonials((prev) => [...prev, payload]);
+    } catch (err) {
+      console.error("SUBMIT ERROR:", err);
     }
-
-    setForm(initialForm);
   };
 
   const handleClear = () => {
@@ -76,6 +90,7 @@ const Testimonial = () => {
     setEditId(null);
   };
 
+  /* ================= EDIT ================= */
   const handleEdit = (item) => {
     setForm({
       parentName: item.parentName,
@@ -83,16 +98,21 @@ const Testimonial = () => {
       rating: item.rating,
       status: item.status,
     });
-    setEditId(item.id);
+
+    setEditId(item._id); // ✅ FIXED
     setOpenMenu(null);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = (id) => {
-    setTestimonials((prev) => prev.filter((item) => item.id !== id));
-    if (editId === id) {
-      handleClear();
+  /* ================= DELETE ================= */
+  const handleDelete = async (id) => {
+    try {
+      await API.delete(`/testimonials/${id}`);
+      fetchTestimonials();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
     }
+
     setOpenMenu(null);
   };
 
@@ -106,8 +126,7 @@ const Testimonial = () => {
           <p className={`${base}__eyebrow`}>Admin Panel</p>
           <h2>Testimonial Management</h2>
           <p className={`${base}__subtext`}>
-            Add, edit, and manage parent testimonials with live preview and a
-            clean admin table.
+            Add, edit, and manage parent testimonials.
           </p>
         </div>
       </div>
@@ -116,7 +135,6 @@ const Testimonial = () => {
         <div className={`${base}__card`}>
           <div className={`${base}__cardHeader`}>
             <h3>{editId ? "Update Review Card Form" : "Review Card Form"}</h3>
-            <p>Fill testimonial details and save the review card.</p>
           </div>
 
           <form className={`${base}__form`} onSubmit={handleSubmit}>
@@ -127,7 +145,6 @@ const Testimonial = () => {
                 name="parentName"
                 value={form.parentName}
                 onChange={handleChange}
-                placeholder="Enter parent name"
               />
             </div>
 
@@ -138,7 +155,6 @@ const Testimonial = () => {
                 rows="6"
                 value={form.reviewText}
                 onChange={handleChange}
-                placeholder="Write review text"
               />
             </div>
 
@@ -189,42 +205,22 @@ const Testimonial = () => {
           </form>
         </div>
 
+        {/* PREVIEW SAME */}
         <div className={`${base}__card`}>
-          <div className={`${base}__cardHeader`}>
-            <h3>Live Preview</h3>
-            <p>Preview the testimonial card before saving.</p>
-          </div>
+          <div className={`${base}__previewCard`}>
+            <p className={`${base}__previewText`}>
+              {previewData.reviewText}
+            </p>
 
-          <div className={`${base}__previewSection`}>
-            <div className={`${base}__previewHead`}>
-              <div>
-                <p className={`${base}__previewEyebrow`}>
-                  {sectionData.smallTitle}
-                </p>
-                <h2 className={`${base}__previewHeading`}>
-                  {sectionData.heading}
-                </h2>
+            <div className={`${base}__previewBottom`}>
+              <div className={`${base}__quoteIcon`}>
+                <FaQuoteLeft />
               </div>
 
-              <div className={`${base}__previewNav`}>
-                <button type="button">←</button>
-                <button type="button">→</button>
-              </div>
-            </div>
-
-            <div className={`${base}__previewCard`}>
-              <p className={`${base}__previewText`}>{previewData.reviewText}</p>
-
-              <div className={`${base}__previewBottom`}>
-                <div className={`${base}__quoteIcon`}>
-                  <FaQuoteLeft />
-                </div>
-
-                <div className={`${base}__previewMeta`}>
-                  <h4>{previewData.parentName}</h4>
-                  <div className={`${base}__stars`}>
-                    {renderStars(previewData.rating)}
-                  </div>
+              <div className={`${base}__previewMeta`}>
+                <h4>{previewData.parentName}</h4>
+                <div className={`${base}__stars`}>
+                  {renderStars(previewData.rating)}
                 </div>
               </div>
             </div>
@@ -232,12 +228,8 @@ const Testimonial = () => {
         </div>
       </div>
 
+      {/* TABLE */}
       <div className={`${base}__tableCard`}>
-        <div className={`${base}__cardHeader`}>
-          <h3>Testimonials List Table</h3>
-          <p>Manage all saved testimonial cards below.</p>
-        </div>
-
         <div className={`${base}__tableWrap`}>
           <table className={`${base}__table`}>
             <thead>
@@ -253,62 +245,26 @@ const Testimonial = () => {
             <tbody>
               {testimonials.length > 0 ? (
                 testimonials.map((item) => (
-                  <tr key={item.id}>
-                    <td className={`${base}__tableName`}>{item.parentName}</td>
-                    <td className={`${base}__reviewCell`}>{item.reviewText}</td>
-                    <td>
-                      <span className={`${base}__ratingBadge`}>
-                        {item.rating} Star
-                      </span>
-                    </td>
-                    <td>
-                      <span
-                        className={`${base}__statusBadge ${
-                          item.status === "Active"
-                            ? `${base}__statusBadge--active`
-                            : `${base}__statusBadge--inactive`
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                    <td>
-                      <div className={`${base}__dropdown`}>
-                        <button
-                          type="button"
-                          className={`${base}__dropdownBtn`}
-                          onClick={() =>
-                            setOpenMenu(openMenu === item.id ? null : item.id)
-                          }
-                        >
-                          Actions <FaChevronDown />
-                        </button>
+                  <tr key={item._id}>
+                    <td>{item.parentName}</td>
+                    <td>{item.reviewText}</td>
+                    <td>{item.rating} Star</td>
+                    <td>{item.status}</td>
 
-                        {openMenu === item.id && (
-                          <div className={`${base}__dropdownMenu`}>
-                            <button type="button" onClick={() => handleEdit(item)}>
-                              <FaEdit />
-                              Edit
-                            </button>
+                    <td>
+                      <button onClick={() => handleEdit(item)}>
+                        <FaEdit />
+                      </button>
 
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(item.id)}
-                            >
-                              <FaTrash />
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      <button onClick={() => handleDelete(item._id)}>
+                        <FaTrash />
+                      </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className={`${base}__emptyRow`}>
-                    No testimonial cards added yet.
-                  </td>
+                  <td colSpan="5">No data</td>
                 </tr>
               )}
             </tbody>

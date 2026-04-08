@@ -11,7 +11,6 @@ const DashBoard = () => {
       <AdminAnalyticsDashboard/>
       <DashboardSection/>
       <SocialStats/>
-      
     </div>
   )
 }

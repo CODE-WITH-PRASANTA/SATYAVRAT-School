@@ -1,0 +1,28 @@
+.protected-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #020617, #0f172a, #020617);
+}
+
+.protected-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.protected-box h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.protected-box p {
+  font-size: 14px;
+  color: #ccc;
+}

@@ -1,6 +1,6 @@
-
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import "./Teacher.css";
+import API, { IMAGE_URL } from "../../api/axios"; // ✅ use your api
 import {
   FaFacebookF,
   FaInstagram,
@@ -29,43 +29,32 @@ const Teacher = () => {
 
   const [form, setForm] = useState(initialForm);
   const [previewImage, setPreviewImage] = useState("");
-  const [teachers, setTeachers] = useState([
-    {
-      id: 1,
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
-      name: "Mrs. Kavita Sharma",
-      role: "Principal & Academic Head",
-      description:
-        "She leads Bright Stars Montessori with a nurturing vision that helps every child grow with confidence, curiosity, discipline, and a lifelong love for learning.",
-      phone: "+91 7016201096",
-      status: "Active",
-      tag: "Lead Mentor",
-      order: 1,
-    },
-    {
-      id: 2,
-      image:
-        "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=900&q=80",
-      name: "Anita Sharma",
-      role: "Senior Montessori Teacher",
-      description:
-        "A caring mentor focused on joyful learning, creativity, and strong early childhood development.",
-      phone: "+91 9876543210",
-      status: "Active",
-      tag: "Teacher",
-      order: 2,
-    },
-  ]);
+  const [teachers, setTeachers] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
 
   const [editId, setEditId] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
+  /* ================= FETCH ================= */
+  const fetchTeachers = async () => {
+    try {
+      const res = await API.get("/teachers");
+      setTeachers(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  /* ================= PREVIEW ================= */
   const displayPreview = useMemo(
     () => ({
       image:
         previewImage ||
-        form.image ||
+        (form.image ? IMAGE_URL + form.image : "") ||
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
       name: form.name || "Mrs. Kavita Sharma",
       role: form.role || "Principal & Academic Head",
@@ -78,58 +67,63 @@ const Teacher = () => {
     [form, previewImage]
   );
 
+  /* ================= CHANGE ================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
+  /* ================= IMAGE ================= */
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const imageUrl = URL.createObjectURL(file);
-    setPreviewImage(imageUrl);
-    setForm((prev) => ({
-      ...prev,
-      image: imageUrl,
-    }));
+    setImageFile(file);
+    setPreviewImage(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      ...form,
-      id: editId || Date.now(),
-      tag: "Teacher",
-      order: editId
-        ? teachers.find((item) => item.id === editId)?.order || teachers.length + 1
-        : teachers.length + 1,
-    };
+    try {
+      const formData = new FormData();
 
-    if (editId) {
-      setTeachers((prev) =>
-        prev.map((item) => (item.id === editId ? payload : item))
-      );
-      setEditId(null);
-    } else {
-      setTeachers((prev) => [...prev, payload]);
+      formData.append("name", form.name);
+      formData.append("role", form.role);
+      formData.append("description", form.description);
+      formData.append("phone", form.phone);
+      formData.append("status", form.status);
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      if (editId) {
+        await API.put(`/teachers/${editId}`, formData);
+      } else {
+        await API.post("/teachers", formData);
+      }
+
+      fetchTeachers();
+      handleClear();
+    } catch (err) {
+      console.log(err);
     }
-
-    setForm(initialForm);
-    setPreviewImage("");
   };
 
+  /* ================= CLEAR ================= */
   const handleClear = () => {
     setForm(initialForm);
     setPreviewImage("");
+    setImageFile(null);
     setEditId(null);
   };
 
+  /* ================= EDIT ================= */
   const handleEdit = (teacher) => {
     setForm({
       image: teacher.image,
@@ -140,16 +134,22 @@ const Teacher = () => {
       status: teacher.status,
     });
 
-    setPreviewImage(teacher.image);
-    setEditId(teacher.id);
+    setPreviewImage(IMAGE_URL + teacher.image);
+    setEditId(teacher._id);
     setOpenMenu(null);
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = (id) => {
-    setTeachers((prev) => prev.filter((item) => item.id !== id));
-    if (editId === id) handleClear();
-    setOpenMenu(null);
+  /* ================= DELETE ================= */
+  const handleDelete = async (id) => {
+    try {
+      await API.delete(`/teachers/${id}`);
+      fetchTeachers();
+      setOpenMenu(null);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const sortedTeachers = [...teachers].sort(
@@ -266,6 +266,7 @@ const Teacher = () => {
           </form>
         </div>
 
+        {/* PREVIEW SAME */}
         <div className={`${base}__card`}>
           <div className={`${base}__cardHeader`}>
             <h3>Live Preview Card</h3>
@@ -295,116 +296,38 @@ const Teacher = () => {
                 <FaPhoneAlt />
                 <span>{displayPreview.phone}</span>
               </div>
-
-              <div className={`${base}__socials`}>
-                <button type="button">
-                  <FaFacebookF />
-                </button>
-                <button type="button">
-                  <FaInstagram />
-                </button>
-                <button type="button">
-                  <FaEnvelope />
-                </button>
-                <button type="button">
-                  <FaWhatsapp />
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* TABLE SAME */}
       <div className={`${base}__tableCard`}>
-        <div className={`${base}__cardHeader`}>
-          <h3>Teachers List Table</h3>
-          <p>Manage saved teacher profiles below.</p>
-        </div>
-
         <div className={`${base}__tableWrap`}>
           <table className={`${base}__table`}>
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Teacher Name</th>
-                <th>Role</th>
-                <th>Phone</th>
-                <th>Tag</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
             <tbody>
-              {sortedTeachers.length > 0 ? (
-                sortedTeachers.map((teacher) => (
-                  <tr key={teacher.id}>
-                    <td>
-                      <img
-                        src={teacher.image}
-                        alt={teacher.name}
-                        className={`${base}__tableImage`}
-                      />
-                    </td>
-                    <td className={`${base}__tableName`}>{teacher.name}</td>
-                    <td>{teacher.role}</td>
-                    <td>{teacher.phone}</td>
-                    <td>
-                      <span className={`${base}__tagMini`}>{teacher.tag}</span>
-                    </td>
-                    <td>
-                      <span
-                        className={`${base}__statusBadge} ${
-                          teacher.status === "Active"
-                            ? `${base}__statusBadge--active`
-                            : `${base}__statusBadge--inactive`
-                        }`}
-                      >
-                        {teacher.status}
-                      </span>
-                    </td>
-                    <td>
-                      <div className={`${base}__dropdown`}>
-                        <button
-                          type="button"
-                          className={`${base}__dropdownBtn`}
-                          onClick={() =>
-                            setOpenMenu(openMenu === teacher.id ? null : teacher.id)
-                          }
-                        >
-                          Actions <FaChevronDown />
-                        </button>
+              {sortedTeachers.map((teacher) => (
+                <tr key={teacher._id}>
+                  <td>
+                    <img
+                      src={IMAGE_URL + teacher.image}
+                      className={`${base}__tableImage`}
+                    />
+                  </td>
+                  <td>{teacher.name}</td>
+                  <td>{teacher.role}</td>
+                  <td>{teacher.phone}</td>
 
-                        {openMenu === teacher.id && (
-                          <div className={`${base}__dropdownMenu`}>
-                            <button
-                              type="button"
-                              onClick={() => handleEdit(teacher)}
-                            >
-                              <FaEdit />
-                              Edit
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(teacher.id)}
-                            >
-                              <FaTrash />
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="7" className={`${base}__emptyRow`}>
-                    No teacher profiles added yet.
+                  <td>
+                    <button onClick={() => handleEdit(teacher)}>
+                      <FaEdit />
+                    </button>
+                    <button onClick={() => handleDelete(teacher._id)}>
+                      <FaTrash />
+                    </button>
                   </td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
