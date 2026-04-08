@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Pacifico&family=Source+Sans+3:wght@400;500;600&display=swap");
+
+/* SECTION */
+.ourClasses {
+  background: #f3f3f3;
+  padding: 40px 20px;
+}
+
+.ourClasses__container {
+  max-width: 1110px;
+  margin: auto;
+}
+
+/* HEADER */
+.ourClasses__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.ourClasses__title {
+  position: relative;
+  font-family: "Oswald", sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: #333;
+}
+
+.ourClasses__subtitle {
+  font-family: "Pacifico", cursive;
+  font-size: 22px;
+  color: #7d7d7d;
+  margin: 10px 0 20px;
+}
+
+.ourClasses__text {
+  font-size: 18px;
+  color: #777;
+}
+
+/* SUN DESIGN */
+.ourClasses__sun {
+  position: absolute;
+  top: -15px;
+  right: 40px;
+  width: 60px;
+  height: 30px;
+  background: #d8f6f1;
+  border-radius: 50px 50px 0 0;
+}
+
+/* GRID */
+.ourClasses__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* CARD */
+.ourClassesCard {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+}
+
+/* IMAGE */
+.ourClassesCard__imageWrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.ourClassesCard__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TAG */
+.ourClassesCard__tag {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #18aef5;
+  color: #fff;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-family: "Oswald";
+}
+
+/* BODY */
+.ourClassesCard__body {
+  text-align: center;
+  padding: 25px;
+}
+
+.ourClassesCard__date {
+  font-family: "Pacifico";
+  color: #8a8a8a;
+  margin-bottom: 10px;
+}
+
+.ourClassesCard__title {
+  font-family: "Oswald";
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.ourClassesCard__desc {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+/* BUTTON */
+.ourClassesCard__button {
+  background: #f7c500;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-family: "Oswald";
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.ourClassesCard__button:hover {
+  background: #e5b700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .ourClasses__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .ourClasses__grid {
+    grid-template-columns: 1fr;
+  }
+}

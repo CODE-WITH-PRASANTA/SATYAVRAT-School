@@ -1,16 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
+import OurClasses from './components/OurClasses/OurClasses'
+import EnrollSection from './components/EnrollSection/EnrollSection'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-  
-  
+      <OurClasses />
+      <EnrollSection />
     </>
   )
 }
