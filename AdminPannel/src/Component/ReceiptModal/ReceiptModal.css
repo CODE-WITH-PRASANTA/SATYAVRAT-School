@@ -1,0 +1,213 @@
+/* OVERLAY */
+.receipt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+  overflow-x: hidden; /* ✅ FIX */
+}
+
+/* CARD */
+.receipt-card {
+  width: 210mm;
+  max-width: 100%;           /* ✅ MOBILE SUPPORT */
+  min-height: 297mm;         /* ✅ A4 HEIGHT */
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+/* CLOSE */
+.receipt-card .receipt-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+/* HEADER */
+.receipt-card .receipt-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.receipt-logo {
+  width: 60px;
+}
+
+.receipt-title {
+  margin: 0;
+  color: #1e3a8a;
+}
+
+.receipt-address {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* TOP INFO */
+.receipt-card .receipt-top {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+/* STUDENT */
+.receipt-card .receipt-student {
+  background: #f3f4f6;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* TABLE */
+.receipt-card .receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;              /* ✅ FIX OVERFLOW */
+}
+
+.receipt-card .receipt-table th,
+.receipt-card .receipt-table td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: center;
+  word-break: break-word;           /* ✅ TEXT WRAP */
+}
+
+.receipt-card .receipt-table th {
+  background: #e5e7eb;
+}
+
+.receipt-total {
+  background: #fef3c7;
+}
+
+/* NOTE */
+.receipt-card .receipt-note {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* FOOTER */
+.receipt-card .receipt-footer {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* LINE */
+.receipt-line {
+  border-top: 1px solid #000;
+  width: 120px;
+  margin: auto;
+}
+
+/* THANK YOU */
+.receipt-thank {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .receipt-card {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .receipt-card .receipt-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .receipt-logo {
+    margin-bottom: 10px;
+  }
+
+  .receipt-card .receipt-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .receipt-card .receipt-footer {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+}
+@media print {
+
+  /* HIDE EVERYTHING */
+  body * {
+    display: none !important;
+  }
+
+  /* SHOW ONLY RECEIPT + ITS PARENT */
+  .receipt-overlay,
+  #receipt-print-area,
+  #receipt-print-area * {
+    display: block !important;
+  }
+
+  /* REMOVE OVERLAY STYLE */
+  .receipt-overlay {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+  }
+
+  /* PERFECT A4 */
+  #receipt-print-area {
+    width: 190mm;
+    min-height: 277mm;
+    margin: auto;
+    padding: 15mm;
+    background: #fff;
+    color: #000;
+  }
+
+  /* REMOVE BUTTONS */
+  .receipt-overlay > div:last-child {
+    display: none !important;
+  }
+
+  .receipt-close {
+    display: none !important;
+  }
+
+  /* FIX FLEX BREAK */
+  .receipt-header,
+  .receipt-top,
+  .receipt-footer {
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  /* TABLE FIX */
+  .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .receipt-table th,
+  .receipt-table td {
+    border: 1px solid #000;
+    padding: 10px;
+  }
+}
