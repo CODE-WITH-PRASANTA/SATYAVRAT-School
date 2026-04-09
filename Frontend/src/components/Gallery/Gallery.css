@@ -1,0 +1,158 @@
+/* ======================= CSS ======================= */
+.gallery {
+  padding: 100px 20px;
+  background: radial-gradient(circle at top, #eef2f7, #dfe9f3);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.gallery__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.gallery__header h2 {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* GRID */
+.gallery__grid {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+}
+
+/* CARD */
+.gallery__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  transition: all 0.4s ease;
+}
+
+.gallery__card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
+
+.gallery__card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: 0.6s ease;
+}
+
+.gallery__card:hover img {
+  transform: scale(1.2) rotate(1deg);
+  filter: brightness(0.6);
+}
+
+/* OVERLAY */
+.gallery__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,123,255,0.4));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: 0.4s ease;
+}
+
+.gallery__card:hover .gallery__overlay {
+  opacity: 1;
+}
+
+.overlay__content {
+  text-align: center;
+  color: #fff;
+  backdrop-filter: blur(8px);
+  padding: 20px 30px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* PAGINATION */
+.gallery__pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  gap: 10px;
+}
+
+.gallery__pagination button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: #e0e0e0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.gallery__pagination .active {
+  background: #007bff;
+  color: #fff;
+}
+
+/* MODAL */
+.gallery__modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.gallery__modal img {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 14px;
+}
+
+.close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.prev { left: 30px; }
+.next { right: 30px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .gallery__grid {
+    grid-template-columns: 1fr;
+  }
+}

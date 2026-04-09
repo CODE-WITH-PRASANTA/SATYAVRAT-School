@@ -1,0 +1,82 @@
+.getInvolvedSection {
+  width: 100%;
+  background: linear-gradient(135deg, #5ec6b3, #63cbbf);
+  position: relative;
+  overflow: hidden;
+}
+
+/* PATTERN OVERLAY (light icons feel) */
+.getInvolvedSection__overlay {
+  background: url("https://www.transparenttextures.com/patterns/cubes.png");
+  opacity: 0.95;
+}
+
+/* CONTAINER */
+.getInvolvedSection__container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px 20px;
+  height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* TEXT */
+.getInvolvedSection__content h2 {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.getInvolvedSection__content p {
+  color: #eafff9;
+  font-size: 16px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* BUTTON */
+.getInvolvedSection__btn {
+  background: #ffb400;
+  color: #fff;
+  border: none;
+  padding: 14px 35px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.getInvolvedSection__btn:hover {
+  background: #ffffff;
+  color: #ffb400;
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .getInvolvedSection__container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .getInvolvedSection__content h2 {
+    font-size: 30px;
+  }
+
+  .getInvolvedSection__content p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .getInvolvedSection__btn {
+    width: 100%;
+    padding: 12px;
+  }
+}

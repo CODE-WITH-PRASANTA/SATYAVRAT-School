@@ -1,0 +1,337 @@
+/* ================= BASE ================= */
+.FeeCollection {
+  padding: 25px;
+  background: #f6f8fb;
+  font-family: Arial;
+}
+
+/* ================= HEADER ================= */
+.FeeCollection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.FeeCollection-collectBtn {
+  background: #1e8e7e;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= TOOLBAR ================= */
+.FeeCollection-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.FeeCollection-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 220px;
+  flex: 1;
+}
+
+.FeeCollection-search input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+.FeeCollection-select,
+.FeeCollection-date {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 14px;
+}
+
+/* RESET */
+.FeeCollection-resetBtn {
+  padding: 8px 12px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.FeeCollection-resetBtn:hover {
+  background: #dc2626;
+}
+
+/* ================= TABLE ================= */
+.FeeCollection-tableWrapper {
+  overflow-x: auto;
+}
+
+.FeeCollection-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  min-width: 800px;
+}
+
+.FeeCollection-table th,
+.FeeCollection-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* ================= STATUS ================= */
+.FeeCollection-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.Paid { background: #d7f5e6; color: #1a8f5c; }
+.Partial { background: #ffe5c2; color: #ff7b00; }
+.Unpaid { background: #ffdada; color: red; }
+
+/* ================= ACTION ================= */
+.FeeCollection-actionWrapper { position: relative; }
+
+.FeeCollection-actionBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.FeeCollection-actionDropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 150px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items:center ;
+  /* gap: 10px; */
+}
+.FeeCollection-actionDropdown button{
+  width: 50px;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+/* ================= PAGINATION ================= */
+.FeeCollection-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.FeeCollection-pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.FeeCollection-pagination .active {
+  background: #1e8e7e;
+  color: #fff;
+}
+
+/* ================= MODAL ================= */
+.FeeCollection-modal,
+.FeeCollection-receiptModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* MODAL BOX */
+.FeeCollection-modalContent {
+  background: linear-gradient(145deg, #fff, #f4f7fb);
+  width: 95%;
+  max-width: 600px;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+/* TITLE */
+.FeeCollection-modalContent h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ================= FORM ================= */
+.FeeCollection-formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  position: relative;
+}
+
+.FeeCollection-formGrid textarea {
+  grid-column: span 2;
+}
+
+/* INPUT */
+.FeeCollection-formGrid input,
+.FeeCollection-formGrid select,
+.FeeCollection-formGrid textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  width: 100%;
+}
+
+.FeeCollection-formGrid input:focus,
+.FeeCollection-formGrid select:focus {
+  border-color: #1e8e7e;
+  box-shadow: 0 0 0 3px rgba(30,142,126,0.15);
+}
+
+/* ================= STUDENT SEARCH ================= */
+.FeeCollection-studentResults {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  z-index: 999;
+}
+
+.FeeCollection-studentItem {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.FeeCollection-studentItem:hover {
+  background: #f1f5f9;
+}
+
+.FeeCollection-studentItem p {
+  font-size: 12px;
+  color: #555;
+}
+
+/* ================= BUTTONS ================= */
+.FeeCollection-formBtns {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.save {
+  background: linear-gradient(135deg, #1e8e7e, #22c1c3);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+}
+
+.cancel {
+  border: 1px solid red;
+  color: red;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+/* fee-close */
+.fee-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLE SCROLL */
+@media (max-width: 1024px) {
+  .FeeCollection-table {
+    min-width: 900px;
+  }
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+
+  .FeeCollection {
+    padding: 15px;
+  }
+
+  .FeeCollection-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .FeeCollection-search {
+    width: 100%;
+  }
+
+  .FeeCollection-formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .FeeCollection-formBtns {
+    flex-direction: column;
+  }
+
+  .save,
+  .cancel {
+    width: 100%;
+  }
+
+  .FeeCollection-modalContent {
+    padding: 20px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+
+  .FeeCollection-header h2 {
+    font-size: 18px;
+  }
+
+  .FeeCollection-modalContent {
+    padding: 15px;
+  }
+
+  .FeeCollection-studentResults {
+    top: 50px;
+  }
+}

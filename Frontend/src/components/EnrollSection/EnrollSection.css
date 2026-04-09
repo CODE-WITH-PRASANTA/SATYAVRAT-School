@@ -1,0 +1,331 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Pacifico&family=Source+Sans+3:wght@400;500;600&display=swap");
+
+.enrollSection {
+  position: relative;
+  width: 100%;
+  background: #f3f3f3;
+  padding-top: 0;
+  overflow: visible;
+}
+
+.enrollSection__hero {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 700px;
+  overflow: visible;
+}
+
+.enrollSection__bg {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+.enrollSection__content {
+  position: relative;
+  z-index: 2;
+}
+
+.enrollSection__container {
+  max-width: 1240px;
+  margin: 0 auto;
+  min-height: 650px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.enrollSection__left {
+  width: 42%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.enrollSection__boy {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin-top: 6px;
+  margin-left: -10px;
+}
+
+.enrollSection__right {
+  width: 58%;
+  padding-top: 155px;
+  padding-left: 10px;
+}
+
+.enrollSection__subtitle {
+  margin: 0 0 6px;
+  font-family: "Pacifico", cursive;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.enrollSection__title {
+  margin: 0 0 22px;
+  font-family: "Oswald", sans-serif;
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.12;
+  color: #20aef7;
+  text-transform: uppercase;
+  max-width: 760px;
+}
+
+.enrollSection__desc {
+  margin: 0 0 28px;
+  max-width: 720px;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 20px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.enrollSection__btn {
+  width: 170px;
+  height: 46px;
+  border: none;
+  background: #f7c500;
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+}
+
+.enrollSection__btn:hover {
+  background: #e2b400;
+}
+
+.enrollSection__searchWrap {
+  position: relative;
+  z-index: 5;
+  max-width: 1240px;
+  margin: -108px auto 0;
+  padding: 0 20px 40px;
+}
+
+.enrollSection__searchBox {
+  background: #f5f5f5;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 46px 38px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 220px;
+  align-items: center;
+  gap: 26px;
+}
+
+.enrollSection__field {
+  position: relative;
+}
+
+.enrollSection__field:not(.enrollSection__field--button)::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 44px;
+  background: #e6e6e6;
+}
+
+.enrollSection__field--button::after {
+  display: none;
+}
+
+.enrollSection__select,
+.enrollSection__input {
+  width: 100%;
+  height: 45px;
+  border: 1px solid #e3e3e3;
+  background: #fafafa;
+  padding: 0 18px;
+  outline: none;
+  font-family: "Oswald", sans-serif;
+  font-size: 14px;
+  color: #9a9a9a;
+}
+
+.enrollSection__select {
+  appearance: none;
+  padding-right: 48px;
+  cursor: pointer;
+}
+
+.enrollSection__field--select::before {
+  content: "▼";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #a7a7a7;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.enrollSection__input::placeholder {
+  color: #9a9a9a;
+  opacity: 1;
+}
+
+.enrollSection__searchBtn {
+  width: 100%;
+  height: 52px;
+  border: none;
+  background: #f7c500;
+  color: #ffffff;
+  font-family: "Oswald", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.enrollSection__searchBtn:hover {
+  background: #e2b400;
+}
+
+/* laptop */
+@media (max-width: 1200px) {
+  .enrollSection__title {
+    font-size: 48px;
+  }
+
+  .enrollSection__subtitle {
+    font-size: 48px;
+  }
+
+  .enrollSection__desc {
+    font-size: 18px;
+  }
+}
+
+/* tablet */
+@media (max-width: 992px) {
+  .enrollSection__hero {
+    min-height: auto;
+  }
+
+  .enrollSection__bg {
+    top: 0;
+    height: 100%;
+    min-height: 760px;
+  }
+
+  .enrollSection__container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: auto;
+    padding: 40px 20px 140px;
+  }
+
+  .enrollSection__left,
+  .enrollSection__right {
+    width: 100%;
+  }
+
+  .enrollSection__boy {
+    max-width: 340px;
+    margin: 0 auto 20px;
+  }
+
+  .enrollSection__right {
+    padding-top: 0;
+    padding-left: 0;
+  }
+
+  .enrollSection__subtitle {
+    font-size: 40px;
+  }
+
+  .enrollSection__title {
+    max-width: 100%;
+    font-size: 38px;
+  }
+
+  .enrollSection__desc {
+    max-width: 100%;
+    font-size: 17px;
+  }
+
+  .enrollSection__searchWrap {
+    margin-top: -70px;
+  }
+
+  .enrollSection__searchBox {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 28px 22px;
+  }
+
+  .enrollSection__field::after {
+    display: none;
+  }
+}
+
+/* mobile */
+@media (max-width: 576px) {
+  .enrollSection__container {
+    padding: 30px 16px 120px;
+  }
+
+  .enrollSection__boy {
+    max-width: 260px;
+  }
+
+  .enrollSection__subtitle {
+    font-size: 32px;
+  }
+
+  .enrollSection__title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .enrollSection__desc {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .enrollSection__btn {
+    width: 160px;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .enrollSection__searchWrap {
+    padding: 0 16px 28px;
+    margin-top: -60px;
+  }
+
+  .enrollSection__searchBox {
+    padding: 18px 16px;
+  }
+
+  .enrollSection__select,
+  .enrollSection__input,
+  .enrollSection__searchBtn {
+    height: 46px;
+    font-size: 14px;
+  }
+}
