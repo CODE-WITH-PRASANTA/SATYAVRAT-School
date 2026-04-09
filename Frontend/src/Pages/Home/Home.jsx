@@ -6,12 +6,16 @@ import TestimonialSection from '../../components/TestimonialSection/TestimonialS
 import Gallery from '../../components/Gallery/Gallery'
 import Teacher from '../../components/Teacher/Teacher'
 import BlogActivitesHome from '../../components/BlogActivitesHome/BlogActivitesHome'
+import OurClasses from '../../components/OurClasses/OurClasses'
+import EnrollSection from '../../components/EnrollSection/EnrollSection'
 
 const Home = () => {
   return (
     <div>
       <HeroSection />
       < KindergartenSection />
+      <OurClasses />
+      <EnrollSection />
       <GetInvolvedSection/>
       <TestimonialSection/>
       <Gallery/>
