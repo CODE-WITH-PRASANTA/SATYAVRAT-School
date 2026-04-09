@@ -1,0 +1,77 @@
+/* Wrapper */
+.socialStats-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 20px;
+  background: #f3f4f6;
+  font-family: "Inter", sans-serif;
+}
+
+/* Card */
+.socialStats-card {
+  border-radius: 6px;
+  color: #fff;
+  padding: 20px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 90px;
+}
+
+/* Content */
+.socialStats-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Icon */
+.socialStats-icon {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* Text */
+.socialStats-content p {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.socialStats-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Colors (Exact Match Style) */
+.facebook {
+  background: #5a6fa6;
+}
+
+.twitter {
+  background: #4e92c9;
+}
+
+.google {
+  background: #ff1a1a;
+}
+
+.linkedin {
+  background: #2766b0;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .socialStats-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .socialStats-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
