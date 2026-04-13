@@ -64,7 +64,6 @@
 /* 📱 Responsive */
 @media (max-width: 768px) {
   .topbar-container {
-    flex-direction: column;
     gap: 8px;
     text-align: center;
   }
