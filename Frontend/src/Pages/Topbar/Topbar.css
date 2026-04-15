@@ -1,0 +1,90 @@
+.topbar {
+  width: 100%;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+}
+
+.topbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LEFT */
+.topbar-left {
+  display: flex;
+  gap: 20px;
+}
+
+.topbar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.topbar-item:hover {
+  color: #00bcd4;
+}
+
+/* RIGHT */
+.topbar-right {
+  display: flex;
+  gap: 12px;
+}
+
+.topbar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.topbar-btn:hover {
+  background: #00bcd4;
+  border-color: #00bcd4;
+  color: #000;
+}
+
+/* ICON */
+.topbar-icon {
+  font-size: 14px;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .topbar-container {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .topbar-left {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .topbar-right {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    font-size: 12px;
+  }
+
+  .topbar-btn {
+    padding: 4px 8px;
+  }
+}

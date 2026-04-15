@@ -1,0 +1,119 @@
+.blog-bdcrum {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* BACKGROUND IMAGE */
+.bd-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform: scale(1.05);
+}
+
+/* GRADIENT OVERLAY */
+.bd-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 120, 0.65),
+    rgba(0, 188, 212, 0.65)
+  );
+  z-index: 2;
+}
+
+/* CONTENT */
+.bd-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: #fff;
+}
+
+.bd-content h1 {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.breadcrumb span {
+  opacity: 0.9;
+}
+
+.breadcrumb .active {
+  font-weight: 600;
+  opacity: 1;
+}
+
+.breadcrumb .slash {
+  opacity: 0.7;
+}
+
+/* WAVE */
+.bd-wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 4;
+  line-height: 0;
+}
+
+.bd-wave svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* HOVER EFFECT (premium feel) */
+.blog-bdcrum:hover .bd-bg {
+  transform: scale(1.08);
+  transition: 0.6s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .blog-bdcrum {
+    height: 300px;
+  }
+
+  .bd-content h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-bdcrum {
+    height: 250px;
+  }
+
+  .bd-content h1 {
+    font-size: 26px;
+  }
+
+  .breadcrumb {
+    font-size: 12px;
+  }
+}

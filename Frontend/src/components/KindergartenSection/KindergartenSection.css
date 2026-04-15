@@ -1,0 +1,182 @@
+.kindergartenSection {
+  padding: 80px 20px;
+  background: #f7f7f7;
+  text-align: center;
+}
+
+.kindergartenSection__container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADER */
+.kindergartenSection__header h2 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.kindergartenSection__subtitle {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.kindergartenSection__description {
+  font-size: 14px;
+  color: #777;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* CONTENT */
+.kindergartenSection__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+
+/* SIDE */
+.kindergartenSection__side {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+/* ITEM */
+.kindergartenSection__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LEFT ALIGN */
+.kindergartenSection__side.left .kindergartenSection__item {
+  text-align: right;
+}
+
+.kindergartenSection__side.left .text {
+  margin-right: 15px;
+}
+
+/* RIGHT ALIGN */
+.kindergartenSection__side.right .text {
+  margin-left: 15px;
+}
+
+/* TEXT */
+.text h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.text p {
+  font-size: 13px;
+  color: #777;
+}
+
+/* CENTER IMAGE */
+.kindergartenSection__center img {
+  width: 230px;
+  max-width: 100%;
+}
+
+/* ICON WRAPPER */
+.kindergartenSection__iconWrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* DOTTED BORDER */
+.kindergartenSection__iconWrapper::before {
+  content: "";
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px dashed currentColor;
+  opacity: 0.5;
+}
+
+/* INNER CIRCLE */
+.kindergartenSection__iconInner {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  z-index: 1;
+}
+
+/* COLORS */
+.kindergartenSection__iconWrapper.blue {
+  color: #2bb3c0;
+}
+.kindergartenSection__iconWrapper.blue .kindergartenSection__iconInner {
+  background: #2bb3c0;
+}
+
+.kindergartenSection__iconWrapper.pink {
+  color: #ff7eb3;
+}
+.kindergartenSection__iconWrapper.pink .kindergartenSection__iconInner {
+  background: #ff7eb3;
+}
+
+.kindergartenSection__iconWrapper.orange {
+  color: #f39c12;
+}
+.kindergartenSection__iconWrapper.orange .kindergartenSection__iconInner {
+  background: #f39c12;
+}
+
+.kindergartenSection__iconWrapper.green {
+  color: #7ac943;
+}
+.kindergartenSection__iconWrapper.green .kindergartenSection__iconInner {
+  background: #7ac943;
+}
+
+/* HOVER EFFECT */
+.kindergartenSection__iconWrapper:hover::before {
+  transform: rotate(180deg);
+  transition: 0.6s ease;
+}
+
+.kindergartenSection__iconWrapper:hover .kindergartenSection__iconInner {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .kindergartenSection__content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .kindergartenSection__side {
+    width: 100%;
+    align-items: center;
+  }
+
+  .kindergartenSection__item {
+    flex-direction: column;
+    text-align: center !important;
+  }
+
+  .text {
+    margin: 10px 0 !important;
+  }
+}

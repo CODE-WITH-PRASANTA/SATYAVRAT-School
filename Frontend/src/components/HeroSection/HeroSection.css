@@ -1,0 +1,158 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+}
+
+/* SLIDE */
+.heroSlide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: all 1.5s ease-in-out;
+}
+
+/* ACTIVE SLIDE */
+.heroSlide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* OVERLAY */
+.heroOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 100, 150, 0.6),
+    rgba(0, 150, 255, 0.6)
+  );
+  z-index: 2;
+}
+
+/* CONTENT */
+.heroContent {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  animation: fadeUp 1.5s ease;
+}
+
+/* HAND IMAGE */
+.heroHand {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+/* TEXT */
+.heroTopText {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-family: cursive;
+}
+
+.heroHeading {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 10px 0;
+  line-height: 1.3;
+}
+
+.heroSub {
+  font-size: 16px;
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+/* BUTTONS */
+.heroButtons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.btn.primary {
+  background: #ffc107;
+  color: #000;
+}
+
+.btn.secondary {
+  background: #2196f3;
+  color: #fff;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+  .heroHeading {
+    font-size: 32px;
+  }
+
+  .heroSub {
+    font-size: 14px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .heroSection {
+    height: 80vh;
+  }
+
+  .heroHeading {
+    font-size: 24px;
+  }
+
+  .heroTopText {
+    font-size: 14px;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}`
