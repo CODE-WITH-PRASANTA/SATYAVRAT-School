@@ -15,12 +15,12 @@ const Home = () => {
     <div>
       <HeroSection />
       < KindergartenSection />
+      <GetInvolvedSection/>
       <OurClasses />
       <EnrollSection />
-      <GetInvolvedSection/>
+       <Teacher/>
+       <Gallery/>
       <TestimonialSection/>
-      <Gallery/>
-      <Teacher/>
       <BlogActivitesHome/>
       <FAQSection/>
     </div>
