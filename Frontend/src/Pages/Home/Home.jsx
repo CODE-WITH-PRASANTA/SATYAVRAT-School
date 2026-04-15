@@ -8,19 +8,21 @@ import Teacher from '../../components/Teacher/Teacher'
 import BlogActivitesHome from '../../components/BlogActivitesHome/BlogActivitesHome'
 import OurClasses from '../../components/OurClasses/OurClasses'
 import EnrollSection from '../../components/EnrollSection/EnrollSection'
+import FAQSection from '../../components/FAQSection/FAQSection'
 
 const Home = () => {
   return (
     <div>
       <HeroSection />
       < KindergartenSection />
+      <GetInvolvedSection/>
       <OurClasses />
       <EnrollSection />
-      <GetInvolvedSection/>
+       <Teacher/>
+       <Gallery/>
       <TestimonialSection/>
-      <Gallery/>
-      <Teacher/>
       <BlogActivitesHome/>
+      <FAQSection/>
     </div>
   )
 }
