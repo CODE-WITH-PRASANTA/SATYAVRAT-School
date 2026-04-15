@@ -24,9 +24,11 @@ const Navbar = () => {
             <li><NavLink to="/">Home</NavLink></li>
             <li><NavLink to="/about">About Us</NavLink></li>
             <li><NavLink to="/classes">Classes</NavLink></li>
-            <li><NavLink to="/pages">Pages</NavLink></li>
+            <li><NavLink to="/whychooseus">Why Choose Us</NavLink></li>
+            <li><NavLink to="/teacher">Teachers</NavLink></li>
+            <li><NavLink to="/programms">Our Programms</NavLink></li>
             <li><NavLink to="/gallery">Gallery</NavLink></li>
-            <li><NavLink to="/blog">Blog</NavLink></li>
+            <li><NavLink to="/news">News</NavLink></li>
             <li><NavLink to="/contact">Contact Us</NavLink></li>
           </ul>
 
