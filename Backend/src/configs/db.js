@@ -10,5 +10,4 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-console.log("ENV CHECK:", process.env.MONGO_URI);
 module.exports = connectDB;
