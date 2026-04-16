@@ -22,6 +22,12 @@ const testimonialSchema = new mongoose.Schema(
       enum: ["Active", "Inactive"],
       default: "Active",
     },
+
+    // ✅ ADD THIS
+    image: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

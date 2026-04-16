@@ -1,275 +1,225 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
-import API from "../../api/axios"; // ✅ ADDED
-import {
-  FaQuoteLeft,
-  FaStar,
-  FaEdit,
-  FaTrash,
-  FaChevronDown,
-  FaPlus,
-  FaTimes,
-} from "react-icons/fa";
+import API from "../../api/axios";
+import { FaQuoteLeft, FaStar, FaEdit, FaTrash } from "react-icons/fa";
 
 const Testimonial = () => {
-  const base = "testimonialAdmin";
-
-  const sectionData = {
-    smallTitle: "PARENT REVIEWS",
-    heading: "What Parents Say About Bright Stars Montessori",
-  };
+  const base = "ts";
 
   const initialForm = {
-    parentName: "",
-    reviewText: "",
-    rating: 5,
-    status: "Active",
-  };
+  parentName: "",
+  reviewText: "",
+  rating: 5,
+  image: "",
+  file: null, // ✅ important
+};
 
   const [form, setForm] = useState(initialForm);
   const [testimonials, setTestimonials] = useState([]);
   const [editId, setEditId] = useState(null);
-  const [openMenu, setOpenMenu] = useState(null);
 
-  /* ================= FETCH ================= */
   const fetchTestimonials = async () => {
-    try {
-      const res = await API.get("/testimonials");
-      setTestimonials(res.data.data || []);
-    } catch (err) {
-      console.error("FETCH ERROR:", err);
-    }
+    const res = await API.get("/testimonials");
+    setTestimonials(res.data.data || []);
   };
 
   useEffect(() => {
     fetchTestimonials();
   }, []);
 
-  /* ================= PREVIEW ================= */
-  const previewData = useMemo(() => {
-    return {
+  const preview = useMemo(
+    () => ({
       parentName: form.parentName || "Parent Name",
       reviewText:
         form.reviewText ||
-        "Your testimonial preview will appear here.",
-      rating: Number(form.rating) || 5,
-      status: form.status || "Active",
-    };
-  }, [form]);
+        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
+      rating: form.rating,
+      image: form.image || "https://randomuser.me/api/portraits/women/44.jpg",
+    }),
+    [form],
+  );
 
-  /* ================= FORM ================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
+    setForm((p) => ({
+      ...p,
       [name]: name === "rating" ? Number(value) : value,
     }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      if (editId) {
-        await API.put(`/testimonials/${editId}`, form);
-      } else {
-        await API.post("/testimonials", form);
-      }
+  const formData = new FormData();
+  formData.append("parentName", form.parentName);
+  formData.append("reviewText", form.reviewText);
+  formData.append("rating", form.rating);
 
-      fetchTestimonials(); // ✅ refresh
-      setForm(initialForm);
-      setEditId(null);
-    } catch (err) {
-      console.error("SUBMIT ERROR:", err);
+  if (form.file) {
+    formData.append("image", form.file);
+  }
+
+  try {
+    if (editId) {
+      await API.put(`/testimonials/${editId}`, formData);
+    } else {
+      await API.post("/testimonials", formData);
     }
-  };
 
-  const handleClear = () => {
+    fetchTestimonials();
     setForm(initialForm);
     setEditId(null);
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  /* ================= EDIT ================= */
   const handleEdit = (item) => {
-    setForm({
-      parentName: item.parentName,
-      reviewText: item.reviewText,
-      rating: item.rating,
-      status: item.status,
-    });
-
-    setEditId(item._id); // ✅ FIXED
-    setOpenMenu(null);
+    setForm(item);
+    setEditId(item._id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  /* ================= DELETE ================= */
   const handleDelete = async (id) => {
-    try {
-      await API.delete(`/testimonials/${id}`);
-      fetchTestimonials();
-    } catch (err) {
-      console.error("DELETE ERROR:", err);
-    }
-
-    setOpenMenu(null);
+    await API.delete(`/testimonials/${id}`);
+    fetchTestimonials();
   };
-
-  const renderStars = (count) =>
-    [...Array(count)].map((_, index) => <FaStar key={index} />);
 
   return (
     <section className={base}>
-      <div className={`${base}__header`}>
-        <div>
-          <p className={`${base}__eyebrow`}>Admin Panel</p>
-          <h2>Testimonial Management</h2>
-          <p className={`${base}__subtext`}>
-            Add, edit, and manage parent testimonials.
-          </p>
-        </div>
-      </div>
-
-      <div className={`${base}__topGrid`}>
+      <div className={`${base}__grid`}>
+        {/* FORM */}
         <div className={`${base}__card`}>
-          <div className={`${base}__cardHeader`}>
-            <h3>{editId ? "Update Review Card Form" : "Review Card Form"}</h3>
-          </div>
+          <h3>{editId ? "Update Testimonial" : "Add Testimonial"}</h3>
 
-          <form className={`${base}__form`} onSubmit={handleSubmit}>
-            <div className={`${base}__formGroup`}>
-              <label>Parent Name</label>
-              <input
-                type="text"
-                name="parentName"
-                value={form.parentName}
-                onChange={handleChange}
-              />
-            </div>
+          <form onSubmit={handleSubmit} className={`${base}__form`}>
+            <input
+              className={`${base}__input`}
+              name="parentName"
+              placeholder="Parent Name"
+              value={form.parentName}
+              onChange={handleChange}
+            />
 
-            <div className={`${base}__formGroup`}>
-              <label>Review Text</label>
-              <textarea
-                name="reviewText"
-                rows="6"
-                value={form.reviewText}
-                onChange={handleChange}
-              />
-            </div>
+            <input
+              type="file"
+              accept="image/*"
+              className={`${base}__input`}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
 
-            <div className={`${base}__formRow`}>
-              <div className={`${base}__formGroup`}>
-                <label>Rating</label>
-                <select
-                  name="rating"
-                  value={form.rating}
-                  onChange={handleChange}
-                >
-                  <option value={5}>5 Star</option>
-                  <option value={4}>4 Star</option>
-                  <option value={3}>3 Star</option>
-                  <option value={2}>2 Star</option>
-                  <option value={1}>1 Star</option>
-                </select>
-              </div>
+                // preview
+                const previewUrl = URL.createObjectURL(file);
 
-              <div className={`${base}__formGroup`}>
-                <label>Card Status</label>
-                <select
-                  name="status"
-                  value={form.status}
-                  onChange={handleChange}
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-              </div>
-            </div>
+                setForm((prev) => ({
+                  ...prev,
+                  file, // actual file for backend
+                  image: previewUrl, // preview in UI
+                }));
+              }}
+            />
 
-            <div className={`${base}__buttonRow`}>
-              <button type="submit" className={`${base}__primaryBtn`}>
-                <FaPlus />
-                {editId ? "Update Review" : "Save Review"}
+            <textarea
+              className={`${base}__textarea`}
+              name="reviewText"
+              placeholder="Write review..."
+              value={form.reviewText}
+              onChange={handleChange}
+            />
+
+            {/* ✅ FIXED */}
+            <select
+              className={`${base}__select`}
+              name="rating"
+              value={form.rating}
+              onChange={handleChange}
+            >
+              <option value={5}>5 Star</option>
+              <option value={4}>4 Star</option>
+              <option value={3}>3 Star</option>
+              <option value={2}>2 Star</option>
+              <option value={1}>1 Star</option>
+            </select>
+
+            <div className={`${base}__btnRow`}>
+              <button className={`${base}__btnPrimary`}>
+                {editId ? "Update" : "Save"}
               </button>
 
               <button
                 type="button"
-                className={`${base}__secondaryBtn`}
-                onClick={handleClear}
+                className={`${base}__btnSecondary`}
+                onClick={() => {
+                  setForm(initialForm);
+                  setEditId(null);
+                }}
               >
-                <FaTimes />
-                Clear
+                Reset
               </button>
             </div>
           </form>
         </div>
 
-        {/* PREVIEW SAME */}
-        <div className={`${base}__card`}>
-          <div className={`${base}__previewCard`}>
-            <p className={`${base}__previewText`}>
-              {previewData.reviewText}
-            </p>
+        {/* PREVIEW */}
+        <div className={`${base}__preview`}>
+          <FaQuoteLeft className={`${base}__quote`} />
+          <p>{preview.reviewText}</p>
+          <img src={preview.image} className={`${base}__avatar`} />
+          <h4>{preview.parentName}</h4>
 
-            <div className={`${base}__previewBottom`}>
-              <div className={`${base}__quoteIcon`}>
-                <FaQuoteLeft />
-              </div>
-
-              <div className={`${base}__previewMeta`}>
-                <h4>{previewData.parentName}</h4>
-                <div className={`${base}__stars`}>
-                  {renderStars(previewData.rating)}
-                </div>
-              </div>
-            </div>
+          <div className={`${base}__stars`}>
+            {[...Array(preview.rating)].map((_, i) => (
+              <FaStar key={i} />
+            ))}
           </div>
         </div>
       </div>
 
       {/* TABLE */}
-      <div className={`${base}__tableCard`}>
-        <div className={`${base}__tableWrap`}>
-          <table className={`${base}__table`}>
-            <thead>
-              <tr>
-                <th>Parent Name</th>
-                <th>Review Text</th>
-                <th>Rating</th>
-                <th>Status</th>
-                <th>Actions</th>
+      <div className={`${base}__tableWrap`}>
+        <table className={`${base}__table`}>
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Review</th>
+              <th>Rating</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {testimonials.map((item) => (
+              <tr key={item._id}>
+                <td data-label="Image">
+                  <img src={item.image} className={`${base}__tableImg`} />
+                </td>
+
+                <td data-label="Name">{item.parentName}</td>
+
+                <td data-label="Review">{item.reviewText}</td>
+
+                <td data-label="Rating">
+                  {[...Array(item.rating)].map((_, i) => (
+                    <FaStar key={i} />
+                  ))}
+                </td>
+
+                <td data-label="Action">
+                  <FaEdit
+                    className={`${base}__iconEdit`}
+                    onClick={() => handleEdit(item)}
+                  />
+                  <FaTrash
+                    className={`${base}__iconDelete`}
+                    onClick={() => handleDelete(item._id)}
+                  />
+                </td>
               </tr>
-            </thead>
-
-            <tbody>
-              {testimonials.length > 0 ? (
-                testimonials.map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.parentName}</td>
-                    <td>{item.reviewText}</td>
-                    <td>{item.rating} Star</td>
-                    <td>{item.status}</td>
-
-                    <td>
-                      <button onClick={() => handleEdit(item)}>
-                        <FaEdit />
-                      </button>
-
-                      <button onClick={() => handleDelete(item._id)}>
-                        <FaTrash />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5">No data</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );

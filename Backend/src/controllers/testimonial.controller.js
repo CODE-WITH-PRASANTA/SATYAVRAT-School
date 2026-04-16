@@ -3,37 +3,44 @@ const Testimonial = require("../models/testimonial.models");
 /* CREATE */
 const createTestimonial = async (req, res) => {
   try {
-    const { parentName, reviewText, rating, status } = req.body;
+    const { parentName, reviewText, rating } = req.body;
 
     if (!parentName || !reviewText) {
       return res.status(400).json({ message: "All fields required" });
     }
 
+    // ✅ IMAGE HANDLE
+    const image = req.file
+      ? `http://localhost:5000/uploads/${req.file.filename}`
+      : "";
+
     const testimonial = await Testimonial.create({
       parentName,
       reviewText,
       rating,
-      status,
+      image,
     });
 
     res.status(201).json({
       success: true,
       data: testimonial,
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-/* GET ALL */
+/* GET */
 const getTestimonials = async (req, res) => {
   try {
-    const testimonials = await Testimonial.find().sort({ createdAt: -1 });
+    const data = await Testimonial.find().sort({ createdAt: -1 });
 
-    res.status(200).json({
+    res.json({
       success: true,
-      data: testimonials,
+      data,
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -42,9 +49,22 @@ const getTestimonials = async (req, res) => {
 /* UPDATE */
 const updateTestimonial = async (req, res) => {
   try {
+    const { parentName, reviewText, rating } = req.body;
+
+    let updateData = {
+      parentName,
+      reviewText,
+      rating,
+    };
+
+    // ✅ UPDATE IMAGE IF NEW FILE
+    if (req.file) {
+      updateData.image = `http://localhost:5000/uploads/${req.file.filename}`;
+    }
+
     const updated = await Testimonial.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       { new: true }
     );
 
@@ -52,6 +72,7 @@ const updateTestimonial = async (req, res) => {
       success: true,
       data: updated,
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -66,6 +87,7 @@ const deleteTestimonial = async (req, res) => {
       success: true,
       message: "Deleted successfully",
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
