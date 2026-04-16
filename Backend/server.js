@@ -13,6 +13,10 @@ const connectDB = require("./src/configs/db");
 // Routes
 const teacherRoutes = require("./src/routes/teacher.routes");
 
+const galleryRoutes = require("./src/routes/gallery.routes");
+
+const enquiryRoutes = require("./src/routes/coldlead.models");
+
 // Connect DB
 connectDB();
 
@@ -31,6 +35,9 @@ app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/api/teachers", teacherRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/enquiries", enquiryRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("🚀 API is Running..");
