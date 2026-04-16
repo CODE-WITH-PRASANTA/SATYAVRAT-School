@@ -9,14 +9,22 @@ console.log("ENV CHECK:", process.env.MONGO_URI);
 
 const connectDB = require("./src/configs/db");
 
+// ✅ Import Routes (FIXED)
+const testimonialRoutes = require("./src/routes/testimonial.routes");
+
 // Connect DB
 connectDB();
 
 const app = express();
 
+/* Middlewares */
 app.use(cors());
 app.use(express.json());
 
+/* Routes */
+app.use("/api/testimonials", testimonialRoutes);
+
+/* Test Route */
 app.get("/", (req, res) => {
   res.send("🚀 API is Running..");
 });
