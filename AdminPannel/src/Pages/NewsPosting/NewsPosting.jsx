@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import React, { useMemo, useState } from "react";
 import "./NewsPosting.css";
-import API, { IMAGE_URL } from "../../api/axios";
+import API, { IMAGE_URL } from "../../Api/axois";
 import {
   FaCalendarAlt,
   FaEdit,
@@ -395,83 +395,121 @@ const NewsPosting = () => {
               </thead>
 
               <tbody>
-                {sortedPosts.length > 0 ? (
-                  sortedPosts.map((post) => (
-                    <tr key={post._id}>
-                      <td>
-                        <img
-                          src={IMAGE_URL + post.image}
-                          alt={post.title}
-                          className={`${base}__tableImage`}
-                        />
-                      </td>
-                      <td className={`${base}__tableTitle`}>{post.title}</td>
-                      <td>{formatDate(post.date)}</td>
-                      <td>{truncateText(post.description, 75)}</td>
-                      <td>
-                        <span
-                          className={`${base}__statusBadge} ${
-                            post.status === "Active"
-                              ? `${base}__statusBadge--active`
-                              : `${base}__statusBadge--inactive`
-                          }`}
-                        >
-                          {post.status}
-                        </span>
-                      </td>
-                      <td>
-                        {post.featured ? (
-                          <span className={`${base}__featuredMini`}>Yes</span>
-                        ) : (
-                          <span className={`${base}__notFeaturedMini`}>No</span>
-                        )}
-                      </td>
-                      <td>{post.order}</td>
-                      <td>
-                        <div className={`${base}__actionBtns`}>
-                          <button
-                            className={`${base}__iconBtn edit`}
-                            onClick={() => handleEdit(post)}
-                            type="button"
-                            title="Edit"
-                          >
-                            <FaEdit />
-                          </button>
+                {sortedPosts?.length ? (
+                  sortedPosts.map((post) => {
+                    // 🔥 SAFE IMAGE HANDLER
+                    const imageSrc =
+                      post?.image && typeof post.image === "string"
+                        ? post.image.startsWith("http")
+                          ? post.image
+                          : `${IMAGE_URL}${post.image}`
+                        : "https://picsum.photos/150";
 
-                          <button
-                            className={`${base}__iconBtn view`}
-                            onClick={() => setViewPost(post)}
-                            type="button"
-                            title="View"
-                          >
-                            <FaEye />
-                          </button>
+                    return (
+                      <tr key={post._id}>
+                        {/* IMAGE */}
+                        <td>
+                          <img
+                            src={imageSrc}
+                            alt={post?.title || "news"}
+                            className={`${base}__tableImage`}
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src =
+                                "https://picsum.photos/150";
+                            }}
+                          />
+                        </td>
 
-                          <button
-                            className={`${base}__iconBtn toggle`}
-                            onClick={() => handleToggleStatus(post._id)}
-                            type="button"
-                            title="Activate / Deactivate"
-                          >
-                            {post.status === "Active" ? (
-                              <FaToggleOn />
-                            ) : (
-                              <FaToggleOff />
-                            )}
-                          </button>
+                        {/* TITLE */}
+                        <td className={`${base}__tableTitle`}>
+                          {post?.title?.trim() || "No Title"}
+                        </td>
 
-                          <button
-                            className={`${base}__iconBtn delete`}
-                            onClick={() => handleDelete(post._id)}
-                            type="button"
-                            title="Delete"
+                        {/* DATE */}
+                        <td>{post?.date ? formatDate(post.date) : "-"}</td>
+
+                        {/* DESCRIPTION */}
+                        <td>
+                          {post?.description
+                            ? truncateText(post.description, 75)
+                            : "No description"}
+                        </td>
+
+                        {/* STATUS */}
+                        <td>
+                          <span
+                            className={`${base}__statusBadge} ${
+                              post?.status === "Active"
+                                ? `${base}__statusBadge--active`
+                                : `${base}__statusBadge--inactive`
+                            }`}
                           >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                            {post?.status || "Inactive"}
+                          </span>
+                        </td>
+
+                        {/* FEATURED */}
+                        <td>
+                          {post?.featured ? (
+                            <span className={`${base}__featuredMini`}>Yes</span>
+                          ) : (
+                            <span className={`${base}__notFeaturedMini`}>
+                              No
+                            </span>
+                          )}
+                        </td>
+
+                        {/* ORDER */}
+                        <td>{post?.order ?? "-"}</td>
+
+                        {/* ACTIONS */}
+                        <td>
+                          <div className={`${base}__actionBtns`}>
+                            <button
+                              className={`${base}__iconBtn edit`}
+                              onClick={() => handleEdit(post)}
+                              type="button"
+                              title="Edit"
+                            >
+                              <FaEdit />
+                            </button>
+
+                            <button
+                              className={`${base}__iconBtn view`}
+                              onClick={() => setViewPost(post)}
+                              type="button"
+                              title="View"
+                            >
+                              <FaEye />
+                            </button>
+
+                            <button
+                              className={`${base}__iconBtn toggle`}
+                              onClick={() => handleToggleStatus(post._id)}
+                              type="button"
+                              title="Activate / Deactivate"
+                            >
+                              {post?.status === "Active" ? (
+                                <FaToggleOn />
+                              ) : (
+                                <FaToggleOff />
+                              )}
+                            </button>
+
+                            <button
+                              className={`${base}__iconBtn delete`}
+                              onClick={() => handleDelete(post._id)}
+                              type="button"
+                              title="Delete"
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td colSpan="8" className={`${base}__emptyRow`}>
@@ -502,31 +540,46 @@ const NewsPosting = () => {
               <FaTimes />
             </button>
 
+            {/* IMAGE */}
             <div className={`${base}__modalImageWrap`}>
-              <img src={IMAGE_URL + viewPost.image} alt={viewPost.title} />{" "}
+              <img
+                src={
+                  viewPost?.image
+                    ? viewPost.image.startsWith("http")
+                      ? viewPost.image
+                      : `${IMAGE_URL}${viewPost.image}`
+                    : "https://picsum.photos/400"
+                }
+                alt={viewPost?.title || "news"}
+                onError={(e) => {
+                  e.target.src = "https://picsum.photos/400";
+                }}
+              />
             </div>
 
+            {/* CONTENT */}
             <div className={`${base}__modalBody`}>
               <div className={`${base}__previewDate`}>
                 <FaCalendarAlt />
-                <span>{formatDate(viewPost.date)}</span>
+                <span>{formatDate(viewPost?.date)}</span>
               </div>
 
-              <h3>{viewPost.title}</h3>
-              <p>{viewPost.description}</p>
+              <h3>{viewPost?.title || "No Title"}</h3>
+
+              <p>{viewPost?.description || "No description available."}</p>
 
               <div className={`${base}__modalMeta`}>
                 <span
                   className={`${base}__statusBadge} ${
-                    viewPost.status === "Active"
+                    viewPost?.status === "Active"
                       ? `${base}__statusBadge--active`
                       : `${base}__statusBadge--inactive`
                   }`}
                 >
-                  {viewPost.status}
+                  {viewPost?.status}
                 </span>
 
-                {viewPost.featured && (
+                {viewPost?.featured && (
                   <span className={`${base}__featuredMini`}>Featured</span>
                 )}
               </div>
