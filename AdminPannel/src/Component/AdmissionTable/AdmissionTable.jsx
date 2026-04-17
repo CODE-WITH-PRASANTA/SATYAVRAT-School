@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import "./AdmissionTable.css";
-import API from "../../Api/axois";
+import API from "../../Api/axios";
 
 const AdmissionTable = () => {
   const [admissionTableList, setAdmissionTableList] = useState([]);

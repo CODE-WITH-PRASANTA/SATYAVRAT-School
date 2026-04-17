@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FeeType.css";
-import API from "../../Api/axois"; // ✅ your axios instance
+import API from "../../Api/axios"; // ✅ your axios instance
 import {
   FiMoreVertical,
   FiSearch,
