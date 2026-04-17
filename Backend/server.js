@@ -8,10 +8,14 @@ const connectDB = require("./src/configs/db");
 
 /* ROUTES */
 const newsRoutes = require("./src/routes/newsposting.routes");
+<<<<<<< HEAD
 const teacherRoutes = require("./src/routes/teacher.routes");
 const galleryRoutes = require("./src/routes/gallery.routes");
 const enquiryRoutes = require("./src/routes/coldlead.routes");
 
+=======
+const testimonialRoutes = require("./src/routes/testimonial.routes");
+>>>>>>> 9fcf468fee8d4529ad9611f0e0073a9c903b8540
 
 
 /* LOAD ENV */
@@ -32,10 +36,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ROUTES */
+<<<<<<< HEAD
 app.use("/api/news", newsRoutes);   // ✅ FIXED
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiryRoutes);
+=======
+app.use("/api/news", newsRoutes);  
+app.use("/api", testimonialRoutes);
+>>>>>>> 9fcf468fee8d4529ad9611f0e0073a9c903b8540
 
 
 /* DEFAULT ROUTE */
