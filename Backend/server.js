@@ -1,50 +1,60 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const path = require("path");
-const fs = require("fs");
 
-dotenv.config({ path: "./.env" });
-
-console.log("ENV CHECK:", process.env.MONGO_URI);
-
+/* DB IMPORT */
 const connectDB = require("./src/configs/db");
 
-// Routes
+/* ROUTES */
+const newsRoutes = require("./src/routes/newsposting.routes");
 const teacherRoutes = require("./src/routes/teacher.routes");
-
 const galleryRoutes = require("./src/routes/gallery.routes");
+const enquiryRoutes = require("./src/routes/coldlead.routes");
 
-const enquiryRoutes = require("./src/routes/coldlead.models");
 
-// Connect DB
+
+/* LOAD ENV */
+dotenv.config();
+
+/* CONNECT DATABASE */
 connectDB();
 
+/* INIT APP */
 const app = express();
 
+/* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// ✅ Ensure uploads folder exists
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
+/* STATIC FOLDER */
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// ✅ REQUIRED for images
-app.use("/uploads", express.static("uploads"));
-
-// Routes
+/* ROUTES */
+app.use("/api/news", newsRoutes);   // ✅ FIXED
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 
 
+/* DEFAULT ROUTE */
 app.get("/", (req, res) => {
-  res.send("🚀 API is Running..");
+  res.send("🚀 API Running Successfully");
 });
 
+/* ERROR HANDLER */
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    message: "Something went wrong",
+  });
+});
+
+/* SERVER START */
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🔥 Server running on port ${PORT}`);
+  console.log(`🔥 Server running on http://localhost:${PORT}`);
 });

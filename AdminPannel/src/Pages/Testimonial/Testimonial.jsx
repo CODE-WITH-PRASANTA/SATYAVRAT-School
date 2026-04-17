@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
-import API from "../../api/axios"; // ✅ ADDED
+import API from "../../Api/axois"; // ✅ ADDED
 import {
   FaQuoteLeft,
   FaStar,
