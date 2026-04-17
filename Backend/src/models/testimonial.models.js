@@ -1,3 +1,5 @@
+// src/models/testimonial.model.js
+
 const mongoose = require("mongoose");
 
 const testimonialSchema = new mongoose.Schema(
@@ -22,8 +24,6 @@ const testimonialSchema = new mongoose.Schema(
       enum: ["Active", "Inactive"],
       default: "Active",
     },
-
-    // ✅ ADD THIS
     image: {
       type: String,
       default: "",

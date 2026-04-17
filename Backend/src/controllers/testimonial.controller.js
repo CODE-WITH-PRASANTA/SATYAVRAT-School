@@ -1,3 +1,5 @@
+// src/controllers/testimonial.controller.js
+
 const Testimonial = require("../models/testimonial.models");
 
 /* CREATE */
@@ -9,7 +11,6 @@ const createTestimonial = async (req, res) => {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    // ✅ IMAGE HANDLE
     const image = req.file
       ? `http://localhost:5000/uploads/${req.file.filename}`
       : "";
@@ -21,25 +22,19 @@ const createTestimonial = async (req, res) => {
       image,
     });
 
-    res.status(201).json({
-      success: true,
-      data: testimonial,
-    });
+    res.status(201).json({ success: true, data: testimonial });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-/* GET */
+/* GET ALL */
 const getTestimonials = async (req, res) => {
   try {
     const data = await Testimonial.find().sort({ createdAt: -1 });
 
-    res.json({
-      success: true,
-      data,
-    });
+    res.status(200).json({ success: true, data });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -51,13 +46,8 @@ const updateTestimonial = async (req, res) => {
   try {
     const { parentName, reviewText, rating } = req.body;
 
-    let updateData = {
-      parentName,
-      reviewText,
-      rating,
-    };
+    let updateData = { parentName, reviewText, rating };
 
-    // ✅ UPDATE IMAGE IF NEW FILE
     if (req.file) {
       updateData.image = `http://localhost:5000/uploads/${req.file.filename}`;
     }
@@ -68,10 +58,7 @@ const updateTestimonial = async (req, res) => {
       { new: true }
     );
 
-    res.json({
-      success: true,
-      data: updated,
-    });
+    res.status(200).json({ success: true, data: updated });
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -83,7 +70,7 @@ const deleteTestimonial = async (req, res) => {
   try {
     await Testimonial.findByIdAndDelete(req.params.id);
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Deleted successfully",
     });

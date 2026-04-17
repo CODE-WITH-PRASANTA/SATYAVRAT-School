@@ -1,32 +1,38 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
-import API from "../../api/axios";
+import API from "../../Api/axois";
 import { FaQuoteLeft, FaStar, FaEdit, FaTrash } from "react-icons/fa";
 
 const Testimonial = () => {
   const base = "ts";
 
   const initialForm = {
-  parentName: "",
-  reviewText: "",
-  rating: 5,
-  image: "",
-  file: null, // ✅ important
-};
+    parentName: "",
+    reviewText: "",
+    rating: 5,
+    image: "",
+    file: null,
+  };
 
   const [form, setForm] = useState(initialForm);
   const [testimonials, setTestimonials] = useState([]);
   const [editId, setEditId] = useState(null);
 
+  // ✅ FETCH
   const fetchTestimonials = async () => {
-    const res = await API.get("/testimonials");
-    setTestimonials(res.data.data || []);
+    try {
+      const res = await API.get("/testimonials");
+      setTestimonials(res.data.data || []);
+    } catch (err) {
+      console.error("Fetch Error:", err);
+    }
   };
 
   useEffect(() => {
     fetchTestimonials();
   }, []);
 
+  // ✅ PREVIEW
   const preview = useMemo(
     () => ({
       parentName: form.parentName || "Parent Name",
@@ -34,55 +40,77 @@ const Testimonial = () => {
         form.reviewText ||
         "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
       rating: form.rating,
-      image: form.image || "https://randomuser.me/api/portraits/women/44.jpg",
+      image:
+        form.image ||
+        "https://randomuser.me/api/portraits/women/44.jpg",
     }),
-    [form],
+    [form]
   );
 
+  // ✅ CHANGE
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((p) => ({
-      ...p,
+    setForm((prev) => ({
+      ...prev,
       [name]: name === "rating" ? Number(value) : value,
     }));
   };
 
+  // ✅ SUBMIT (PRO)
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("parentName", form.parentName);
-  formData.append("reviewText", form.reviewText);
-  formData.append("rating", form.rating);
+    const formData = new FormData();
+    formData.append("parentName", form.parentName);
+    formData.append("reviewText", form.reviewText);
+    formData.append("rating", form.rating);
 
-  if (form.file) {
-    formData.append("image", form.file);
-  }
-
-  try {
-    if (editId) {
-      await API.put(`/testimonials/${editId}`, formData);
-    } else {
-      await API.post("/testimonials", formData);
+    if (form.file) {
+      formData.append("image", form.file);
     }
 
-    fetchTestimonials();
-    setForm(initialForm);
-    setEditId(null);
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      if (editId) {
+        await API.put(`/testimonials/${editId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } else {
+        await API.post("/testimonials", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
 
+      fetchTestimonials();
+      setForm(initialForm);
+      setEditId(null);
+
+    } catch (err) {
+      console.error("Submit Error:", err);
+    }
+  };
+
+  // ✅ EDIT (FIXED)
   const handleEdit = (item) => {
-    setForm(item);
+    setForm({
+      parentName: item.parentName,
+      reviewText: item.reviewText,
+      rating: item.rating,
+      image: item.image,
+      file: null, // important
+    });
+
     setEditId(item._id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // ✅ DELETE
   const handleDelete = async (id) => {
-    await API.delete(`/testimonials/${id}`);
-    fetchTestimonials();
+    try {
+      await API.delete(`/testimonials/${id}`);
+      fetchTestimonials();
+    } catch (err) {
+      console.error("Delete Error:", err);
+    }
   };
 
   return (
@@ -101,6 +129,7 @@ const Testimonial = () => {
               onChange={handleChange}
             />
 
+            {/* FILE */}
             <input
               type="file"
               accept="image/*"
@@ -109,13 +138,12 @@ const Testimonial = () => {
                 const file = e.target.files[0];
                 if (!file) return;
 
-                // preview
                 const previewUrl = URL.createObjectURL(file);
 
                 setForm((prev) => ({
                   ...prev,
-                  file, // actual file for backend
-                  image: previewUrl, // preview in UI
+                  file,
+                  image: previewUrl,
                 }));
               }}
             />
@@ -128,7 +156,6 @@ const Testimonial = () => {
               onChange={handleChange}
             />
 
-            {/* ✅ FIXED */}
             <select
               className={`${base}__select`}
               name="rating"
@@ -192,21 +219,20 @@ const Testimonial = () => {
           <tbody>
             {testimonials.map((item) => (
               <tr key={item._id}>
-                <td data-label="Image">
+                <td>
                   <img src={item.image} className={`${base}__tableImg`} />
                 </td>
 
-                <td data-label="Name">{item.parentName}</td>
+                <td>{item.parentName}</td>
+                <td>{item.reviewText}</td>
 
-                <td data-label="Review">{item.reviewText}</td>
-
-                <td data-label="Rating">
+                <td>
                   {[...Array(item.rating)].map((_, i) => (
                     <FaStar key={i} />
                   ))}
                 </td>
 
-                <td data-label="Action">
+                <td>
                   <FaEdit
                     className={`${base}__iconEdit`}
                     onClick={() => handleEdit(item)}

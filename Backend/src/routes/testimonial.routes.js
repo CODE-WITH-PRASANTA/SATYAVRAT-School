@@ -1,7 +1,8 @@
+// src/routes/testimonial.routes.js
+
 const express = require("express");
 const router = express.Router();
 
-// ✅ IMPORT CONTROLLERS
 const {
   createTestimonial,
   getTestimonials,
@@ -9,21 +10,27 @@ const {
   deleteTestimonial,
 } = require("../controllers/testimonial.controller");
 
-// ✅ IMPORT MULTER MIDDLEWARE
-const upload = require("../middlewares/upload");
+const { upload, convertToWebp } = require("../middlewares/upload");
 
-// ================= ROUTES =================
+/* ROUTES */
 
-// GET ALL
-router.get("/", getTestimonials);
+// 👉 THIS FIXES YOUR 404
+router.get("/testimonials", getTestimonials);
 
-// CREATE (WITH IMAGE UPLOAD)
-router.post("/", upload.single("image"), createTestimonial);
+router.post(
+  "/testimonials",
+  upload.single("image"),
+  convertToWebp,
+  createTestimonial
+);
 
-// UPDATE (WITH OPTIONAL IMAGE UPDATE)
-router.put("/:id", upload.single("image"), updateTestimonial);
+router.put(
+  "/testimonials/:id",
+  upload.single("image"),
+  convertToWebp,
+  updateTestimonial
+);
 
-// DELETE
-router.delete("/:id", deleteTestimonial);
+router.delete("/testimonials/:id", deleteTestimonial);
 
 module.exports = router;

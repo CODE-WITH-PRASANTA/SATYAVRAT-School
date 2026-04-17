@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./ColdLeadTable.css";
-import API from "../../api/axios"; // ✅ ADDED
+import API from "../../Api/axois"; // ✅ ADDED
 
 const ColdLeadTable = () => {
   const [coldLeadTableList, setColdLeadTableList] = useState([]);
