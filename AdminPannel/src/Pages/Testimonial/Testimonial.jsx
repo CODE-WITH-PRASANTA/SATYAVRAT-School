@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
-<<<<<<< HEAD
 import API from "../../Api/axios"; // ✅ ADDED
 import {
   FaQuoteLeft,
@@ -11,10 +10,6 @@ import {
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
-=======
-import API from "../../Api/axois";
-import { FaQuoteLeft, FaStar, FaEdit, FaTrash } from "react-icons/fa";
->>>>>>> 9fcf468fee8d4529ad9611f0e0073a9c903b8540
 
 const Testimonial = () => {
   const base = "ts";
