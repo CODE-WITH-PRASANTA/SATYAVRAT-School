@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import React, { useMemo, useState } from "react";
 import "./NewsPosting.css";
-import API, { IMAGE_URL } from "../../Api/axois";
+import API, { IMAGE_URL } from "../../Api/axios";
 import {
   FaCalendarAlt,
   FaEdit,

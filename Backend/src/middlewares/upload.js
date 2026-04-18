@@ -1,58 +1,147 @@
 const multer = require("multer");
 const path = require("path");
-const sharp = require("sharp");
 const fs = require("fs");
+const sharp = require("sharp");
 
-/* TEMP STORAGE */
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const dir = "uploads/temp";
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
+/* ================= HELPERS ================= */
+const ensureDir = (dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+};
+
+/* ================= ROUTE → FOLDER MAP ================= */
+const routeFolderMap = {
+  "/photo-gallery": "uploads/gallery",
+  "/news": "uploads/news",
+  "/events": "uploads/events",
+  "/classes": "uploads/classes",
+   "/testimonials": "uploads/testimonials" ,
+    "/teachers": "uploads/teachers",
+
+};
+
+/* ================= GET UPLOAD PATH ================= */
+const getUploadPath = (req) => {
+  let uploadPath = "uploads/common";
+
+  for (const route in routeFolderMap) {
+
+    
+    if (req.originalUrl.includes(route)) {
+      uploadPath = routeFolderMap[route];
+      break;
+    }
+  }
+
+  ensureDir(uploadPath);
+  return uploadPath;
+};
+
+/* ================= MULTER CONFIG ================= */
+const storage = multer.memoryStorage();
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|webp/;
+
+  const extname = allowedTypes.test(
+    path.extname(file.originalname).toLowerCase()
+  );
+
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed"));
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-const upload = multer({ storage });
-
-/* WEBP CONVERSION */
+/* ================= SHARP CONVERTER ================= */
 const convertToWebp = async (req, res, next) => {
   try {
-    if (!req.file) return next();
+    if (!req.file && !req.files) return next();
 
-    const inputPath = req.file.path;
-    const outputDir = "uploads/news";
+    const uploadPath = getUploadPath(req);
 
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
+    /* ================= SINGLE FILE ================= */
+    if (req.file) {
+      const filename = `${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2)}.webp`;
+
+      const outputPath = path.join(uploadPath, filename);
+
+      await sharp(req.file.buffer)
+        .resize(1200, 1200, { fit: "inside" })
+        .webp({ quality: 80 })
+        .toFile(outputPath);
+
+      const relativePath = "/" + outputPath.replace(/\\/g, "/");
+
+      req.file.path = relativePath;
+      req.body[req.file.fieldname] = relativePath;
     }
 
-    const filename = Date.now() + ".webp";
-    const outputPath = path.join(outputDir, filename);
+    /* ================= MULTIPLE FILES ================= */
+    if (req.files) {
+      for (const field in req.files) {
+        req.body[field] = [];
 
-    await sharp(inputPath)
-      .resize({ width: 800 })
-      .webp({ quality: 80 })
-      .toFile(outputPath);
+        for (const file of req.files[field]) {
+          const filename = `${Date.now()}-${Math.random()
+            .toString(36)
+            .slice(2)}.webp`;
 
-    /* DELETE TEMP FILE */
-    if (fs.existsSync(inputPath)) {
-      fs.unlinkSync(inputPath);
+          const outputPath = path.join(uploadPath, filename);
+
+          await sharp(file.buffer)
+            .resize(1200, 1200, { fit: "inside" })
+            .webp({ quality: 80 })
+            .toFile(outputPath);
+
+          const relativePath = "/" + outputPath.replace(/\\/g, "/");
+
+          file.path = relativePath;
+          req.body[field].push(relativePath);
+        }
+      }
     }
-
-    /* IMPORTANT FIX */
-    req.file.filename = filename;
 
     next();
   } catch (err) {
-    console.error("❌ Image Processing Error:", err);
-    return res.status(500).json({
+    console.error("SHARP ERROR:", err);
+    res.status(500).json({
       success: false,
-      message: "Image processing failed",
+      message: err.message,
     });
   }
 };
 
-module.exports = { upload, convertToWebp };
+/* ================= DELETE IMAGE FUNCTION ================= */
+const deleteImageFile = (imagePath) => {
+  try {
+    if (!imagePath) return;
+
+    const fullPath = path.join(__dirname, "..", imagePath);
+
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+      console.log("🗑 Image deleted:", fullPath);
+    }
+  } catch (err) {
+    console.error("IMAGE DELETE ERROR:", err);
+  }
+};
+
+module.exports = {
+  upload,
+  convertToWebp,
+  deleteImageFile,
+};

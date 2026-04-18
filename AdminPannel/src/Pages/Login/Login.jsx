@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import API from "../../Api/axois";
+import API from "../../Api/axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Swal from "sweetalert2";
 import "./Login.css";

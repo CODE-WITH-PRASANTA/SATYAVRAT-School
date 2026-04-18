@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FeeCollection.css";
-import API from "../../Api/axois";
+import API from "../../Api/axios";
 import logo from "../../assets/logo.png";
 import {
   FiMoreVertical,

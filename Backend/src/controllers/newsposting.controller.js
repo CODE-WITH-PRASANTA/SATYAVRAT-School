@@ -5,11 +5,8 @@ const path = require("path");
 /* CREATE */
 const createNews = async (req, res) => {
   try {
-    const folder = req.body.folder || "news"; // dynamic folder
-
-    const imagePath = req.file
-      ? `/uploads/${folder}/${req.file.filename}`
-      : "";
+    // ✅ FIX: use sharp generated path
+    const imagePath = req.file?.path || "";
 
     const newNews = new News({
       ...req.body,
@@ -58,9 +55,8 @@ const updateNews = async (req, res) => {
     let imagePath = existing.image;
 
     if (req.file) {
-      const folder = req.body.folder || "news";
-
-      imagePath = `/uploads/${folder}/${req.file.filename}`;
+      // ✅ FIX: use sharp path
+      imagePath = req.file.path;
 
       /* DELETE OLD IMAGE */
       if (existing.image) {

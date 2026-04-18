@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AccordionSection from "../../Component/AccordionSection/AccordionSection";
-import API, { IMAGE_URL } from "../../Api/axois";
+import API, { IMAGE_URL } from "../../Api/axios";
 import { Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
