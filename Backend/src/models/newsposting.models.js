@@ -7,6 +7,11 @@ const newsSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     buttonText: { type: String, default: "Read More" },
+    category: {
+  type: String,
+  enum: ["education", "activities", "painting", "games"],
+  default: "education",
+},
     link: { type: String, default: "" },
     status: {
       type: String,
@@ -16,6 +21,7 @@ const newsSchema = new mongoose.Schema(
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 1 },
   },
+  
   { timestamps: true }
 );
 
