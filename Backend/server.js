@@ -8,6 +8,12 @@ const connectDB = require("./src/configs/db");
 
 /* ROUTES */
 const newsRoutes = require("./src/routes/newsposting.routes");
+const teacherRoutes = require("./src/routes/teacher.routes");
+const galleryRoutes = require("./src/routes/gallery.routes");
+const enquiryRoutes = require("./src/routes/coldlead.routes");
+
+const testimonialRoutes = require("./src/routes/testimonial.routes");
+
 
 /* LOAD ENV */
 dotenv.config();
@@ -28,6 +34,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ROUTES */
 app.use("/api/news", newsRoutes);   // ✅ FIXED
+app.use("/api/teachers", teacherRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/enquiries", enquiryRoutes);
+
 
 /* DEFAULT ROUTE */
 app.get("/", (req, res) => {

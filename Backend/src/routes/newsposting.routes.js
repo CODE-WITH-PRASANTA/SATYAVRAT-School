@@ -20,7 +20,10 @@ router.get("/", getNews);
 router.post(
   "/",
   upload.single("image"),
-  convertToWebp, // only runs when file exists (handled inside middleware)
+  (req, res, next) => {
+    if (req.file) return convertToWebp(req, res, next);
+    next();
+  },
   createNews
 );
 
@@ -29,10 +32,7 @@ router.put(
   "/:id",
   upload.single("image"),
   (req, res, next) => {
-    // ✅ only convert if image exists
-    if (req.file) {
-      return convertToWebp(req, res, next);
-    }
+    if (req.file) return convertToWebp(req, res, next);
     next();
   },
   updateNews

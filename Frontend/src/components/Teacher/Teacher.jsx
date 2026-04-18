@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Teacher.css";
-import API, { IMAGE_URL } from "../../Api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 
 const Teacher = () => {
   const [teachersData, setTeachersData] = useState([]);
