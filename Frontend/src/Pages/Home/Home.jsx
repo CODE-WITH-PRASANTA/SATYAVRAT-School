@@ -17,12 +17,14 @@ const Home = () => {
       < KindergartenSection />
       <GetInvolvedSection/>
       <OurClasses />
-      <EnrollSection />
-       <Teacher/>
+      <Teacher/>
        <Gallery/>
       <TestimonialSection/>
       <BlogActivitesHome/>
+      <EnrollSection />
       <FAQSection/>
+      
+      
     </div>
   )
 }

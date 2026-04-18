@@ -1,331 +1,356 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Pacifico&family=Source+Sans+3:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600&display=swap");
 
 .enrollSection {
-  position: relative;
-  width: 100%;
-  background: #f3f3f3;
-  padding-top: 0;
-  overflow: visible;
-}
-
-.enrollSection__hero {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  min-height: 700px;
-  overflow: visible;
-}
-
-.enrollSection__bg {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  width: 100%;
-  height: 600px;
-  object-fit: cover;
-  display: block;
-  z-index: 1;
-}
-
-.enrollSection__content {
-  position: relative;
-  z-index: 2;
+  background: #edf3f8;
+  padding: 34px 0 42px;
+  overflow: hidden;
 }
 
 .enrollSection__container {
-  max-width: 1240px;
+  width: min(100%, 1600px);
   margin: 0 auto;
-  min-height: 650px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(420px, 690px) minmax(520px, 1fr);
+  gap: 46px;
+  align-items: start;
 }
 
 .enrollSection__left {
-  width: 42%;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  min-height: 714px;
+  padding-top: 18px;
 }
 
-.enrollSection__boy {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
+.enrollSection__photo {
+  position: absolute;
+  overflow: hidden;
+  border: 8px solid #ffffff;
+  border-radius: 26px;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16);
+  background: #ffffff;
+}
+
+.enrollSection__photo img {
   display: block;
-  margin-top: 6px;
-  margin-left: -10px;
-}
-
-.enrollSection__right {
-  width: 58%;
-  padding-top: 155px;
-  padding-left: 10px;
-}
-
-.enrollSection__subtitle {
-  margin: 0 0 6px;
-  font-family: "Pacifico", cursive;
-  font-size: 56px;
-  font-weight: 400;
-  line-height: 1;
-  color: #ffffff;
-}
-
-.enrollSection__title {
-  margin: 0 0 22px;
-  font-family: "Oswald", sans-serif;
-  font-size: 58px;
-  font-weight: 700;
-  line-height: 1.12;
-  color: #20aef7;
-  text-transform: uppercase;
-  max-width: 760px;
-}
-
-.enrollSection__desc {
-  margin: 0 0 28px;
-  max-width: 720px;
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 20px;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.enrollSection__btn {
-  width: 170px;
-  height: 46px;
-  border: none;
-  background: #f7c500;
-  color: #ffffff;
-  font-family: "Oswald", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: 0.3s ease;
-}
-
-.enrollSection__btn:hover {
-  background: #e2b400;
-}
-
-.enrollSection__searchWrap {
-  position: relative;
-  z-index: 5;
-  max-width: 1240px;
-  margin: -108px auto 0;
-  padding: 0 20px 40px;
-}
-
-.enrollSection__searchBox {
-  background: #f5f5f5;
-  border: 1px solid #ebebeb;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  padding: 46px 38px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 220px;
-  align-items: center;
-  gap: 26px;
-}
-
-.enrollSection__field {
-  position: relative;
-}
-
-.enrollSection__field:not(.enrollSection__field--button)::after {
-  content: "";
-  position: absolute;
-  right: -14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 44px;
-  background: #e6e6e6;
-}
-
-.enrollSection__field--button::after {
-  display: none;
-}
-
-.enrollSection__select,
-.enrollSection__input {
   width: 100%;
-  height: 45px;
-  border: 1px solid #e3e3e3;
-  background: #fafafa;
-  padding: 0 18px;
-  outline: none;
-  font-family: "Oswald", sans-serif;
-  font-size: 14px;
-  color: #9a9a9a;
+  height: 100%;
+  object-fit: cover;
 }
 
-.enrollSection__select {
-  appearance: none;
-  padding-right: 48px;
-  cursor: pointer;
-}
-
-.enrollSection__field--select::before {
-  content: "▼";
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  color: #a7a7a7;
-  pointer-events: none;
+.enrollSection__photo--top {
+  top: 14px;
+  left: 112px;
+  width: 560px;
+  height: 378px;
+  transform: rotate(-9deg);
   z-index: 2;
 }
 
-.enrollSection__input::placeholder {
-  color: #9a9a9a;
+.enrollSection__photo--bottom {
+  left: 82px;
+  top: 340px;
+  width: 520px;
+  height: 344px;
+  transform: rotate(10deg);
+  z-index: 1;
+}
+
+.enrollSection__right {
+  max-width: 904px;
+  padding-top: 4px;
+}
+
+.enrollSection__title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.5rem, 4.15vw, 4rem);
+  line-height: 1.06;
+  font-weight: 700;
+  color: #060606;
+  letter-spacing: 0.01em;
+}
+
+.enrollSection__featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 20px 42px;
+  margin-top: 34px;
+  max-width: 720px;
+}
+
+.enrollSection__feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #111111;
+}
+
+.enrollSection__featureIcon {
+  flex: 0 0 auto;
+  color: #ff1f4d;
+  font-size: 1.18rem;
+}
+
+.enrollSection__form {
+  margin-top: 56px;
+  padding: 44px 44px 42px;
+  border: 3px solid #65207a;
+  border-radius: 31px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 30px rgba(73, 84, 98, 0.12);
+}
+
+.enrollSection__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 14px 24px;
+}
+
+.enrollSection__field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enrollSection__label {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.97rem;
+  color: #0c0c0c;
+}
+
+.enrollSection__label em {
+  font-style: normal;
+  color: #ff3b30;
+}
+
+.enrollSection__field input {
+  width: 100%;
+  height: 56px;
+  border: 1px solid #cfcfcf;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 0 18px;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 1rem;
+  color: #4d5b68;
+  outline: none;
+}
+
+.enrollSection__field input::placeholder {
+  color: #798691;
   opacity: 1;
 }
 
-.enrollSection__searchBtn {
-  width: 100%;
-  height: 52px;
+.enrollSection__field input:focus {
+  border-color: #8a53a8;
+  box-shadow: 0 0 0 3px rgba(101, 32, 122, 0.08);
+}
+
+.enrollSection__inputWrap {
+  position: relative;
+  display: block;
+}
+
+.enrollSection__inputWrap input {
+  padding-right: 52px;
+}
+
+.enrollSection__calendarIcon {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  color: #717171;
+  font-size: 1.15rem;
+  pointer-events: none;
+}
+
+.enrollSection__formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.enrollSection__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 0.95rem;
+  color: #121212;
+}
+
+.enrollSection__checkbox input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #65207a;
+}
+
+.enrollSection__button {
+  min-width: 174px;
+  height: 56px;
+  padding: 0 28px;
   border: none;
-  background: #f7c500;
+  border-radius: 999px;
+  background: #ff1f4d;
   color: #ffffff;
-  font-family: "Oswald", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  text-transform: uppercase;
+  font-family: "Outfit", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease;
+  box-shadow: 0 10px 20px rgba(255, 31, 77, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.enrollSection__searchBtn:hover {
-  background: #e2b400;
+.enrollSection__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(255, 31, 77, 0.24);
 }
 
-/* laptop */
-@media (max-width: 1200px) {
-  .enrollSection__title {
-    font-size: 48px;
+@media (max-width: 1360px) {
+  .enrollSection__container {
+    grid-template-columns: minmax(360px, 560px) minmax(420px, 1fr);
+    gap: 34px;
   }
 
-  .enrollSection__subtitle {
-    font-size: 48px;
+  .enrollSection__left {
+    min-height: 630px;
   }
 
-  .enrollSection__desc {
-    font-size: 18px;
+  .enrollSection__photo--top {
+    left: 60px;
+    width: 480px;
+    height: 328px;
+  }
+
+  .enrollSection__photo--bottom {
+    left: 44px;
+    top: 305px;
+    width: 450px;
+    height: 300px;
   }
 }
 
-/* tablet */
-@media (max-width: 992px) {
-  .enrollSection__hero {
-    min-height: auto;
-  }
-
-  .enrollSection__bg {
-    top: 0;
-    height: 100%;
-    min-height: 760px;
+@media (max-width: 1120px) {
+  .enrollSection {
+    padding: 42px 0;
   }
 
   .enrollSection__container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    min-height: auto;
-    padding: 40px 20px 140px;
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .enrollSection__left,
-  .enrollSection__right {
+  .enrollSection__left {
+    min-height: 560px;
+    max-width: 640px;
+    margin: 0 auto;
     width: 100%;
   }
 
-  .enrollSection__boy {
-    max-width: 340px;
-    margin: 0 auto 20px;
-  }
-
   .enrollSection__right {
-    padding-top: 0;
-    padding-left: 0;
-  }
-
-  .enrollSection__subtitle {
-    font-size: 40px;
+    max-width: 100%;
   }
 
   .enrollSection__title {
-    max-width: 100%;
-    font-size: 38px;
+    text-align: center;
   }
 
-  .enrollSection__desc {
-    max-width: 100%;
-    font-size: 17px;
+  .enrollSection__featureGrid {
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .enrollSection__searchWrap {
-    margin-top: -70px;
-  }
-
-  .enrollSection__searchBox {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 28px 22px;
-  }
-
-  .enrollSection__field::after {
-    display: none;
+  .enrollSection__form {
+    margin-top: 36px;
   }
 }
 
-/* mobile */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .enrollSection__container {
-    padding: 30px 16px 120px;
+    padding: 0 16px;
   }
 
-  .enrollSection__boy {
-    max-width: 260px;
+  .enrollSection__left {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 0;
   }
 
-  .enrollSection__subtitle {
-    font-size: 32px;
+  .enrollSection__photo {
+    position: relative;
+    width: min(100%, 520px);
+    height: auto;
+    aspect-ratio: 16 / 10.5;
+    left: auto;
+    top: auto;
+    margin: 0 auto;
+  }
+
+  .enrollSection__photo--top {
+    transform: rotate(-7deg);
+  }
+
+  .enrollSection__photo--bottom {
+    transform: rotate(7deg);
+    margin-top: -12px;
+  }
+
+  .enrollSection__featureGrid,
+  .enrollSection__fields {
+    grid-template-columns: 1fr;
+  }
+
+  .enrollSection__featureGrid {
+    gap: 14px;
+    max-width: 100%;
+  }
+
+  .enrollSection__form {
+    padding: 28px 18px 24px;
+    border-radius: 24px;
+  }
+
+  .enrollSection__formFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .enrollSection__button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .enrollSection {
+    padding: 30px 0 36px;
   }
 
   .enrollSection__title {
-    font-size: 28px;
-    line-height: 1.2;
+    font-size: 2.15rem;
   }
 
-  .enrollSection__desc {
-    font-size: 16px;
-    line-height: 1.6;
+  .enrollSection__feature {
+    align-items: flex-start;
+    font-size: 0.96rem;
   }
 
-  .enrollSection__btn {
-    width: 160px;
-    height: 44px;
-    font-size: 15px;
+  .enrollSection__photo {
+    border-width: 6px;
+    border-radius: 22px;
   }
 
-  .enrollSection__searchWrap {
-    padding: 0 16px 28px;
-    margin-top: -60px;
-  }
-
-  .enrollSection__searchBox {
-    padding: 18px 16px;
-  }
-
-  .enrollSection__select,
-  .enrollSection__input,
-  .enrollSection__searchBtn {
-    height: 46px;
-    font-size: 14px;
+  .enrollSection__field input {
+    height: 52px;
+    border-radius: 14px;
   }
 }
