@@ -7,14 +7,13 @@ const TestimonialSection = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const IMAGE_URL = "http://localhost:5000";
 
   // ✅ FETCH DATA FROM BACKEND
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/testimonials"
-        );
+        const res = await axios.get("http://localhost:5000/api/testimonials");
 
         // ✅ HANDLE BOTH RESPONSE TYPES
         const data = res.data?.data || res.data || [];
@@ -55,9 +54,7 @@ const TestimonialSection = () => {
 
   const prevSlide = () => {
     if (testimonials.length === 0) return;
-    setIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
+    setIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
   // ✅ LOADING
@@ -84,15 +81,13 @@ const TestimonialSection = () => {
     <section className="testimonialSection">
       <div className="testimonialSection__overlay">
         <div className="testimonialSection__container">
-
           <FaQuoteLeft className="testimonialSection__quoteIcon" />
 
           <p className="testimonialSection__text">
-            {current.text || "No message available"}
+            {current.reviewText || "No message available"}
           </p>
 
           <div className="testimonialSection__avatars">
-
             <button
               className="testimonialSection__arrow left"
               onClick={prevSlide}
@@ -104,8 +99,9 @@ const TestimonialSection = () => {
               {testimonials.map((item, i) => (
                 <img
                   key={item._id || i}
+                  
                   // ✅ FIX IMAGE PATH
-                  src={`http://localhost:5000/${item.image}`}
+                  src={`${IMAGE_URL}${item.image}`}
                   alt={item.name}
                   className={`testimonialSection__avatar ${
                     i === index ? "active" : ""
@@ -120,17 +116,13 @@ const TestimonialSection = () => {
             >
               <FaChevronRight />
             </button>
-
           </div>
 
           <h4 className="testimonialSection__name">
-            {current.name || "Anonymous"}
+            {current.parentName || "Anonymous"}
           </h4>
 
-          <span className="testimonialSection__role">
-            {current.role || ""}
-          </span>
-
+          <span className="testimonialSection__role">{current.role || ""}</span>
         </div>
       </div>
     </section>

@@ -1,5 +1,3 @@
-// src/routes/testimonial.routes.js
-
 const express = require("express");
 const router = express.Router();
 
@@ -10,27 +8,13 @@ const {
   deleteTestimonial,
 } = require("../controllers/testimonial.controller");
 
+// ✅ FIX HERE
 const { upload, convertToWebp } = require("../middlewares/upload");
 
-/* ROUTES */
-
-// 👉 THIS FIXES YOUR 404
-router.get("/testimonials", getTestimonials);
-
-router.post(
-  "/testimonials",
-  upload.single("image"),
-  convertToWebp,
-  createTestimonial
-);
-
-router.put(
-  "/testimonials/:id",
-  upload.single("image"),
-  convertToWebp,
-  updateTestimonial
-);
-
-router.delete("/testimonials/:id", deleteTestimonial);
+// ROUTES
+router.get("/", getTestimonials);
+router.post("/", upload.single("image"), convertToWebp, createTestimonial);
+router.put("/:id", upload.single("image"), convertToWebp, updateTestimonial);
+router.delete("/:id", deleteTestimonial);
 
 module.exports = router;
