@@ -1,88 +1,80 @@
-// src/controllers/testimonial.controller.js
-
 const Testimonial = require("../models/testimonial.models");
 
-/* CREATE */
-const createTestimonial = async (req, res) => {
+// CREATE
+exports.createTestimonial = async (req, res) => {
   try {
     const { parentName, reviewText, rating } = req.body;
 
-    if (!parentName || !reviewText) {
-      return res.status(400).json({ message: "All fields required" });
-    }
+    const image = req.file ? req.file.path : "";
 
-    const image = req.file
-      ? `http://localhost:5000/uploads/${req.file.filename}`
-      : "";
-
-    const testimonial = await Testimonial.create({
+    const data = await Testimonial.create({
       parentName,
       reviewText,
       rating,
       image,
     });
 
-    res.status(201).json({ success: true, data: testimonial });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(201).json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-/* GET ALL */
-const getTestimonials = async (req, res) => {
+// GET ALL
+exports.getTestimonials = async (req, res) => {
   try {
     const data = await Testimonial.find().sort({ createdAt: -1 });
 
-    res.status(200).json({ success: true, data });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-/* UPDATE */
-const updateTestimonial = async (req, res) => {
+// UPDATE
+exports.updateTestimonial = async (req, res) => {
   try {
-    const { parentName, reviewText, rating } = req.body;
+    const { id } = req.params;
 
-    let updateData = { parentName, reviewText, rating };
+    const updateData = {
+      parentName: req.body.parentName,
+      reviewText: req.body.reviewText,
+      rating: req.body.rating,
+    };
 
     if (req.file) {
-      updateData.image = `http://localhost:5000/uploads/${req.file.filename}`;
+      updateData.image = req.file.path;
     }
 
-    const updated = await Testimonial.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
+    const updated = await Testimonial.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
-    res.status(200).json({ success: true, data: updated });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({
+      success: true,
+      data: updated,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-/* DELETE */
-const deleteTestimonial = async (req, res) => {
+// DELETE
+exports.deleteTestimonial = async (req, res) => {
   try {
     await Testimonial.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({
+    res.json({
       success: true,
       message: "Deleted successfully",
     });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-};
-
-module.exports = {
-  createTestimonial,
-  getTestimonials,
-  updateTestimonial,
-  deleteTestimonial,
 };

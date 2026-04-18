@@ -34,13 +34,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ROUTES */
-app.use("/api/news", newsRoutes);   // ✅ FIXED
+app.use("/api/news", newsRoutes);   
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", admissionRoutes);
 
 
+app.use("/api/testimonials", testimonialRoutes);
 
 /* DEFAULT ROUTE */
 app.get("/", (req, res) => {

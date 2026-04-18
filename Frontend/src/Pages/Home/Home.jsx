@@ -13,6 +13,7 @@ import FAQSection from '../../components/FAQSection/FAQSection'
 const Home = () => {
   return (
     <div>
+<<<<<<< HEAD
       <HeroSection />
       < KindergartenSection />
       <GetInvolvedSection/>
@@ -25,6 +26,53 @@ const Home = () => {
       <FAQSection/>
       
       
+=======
+
+      <section id="home">
+        <HeroSection />
+      </section>
+
+      <section id="about">
+        <KindergartenSection />
+      </section>
+
+      <section id="whychooseus">
+        <GetInvolvedSection/>
+      </section>
+
+      <section id="classes">
+        <OurClasses />
+      </section>
+
+      <section id="programms">
+        <EnrollSection />
+      </section>
+
+      <section id="teachers">
+        <Teacher/>
+      </section>
+
+      <section id="gallery">
+        <Gallery/>
+      </section>
+
+      <section id="news">
+        <BlogActivitesHome/>
+      </section>
+
+      <section id="testimonials">
+        <TestimonialSection/>
+      </section>
+
+      <section id="faq">
+        <FAQSection/>
+      </section>
+
+      <section id="contact">
+        {/* You can place your Contact component here */}
+      </section>
+
+>>>>>>> 2b3a55396ff254168e444fdbc7ab968092109351
     </div>
   )
 }

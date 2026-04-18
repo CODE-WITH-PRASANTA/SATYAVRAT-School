@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Testimonial.css";
-import API from "../../Api/axios"; // ✅ ADDED
+import  API from "../../Api/axios"; // ✅ ADDED
+import IMAGE_URL from "../../Api/axios"
 import {
   FaQuoteLeft,
   FaStar,
@@ -26,11 +27,20 @@ const Testimonial = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [editId, setEditId] = useState(null);
 
+  const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) return img;
+
+  return `http://localhost:5000${img}`;
+};
+
   // ✅ FETCH
   const fetchTestimonials = async () => {
     try {
       const res = await API.get("/testimonials");
       setTestimonials(res.data.data || []);
+      console.log(res?.data?.data);
     } catch (err) {
       console.error("Fetch Error:", err);
     }
@@ -46,13 +56,11 @@ const Testimonial = () => {
       parentName: form.parentName || "Parent Name",
       reviewText:
         form.reviewText ||
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
+        "Your Review Shows Here",
       rating: form.rating,
-      image:
-        form.image ||
-        "https://randomuser.me/api/portraits/women/44.jpg",
+      image: form.image || "https://randomuser.me/api/portraits/women/44.jpg",
     }),
-    [form]
+    [form],
   );
 
   // ✅ CHANGE
@@ -91,7 +99,6 @@ const Testimonial = () => {
       fetchTestimonials();
       setForm(initialForm);
       setEditId(null);
-
     } catch (err) {
       console.error("Submit Error:", err);
     }
@@ -228,7 +235,10 @@ const Testimonial = () => {
             {testimonials.map((item) => (
               <tr key={item._id}>
                 <td>
-                  <img src={item.image} className={`${base}__tableImg`} />
+                  <img
+  src={getImageUrl(item.image)}
+  className="ts__tableImg"
+/>
                 </td>
 
                 <td>{item.parentName}</td>

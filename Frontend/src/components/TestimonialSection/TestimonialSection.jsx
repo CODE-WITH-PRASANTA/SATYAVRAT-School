@@ -7,6 +7,7 @@ const TestimonialSection = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const IMAGE_URL = "http://localhost:5000";
 
   // ✅ FETCH DATA FROM BACKEND
   useEffect(() => {
@@ -14,12 +15,12 @@ const TestimonialSection = () => {
       try {
         const res = await axios.get("http://localhost:5000/api/testimonials");
 
-        // 🔥 IMPORTANT: handle both formats
-        const data = Array.isArray(res.data) ? res.data : res.data.data;
+        // ✅ HANDLE BOTH RESPONSE TYPES
+        const data = res.data?.data || res.data || [];
 
-        setTestimonials(data || []);
+        setTestimonials(data);
       } catch (error) {
-        console.error("Error fetching testimonials:", error);
+        console.error("Error fetching testimonials:", error.message);
       } finally {
         setLoading(false);
       }
@@ -53,9 +54,7 @@ const TestimonialSection = () => {
 
   const prevSlide = () => {
     if (testimonials.length === 0) return;
-    setIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
+    setIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
   // ✅ LOADING
@@ -76,25 +75,19 @@ const TestimonialSection = () => {
     );
   }
 
-  // ✅ EXTRA SAFETY (NO CRASH)
   const current = testimonials[index] || {};
 
   return (
     <section className="testimonialSection">
       <div className="testimonialSection__overlay">
         <div className="testimonialSection__container">
-
-          {/* QUOTE */}
           <FaQuoteLeft className="testimonialSection__quoteIcon" />
 
-          {/* TEXT */}
           <p className="testimonialSection__text">
-            {current.text || "No message available"}
+            {current.reviewText || "No message available"}
           </p>
 
-          {/* AVATAR SLIDER */}
           <div className="testimonialSection__avatars">
-
             <button
               className="testimonialSection__arrow left"
               onClick={prevSlide}
@@ -106,7 +99,9 @@ const TestimonialSection = () => {
               {testimonials.map((item, i) => (
                 <img
                   key={item._id || i}
-                  src={item.image}
+                  
+                  // ✅ FIX IMAGE PATH
+                  src={`${IMAGE_URL}${item.image}`}
                   alt={item.name}
                   className={`testimonialSection__avatar ${
                     i === index ? "active" : ""
@@ -121,18 +116,13 @@ const TestimonialSection = () => {
             >
               <FaChevronRight />
             </button>
-
           </div>
 
-          {/* NAME */}
           <h4 className="testimonialSection__name">
-            {current.name || "Anonymous"}
+            {current.parentName || "Anonymous"}
           </h4>
 
-          <span className="testimonialSection__role">
-            {current.role || ""}
-          </span>
-
+          <span className="testimonialSection__role">{current.role || ""}</span>
         </div>
       </div>
     </section>

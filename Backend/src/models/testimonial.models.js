@@ -1,5 +1,3 @@
-// src/models/testimonial.model.js
-
 const mongoose = require("mongoose");
 
 const testimonialSchema = new mongoose.Schema(
@@ -7,7 +5,6 @@ const testimonialSchema = new mongoose.Schema(
     parentName: {
       type: String,
       required: true,
-      trim: true,
     },
     reviewText: {
       type: String,
@@ -15,14 +12,7 @@ const testimonialSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      min: 1,
-      max: 5,
       default: 5,
-    },
-    status: {
-      type: String,
-      enum: ["Active", "Inactive"],
-      default: "Active",
     },
     image: {
       type: String,
