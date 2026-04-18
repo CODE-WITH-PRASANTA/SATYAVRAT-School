@@ -146,6 +146,27 @@ body {
   color: #9ca3af;
 }
 
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+  color: #fff;
+}
+
+.footer-col ul li.active a {
+  color: #4da6ff; /* blue highlight like your image */
+}
+
 /* ================= RESPONSIVE ================= */
 
 /* LARGE SCREENS */

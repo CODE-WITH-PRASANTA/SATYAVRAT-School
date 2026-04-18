@@ -14,7 +14,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-container">
 
-        {/* LEFT SECTION */}
+        {/* ABOUT */}
         <div className="footer-col footer-about">
           <img src={logo} alt="School Logo" className="footer-logo" />
 
@@ -35,23 +35,23 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Quick Links</h3>
           <ul>
-            <li>Home</li>
-            <li>Classes</li>
-            <li>Teachers</li>
-            <li>Latest News</li>
-            <li>Contact Us</li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#classes">Classes</a></li>
+            <li><a href="#teachers">Teachers</a></li>
+            <li><a href="#news">Latest News</a></li>
+            <li><a href="#contact">Contact Us</a></li>
           </ul>
         </div>
 
-        {/* CATEGORIES */}
+        {/* CATEGORIES (RESTORED) */}
         <div className="footer-col">
           <h3>Categories</h3>
           <ul>
-            <li>Painting</li>
-            <li>Drawing</li>
-            <li className="active">Sports, Games</li>
-            <li>Life Science</li>
-            <li>Activities & Events</li>
+            <li><a href="#classes">Painting</a></li>
+            <li><a href="#classes">Drawing</a></li>
+            <li className="active"><a href="#classes">Sports, Games</a></li>
+            <li><a href="#classes">Life Science</a></li>
+            <li><a href="#classes">Activities & Events</a></li>
           </ul>
         </div>
 

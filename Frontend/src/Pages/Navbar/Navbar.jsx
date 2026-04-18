@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
 import logo from "../../assets/Logo-1.png";
 
 const Navbar = () => {
@@ -14,22 +13,22 @@ const Navbar = () => {
 
           {/* LOGO */}
           <div className="navbar-logo">
-            <NavLink to="/">
+            <a href="#home">
               <img src={logo} alt="logo" className="navbar-logo-img" />
-            </NavLink>
+            </a>
           </div>
 
           {/* DESKTOP MENU */}
           <ul className="navbar-menu">
-            <li><NavLink to="/">Home</NavLink></li>
-            <li><NavLink to="/about">About Us</NavLink></li>
-            <li><NavLink to="/classes">Classes</NavLink></li>
-            <li><NavLink to="/whychooseus">Why Choose Us</NavLink></li>
-            <li><NavLink to="/teacher">Teachers</NavLink></li>
-            <li><NavLink to="/programms">Our Programms</NavLink></li>
-            <li><NavLink to="/gallery">Gallery</NavLink></li>
-            <li><NavLink to="/news">News</NavLink></li>
-            <li><NavLink to="/contact">Contact Us</NavLink></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#classes">Classes</a></li>
+            <li><a href="#whychooseus">Why Choose Us</a></li>
+            <li><a href="#teachers">Teachers</a></li>
+            <li><a href="#programms">Our Programms</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact Us</a></li>
           </ul>
 
           {/* HAMBURGER */}
@@ -48,7 +47,7 @@ const Navbar = () => {
       {/* MOBILE SIDEBAR */}
       <div className={`mobile-menu ${menuOpen ? "active" : ""}`}>
 
-        {/* ❌ CLOSE BUTTON (TOP RIGHT INSIDE SIDEBAR) */}
+        {/* CLOSE BUTTON */}
         <FaTimes
           className="close-icon"
           onClick={() => setMenuOpen(false)}
@@ -59,15 +58,17 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="mobile-logo-img" />
         </div>
 
-        {/* MENU */}
+        {/* MOBILE MENU */}
         <ul className="mobile-menu-list">
-          <li><NavLink to="/" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
-          <li><NavLink to="/about" onClick={() => setMenuOpen(false)}>About Us</NavLink></li>
-          <li><NavLink to="/classes" onClick={() => setMenuOpen(false)}>Classes</NavLink></li>
-          <li><NavLink to="/pages" onClick={() => setMenuOpen(false)}>Pages</NavLink></li>
-          <li><NavLink to="/gallery" onClick={() => setMenuOpen(false)}>Gallery</NavLink></li>
-          <li><NavLink to="/blog" onClick={() => setMenuOpen(false)}>Blog</NavLink></li>
-          <li><NavLink to="/contact" onClick={() => setMenuOpen(false)}>Contact Us</NavLink></li>
+          <li><a href="#home" onClick={() => setMenuOpen(false)}>Home</a></li>
+          <li><a href="#about" onClick={() => setMenuOpen(false)}>About Us</a></li>
+          <li><a href="#classes" onClick={() => setMenuOpen(false)}>Classes</a></li>
+          <li><a href="#whychooseus" onClick={() => setMenuOpen(false)}>Why Choose Us</a></li>
+          <li><a href="#teachers" onClick={() => setMenuOpen(false)}>Teachers</a></li>
+          <li><a href="#programms" onClick={() => setMenuOpen(false)}>Our Programms</a></li>
+          <li><a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a></li>
+          <li><a href="#news" onClick={() => setMenuOpen(false)}>News</a></li>
+          <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</a></li>
         </ul>
       </div>
     </>
