@@ -13,20 +13,6 @@ import FAQSection from '../../components/FAQSection/FAQSection'
 const Home = () => {
   return (
     <div>
-<<<<<<< HEAD
-      <HeroSection />
-      < KindergartenSection />
-      <GetInvolvedSection/>
-      <OurClasses />
-      <Teacher/>
-       <Gallery/>
-      <TestimonialSection/>
-      <BlogActivitesHome/>
-      <EnrollSection />
-      <FAQSection/>
-      
-      
-=======
 
       <section id="home">
         <HeroSection />
@@ -72,7 +58,6 @@ const Home = () => {
         {/* You can place your Contact component here */}
       </section>
 
->>>>>>> 2b3a55396ff254168e444fdbc7ab968092109351
     </div>
   )
 }
