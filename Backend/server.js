@@ -11,6 +11,7 @@ const newsRoutes = require("./src/routes/newsposting.routes");
 const teacherRoutes = require("./src/routes/teacher.routes");
 const galleryRoutes = require("./src/routes/gallery.routes");
 const enquiryRoutes = require("./src/routes/coldlead.routes");
+const admissionRoutes = require("./src/routes/admission.routes");
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 
@@ -37,6 +38,8 @@ app.use("/api/news", newsRoutes);   // ✅ FIXED
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/students", admissionRoutes);
+
 
 
 /* DEFAULT ROUTE */

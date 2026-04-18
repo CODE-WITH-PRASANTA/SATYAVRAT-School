@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600&display=swap");
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .enrollSection {
   background: #edf3f8;
   padding: 34px 0 42px;
@@ -32,10 +38,10 @@
 }
 
 .enrollSection__photo img {
-  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .enrollSection__photo--top {
@@ -62,8 +68,7 @@
 }
 
 .enrollSection__title {
-  margin: 0;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(2.5rem, 4.15vw, 4rem);
   line-height: 1.06;
   font-weight: 700;
@@ -83,21 +88,20 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
   font-size: 1rem;
-  line-height: 1.4;
   color: #111111;
 }
 
 .enrollSection__featureIcon {
-  flex: 0 0 auto;
+  flex-shrink: 0;
   color: #ff1f4d;
   font-size: 1.18rem;
 }
 
 .enrollSection__form {
   margin-top: 56px;
-  padding: 44px 44px 42px;
+  padding: 44px;
   border: 3px solid #65207a;
   border-radius: 31px;
   background: rgba(255, 255, 255, 0.82);
@@ -117,7 +121,7 @@
 }
 
 .enrollSection__label {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
   font-size: 0.97rem;
   color: #0c0c0c;
 }
@@ -134,7 +138,7 @@
   border-radius: 16px;
   background: #ffffff;
   padding: 0 18px;
-  font-family: "Outfit", Arial, sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1rem;
   color: #4d5b68;
   outline: none;
@@ -142,7 +146,6 @@
 
 .enrollSection__field input::placeholder {
   color: #798691;
-  opacity: 1;
 }
 
 .enrollSection__field input:focus {
@@ -152,11 +155,22 @@
 
 .enrollSection__inputWrap {
   position: relative;
-  display: block;
+  width: 100%;
 }
 
-.enrollSection__inputWrap input {
+.enrollSection__inputWrap input[type="text"] {
   padding-right: 52px;
+}
+
+/* Hidden working date input */
+.enrollSection__hiddenDate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
 }
 
 .enrollSection__calendarIcon {
@@ -167,6 +181,7 @@
   color: #717171;
   font-size: 1.15rem;
   pointer-events: none;
+  z-index: 3;
 }
 
 .enrollSection__formFooter {
@@ -181,7 +196,7 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
   font-size: 0.95rem;
   color: #121212;
 }
@@ -189,7 +204,6 @@
 .enrollSection__checkbox input {
   width: 16px;
   height: 16px;
-  margin: 0;
   accent-color: #65207a;
 }
 
@@ -201,18 +215,20 @@
   border-radius: 999px;
   background: #ff1f4d;
   color: #ffffff;
-  font-family: "Outfit", Arial, sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(255, 31, 77, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .enrollSection__button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 14px 24px rgba(255, 31, 77, 0.24);
 }
+
+/* ================== Responsive ================== */
 
 @media (max-width: 1360px) {
   .enrollSection__container {
@@ -251,8 +267,8 @@
   .enrollSection__left {
     min-height: 560px;
     max-width: 640px;
-    margin: 0 auto;
     width: 100%;
+    margin: 0 auto;
   }
 
   .enrollSection__right {
@@ -290,7 +306,7 @@
     position: relative;
     width: min(100%, 520px);
     height: auto;
-    aspect-ratio: 16 / 10.5;
+    aspect-ratio: 16/10.5;
     left: auto;
     top: auto;
     margin: 0 auto;
@@ -337,6 +353,7 @@
 
   .enrollSection__title {
     font-size: 2.15rem;
+    text-align: center;
   }
 
   .enrollSection__feature {
@@ -352,5 +369,10 @@
   .enrollSection__field input {
     height: 52px;
     border-radius: 14px;
+  }
+
+  .enrollSection__checkbox {
+    font-size: 0.88rem;
+    line-height: 1.4;
   }
 }

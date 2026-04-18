@@ -36,7 +36,7 @@ const AdmissionTable = () => {
         parentDesignation: item.guardianOccupation,
         email: item.email,
         phoneNo: item.guardianPhone,
-        notifyProgress: "Yes",
+        notifyProgress: item.notifyProgress || "No",
       }));
 
       setAdmissionTableList(formatted);
