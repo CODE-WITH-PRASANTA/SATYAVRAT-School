@@ -115,33 +115,41 @@
   cursor: pointer;
 }
 
-/* MOBILE RESPONSIVE TABLE */
+/* KEEP TABLE STRUCTURE ALWAYS */
+.ts__tableWrap {
+  margin-top: 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  overflow-x: auto; /* ✅ scroll instead of breaking */
+}
+
+/* TABLE */
+.ts__table {
+  width: 100%;
+  min-width: 700px; /* ✅ prevents collapse */
+  border-collapse: collapse;
+}
+
+/* CELLS */
+.ts__table th,
+.ts__table td {
+  padding: 12px;
+  text-align: left;
+  white-space: nowrap; /* ✅ keeps alignment */
+}
+
+/* IMAGE */
+.ts__tableImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* GRID RESPONSIVE (ONLY THIS PART) */
 @media (max-width: 768px) {
   .ts__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ts__table thead {
-    display: none;
-  }
-
-  .ts__table tr {
-    display: block;
-    margin-bottom: 15px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px;
-  }
-
-  .ts__table td {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-  }
-
-  .ts__table td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: #555;
+    grid-template-columns: 1fr; /* only form/preview stack */
   }
 }
