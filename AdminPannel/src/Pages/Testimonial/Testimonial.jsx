@@ -23,6 +23,8 @@ const Testimonial = () => {
     try {
       const res = await API.get("/testimonials");
       setTestimonials(res.data.data || []);
+      console.log(res?.data?.data);
+      
     } catch (err) {
       console.error("Fetch Error:", err);
     }

@@ -12,14 +12,16 @@ const TestimonialSection = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/testimonials");
+        const res = await axios.get(
+          "http://localhost:5000/api/testimonials"
+        );
 
-        // 🔥 IMPORTANT: handle both formats
-        const data = Array.isArray(res.data) ? res.data : res.data.data;
+        // ✅ HANDLE BOTH RESPONSE TYPES
+        const data = res.data?.data || res.data || [];
 
-        setTestimonials(data || []);
+        setTestimonials(data);
       } catch (error) {
-        console.error("Error fetching testimonials:", error);
+        console.error("Error fetching testimonials:", error.message);
       } finally {
         setLoading(false);
       }
@@ -76,7 +78,6 @@ const TestimonialSection = () => {
     );
   }
 
-  // ✅ EXTRA SAFETY (NO CRASH)
   const current = testimonials[index] || {};
 
   return (
@@ -84,15 +85,12 @@ const TestimonialSection = () => {
       <div className="testimonialSection__overlay">
         <div className="testimonialSection__container">
 
-          {/* QUOTE */}
           <FaQuoteLeft className="testimonialSection__quoteIcon" />
 
-          {/* TEXT */}
           <p className="testimonialSection__text">
             {current.text || "No message available"}
           </p>
 
-          {/* AVATAR SLIDER */}
           <div className="testimonialSection__avatars">
 
             <button
@@ -106,7 +104,8 @@ const TestimonialSection = () => {
               {testimonials.map((item, i) => (
                 <img
                   key={item._id || i}
-                  src={item.image}
+                  // ✅ FIX IMAGE PATH
+                  src={`http://localhost:5000/${item.image}`}
                   alt={item.name}
                   className={`testimonialSection__avatar ${
                     i === index ? "active" : ""
@@ -124,7 +123,6 @@ const TestimonialSection = () => {
 
           </div>
 
-          {/* NAME */}
           <h4 className="testimonialSection__name">
             {current.name || "Anonymous"}
           </h4>
