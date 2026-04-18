@@ -56,7 +56,7 @@ const Testimonial = () => {
       parentName: form.parentName || "Parent Name",
       reviewText:
         form.reviewText ||
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem.",
+        "Your Review Shows Here",
       rating: form.rating,
       image: form.image || "https://randomuser.me/api/portraits/women/44.jpg",
     }),
