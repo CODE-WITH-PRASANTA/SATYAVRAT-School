@@ -1,0 +1,228 @@
+/* ================= CSS ================= */
+
+.blog-activities {
+  padding: 90px 20px;
+  background: linear-gradient(135deg, #f9fafc, #eef5ff);
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.ba-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.ba-header h2 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #00bcd4;
+  font-weight: 500;
+}
+
+.desc {
+  font-size: 14px;
+  color: #666;
+}
+
+/* GRID */
+.ba-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+/* ================= LEFT ================= */
+
+.ba-card {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  transition: 0.3s;
+}
+
+.ba-card:hover {
+  transform: translateY(-6px);
+}
+
+.ba-img {
+  position: relative;
+}
+
+.ba-img img {
+  width: 130px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.ba-date {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #00bcd4;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.ba-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.meta {
+  font-size: 12px;
+  color: #999;
+  display: flex;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.ba-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ================= RIGHT ================= */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background: #eee;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.tabs button:hover {
+  background: #00bcd4;
+  color: #fff;
+}
+
+.tabs .active {
+  background: #00bcd4;
+  color: #fff;
+}
+
+/* TAB CARD */
+.tab-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  animation: fadeIn 0.4s ease;
+}
+
+.mini-card {
+  display: flex;
+  gap: 15px;
+  transition: 0.3s;
+}
+
+.mini-card:hover {
+  transform: translateX(5px);
+}
+
+.mini-card img {
+  width: 90px;
+  height: 75px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.mini-card h5 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mini-card p {
+  font-size: 12px;
+  color: #777;
+}
+
+.divider {
+  height: 1px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+/* ================= 🔥 NEW BANNER ================= */
+
+.tab-banner {
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tab-banner img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: 0.4s ease;
+}
+
+/* Hover zoom */
+.tab-banner:hover img {
+  transform: scale(1.05);
+}
+
+/* Optional overlay */
+.tab-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .ba-content {
+    grid-template-columns: 1fr;
+  }
+
+  .ba-card {
+    flex-direction: column;
+  }
+
+  .ba-img img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .tab-banner img {
+    height: 180px;
+  }
+}

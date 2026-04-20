@@ -57,6 +57,7 @@ function App() {
           <Route path="/admin/cold-lead" element={<ColdLead />} />
           <Route path="/admin/cold-lead-table" element={<ColdLeadTable />} />
           
+          
         </Route>
       </Routes>
     </BrowserRouter>

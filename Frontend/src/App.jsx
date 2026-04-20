@@ -8,6 +8,7 @@ import Footer from "./Pages/Footer/Footer";
 import FloatingForm from "./Pages/FloatingForm/FloatingForm";
 import FloatingIcons from "./Pages/FloatingIcons/FloatingIcons";
 import Home from "./Pages/Home/Home";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         
        <Route path="/" element={<Home />} />
+       <Route path="/blog-details" element={<BlogDetails/>}/>
 
       </Routes>
 
