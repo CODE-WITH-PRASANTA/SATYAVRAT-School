@@ -25,6 +25,12 @@ import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
+import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
+import Studentleave from "./Pages/Studentleave/Studentleave";
+import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
+import AddExpense from "./Pages/AddExpense/AddExpense";
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 function App() {
   return (
@@ -71,6 +77,13 @@ function App() {
          <Route path="exam-result-manager" element={<ExamResultAdmin />} />
          <Route path="/exam-type" element={<ExamTypeAdmin />} />
          <Route path="/exam-report" element={<ExamProgressReport />} />
+          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
+          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
+          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
+          <Route path="/expense/details" element={< AddExpense/>}/>
+          <Route path="/expense-search"element={<ExpenseSearch/>}/>
+          <Route path="/expense-head"element={<ExpenseHead/>}/>
+          
           
         </Route>
       </Routes>

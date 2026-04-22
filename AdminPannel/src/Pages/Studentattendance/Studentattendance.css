@@ -1,0 +1,365 @@
+.StudentAttendance-container{
+  padding:20px;
+  background:#eef2f7;
+}
+
+/* CARD */
+.StudentAttendance-card{
+  background:#fff;
+  border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  border:1px solid #fbcfe8;
+}
+
+/* HEADER */
+.StudentAttendance-cardHeader{
+  background:#fde2e7;
+  padding:16px 20px;
+  font-weight:600;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-radius:16px 16px 0 0;
+}
+
+/* BUTTONS */
+.StudentAttendance-btnPrimary,
+.StudentAttendance-headerBtns button,
+.StudentAttendance-btnSearch{
+  background:#1e3a8a;
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.StudentAttendance-headerBtns{
+  display:flex;
+  gap:10px;
+}
+
+/* FORM GRID */
+.StudentAttendance-formGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  padding:20px;
+}
+
+.StudentAttendance-formGrid label{
+  font-size:13px;
+  font-weight:600;
+  display:block;
+  margin-bottom:6px;
+}
+
+.StudentAttendance-formGrid select,
+.StudentAttendance-formGrid input{
+  width:100%;
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #c7d2fe;
+}
+
+/* SEARCH */
+.StudentAttendance-searchRow{
+  padding:0 20px 20px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+/* TOOLBAR */
+.StudentAttendance-toolbar{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 20px;
+}
+
+/* TABLE */
+.StudentAttendance-tableWrapper{
+  overflow-x:auto;
+}
+
+.StudentAttendance-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+}
+
+.StudentAttendance-table th{
+  background:#f8d7da;
+  padding:12px;
+  border:1px solid #e5e7eb;
+}
+
+.StudentAttendance-table td{
+  padding:10px;
+  border:1px solid #e5e7eb;
+}
+
+.StudentAttendance-table select,
+.StudentAttendance-table input{
+  width:100%;
+  padding:6px;
+}
+
+/* EMPTY */
+.StudentAttendance-empty{
+  text-align:center;
+  padding:30px;
+  color:#64748b;
+}
+
+/* FOOTER */
+.StudentAttendance-footer{
+  padding:14px 20px;
+  font-size:14px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .StudentAttendance-formGrid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px){
+  .StudentAttendance-formGrid{
+    grid-template-columns:1fr;
+  }
+
+  .StudentAttendance-cardHeader{
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-start;
+  }
+}
+/* ================= PROFESSIONAL INPUT STYLE ================= */
+
+.StudentAttendance-formGrid select,
+.StudentAttendance-formGrid input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 8px;
+
+  /* clean professional look */
+  border: 1.5px solid #c7d2fe;
+  background-color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+
+  transition: all 0.25s ease;
+  appearance: none;
+}
+
+/* placeholder visibility */
+.StudentAttendance-formGrid input::placeholder {
+  color: #64748b;
+  font-weight: 500;
+  opacity: 1;
+}
+
+/* dropdown text color */
+.StudentAttendance-formGrid select {
+  color: #0f172a;
+  cursor: pointer;
+}
+
+/* focus effect (premium admin feel) */
+.StudentAttendance-formGrid select:focus,
+.StudentAttendance-formGrid input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* label improvement */
+.StudentAttendance-formGrid label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+/* date input icon alignment */
+.StudentAttendance-formGrid input[type="date"] {
+  padding-right: 10px;
+}
+
+
+/* ================= PAGINATION ================= */
+
+.StudentAttendance-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* prev & next */
+.page-nav {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.page-nav:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.page-nav:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.page-nav:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* numbers */
+.page-number {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-left: none;
+  background: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.page-number:hover {
+  background: #eef2ff;
+}
+
+/* active page */
+.page-number.active {
+  background: #1e3a8a;
+  color: white;
+  border-color: #1e3a8a;
+}
+
+/* =====================================================
+   ✅ RESPONSIVE ADMIN PANEL IMPROVEMENTS
+===================================================== */
+
+/* ---------- LARGE TABLETS ---------- */
+@media (max-width: 1100px){
+
+  .StudentAttendance-formGrid{
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .StudentAttendance-toolbar{
+    flex-wrap: wrap;
+    gap:10px;
+  }
+}
+
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 768px){
+
+  .StudentAttendance-container{
+    padding:14px;
+  }
+
+  /* header stack */
+  .StudentAttendance-cardHeader{
+    flex-direction: column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .StudentAttendance-headerBtns{
+    width:100%;
+    justify-content:flex-start;
+    flex-wrap:wrap;
+  }
+
+  /* search button alignment */
+  .StudentAttendance-searchRow{
+    justify-content:flex-start;
+  }
+
+  /* toolbar stack */
+  .StudentAttendance-toolbar{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  /* table spacing */
+  .StudentAttendance-table th,
+  .StudentAttendance-table td{
+    padding:10px 8px;
+    font-size:13px;
+  }
+
+}
+
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 600px){
+
+  /* single column form */
+  .StudentAttendance-formGrid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+
+  /* buttons full width */
+  .StudentAttendance-btnPrimary,
+  .StudentAttendance-btnSearch,
+  .StudentAttendance-headerBtns button{
+    width:100%;
+    text-align:center;
+  }
+
+  /* pagination wrap nicely */
+  .StudentAttendance-pagination{
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .page-number,
+  .page-nav{
+    padding:7px 12px;
+    font-size:13px;
+  }
+
+}
+
+
+/* ---------- SMALL MOBILE ---------- */
+@media (max-width: 420px){
+
+  .StudentAttendance-container{
+    padding:10px;
+  }
+
+  .StudentAttendance-card{
+    border-radius:12px;
+  }
+
+  .StudentAttendance-cardHeader{
+    padding:14px;
+    font-size:14px;
+  }
+
+  .StudentAttendance-table{
+    min-width:700px; /* keeps horizontal scroll */
+  }
+
+}
+
+
+
+

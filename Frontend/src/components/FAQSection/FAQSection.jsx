@@ -6,48 +6,54 @@ const FAQSection = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 👉 FAQ data per page
+  // 👉 SEO-friendly FAQ data
   const faqPages = {
     1: [
       {
-        question: "How is Montessori different from traditional schooling?",
+        question: "What facilities are available at Satyavrat Vidya Niketan High School?",
         answer:
-          "Montessori focuses on understanding through activities instead of memorization.",
+          "Our school provides a clean and safe campus, experienced teachers, and a supportive environment where students can focus on learning and overall development.",
       },
       {
-        question: "Does Montessori focus on development?",
+        question: "How does the school support student learning?",
         answer:
-          "Yes, it supports cognitive, emotional, and social growth.",
+          "We follow simple and effective teaching methods that help students understand concepts clearly and build a strong academic foundation.",
       },
     ],
     2: [
       {
-        question: "What age is best for Montessori?",
-        answer: "Early childhood (2–6 years) is ideal.",
+        question: "What is the admission process?",
+        answer:
+          "Parents can visit the school, meet the staff, and complete the admission form. Our team will guide you through every step.",
       },
       {
-        question: "Is Montessori expensive?",
-        answer: "It depends on the school and facilities.",
+        question: "Does the school focus on overall development?",
+        answer:
+          "Yes, along with studies, we encourage activities that help improve confidence, discipline, and communication skills.",
       },
     ],
     3: [
       {
-        question: "Does Montessori include exams?",
-        answer: "No, it focuses on practical learning.",
+        question: "Are qualified teachers available?",
+        answer:
+          "Yes, our teachers are experienced and dedicated to helping every student learn in a simple and friendly way.",
       },
       {
-        question: "Is Montessori good for creativity?",
-        answer: "Yes, it encourages creativity strongly.",
+        question: "Is the school environment safe for children?",
+        answer:
+          "Safety is our priority. We ensure a secure and positive environment where children feel comfortable and cared for.",
       },
     ],
     4: [
       {
-        question: "Do kids get homework?",
-        answer: "Usually minimal or none.",
+        question: "Do students get individual attention?",
+        answer:
+          "We try to give proper attention to each student so they can improve at their own pace and perform better.",
       },
       {
-        question: "Is Montessori globally accepted?",
-        answer: "Yes, it is widely used worldwide.",
+        question: "Why choose Satyavrat Vidya Niketan High School?",
+        answer:
+          "Because we focus on quality education, good values, and helping every child grow into a responsible and confident individual.",
       },
     ],
   };
@@ -59,7 +65,10 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="faq-section">
+    <section
+      className="faq-section"
+      aria-label="Frequently Asked Questions - Satyavrat Vidya Niketan High School"
+    >
       <div className="faq-container container">
 
         {/* LEFT SIDE */}
@@ -69,16 +78,23 @@ const FAQSection = () => {
           <div className="circle red"></div>
           <div className="circle orange"></div>
 
-          <img src={childImg} alt="child" className="faq-image" />
+          <img
+            src={childImg}
+            alt="Students of Satyavrat Vidya Niketan High School"
+            className="faq-image"
+            loading="lazy"
+          />
         </div>
 
         {/* RIGHT SIDE */}
         <div className="faq-right">
-          <p className="faq-subtitle">Frequently Asked Questions</p>
+          <p className="faq-subtitle">
+            Frequently Asked Questions
+          </p>
 
           <h2 className="faq-title">
-            Bright Stars Montessori – <br />
-            Common Questions About Early Learning
+            Satyavrat Vidya Niketan High School – <br />
+            Common Questions from Parents and Students
           </h2>
 
           {/* FAQ LIST */}
