@@ -11,18 +11,23 @@ import {
 
 const KindergartenSection = () => {
   return (
-    <section className="kindergartenSection">
+    <section
+      className="kindergartenSection"
+      aria-label="Kindergarten Program - Satyavrat Vidya Niketan High School"
+    >
       <div className="kindergartenSection__container">
 
         {/* HEADER */}
         <div className="kindergartenSection__header">
-          <h2>WELCOME TO KINDERGARTEN</h2>
+          <h2>Welcome to Our Kindergarten</h2>
+
           <p className="kindergartenSection__subtitle">
-            About Our Play School
+            Satyavrat Vidya Niketan High School
           </p>
+
           <p className="kindergartenSection__description">
-            We're a childcare centre with an engaging curriculum backed by
-            qualified, experienced teachers.
+            Our kindergarten program is designed to give young learners a happy and safe start to their education. 
+            We focus on basic learning, good habits, and building confidence in every child through simple and engaging activities.
           </p>
         </div>
 
@@ -34,10 +39,9 @@ const KindergartenSection = () => {
 
             <div className="kindergartenSection__item">
               <div className="text">
-                <h4>Funny and Happy</h4>
+                <h4>Joyful Learning Environment</h4>
                 <p>
-                  We are group of teachers who really love children and enjoy
-                  every moment.
+                  Children learn best when they are happy. We create a friendly space where kids enjoy learning through play, stories, and activities.
                 </p>
               </div>
 
@@ -50,10 +54,9 @@ const KindergartenSection = () => {
 
             <div className="kindergartenSection__item">
               <div className="text">
-                <h4>Fulfill With Love</h4>
+                <h4>Caring and Supportive Atmosphere</h4>
                 <p>
-                  We are group of teachers who really love children and enjoy
-                  every moment.
+                  Our teachers treat every child with care and attention, helping them feel safe, valued, and confident in school.
                 </p>
               </div>
 
@@ -68,7 +71,11 @@ const KindergartenSection = () => {
 
           {/* CENTER IMAGE */}
           <div className="kindergartenSection__center">
-            <img src={kidImg} alt="kid" />
+            <img
+              src={kidImg}
+              alt="Kindergarten students learning at Satyavrat Vidya Niketan High School"
+              loading="lazy"
+            />
           </div>
 
           {/* RIGHT SIDE */}
@@ -82,10 +89,9 @@ const KindergartenSection = () => {
               </div>
 
               <div className="text">
-                <h4>Professional Teaching</h4>
+                <h4>Experienced Teaching Staff</h4>
                 <p>
-                  We are group of teachers who really love children and enjoy
-                  every moment.
+                  Our trained teachers guide children with simple methods that make learning easy, interesting, and effective.
                 </p>
               </div>
             </div>
@@ -98,10 +104,9 @@ const KindergartenSection = () => {
               </div>
 
               <div className="text">
-                <h4>Fully Equipped</h4>
+                <h4>Strong Learning Foundation</h4>
                 <p>
-                  We are group of teachers who really love children and enjoy
-                  every moment.
+                  We help children build basic skills in reading, writing, and communication to prepare them for future classes.
                 </p>
               </div>
             </div>
