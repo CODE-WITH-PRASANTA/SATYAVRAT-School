@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Galleryposting.css";
-import API, { IMAGE_URL } from "../../api/axios"; // ✅ ADDED
+import API, { IMAGE_URL } from "../../Api/axios"; // ✅ ADDED
 
 const Galleryposting = () => {
   const [gallerypostingForm, setGallerypostingForm] = useState({

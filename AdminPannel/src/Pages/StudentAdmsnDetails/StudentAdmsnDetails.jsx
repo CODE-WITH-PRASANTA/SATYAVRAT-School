@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./StudentAdmsnDetails.css";
-import API, { IMAGE_URL } from "../../api/axios";
+import API, { IMAGE_URL } from "../../Api/axios";
 export default function StudentAdmsnDetails() {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);

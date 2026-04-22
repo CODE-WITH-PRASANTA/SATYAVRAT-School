@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import "./AdmissionTable.css";
-import API from "../../api/axios";
+import API from "../../Api/axios";
 
 const AdmissionTable = () => {
   const [admissionTableList, setAdmissionTableList] = useState([]);
@@ -36,7 +36,7 @@ const AdmissionTable = () => {
         parentDesignation: item.guardianOccupation,
         email: item.email,
         phoneNo: item.guardianPhone,
-        notifyProgress: "Yes",
+        notifyProgress: item.notifyProgress || "No",
       }));
 
       setAdmissionTableList(formatted);

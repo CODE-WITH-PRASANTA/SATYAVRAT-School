@@ -8,19 +8,56 @@ import Teacher from '../../components/Teacher/Teacher'
 import BlogActivitesHome from '../../components/BlogActivitesHome/BlogActivitesHome'
 import OurClasses from '../../components/OurClasses/OurClasses'
 import EnrollSection from '../../components/EnrollSection/EnrollSection'
+import FAQSection from '../../components/FAQSection/FAQSection'
 
 const Home = () => {
   return (
     <div>
-      <HeroSection />
-      < KindergartenSection />
-      <OurClasses />
-      <EnrollSection />
-      <GetInvolvedSection/>
-      <TestimonialSection/>
-      <Gallery/>
-      <Teacher/>
-      <BlogActivitesHome/>
+
+      <section id="home">
+        <HeroSection />
+      </section>
+
+      <section id="about">
+        <KindergartenSection />
+      </section>
+
+      <section id="whychooseus">
+        <GetInvolvedSection/>
+      </section>
+
+      <section id="classes">
+        <OurClasses />
+      </section>
+
+      <section id="programms">
+        <EnrollSection />
+      </section>
+
+      <section id="teachers">
+        <Teacher/>
+      </section>
+
+      <section id="gallery">
+        <Gallery/>
+      </section>
+
+      <section id="news">
+        <BlogActivitesHome/>
+      </section>
+
+      <section id="testimonials">
+        <TestimonialSection/>
+      </section>
+
+      <section id="faq">
+        <FAQSection/>
+      </section>
+
+      <section id="contact">
+        {/* You can place your Contact component here */}
+      </section>
+
     </div>
   )
 }
