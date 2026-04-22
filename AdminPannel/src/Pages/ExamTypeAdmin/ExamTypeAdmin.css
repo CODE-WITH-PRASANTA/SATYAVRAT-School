@@ -1,0 +1,122 @@
+.examType-container {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.examType-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+.examType-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.examType-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.examType-btn {
+  padding: 10px 16px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.examType-btn:hover {
+  background: #0056b3;
+}
+
+/* LIST */
+.examType-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.examType-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.examType-name {
+  font-weight: 500;
+}
+
+/* ACTIONS */
+.examType-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.status-btn {
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  background: transparent;
+}
+
+.status-btn.published {
+  color: #28a745;
+}
+
+.status-btn.unpublished {
+  color: #6c757d;
+}
+
+.delete-btn {
+  color: #dc3545;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .examType-form {
+    flex-direction: column;
+  }
+
+  .examType-btn {
+    width: 100%;
+  }
+
+  .examType-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .examType-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .examType-title {
+    font-size: 20px;
+  }
+
+  .examType-card {
+    padding: 10px;
+  }
+}
