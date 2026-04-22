@@ -7,17 +7,16 @@ import {
   FaLinkedinIn
 } from "react-icons/fa";
 
-import logo from "../../assets/logo-2.png"; // adjust path
+import logo from "../../assets/logo-2.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
-
       <div className="footer-container">
 
-        {/* LEFT SECTION */}
+        {/* ABOUT */}
         <div className="footer-col footer-about">
-          <img src={logo} alt="logo" className="footer-logo" />
+          <img src={logo} alt="School Logo" className="footer-logo" />
 
           <p>
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
@@ -25,10 +24,10 @@ const Footer = () => {
           </p>
 
           <div className="footer-social">
-            <div><FaFacebookF /></div>
-            <div><FaTwitter /></div>
-            <div><FaGooglePlusG /></div>
-            <div><FaLinkedinIn /></div>
+            <a href="#"><FaFacebookF /></a>
+            <a href="#"><FaTwitter /></a>
+            <a href="#"><FaGooglePlusG /></a>
+            <a href="#"><FaLinkedinIn /></a>
           </div>
         </div>
 
@@ -36,43 +35,45 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Quick Links</h3>
           <ul>
-            <li>Home</li>
-            <li>Classes</li>
-            <li>Teachers</li>
-            <li>Latest News</li>
-            <li>Contact Us</li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#classes">Classes</a></li>
+            <li><a href="#teachers">Teachers</a></li>
+            <li><a href="#news">Latest News</a></li>
+            <li><a href="#contact">Contact Us</a></li>
           </ul>
         </div>
 
-        {/* CATEGORIES */}
+        {/* CATEGORIES (RESTORED) */}
         <div className="footer-col">
           <h3>Categories</h3>
           <ul>
-            <li>Painting</li>
-            <li>Drawing</li>
-            <li className="active">Sports, Games</li>
-            <li>Life Science</li>
-            <li>Activities & Events</li>
+            <li><a href="#classes">Painting</a></li>
+            <li><a href="#classes">Drawing</a></li>
+            <li className="active"><a href="#classes">Sports, Games</a></li>
+            <li><a href="#classes">Life Science</a></li>
+            <li><a href="#classes">Activities & Events</a></li>
           </ul>
         </div>
 
         {/* NEWSLETTER */}
         <div className="footer-col footer-newsletter">
-          <h3>News Letter</h3>
+          <h3>Newsletter</h3>
 
-          <input type="text" placeholder="Name *" />
-          <input type="email" placeholder="Email Id" />
-
-          <button>SUBSCRIBE</button>
+          <form>
+            <input type="text" placeholder="Name *" />
+            <input type="email" placeholder="Email Id" />
+            <button type="submit">SUBSCRIBE</button>
+          </form>
         </div>
 
       </div>
 
       {/* BOTTOM */}
       <div className="footer-bottom">
-        <p>© 2026 SATYAVRAT VIDYA NIKETAN HIGH SCHOOL. Made with  for Education | Developed by PR WEBSTOCK</p>
+        <p>
+          © 2026 SATYAVRAT VIDYA NIKETAN HIGH SCHOOL. Made with ❤️ for Education | Developed by PR WEBSTOCK
+        </p>
       </div>
-
     </footer>
   );
 };

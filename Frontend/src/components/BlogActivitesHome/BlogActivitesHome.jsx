@@ -1,43 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./BlogActivitesHome.css";
+import API, { IMAGE_URL } from "../../api/axios";
 
 const BlogActivitesHome = () => {
   const [activeTab, setActiveTab] = useState("education");
+  const [newsData, setNewsData] = useState([]);
 
-  const tabData = {
-    education: [
-      {
-        title: "LET THE LEARNING BEGIN",
-        img: "https://images.unsplash.com/photo-1588072432836-e10032774350",
-        desc: "We are group of teachers who really love childrens and enjoy every moment of teaching.",
-      },
-      {
-        title: "SPECIAL COURSES PROGRAMMES",
-        img: "https://images.unsplash.com/photo-1577896851231-70ef18881754",
-        desc: "We are group of teachers who really love childrens and enjoy every moment of teaching.",
-      },
-    ],
-    activities: [
-      {
-        title: "FUN ACTIVITIES",
-        img: "https://images.unsplash.com/photo-1603575448363-8f7c9fbe8f5d",
-        desc: "Kids enjoying fun activities and learning with joy.",
-      },
-    ],
-    painting: [
-      {
-        title: "CREATIVE PAINTING",
-        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b",
-        desc: "Creative painting improves imagination and skills.",
-      },
-    ],
-    games: [
-      {
-        title: "INDOOR & OUTDOOR GAMES",
-        img: "https://images.unsplash.com/photo-1596464716127-f2a82984de30",
-        desc: "Games help children stay active and social.",
-      },
-    ],
+  useEffect(() => {
+    const loadNews = async () => {
+      try {
+        const res = await API.get("/news");
+
+        const data = Array.isArray(res.data.data)
+          ? res.data.data
+          : [];
+
+        console.log("NEWS DATA:", data); // DEBUG
+        setNewsData(data);
+      } catch (error) {
+        console.error("API Error:", error);
+        setNewsData([]);
+      }
+    };
+
+    loadNews();
+  }, []);
+
+  const filteredData = newsData.filter(
+    (item) =>
+      item?.category?.toLowerCase() === activeTab.toLowerCase()
+  );
+
+  // ✅ FINAL IMAGE HANDLER (STRONG FIX)
+  const getImage = (img) => {
+    if (!img) return "https://via.placeholder.com/150";
+
+    console.log("IMAGE PATH:", img); // DEBUG
+
+    // already full URL
+    if (img.startsWith("http")) return img;
+
+    // remove duplicate slashes
+    const cleanPath = img.startsWith("/") ? img : `/${img}`;
+
+    return `${IMAGE_URL}${cleanPath}`;
   };
 
   return (
@@ -57,91 +63,107 @@ const BlogActivitesHome = () => {
 
           {/* LEFT */}
           <div className="ba-left">
-            {[1, 2, 3].map((item, i) => (
-              <div className="ba-card" key={i}>
-                <div className="ba-img">
-                  <img
-                    src={
-                      i === 0
-                        ? "https://images.unsplash.com/photo-1516627145497-ae6968895b74" // kids music
-                        : i === 1
-                        ? "https://images.unsplash.com/photo-1522202176988-66273c2fd55f" // school kids group
-                        : "https://images.unsplash.com/photo-1588072432836-e10032774350" // kids learning
-                    }
-                    alt="kids"
-                  />
-                  <div className="ba-date">1 Apr</div>
-                </div>
+            {newsData.length > 0 ? (
+              newsData.slice(0, 3).map((item, i) => (
+                <div className="ba-card" key={i}>
 
-                <div className="ba-info">
-                  <h4>
-                    {i === 0
-                      ? "MUSIC ACTIVITIES"
-                      : i === 1
-                      ? "SCHOOL ANNIVERSARY"
-                      : "BIO SPECIAL"}
-                  </h4>
+                  <div className="ba-img">
+                    <img
+                      src={getImage(item.image)}
+                      alt="news"
+                      onError={(e) => {
+                        console.log("❌ Image failed:", item.image);
+                        e.target.src = "https://via.placeholder.com/150";
+                      }}
+                    />
 
-                  <div className="meta">
-                    <span>👤 Adam Rose</span>
-                    <span>💬 {7 - i} Comments</span>
+                    <div className="ba-date">
+                      {item?.date
+                        ? new Date(item.date).toDateString()
+                        : "No Date"}
+                    </div>
                   </div>
 
-                  <p>
-                    Nulla ac condimentum mauris, ac laoreet enim. Pellentesque nunc nibh.
-                  </p>
+                  <div className="ba-info">
+                    <h4>{item?.title}</h4>
+
+                    <div className="meta">
+                      <span>👤 Admin</span>
+                      <span>💬 0 Comments</span>
+                    </div>
+
+                    <p>{item?.description}</p>
+                  </div>
+
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No data available</p>
+            )}
           </div>
 
           {/* RIGHT */}
           <div className="ba-right">
 
+            {/* TABS */}
             <div className="tabs">
-              <button
-                className={activeTab === "education" ? "active" : ""}
-                onClick={() => setActiveTab("education")}
-              >
-                EDUCATION
-              </button>
-              <button
-                className={activeTab === "activities" ? "active" : ""}
-                onClick={() => setActiveTab("activities")}
-              >
-                ACTIVITIES
-              </button>
-              <button
-                className={activeTab === "painting" ? "active" : ""}
-                onClick={() => setActiveTab("painting")}
-              >
-                PAINTING
-              </button>
-              <button
-                className={activeTab === "games" ? "active" : ""}
-                onClick={() => setActiveTab("games")}
-              >
-                GAMES
-              </button>
-            </div>
-
-            <div className="tab-content">
-              {tabData[activeTab].map((item, i) => (
-                <div key={i}>
-                  <div className="mini-card">
-                    <img src={item.img} alt="kids" />
-                    <div>
-                      <h5>{item.title}</h5>
-                      <p>{item.desc}</p>
-                    </div>
-                  </div>
-
-                  {i !== tabData[activeTab].length - 1 && (
-                    <div className="divider"></div>
-                  )}
-                </div>
+              {["education", "activities", "painting", "games"].map((tab) => (
+                <button
+                  key={tab}
+                  className={activeTab === tab ? "active" : ""}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab.toUpperCase()}
+                </button>
               ))}
             </div>
+
+            {/* TAB CONTENT */}
+            <div className="tab-content">
+              {filteredData.length > 0 ? (
+                filteredData.map((item, i) => (
+                  <div key={i}>
+
+                    <div className="mini-card">
+                      <img
+                        src={getImage(item.image)}
+                        alt="news"
+                        onError={(e) => {
+                          console.log("❌ Image failed:", item.image);
+                          e.target.src = "https://via.placeholder.com/100";
+                        }}
+                      />
+
+                      <div>
+                        <h5>{item?.title}</h5>
+                        <p>{item?.description}</p>
+                      </div>
+                    </div>
+
+                    {i !== filteredData.length - 1 && (
+                      <div className="divider"></div>
+                    )}
+
+                  </div>
+                ))
+              ) : (
+                <p>No data in this category</p>
+              )}
+            </div>
+
+            {/* BANNER */}
+            {filteredData[0]?.image && (
+              <div className="tab-banner">
+                <img
+                  src={getImage(filteredData[0].image)}
+                  alt="banner"
+                  onError={(e) => {
+                    console.log("❌ Banner failed:", filteredData[0].image);
+                    e.target.src = "https://via.placeholder.com/600x200";
+                  }}
+                />
+              </div>
+            )}
 
           </div>
         </div>

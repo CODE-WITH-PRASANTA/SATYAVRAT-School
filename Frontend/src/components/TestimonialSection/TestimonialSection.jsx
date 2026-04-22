@@ -1,69 +1,93 @@
 import React, { useState, useEffect } from "react";
 import "./TestimonialSection.css";
 import { FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "KRISTEN STEWART",
-    role: "Parents",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa.",
-  },
-  {
-    id: 2,
-    name: "JOHN DOE",
-    role: "Parents",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-  },
-  {
-    id: 3,
-    name: "EMMA WATSON",
-    role: "Parents",
-    image: "https://randomuser.me/api/portraits/women/65.jpg",
-    text: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-  },
-];
+import axios from "axios";
 
 const TestimonialSection = () => {
+  const [testimonials, setTestimonials] = useState([]);
   const [index, setIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const IMAGE_URL = "http://localhost:5000";
 
-  // AUTO SLIDE
+  // ✅ FETCH DATA FROM BACKEND
   useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/testimonials");
+
+        // ✅ HANDLE BOTH RESPONSE TYPES
+        const data = res.data?.data || res.data || [];
+
+        setTestimonials(data);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  // ✅ RESET INDEX WHEN DATA LOADS
+  useEffect(() => {
+    if (testimonials.length > 0) {
+      setIndex(0);
+    }
+  }, [testimonials]);
+
+  // ✅ AUTO SLIDE
+  useEffect(() => {
+    if (testimonials.length === 0) return;
+
     const interval = setInterval(() => {
-      nextSlide();
+      setIndex((prev) => (prev + 1) % testimonials.length);
     }, 4000);
+
     return () => clearInterval(interval);
-  }, [index]);
+  }, [testimonials]);
 
   const nextSlide = () => {
+    if (testimonials.length === 0) return;
     setIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevSlide = () => {
-    setIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
+    if (testimonials.length === 0) return;
+    setIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
+
+  // ✅ LOADING
+  if (loading) {
+    return (
+      <p style={{ textAlign: "center", padding: "40px" }}>
+        Loading testimonials...
+      </p>
+    );
+  }
+
+  // ✅ EMPTY STATE
+  if (!testimonials || testimonials.length === 0) {
+    return (
+      <p style={{ textAlign: "center", padding: "40px" }}>
+        No testimonials found
+      </p>
+    );
+  }
+
+  const current = testimonials[index] || {};
 
   return (
     <section className="testimonialSection">
       <div className="testimonialSection__overlay">
-
         <div className="testimonialSection__container">
-
-          {/* QUOTE */}
           <FaQuoteLeft className="testimonialSection__quoteIcon" />
 
-          {/* TEXT */}
           <p className="testimonialSection__text">
-            {testimonials[index].text}
+            {current.reviewText || "No message available"}
           </p>
 
-          {/* AVATAR SLIDER */}
           <div className="testimonialSection__avatars">
-
             <button
               className="testimonialSection__arrow left"
               onClick={prevSlide}
@@ -74,8 +98,10 @@ const TestimonialSection = () => {
             <div className="testimonialSection__avatarList">
               {testimonials.map((item, i) => (
                 <img
-                  key={item.id}
-                  src={item.image}
+                  key={item._id || i}
+                  
+                  // ✅ FIX IMAGE PATH
+                  src={`${IMAGE_URL}${item.image}`}
                   alt={item.name}
                   className={`testimonialSection__avatar ${
                     i === index ? "active" : ""
@@ -90,17 +116,13 @@ const TestimonialSection = () => {
             >
               <FaChevronRight />
             </button>
-
           </div>
 
-          {/* NAME */}
           <h4 className="testimonialSection__name">
-            {testimonials[index].name}
+            {current.parentName || "Anonymous"}
           </h4>
-          <span className="testimonialSection__role">
-            {testimonials[index].role}
-          </span>
 
+          <span className="testimonialSection__role">{current.role || ""}</span>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import "./Teacher.css";
-import API, { IMAGE_URL } from "../../api/axios"; // ✅ use your api
+import API, { IMAGE_URL } from "../../Api/axios"; // ✅ use your api
 import {
   FaFacebookF,
   FaInstagram,
