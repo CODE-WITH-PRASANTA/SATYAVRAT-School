@@ -9,6 +9,7 @@ import BlogActivitesHome from '../../components/BlogActivitesHome/BlogActivitesH
 import OurClasses from '../../components/OurClasses/OurClasses'
 import EnrollSection from '../../components/EnrollSection/EnrollSection'
 import FAQSection from '../../components/FAQSection/FAQSection'
+import VissionMission from '../../components/VissionMission/VissionMission'
 
 const Home = () => {
   return (
@@ -21,6 +22,8 @@ const Home = () => {
       <section id="about">
         <KindergartenSection />
       </section>
+
+      <VissionMission />
 
       <section id="whychooseus">
         <GetInvolvedSection/>
