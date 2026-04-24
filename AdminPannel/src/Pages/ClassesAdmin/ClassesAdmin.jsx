@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from "../../api/axios";
+import API from "../../api/axios"; // make sure this file exists
 import "./ClassesAdmin.css";
 
 export default function ClassesAdmin() {
@@ -13,12 +13,13 @@ export default function ClassesAdmin() {
   const [search, setSearch] = useState("");
   const [editId, setEditId] = useState(null);
 
+  // 🔁 FETCH CLASSES FROM BACKEND
   const fetchClasses = async () => {
     try {
       const res = await API.get("/classes");
       setClasses(res.data.data || []);
     } catch (err) {
-      console.error(err);
+      console.error("Fetch Error:", err);
     }
   };
 
@@ -26,6 +27,7 @@ export default function ClassesAdmin() {
     fetchClasses();
   }, []);
 
+  // 🧾 HANDLE INPUT
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -33,33 +35,38 @@ export default function ClassesAdmin() {
     });
   };
 
+  // 🚀 SUBMIT (POST / PUT)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (editId) {
+        // UPDATE
         await API.put(`/classes/${editId}`, form);
       } else {
+        // CREATE
         await API.post("/classes", form);
       }
 
-      fetchClasses();
+      fetchClasses(); // refresh list
       setForm(emptyForm);
       setEditId(null);
     } catch (err) {
-      console.error(err);
+      console.error("Submit Error:", err);
     }
   };
 
+  // ❌ DELETE
   const deleteClass = async (id) => {
     try {
       await API.delete(`/classes/${id}`);
       fetchClasses();
     } catch (err) {
-      console.error(err);
+      console.error("Delete Error:", err);
     }
   };
 
+  // ✏️ EDIT
   const editClass = (c) => {
     setForm({
       className: c.className || "",
@@ -70,6 +77,7 @@ export default function ClassesAdmin() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // 🔍 SEARCH FILTER
   const filteredClasses = classes.filter((c) =>
     (c.className || "").toLowerCase().includes(search.toLowerCase())
   );
@@ -93,6 +101,7 @@ export default function ClassesAdmin() {
                 value={form.className}
                 onChange={handleChange}
                 placeholder="Example: Class 1"
+                required
               />
             </div>
 
@@ -103,6 +112,7 @@ export default function ClassesAdmin() {
                 value={form.sectionName}
                 onChange={handleChange}
                 placeholder="Example: A"
+                required
               />
             </div>
           </div>

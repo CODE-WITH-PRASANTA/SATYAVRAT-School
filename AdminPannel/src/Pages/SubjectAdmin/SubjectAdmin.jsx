@@ -17,12 +17,13 @@ export default function SubjectAdmin() {
   const [search, setSearch] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
+  // 🔁 FETCH FROM BACKEND
   const fetchSubjects = async () => {
     try {
       const res = await API.get("/subjects");
       setSubjects(res.data.data || []);
     } catch (err) {
-      console.error(err);
+      console.error("FETCH ERROR:", err);
     }
   };
 
@@ -30,14 +31,18 @@ export default function SubjectAdmin() {
     fetchSubjects();
   }, []);
 
+  // 🧾 INPUT HANDLER
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // 🖼 IMAGE HANDLER
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
+
+      // preview
       setForm({
         ...form,
         image: URL.createObjectURL(file),
@@ -45,6 +50,7 @@ export default function SubjectAdmin() {
     }
   };
 
+  // 🚀 SUBMIT (POST / PUT)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,19 +77,21 @@ export default function SubjectAdmin() {
       setImageFile(null);
       setEditId(null);
     } catch (err) {
-      console.error(err);
+      console.error("SUBMIT ERROR:", err);
     }
   };
 
+  // ❌ DELETE
   const deleteSubject = async (id) => {
     try {
       await API.delete(`/subjects/${id}`);
       fetchSubjects();
     } catch (err) {
-      console.error(err);
+      console.error("DELETE ERROR:", err);
     }
   };
 
+  // ✏️ EDIT
   const editSubject = (subject) => {
     setForm({
       ...subject,
@@ -91,9 +99,12 @@ export default function SubjectAdmin() {
     });
 
     setEditId(subject._id);
+    setImageFile(null);
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // 🔍 SEARCH
   const filteredSubjects = subjects.filter((s) =>
     s.subjectName?.toLowerCase().includes(search.toLowerCase())
   );
@@ -114,6 +125,7 @@ export default function SubjectAdmin() {
               value={form.subjectName}
               onChange={handleChange}
               placeholder="Mathematics"
+              required
             />
           </div>
 
@@ -123,6 +135,7 @@ export default function SubjectAdmin() {
               name="className"
               value={form.className}
               onChange={handleChange}
+              required
             >
               <option value="">Select Class</option>
               <option>Nursery</option>
@@ -167,9 +180,7 @@ export default function SubjectAdmin() {
           <h2>Live Preview</h2>
 
           <div className="preview-card">
-            {form.image && (
-              <img src={form.image} alt="preview" />
-            )}
+            {form.image && <img src={form.image} alt="preview" />}
 
             <div className="preview-content">
               <h3>{form.subjectName || "Subject Name"}</h3>
