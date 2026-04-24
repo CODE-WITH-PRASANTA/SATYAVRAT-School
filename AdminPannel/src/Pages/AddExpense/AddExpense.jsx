@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddExpense.css";
+import API from "../../api/axios"; // use your axios instance
+
 import { FaWallet, FaList, FaEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const AddExpense = () => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [editId, setEditId] = useState(null);
+
+  const [expenseHeads, setExpenseHeads] = useState([]);
 
   const [formData, setFormData] = useState({
     head: "",
@@ -16,85 +21,137 @@ const AddExpense = () => {
     description: "",
   });
 
-  const [expenses, setExpenses] = useState([
-    {
-      head: "Electricity",
-      name: "Nikhil Sharma",
-      accountNumber: "ACC001",
-      invoice: "272",
-      amount: "5500",
-      date: "2026-02-23",
-      description: "Electricity bill payment",
-    },
-    {
-      head: "Transport",
-      name: "Kapil",
-      accountNumber: "ACC002",
-      invoice: "270",
-      amount: "10000",
-      date: "2026-02-22",
-      description: "Bus maintenance",
-    },
-    {
-      head: "Salary",
-      name: "Palak Garg",
-      accountNumber: "ACC003",
-      invoice: "269",
-      amount: "12000",
-      date: "2026-02-20",
-      description: "Staff salary",
-    },
-  ]);
+  const [expenses, setExpenses] = useState([]);
 
-  // HANDLE INPUT CHANGE
+  // ✅ FETCH DATA FROM BACKEND
+  const fetchExpenseHeads = async () => {
+    try {
+      const res = await API.get("/expense-head");
+      setExpenseHeads(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchExpenses = async () => {
+    try {
+      const res = await API.get("/expenses"); // ✅ clean
+      setExpenses(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+    fetchExpenseHeads(); // ✅ ADD THIS
+  }, []);
+
+  // HANDLE INPUT
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // SAVE EXPENSE
-  const handleSave = () => {
-    if (!formData.head || !formData.name || !formData.invoice || !formData.amount || !formData.date) {
-      alert("Please fill all required fields!");
-      return;
+  // ✅ ADD / UPDATE EXPENSE
+  const handleSave = async () => {
+    try {
+      // ✅ VALIDATION
+      if (
+        !formData.head ||
+        !formData.name ||
+        !formData.invoice ||
+        !formData.amount ||
+        !formData.date
+      ) {
+        alert("Please fill all required fields!");
+        return;
+      }
+
+      // ✅ UPDATE / CREATE
+      if (editId) {
+        await API.put(`/expenses/${editId}`, formData);
+      } else {
+        await API.post("/expenses", formData);
+      }
+
+      // ✅ REFRESH DATA
+      await fetchExpenses();
+
+      // ✅ RESET FORM
+      setFormData({
+        head: "",
+        name: "",
+        accountNumber: "",
+        invoice: "",
+        amount: "",
+        date: "",
+        description: "",
+      });
+
+      setEditId(null);
+    } catch (error) {
+      console.error("Save Error:", error.response?.data || error.message);
     }
+  };
 
-    setExpenses([...expenses, formData]);
+  // ✅ DELETE
+  const handleDelete = async (id) => {
+    try {
+      const confirmDelete = window.confirm("Are you sure?");
+      if (!confirmDelete) return;
 
-    // Clear form
+      await API.delete(`/expenses/${id}`);
+
+      // instant UI update
+      setExpenses((prev) => prev.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error("Delete Error:", error.response?.data || error.message);
+    }
+  };
+
+  // ✅ EDIT (FILL FORM)
+  const handleEdit = (item) => {
     setFormData({
-      head: "",
-      name: "",
-      accountNumber: "",
-      invoice: "",
-      amount: "",
-      date: "",
-      description: "",
+      head: item.head?._id || item.head,
+      name: item.name,
+      accountNumber: item.accountNumber,
+      invoice: item.invoice,
+      amount: item.amount,
+      date: item.date?.substring(0, 10),
+      description: item.description,
     });
+
+    setEditId(item._id);
+    setActiveMenu(null);
   };
 
   return (
     <div className="add-expense-page">
-
       {/* HEADER */}
       <div className="expense-header">
-        <h2><FaWallet /> Add Expense</h2>
+        <h2>
+          <FaWallet /> Add Expense
+        </h2>
       </div>
 
       <div className="expense-layout">
-
         {/* LEFT FORM */}
         <div className="expense-form-card">
-          <h3><FaEdit /> Add / Edit Expense</h3>
+          <h3>
+            <FaEdit /> {editId ? "Edit Expense" : "Add Expense"}
+          </h3>
 
           <div className="form-scroll">
-
             <div className="form-group">
               <label>Expense Head *</label>
               <select name="head" value={formData.head} onChange={handleChange}>
                 <option value="">Select</option>
-                <option>Electricity</option>
-                <option>Transport</option>
-                <option>Salary</option>
+
+                {expenseHeads.map((item) => (
+                  <option key={item._id} value={item._id}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -163,12 +220,16 @@ const AddExpense = () => {
             </div>
           </div>
 
-          <button className="save-btn" onClick={handleSave}>Save Expense</button>
+          <button className="save-btn" onClick={handleSave}>
+            {editId ? "Update Expense" : "Save Expense"}
+          </button>
         </div>
 
         {/* RIGHT TABLE */}
         <div className="expense-table-card">
-          <h3><FaList /> Expense List</h3>
+          <h3>
+            <FaList /> Expense List
+          </h3>
 
           <div className="table-wrapper">
             <table>
@@ -185,35 +246,45 @@ const AddExpense = () => {
 
               <tbody>
                 {expenses.map((item, index) => (
-                  <tr key={index}>
+                  <tr key={item._id}>
                     <td>{item.head}</td>
                     <td>{item.name}</td>
                     <td>{item.accountNumber}</td>
                     <td>₹ {item.amount}</td>
-                    <td>{item.date}</td>
+                    <td>{item.date?.substring(0, 10)}</td>
 
                     <td className="action-cell">
                       <BsThreeDotsVertical
                         className="action-icon"
-                        onClick={() => setActiveMenu(activeMenu === index ? null : index)}
+                        onClick={() =>
+                          setActiveMenu(activeMenu === index ? null : index)
+                        }
                       />
 
                       {activeMenu === index && (
                         <div className="dropdown-menu">
-                          <div className="dropdown-item">Edit</div>
-                          <div className="dropdown-item delete">Delete</div>
+                          <div
+                            className="dropdown-item"
+                            onClick={() => handleEdit(item)}
+                          >
+                            Edit
+                          </div>
+
+                          <div
+                            className="dropdown-item delete"
+                            onClick={() => handleDelete(item._id)}
+                          >
+                            Delete
+                          </div>
                         </div>
                       )}
                     </td>
-
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
         </div>
-
       </div>
     </div>
   );

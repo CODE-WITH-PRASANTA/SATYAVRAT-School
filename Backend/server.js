@@ -13,7 +13,11 @@ const galleryRoutes = require("./src/routes/gallery.routes");
 const enquiryRoutes = require("./src/routes/coldlead.routes");
 const admissionRoutes = require("./src/routes/admission.routes");
 
+const expenseRoutes = require("./src/routes/expenseRoutes");
+
+
 const testimonialRoutes = require("./src/routes/testimonial.routes");
+const expensesHead = require("./src/routes/expenseHeadRoutes")
 
 
 /* LOAD ENV */
@@ -39,6 +43,10 @@ app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", admissionRoutes);
+
+app.use("/api/expenses", expenseRoutes);
+app.use("/api/expense-head",expensesHead );
+
 
 
 app.use("/api/testimonials", testimonialRoutes);
