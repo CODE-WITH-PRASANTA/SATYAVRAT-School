@@ -14,6 +14,9 @@ const enquiryRoutes = require("./src/routes/coldlead.routes");
 const admissionRoutes = require("./src/routes/admission.routes");
 
 const expenseRoutes = require("./src/routes/expenseRoutes");
+const classRoutes = require("./src/routes/class.routes");
+const subjectRoutes = require("./src/routes/subject.routes");
+const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes");
 
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
@@ -46,6 +49,9 @@ app.use("/api/students", admissionRoutes);
 
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/expense-head",expensesHead );
+app.use("/api/classes", classRoutes);
+app.use("/api/subjects", subjectRoutes);
+app.use("/api/classwise-subjects", classWiseSubjectRoutes);
 
 
 
