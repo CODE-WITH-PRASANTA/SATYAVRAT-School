@@ -1,103 +1,78 @@
-/* PAGE */
+/* ================= PAGE ================= */
 .add-expense-page {
   padding: 40px;
-  background: #f4f6fb;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 .expense-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .expense-header h2 {
   font-size: 28px;
-  font-weight: 600;
-  color: #0a1b4d;
+  font-weight: 700;
+  color: #111827;
 }
 
-/* LAYOUT */
+/* ================= LAYOUT ================= */
 .expense-layout {
   display: flex;
-  gap: 35px;
+  gap: 30px;
   align-items: flex-start;
 }
 
-/* LEFT FORM */
+/* ================= CARD ================= */
+.expense-form-card,
+.expense-table-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ================= FORM ================= */
 .expense-form-card {
-  width: 400px;
-  height: 700px;
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 22px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+  width: 380px;
   display: flex;
   flex-direction: column;
 }
 
 .expense-form-card h3 {
-  font-size: 19px;
-  margin-bottom: 20px;
-  color: #0a1b4d;
+  margin-bottom: 15px;
 }
 
-/* FORM SCROLL */
-.form-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-/* INPUT FIELDS */
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  display: block;
-  color: #333;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
+/* INPUTS */
+.expense-form-card input,
+.expense-form-card textarea {
   width: 100%;
   padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #e4e8f3;
-  background: #f9faff;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
   font-size: 14px;
-  transition: 0.3s ease;
 }
 
-.form-group textarea {
-  min-height: 90px;
-  resize: none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: #4c6fff;
+.expense-form-card input:focus,
+.expense-form-card textarea:focus {
+  border-color: #4f46e5;
   background: #fff;
   outline: none;
 }
 
-/* SAVE BUTTON */
+/* ================= BUTTON ================= */
 .save-btn {
-  margin-top: 15px;
-  padding: 12px;
-  border: none;
+  width: 100%;
+  padding: 13px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4c6fff, #1b3cff);
-  color: white;
-  font-weight: 500;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease;
 }
@@ -106,110 +81,196 @@
   opacity: 0.9;
 }
 
-/* RIGHT TABLE */
-.expense-table-card {
-  flex: 1;
-  height: 700px;
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 22px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
+/* ================= PREVIEW ================= */
+.live-preview {
+  margin-top: 15px;
 }
 
-.expense-table-card h3 {
-  font-size: 19px;
-  margin-bottom: 20px;
-  color: #0a1b4d;
+/* CARD */
+.preview-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin-bottom: 10px;
+}
+
+/* LARGE IMAGE */
+.preview-card img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+}
+
+/* NO IMAGE */
+.no-image {
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #888;
+  font-size: 14px;
+}
+
+/* PREVIEW TEXT */
+.preview-info {
+  padding: 15px;
+}
+
+.preview-info h5 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.preview-info p {
+  font-size: 20px;
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+.preview-info span {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ================= TABLE ================= */
+.expense-table-card {
+  flex: 1;
 }
 
 .table-wrapper {
-  flex: 1;
-  overflow-y: auto;
+  width: 100%;
+  overflow-x: auto;
   border-radius: 12px;
-  border: 1px solid #edf0f7;
 }
 
+/* TABLE BASE */
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
+/* HEADER */
 thead {
-  background: #f3f5ff;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  background: #f3f4f6;
 }
 
 th {
-  padding: 14px 16px;
+  text-align: left;
+  padding: 14px;
   font-size: 13px;
   font-weight: 600;
-  color: #0a1b4d;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  text-align: left;
+  color: #374151;
 }
 
+/* ROW */
 td {
-  padding: 15px 16px;
+  padding: 14px;
+  border-bottom: 1px solid #eee;
   font-size: 14px;
-  border-bottom: 1px solid #f1f1f1;
-  color: #444;
 }
 
+/* HOVER */
 tr:hover {
-  background: #f9faff;
+  background: #f5f7ff;
 }
 
-/* ACTION MENU */
+/* AMOUNT */
+.amount {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+/* ================= IMAGE IN TABLE ================= */
+.table-img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+/* FALLBACK */
+.no-img {
+  font-size: 12px;
+  color: #999;
+}
+
+/* ================= ACTION ================= */
 .action-cell {
   position: relative;
 }
 
-.action-icon {
+/* THREE DOT */
+.action-cell svg {
   cursor: pointer;
   font-size: 18px;
-  color: #666;
+  color: #555;
 }
 
+/* DROPDOWN */
 .dropdown-menu {
   position: absolute;
   right: 0;
-  top: 28px;
-  width: 130px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  top: 25px;
+  width: 120px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 10;
 }
 
-.dropdown-item {
-  padding: 10px 14px;
+.dropdown-menu div {
+  padding: 10px;
   font-size: 14px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.dropdown-item:hover {
-  background: #f3f5ff;
+.dropdown-menu div:hover {
+  background: #f3f4ff;
 }
 
-.dropdown-item.delete:hover {
-  background: #ffecec;
-  color: #ff4d4f;
+.dropdown-menu .delete {
+  color: #e11d48;
 }
 
-/* RESPONSIVE */
+.dropdown-menu .delete:hover {
+  background: #ffe4e6;
+}
+
+/* ================= SCROLL ================= */
+.form-scroll {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
   .expense-layout {
     flex-direction: column;
   }
-  .expense-form-card,
-  .expense-table-card {
+
+  .expense-form-card {
     width: 100%;
-    height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .add-expense-page {
+    padding: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .table-img {
+    width: 50px;
+    height: 50px;
   }
 }

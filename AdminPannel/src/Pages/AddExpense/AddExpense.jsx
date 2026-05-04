@@ -1,223 +1,198 @@
 import React, { useState, useEffect } from "react";
 import "./AddExpense.css";
-import API from "../../api/axios"; // use your axios instance
+import API from "../../api/axios";
 
 import { FaWallet, FaList, FaEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
+const BASE_URL = "http://localhost:5000"; // backend URL
+
 const AddExpense = () => {
+  const [expenses, setExpenses] = useState([]);
+  const [preview, setPreview] = useState(null);
   const [activeMenu, setActiveMenu] = useState(null);
   const [editId, setEditId] = useState(null);
 
-  const [expenseHeads, setExpenseHeads] = useState([]);
-
   const [formData, setFormData] = useState({
-    head: "",
     name: "",
-    accountNumber: "",
-    invoice: "",
     amount: "",
     date: "",
     description: "",
+    image: null,
   });
 
-  const [expenses, setExpenses] = useState([]);
-
-  // ✅ FETCH DATA FROM BACKEND
-  const fetchExpenseHeads = async () => {
-    try {
-      const res = await API.get("/expense-head");
-      setExpenseHeads(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  /* ================= FETCH ================= */
   const fetchExpenses = async () => {
     try {
-      const res = await API.get("/expenses"); // ✅ clean
-      setExpenses(res.data);
-    } catch (error) {
-      console.error(error);
+      const res = await API.get("/expenses");
+
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data.expenses || [];
+
+      setExpenses(data);
+    } catch (err) {
+      console.error("Fetch error:", err);
     }
   };
 
   useEffect(() => {
     fetchExpenses();
-    fetchExpenseHeads(); // ✅ ADD THIS
   }, []);
 
-  // HANDLE INPUT
+  /* ================= IMAGE URL FIX ================= */
+  const getImageUrl = (img) => {
+    if (!img) return null;
+
+    // already full URL
+    if (img.startsWith("http")) return img;
+
+    // fix missing slash
+    if (!img.startsWith("/")) img = "/" + img;
+
+    return `${BASE_URL}${img}`;
+  };
+
+  /* ================= INPUT ================= */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ ADD / UPDATE EXPENSE
+  /* ================= IMAGE ================= */
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFormData({ ...formData, image: file });
+
+    if (file) setPreview(URL.createObjectURL(file));
+  };
+
+  /* ================= SAVE ================= */
   const handleSave = async () => {
     try {
-      // ✅ VALIDATION
-      if (
-        !formData.head ||
-        !formData.name ||
-        !formData.invoice ||
-        !formData.amount ||
-        !formData.date
-      ) {
-        alert("Please fill all required fields!");
-        return;
+      if (!formData.name || !formData.amount) {
+        return alert("Fill required fields");
       }
 
-      // ✅ UPDATE / CREATE
+      const form = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (formData[key]) form.append(key, formData[key]);
+      });
+
+      let res;
+
       if (editId) {
-        await API.put(`/expenses/${editId}`, formData);
+        res = await API.put(`/expenses/${editId}`, form);
       } else {
-        await API.post("/expenses", formData);
+        res = await API.post("/expenses", form);
       }
 
-      // ✅ REFRESH DATA
-      await fetchExpenses();
+      // ✅ Immediately update UI (important fix)
+      const newItem = res.data;
 
-      // ✅ RESET FORM
+      setExpenses((prev) => {
+        if (editId) {
+          return prev.map((item) =>
+            item._id === editId ? newItem : item
+          );
+        } else {
+          return [newItem, ...prev];
+        }
+      });
+
+      // reset
       setFormData({
-        head: "",
         name: "",
-        accountNumber: "",
-        invoice: "",
         amount: "",
         date: "",
         description: "",
+        image: null,
       });
 
+      setPreview(null);
       setEditId(null);
-    } catch (error) {
-      console.error("Save Error:", error.response?.data || error.message);
+
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("Save failed ❌");
     }
   };
 
-  // ✅ DELETE
+  /* ================= DELETE ================= */
   const handleDelete = async (id) => {
+    if (!window.confirm("Delete?")) return;
+
     try {
-      const confirmDelete = window.confirm("Are you sure?");
-      if (!confirmDelete) return;
-
       await API.delete(`/expenses/${id}`);
-
-      // instant UI update
-      setExpenses((prev) => prev.filter((item) => item._id !== id));
-    } catch (error) {
-      console.error("Delete Error:", error.response?.data || error.message);
+      setExpenses((prev) => prev.filter((i) => i._id !== id));
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // ✅ EDIT (FILL FORM)
+  /* ================= EDIT ================= */
   const handleEdit = (item) => {
     setFormData({
-      head: item.head?._id || item.head,
       name: item.name,
-      accountNumber: item.accountNumber,
-      invoice: item.invoice,
       amount: item.amount,
       date: item.date?.substring(0, 10),
       description: item.description,
+      image: null,
     });
 
+    setPreview(getImageUrl(item.image));
     setEditId(item._id);
-    setActiveMenu(null);
   };
 
   return (
     <div className="add-expense-page">
-      {/* HEADER */}
+
       <div className="expense-header">
-        <h2>
-          <FaWallet /> Add Expense
-        </h2>
+        <h2><FaWallet /> Expense Manager</h2>
       </div>
 
       <div className="expense-layout">
-        {/* LEFT FORM */}
+
+        {/* ================= FORM ================= */}
         <div className="expense-form-card">
-          <h3>
-            <FaEdit /> {editId ? "Edit Expense" : "Add Expense"}
-          </h3>
+          <h3><FaEdit /> {editId ? "Edit Expense" : "Add Expense"}</h3>
 
-          <div className="form-scroll">
-            <div className="form-group">
-              <label>Expense Head *</label>
-              <select name="head" value={formData.head} onChange={handleChange}>
-                <option value="">Select</option>
+          <input
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+          />
 
-                {expenseHeads.map((item) => (
-                  <option key={item._id} value={item._id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <input
+            name="amount"
+            placeholder="Amount"
+            value={formData.amount}
+            onChange={handleChange}
+          />
 
-            <div className="form-group">
-              <label>Name *</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter Name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
 
-            <div className="form-group">
-              <label>Account Number</label>
-              <input
-                type="text"
-                name="accountNumber"
-                placeholder="Enter Account Number"
-                value={formData.accountNumber}
-                onChange={handleChange}
-              />
-            </div>
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={formData.description}
+            onChange={handleChange}
+          />
 
-            <div className="form-group">
-              <label>Invoice Number *</label>
-              <input
-                type="text"
-                name="invoice"
-                placeholder="Enter Invoice No"
-                value={formData.invoice}
-                onChange={handleChange}
-              />
-            </div>
+          <input type="file" onChange={handleImage} />
 
-            <div className="form-group">
-              <label>Amount *</label>
-              <input
-                type="number"
-                name="amount"
-                placeholder="Enter Amount"
-                value={formData.amount}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Date *</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Description</label>
-              <textarea
-                name="description"
-                placeholder="Enter Description"
-                value={formData.description}
-                onChange={handleChange}
-              ></textarea>
-            </div>
+          {/* PREVIEW */}
+          <div className="preview-card">
+            {preview ? (
+              <img src={preview} alt="preview" />
+            ) : (
+              <div className="no-image">No Image</div>
+            )}
           </div>
 
           <button className="save-btn" onClick={handleSave}>
@@ -225,66 +200,69 @@ const AddExpense = () => {
           </button>
         </div>
 
-        {/* RIGHT TABLE */}
+        {/* ================= TABLE ================= */}
         <div className="expense-table-card">
-          <h3>
-            <FaList /> Expense List
-          </h3>
+          <h3><FaList /> Expense List</h3>
 
-          <div className="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Expense Head</th>
-                  <th>Name</th>
-                  <th>Account</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {expenses.map((item, index) => (
-                  <tr key={item._id}>
-                    <td>{item.head}</td>
-                    <td>{item.name}</td>
-                    <td>{item.accountNumber}</td>
-                    <td>₹ {item.amount}</td>
-                    <td>{item.date?.substring(0, 10)}</td>
-
-                    <td className="action-cell">
-                      <BsThreeDotsVertical
-                        className="action-icon"
-                        onClick={() =>
-                          setActiveMenu(activeMenu === index ? null : index)
-                        }
+            <tbody>
+              {expenses.map((item, index) => (
+                <tr key={item._id}>
+                  <td>
+                    {item.image ? (
+                      <img
+                        src={getImageUrl(item.image)}
+                        className="table-img"
+                        alt="expense"
+                        onError={(e) => {
+                          e.target.src = "https://via.placeholder.com/60";
+                        }}
                       />
+                    ) : (
+                      <div className="no-img">N/A</div>
+                    )}
+                  </td>
 
-                      {activeMenu === index && (
-                        <div className="dropdown-menu">
-                          <div
-                            className="dropdown-item"
-                            onClick={() => handleEdit(item)}
-                          >
-                            Edit
-                          </div>
+                  <td>{item.name}</td>
+                  <td className="amount">₹ {item.amount}</td>
+                  <td>{item.date?.substring(0, 10)}</td>
 
-                          <div
-                            className="dropdown-item delete"
-                            onClick={() => handleDelete(item._id)}
-                          >
-                            Delete
-                          </div>
+                  <td className="action-cell">
+                    <BsThreeDotsVertical
+                      onClick={() =>
+                        setActiveMenu(activeMenu === index ? null : index)
+                      }
+                    />
+
+                    {activeMenu === index && (
+                      <div className="dropdown-menu">
+                        <div onClick={() => handleEdit(item)}>Edit</div>
+                        <div
+                          className="delete"
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          Delete
                         </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+
+          </table>
         </div>
+
       </div>
     </div>
   );
