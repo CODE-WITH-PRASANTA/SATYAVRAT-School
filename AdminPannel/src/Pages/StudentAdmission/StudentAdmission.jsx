@@ -85,6 +85,11 @@ export default function StudentAdmission() {
   const [files, setFiles] = useState({});
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
+
+  const [classList, setClassList] = useState([]);
+
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -172,12 +177,34 @@ export default function StudentAdmission() {
     formData.motherPhone,
   ]);
 
-  const handleChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  useEffect(() => {
+  const fetchClasses = async () => {
+    try {
+      const res = await API.get("/classes");
+
+      console.log("API RESPONSE:", res.data); // 👈 debug
+
+      const list = res.data?.data || res.data || [];
+      setClassList(list);
+
+      console.log("CLASS LIST:", list); // 👈 debug
+        console.log("FIRST ITEM:", list[0]); 
+        
+    } catch (err) {
+      console.error("Class Fetch Error:", err);
+    }
   };
+
+  fetchClasses();
+}, []);
+
+ const handleChange = (name, value) => {
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+    ...(name === "class" && { section: "" }) // 🔥 FIX
+  }));
+};
 
   const handleFileChange = (name, file) => {
     setFiles((prev) => ({
@@ -280,204 +307,209 @@ export default function StudentAdmission() {
         </div>
 
         {/* ================= STUDENT DETAILS ================= */}
-        <AccordionSection title="Student Details">
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Admission No *"
-                  name="admissionNo"
-                  value={formData.admissionNo}
-                  onChange={handleChange}
-                />
+       <AccordionSection title="Student Details">
+  <div className="Student-Admission-FormGrid">
+    <div className="Student-Admission-Left">
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Admission No *"
+          name="admissionNo"
+          value={formData.admissionNo}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Class *"
-                  name="class"
-                  value={formData.class}
-                  options={[
-                    "Nursery",
-                    "LKG",
-                    "UKG",
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                  ]}
-                  onChange={handleChange}
-                />
+        {/* ✅ UPDATED CLASS DROPDOWN */}
+      <FormSelect
+  label="Class *"
+  name="class"
+  value={formData.class}
+  options={[
+    ...new Set(
+      classList.map(c => c.className || c.class || c.name)
+    )
+  ]}
+  onChange={handleChange}
+/>
 
-                <FormSelect
-                  label="Section *"
-                  options={["A", "B", "C"]}
-                  name="section"
-                  value={formData.section}
-                  onChange={handleChange}
-                />
-              </div>
+<FormSelect
+  label="Section *"
+  name="section"
+  value={formData.section}
+  options={[
+    ...new Set(
+      classList
+        .filter(
+          c =>
+            (c.className || c.class || c.name)
+              ?.toString()
+              .toLowerCase()
+              .trim() ===
+            formData.class?.toString().toLowerCase().trim()
+        )
+        .map(c => c.sectionName || c.section)
+    )
+  ]}
+  onChange={handleChange}
+/>
+      </div>
+      
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Roll Number"
-                  name="rollNumber"
-                  value={formData.rollNumber}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Roll Number"
+          name="rollNumber"
+          value={formData.rollNumber}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Biometric Id"
-                  name="biometricId"
-                  value={formData.biometricId}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Biometric Id"
+          name="biometricId"
+          value={formData.biometricId}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Admission Date"
-                  type="date"
-                  name="admissionDate"
-                  value={formData.admissionDate}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Admission Date"
+          type="date"
+          name="admissionDate"
+          value={formData.admissionDate}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="First Name *"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="First Name *"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Last Name"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Gender *"
-                  name="gender"
-                  value={formData.gender}
-                  options={["Male", "Female"]}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormSelect
+          label="Gender *"
+          name="gender"
+          value={formData.gender}
+          options={["Male", "Female"]}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Date of Birth *"
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Date of Birth *"
+          type="date"
+          name="dob"
+          value={formData.dob}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Category"
-                  name="category"
-                  value={formData.category}
-                  options={["General", "OBC", "SC", "ST"]}
-                  onChange={handleChange}
-                />
+        <FormSelect
+          label="Category"
+          name="category"
+          value={formData.category}
+          options={["General", "OBC", "SC", "ST"]}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Religion"
-                  name="religion"
-                  value={formData.religion}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Religion"
+          name="religion"
+          value={formData.religion}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Caste"
-                  name="caste"
-                  value={formData.caste}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Caste"
+          name="caste"
+          value={formData.caste}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Mobile Number"
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Mobile Number"
+          name="mobile"
+          value={formData.mobile}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormSelect
-                  label="Blood Group"
-                  name="bloodGroup"
-                  value={formData.bloodGroup}
-                  options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormSelect
+          label="Blood Group"
+          name="bloodGroup"
+          value={formData.bloodGroup}
+          options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="House"
-                  name="house"
-                  options={["Red", "Blue", "Green", "Yellow"]}
-                  value={formData.house}
-                  onChange={handleChange}
-                />
+        <FormSelect
+          label="House"
+          name="house"
+          options={["Red", "Blue", "Green", "Yellow"]}
+          value={formData.house}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Sponsor"
-                  name="sponsor"
-                  value={formData.sponsor}
-                  options={["Government", "Private", "Self"]}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormSelect
+          label="Sponsor"
+          name="sponsor"
+          value={formData.sponsor}
+          options={["Government", "Private", "Self"]}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Height"
-                  name="height"
-                  value={formData.height}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Height"
+          name="height"
+          value={formData.height}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Weight"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Weight"
+          name="weight"
+          value={formData.weight}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Aadhar Number"
-                  name="aadharNumber"
-                  value={formData.aadharNumber}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+        <FormInput
+          label="Aadhar Number"
+          name="aadharNumber"
+          value={formData.aadharNumber}
+          onChange={handleChange}
+        />
+      </div>
+    </div>
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="studentPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.studentPhoto}
-              />
-            </div>
-          </div>
-        </AccordionSection>
+    <div className="Student-Admission-Right">
+      <PhotoUploadBox
+        name="studentPhoto"
+        onFileChange={handleFileChange}
+        existingImage={formData.studentPhoto}
+      />
+    </div>
+  </div>
+</AccordionSection>
 
         {/* ================= CUSTOM FIELD ================= */}
         <AccordionSection title="Custom Field">
