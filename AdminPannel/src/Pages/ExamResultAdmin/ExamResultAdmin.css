@@ -1,0 +1,162 @@
+/* ================= MAIN CONTAINER ================= */
+
+.exam-container {
+  padding: 20px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.exam-container h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* ================= FORM ================= */
+
+.exam-form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 700px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.exam-form h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ================= INPUT ================= */
+
+.exam-form input,
+.exam-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.exam-form input:focus,
+.exam-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* ================= DROPDOWN ================= */
+
+.dropdown {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  background: #ffffff;
+  margin-bottom: 12px;
+}
+
+.dropdown div {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown div:hover {
+  background: #f1f5ff;
+}
+
+/* ================= SUBJECT ROW ================= */
+
+.subject-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+.subject-row:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.subject-row span {
+  font-weight: 500;
+  color: #333;
+}
+
+.subject-row input {
+  margin-bottom: 0;
+}
+
+/* ================= RESULT BOX ================= */
+
+.result-box {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  border: 1px solid #dbeafe;
+}
+
+.result-box p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+/* PASS / FAIL COLORS */
+
+.result-box .Pass {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.result-box .Fail {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* ================= BUTTON ================= */
+
+.exam-form button {
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.exam-form button:hover {
+  background: #1e40af;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 600px) {
+  .subject-row {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-form {
+    padding: 15px;
+  }
+
+  .exam-container {
+    padding: 12px;
+  }
+}

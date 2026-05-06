@@ -18,6 +18,19 @@ import AdmissionTable from "./Component/AdmissionTable/AdmissionTable";
 import ColdLeadTable from "./Component/ColdLeadTable/ColdLeadTable";
 import Login from "./Pages/Login/Login";
 import Protected from "./Pages/Protected/Protected";
+import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
+import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
+import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+import ExamResult from "./Pages/ExamResult/ExamResult";
+import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
+import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
+import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
+import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
+import Studentleave from "./Pages/Studentleave/Studentleave";
+import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
+import AddExpense from "./Pages/AddExpense/AddExpense";
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 function App() {
   return (
@@ -56,6 +69,20 @@ function App() {
           <Route path="/admin/Admission-Table" element={<AdmissionTable />} />
           <Route path="/admin/cold-lead" element={<ColdLead />} />
           <Route path="/admin/cold-lead-table" element={<ColdLeadTable />} />
+
+          <Route path="/class-post" element={<ClassesAdmin />} />
+          <Route path="/subject-post" element={<SubjectAdmin />} />
+          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
+         <Route path="/exam-result" element={<ExamResult />} />
+         <Route path="exam-result-manager" element={<ExamResultAdmin />} />
+         <Route path="/exam-type" element={<ExamTypeAdmin />} />
+         <Route path="/exam-report" element={<ExamProgressReport />} />
+          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
+          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
+          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
+          <Route path="/expense/details" element={< AddExpense/>}/>
+          <Route path="/expense-search"element={<ExpenseSearch/>}/>
+          <Route path="/expense-head"element={<ExpenseHead/>}/>
           
           
         </Route>

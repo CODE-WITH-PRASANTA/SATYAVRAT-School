@@ -14,6 +14,18 @@ import {
   FaUserGraduate,
   FaClipboardList,
   FaQuoteLeft,
+   FiFileText,
+  FiDatabase,
+  FiMessageCircle,
+  FiCheckSquare,
+  FiActivity,
+  FiCreditCard,
+  FiTrendingUp,
+  FiMessageSquare,
+  FiBookOpen,
+   FiEdit,
+   FiLayers,
+   FiBriefcase,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
@@ -69,6 +81,55 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         { name: "Fee Type", path: "/fee-type", icon: <FaMoneyBillWave /> },
       ],
     },
+
+     {
+    label: "Class Post",
+    icon: FiBookOpen,
+    path: "/class-post",
+  },
+
+  {
+    label: "Subject Post",
+    icon: FiEdit,
+    path: "/subject-post",
+  },
+  {
+    label: "Classwise Subject",
+    icon: FiLayers,
+    path: "/classwise-subject",
+  },
+  { type: "divider" },
+
+  {
+    label: "Exam Result Desk",
+    icon: FiBriefcase,
+    children: [
+      { label: "Exam Result", path: "/exam-result" },
+      { label: "Exam Score Manager", path: "/exam-result-manager" },
+      { label: "Type of Exam Publish", path: "/exam-type" },
+      { label: "Progress Report Card", path: "/exam-report" },
+    ],
+  },
+  {
+    label: "Attendance",
+    icon: FiCheckSquare,
+    children: [
+      { label: "Student Attendance", path: "/attendance/student-attendance" },
+      { label: "Student Leave", path: "/attendance/student-leave" },
+      { label: "Attendance Report", path: "/attendance/attendance-report" },
+    ],
+  },
+
+   {
+    label: "Expense",
+    icon: FiCreditCard,
+    children: [
+      { label: "Add Expense", path: "/expense/details" },
+      { label: "Expense Search", path: "/expense-search" },
+      { label: "Expense Head", path: "/expense-head" },
+    ],
+  },
+
   ];
 
   const [openMenu, setOpenMenu] = useState(null);
