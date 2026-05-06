@@ -179,9 +179,7 @@ const Footer = () => {
 
         <p>
           © 2026 SATYAVRAT VIDYA NIKETAN HIGH SCHOOL |
-          Jagdish Ward, Gadarwara, Distt-Narsinghpur,
-          Madhya Pradesh - 487551 |
-          All Rights Reserved |
+           |
           Developed by PR WEBSTOCK
         </p>
 
