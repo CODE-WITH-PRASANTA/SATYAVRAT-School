@@ -10,20 +10,22 @@ dotenv.config();
 const connectDB = require("./src/configs/db");
 
 /* ================= ROUTES ================= */
+const authRoutes = require("./src/routes/auth.routes");
 const newsRoutes = require("./src/routes/newsposting.routes");
 const teacherRoutes = require("./src/routes/teacher.routes");
 const galleryRoutes = require("./src/routes/gallery.routes");
 const enquiryRoutes = require("./src/routes/coldlead.routes");
 const admissionRoutes = require("./src/routes/admission.routes");
 
-const expenseRoutes = require("./src/routes/expenseRoutes");
-const expenseHeadRoutes = require("./src/routes/expenseHeadRoutes");
-
+const expenseRoutes = require("./src/routes/expense.routes");
+const expenseHeadRoutes = require("./src/routes/expenseHead.routes");
 const classRoutes = require("./src/routes/class.routes");
 const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes");
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 const subjectRoutes = require("./src/routes/subject.routes");
+
+
 
 /* ================= INIT APP ================= */
 const app = express();
@@ -68,7 +70,11 @@ app.use("/api/subjects", subjectRoutes);
 
 /* FINANCE */
 app.use("/api/expenses", expenseRoutes);
-app.use("/api/expense-heads", expenseHeadRoutes);
+
+app.use("/api/expense-head", expenseHeadRoutes);
+
+app.use("/api/auth", authRoutes);
+
 
 /* ================= HEALTH CHECK ================= */
 app.get("/", (req, res) => {

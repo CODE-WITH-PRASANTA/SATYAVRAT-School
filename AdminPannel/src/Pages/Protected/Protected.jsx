@@ -1,30 +1,29 @@
-import { Navigate, useLocation } from "react-router-dom";
-import "./Protected.css";
+// ================= PROTECTED.JSX =================
 
-const Protected = ({ children }) => {
-  const location = useLocation();
+import React from "react";
 
-  const isAdmin = localStorage.getItem("isAdmin");
-  const isAuthenticated = isAdmin === "true";
+import { Navigate } from "react-router-dom";
 
-  // ❌ Not logged in → redirect
-  if (!isAuthenticated) {
+const Protected = ({
+  children,
+}) => {
+  // CHECK TOKEN
+  const token =
+    localStorage.getItem(
+      "adminToken"
+    );
+
+  // NOT LOGGED IN
+  if (!token) {
     return (
-      <div className="protected-container">
-        <div className="protected-box">
-          <h2>🔐 Access Denied</h2>
-          <p>Please login to continue</p>
-        </div>
-
-        <Navigate
-          to="/login"
-          replace
-          state={{ from: location }}
-        />
-      </div>
+      <Navigate
+        to="/login"
+        replace
+      />
     );
   }
 
+  // LOGGED IN
   return children;
 };
 

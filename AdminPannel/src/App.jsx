@@ -31,12 +31,13 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
+import LoginForm from "./Pages/LoginForm/LoginForm";
 
 function App() {
   return (
       <BrowserRouter>
       <Routes>
-         <Route path="/login" element={<Login/>}/>
+         <Route path="/login" element={<LoginForm />} />
          <Route
           element={
             <Protected>
