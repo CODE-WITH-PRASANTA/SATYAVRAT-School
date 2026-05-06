@@ -17,11 +17,10 @@ export default function SubjectAdmin() {
   const [search, setSearch] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  // 🔁 FETCH
+  /* ================= FETCH ================= */
   const fetchSubjects = async () => {
     try {
       const res = await API.get("/subjects");
-      console.log("DATA:", res.data.data); // 🔍 debug
       setSubjects(res.data.data || []);
     } catch (err) {
       console.error("FETCH ERROR:", err);
@@ -32,12 +31,12 @@ export default function SubjectAdmin() {
     fetchSubjects();
   }, []);
 
-  // INPUT
+  /* ================= INPUT ================= */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // IMAGE SELECT
+  /* ================= IMAGE ================= */
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -50,7 +49,7 @@ export default function SubjectAdmin() {
     }
   };
 
-  // SUBMIT
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,7 +80,7 @@ export default function SubjectAdmin() {
     }
   };
 
-  // DELETE
+  /* ================= DELETE ================= */
   const deleteSubject = async (id) => {
     try {
       await API.delete(`/subjects/${id}`);
@@ -91,37 +90,22 @@ export default function SubjectAdmin() {
     }
   };
 
-  // 🔥 IMAGE URL FIX FUNCTION
-  const getImage = (img) => {
-    if (!img) return "https://via.placeholder.com/50";
-
-    // if full URL
-    if (img.startsWith("http")) return img;
-
-    // if missing slash
-    if (!img.startsWith("/")) return `${IMAGE_URL}/uploads/${img}`;
-
-    // normal case
-    return `${IMAGE_URL}${img}`;
-  };
-
-  // EDIT
-  const editSubject = (subject) => {
+  /* ================= EDIT ================= */
+  const editSubject = (s) => {
     setForm({
-      subjectName: subject.subjectName,
-      className: subject.className,
-      teacher: subject.teacher,
-      description: subject.description,
-      image: getImage(subject.image),
+      subjectName: s.subjectName,
+      className: s.className,
+      teacher: s.teacher,
+      description: s.description,
+      image: s.image ? `${IMAGE_URL}${s.image}` : "",
     });
 
-    setEditId(subject._id);
+    setEditId(s._id);
     setImageFile(null);
-
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // SEARCH
+  /* ================= SEARCH ================= */
   const filteredSubjects = subjects.filter((s) =>
     s.subjectName?.toLowerCase().includes(search.toLowerCase())
   );
@@ -195,9 +179,7 @@ export default function SubjectAdmin() {
           <h2>Live Preview</h2>
 
           <div className="preview-card">
-            {form.image && (
-              <img src={form.image} alt="preview" />
-            )}
+            {form.image && <img src={form.image} alt="preview" />}
 
             <div className="preview-content">
               <h3>{form.subjectName || "Subject Name"}</h3>
@@ -237,14 +219,13 @@ export default function SubjectAdmin() {
                 <tr key={s._id}>
                   <td>
                     <img
-                      src={getImage(s.image)}
+                      src={
+                        s.image
+                          ? `${IMAGE_URL}${s.image}`
+                          : "https://via.placeholder.com/50"
+                      }
                       className="table-img"
                       alt="subject"
-                      onError={(e) => {
-                        console.log("❌ IMAGE ERROR:", s.image);
-                        e.target.src =
-                          "https://via.placeholder.com/50";
-                      }}
                     />
                   </td>
 

@@ -16,22 +16,20 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
-   "/testimonials": "uploads/testimonials" ,
-    "/teachers": "uploads/teachers",
-    "/admissions": "uploads/admissions",
-    "/subjects": "uploads/subjects", 
-    
-    
+  "/testimonials": "uploads/testimonials",
+  "/teachers": "uploads/teachers",
+  "/admissions": "uploads/admissions",
+  "/subjects": "uploads/subjects",
 };
 
 /* ================= GET UPLOAD PATH ================= */
 const getUploadPath = (req) => {
   let uploadPath = "uploads/common";
 
-  for (const route in routeFolderMap) {
+  const url = req.originalUrl.toLowerCase();
 
-    
-    if (req.originalUrl.includes(route)) {
+  for (const route in routeFolderMap) {
+    if (url.includes(route)) {
       uploadPath = routeFolderMap[route];
       break;
     }
@@ -56,7 +54,7 @@ const fileFilter = (req, file, cb) => {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed"));
+    cb(new Error("Only image files (jpg, png, webp) allowed"));
   }
 };
 
@@ -66,6 +64,11 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
+/* ================= GENERATE FILE NAME ================= */
+const generateFileName = () => {
+  return `${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+};
+
 /* ================= SHARP CONVERTER ================= */
 const convertToWebp = async (req, res, next) => {
   try {
@@ -73,12 +76,9 @@ const convertToWebp = async (req, res, next) => {
 
     const uploadPath = getUploadPath(req);
 
-    /* ================= SINGLE FILE ================= */
+    /* ===== SINGLE FILE ===== */
     if (req.file) {
-      const filename = `${Date.now()}-${Math.random()
-        .toString(36)
-        .slice(2)}.webp`;
-
+      const filename = generateFileName();
       const outputPath = path.join(uploadPath, filename);
 
       await sharp(req.file.buffer)
@@ -92,16 +92,13 @@ const convertToWebp = async (req, res, next) => {
       req.body[req.file.fieldname] = relativePath;
     }
 
-    /* ================= MULTIPLE FILES ================= */
+    /* ===== MULTIPLE FILES ===== */
     if (req.files) {
       for (const field in req.files) {
         req.body[field] = [];
 
         for (const file of req.files[field]) {
-          const filename = `${Date.now()}-${Math.random()
-            .toString(36)
-            .slice(2)}.webp`;
-
+          const filename = generateFileName();
           const outputPath = path.join(uploadPath, filename);
 
           await sharp(file.buffer)
@@ -127,19 +124,23 @@ const convertToWebp = async (req, res, next) => {
   }
 };
 
-/* ================= DELETE IMAGE FUNCTION ================= */
+/* ================= DELETE IMAGE ================= */
 const deleteImageFile = (imagePath) => {
   try {
     if (!imagePath) return;
 
-    const fullPath = path.join(__dirname, "..", imagePath);
+    const cleanPath = imagePath.startsWith("/")
+      ? imagePath.slice(1)
+      : imagePath;
+
+    const fullPath = path.join(process.cwd(), cleanPath);
 
     if (fs.existsSync(fullPath)) {
       fs.unlinkSync(fullPath);
-      console.log("🗑 Image deleted:", fullPath);
+      console.log("🗑 Deleted:", fullPath);
     }
   } catch (err) {
-    console.error("IMAGE DELETE ERROR:", err);
+    console.error("DELETE ERROR:", err.message);
   }
 };
 

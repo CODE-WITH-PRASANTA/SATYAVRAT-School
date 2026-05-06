@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
 
-/* ================= CONFIG ================= */
+/* ================= LOAD ENV ================= */
 dotenv.config();
 
 /* ================= DB ================= */
@@ -20,68 +20,81 @@ const expenseRoutes = require("./src/routes/expenseRoutes");
 const expenseHeadRoutes = require("./src/routes/expenseHeadRoutes");
 
 const classRoutes = require("./src/routes/class.routes");
-const subjectRoutes = require("./src/routes/subject.routes");
+const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes");
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
+const subjectRoutes = require("./src/routes/subject.routes");
 
-/* ================= MIDDLEWARE ================= */
-
-
-/* ================= INIT ================= */
+/* ================= INIT APP ================= */
 const app = express();
 
-/* ================= DB CONNECT ================= */
+/* ================= CONNECT DB ================= */
 connectDB();
 
 /* ================= GLOBAL MIDDLEWARE ================= */
-
-// CORS (secure config)
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "*", // use env in production
+    origin: "*", // ⚠️ change in production
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
-// Body parser
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Static folder
+/* ================= STATIC FILES ================= */
+/* VERY IMPORTANT for image access */
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* ================= API ROUTES ================= */
 
+/* CORE */
 app.use("/api/news", newsRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
-app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+
+/* STUDENT + ENQUIRY */
 app.use("/api/students", admissionRoutes);
+app.use("/api/enquiries", enquiryRoutes);
 
-app.use("/api/expenses", expenseRoutes);
-app.use("/api/expense-head", expenseHeadRoutes);
-
-// 🔥 CORE MODULES (IMPORTANT)
+/* ACADEMIC */
 app.use("/api/classes", classRoutes);
+app.use("/api/classwise-subjects", classWiseSubjectRoutes);
+
+/* SUBJECT (YOUR CURRENT MODULE) */
 app.use("/api/subjects", subjectRoutes);
 
-app.use("/api/testimonials", testimonialRoutes);
+/* FINANCE */
+app.use("/api/expenses", expenseRoutes);
+app.use("/api/expense-heads", expenseHeadRoutes);
 
 /* ================= HEALTH CHECK ================= */
 app.get("/", (req, res) => {
-  res.status(200).json({
+  res.json({
     success: true,
     message: "🚀 API Running Successfully",
   });
 });
 
-/* ================= ERROR HANDLING ================= */
+/* ================= 404 HANDLER ================= */
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route Not Found",
+  });
+});
 
-// 404 middleware
+/* ================= GLOBAL ERROR HANDLER ================= */
+app.use((err, req, res, next) => {
+  console.error("❌ GLOBAL ERROR:", err);
 
-
-// Global error handler
-
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
+});
 
 /* ================= SERVER ================= */
 const PORT = process.env.PORT || 5000;
