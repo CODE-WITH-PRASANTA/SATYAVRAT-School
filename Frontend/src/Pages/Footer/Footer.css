@@ -1,66 +1,80 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* GLOBAL RESET (🔥 VERY IMPORTANT FIX) */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+/* ================= GLOBAL ================= */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-/* MAIN FOOTER */
+/* ================= FOOTER ================= */
 .footer {
-  background: #2c2c2c;
+  width: 100%;
+  background: #2d2d2d;
   color: #d1d5db;
   padding-top: 60px;
 }
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 .footer-container {
   max-width: 1300px;
   margin: auto;
-  padding: 0 20px;
+  padding: 0 25px;
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 40px;
 }
 
-/* LOGO */
+/* ================= COLUMN ================= */
+.footer-col {
+  width: 100%;
+}
+
+/* ================= LOGO ================= */
 .footer-logo {
-  height: 50px;
-  margin-bottom: 15px;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 18px;
 }
 
-/* ABOUT */
+/* ================= ABOUT ================= */
 .footer-about p {
-  font-size: 14px;
-  line-height: 1.7;
-  margin-bottom: 20px;
-  color: #cfcfcf;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.9;
+  color: #d6d6d6;
+  margin-bottom: 22px;
 }
 
-/* SOCIAL */
+/* ================= SOCIAL ================= */
 .footer-social {
   display: flex;
+  align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
 }
 
 .footer-social a {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+
   background: #3b3b3b;
+  color: #fff;
+
+  border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  transition: 0.3s;
+
+  text-decoration: none;
+
+  transition: 0.3s ease;
 }
 
 .footer-social a:hover {
@@ -69,161 +83,189 @@ body {
   transform: translateY(-3px);
 }
 
-/* HEADINGS */
+/* ================= HEADINGS ================= */
 .footer-col h3 {
   color: #fff;
-  margin-bottom: 15px;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
-/* LIST */
+/* ================= LINKS ================= */
 .footer-col ul {
   list-style: none;
 }
 
 .footer-col ul li {
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
+  margin-bottom: 14px;
 }
 
-.footer-col ul li:hover {
+.footer-col ul li a {
+  text-decoration: none;
+  color: #d6d6d6;
+
+  font-size: 15px;
+  font-weight: 400;
+
+  transition: 0.3s ease;
+}
+
+.footer-col ul li a:hover {
   color: #f4c542;
   padding-left: 5px;
 }
 
-.footer-col ul li.active {
-  color: #4aa3ff;
+/* ================= SCHOOL INFO ================= */
+.footer-info li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  color: #d6d6d6;
+
+  font-size: 15px;
+  font-weight: 400;
+
+  line-height: 1.8;
 }
 
-/* ================= NEWSLETTER FIX ================= */
-.footer-newsletter {
-  width: 100%;
-  max-width: 320px;   /* 🔥 perfect box width */
+.footer-info-icon {
+  color: #f4c542;
+  margin-top: 5px;
+  min-width: 16px;
+}
+
+/* ================= NEWSLETTER ================= */
+.newsletter-text {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #d6d6d6;
+  margin-bottom: 20px;
 }
 
 .footer-newsletter form {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .footer-newsletter input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 12px;
+
+  padding: 13px 14px;
+  margin-bottom: 14px;
+
   border: none;
   outline: none;
-  background: #e5e5e5;
+
   border-radius: 6px;
+
+  background: #e5e5e5;
+
   font-size: 14px;
+  font-weight: 400;
 }
 
 .footer-newsletter button {
   width: 100%;
+
+  padding: 13px;
+
   background: #f4c542;
+  color: #000;
+
   border: none;
-  padding: 12px;
-  font-weight: 600;
-  cursor: pointer;
   border-radius: 6px;
-  transition: 0.3s;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
 }
 
 .footer-newsletter button:hover {
-  background: #e0b630;
+  background: #dfb42e;
 }
 
-/* BOTTOM */
+/* ================= FOOTER BOTTOM ================= */
 .footer-bottom {
   border-top: 1px solid #444;
-  margin-top: 40px;
+  margin-top: 50px;
+  padding: 20px;
   text-align: center;
-  padding: 18px;
-  font-size: 13px;
-  color: #9ca3af;
 }
 
+.footer-bottom p {
+  color: #b5b5b5;
 
-.footer-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
+  font-size: 14px;
+  font-weight: 400;
 
-.footer-col ul li a {
-  text-decoration: none;
-  color: #ccc;
-  transition: 0.3s;
-}
-
-.footer-col ul li a:hover {
-  color: #fff;
-}
-
-.footer-col ul li.active a {
-  color: #4da6ff; /* blue highlight like your image */
+  line-height: 1.8;
 }
 
 /* ================= RESPONSIVE ================= */
 
-/* LARGE SCREENS */
-@media (max-width: 1200px) {
-  .footer-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 /* TABLET */
-@media (max-width: 900px) {
+@media (max-width: 992px) {
+
   .footer-container {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
   }
 
-  .footer-about {
-    grid-column: span 2;
-  }
 }
 
 /* MOBILE */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+
   .footer-container {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .footer-about,
-  .footer-newsletter {
-    grid-column: span 1;
-  }
-
-  .footer-newsletter {
-    margin: 0 auto;   /* 🔥 center box */
-  }
-
   .footer-social {
     justify-content: center;
   }
+
+  .footer-info li {
+    justify-content: center;
+    text-align: left;
+  }
+
 }
 
-/* EXTRA SMALL DEVICES */
-@media (max-width: 400px) {
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
   .footer {
     padding-top: 40px;
   }
 
+  .footer-container {
+    padding: 0 15px;
+    gap: 30px;
+  }
+
   .footer-logo {
-    height: 40px;
+    width: 70px;
+    height: 70px;
   }
 
   .footer-col h3 {
-    font-size: 15px;
+    font-size: 18px;
   }
 
-  .footer-bottom {
+  .footer-about p,
+  .newsletter-text,
+  .footer-col ul li a,
+  .footer-info li {
+    font-size: 14px;
+  }
+
+  .footer-bottom p {
     font-size: 12px;
   }
+
 }

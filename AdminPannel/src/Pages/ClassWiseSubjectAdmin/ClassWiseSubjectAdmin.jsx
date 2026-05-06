@@ -9,33 +9,39 @@ const ClassWiseSubjectAdmin = () => {
     subjectType: "regular",
   };
 
-  const [classes] = useState([
-    { _id: "1", className: "1" },
-    { _id: "2", className: "2" },
-    { _id: "3", className: "3" },
-  ]);
-
-  const [form, setForm] = useState(emptyForm);
+  const [classes, setClasses] = useState([]);
   const [subjects, setSubjects] = useState([]);
-
+  const [form, setForm] = useState(emptyForm);
   const [editing, setEditing] = useState(false);
-  const [oldSubjectName, setOldSubjectName] = useState("");
+  const [editId, setEditId] = useState(null);
 
-  /* ================= FETCH ================= */
+  /* ================= FETCH DATA ================= */
+
+  const fetchClasses = async () => {
+    try {
+      const res = await API.get("/classes");
+      setClasses(res.data.data || []);
+    } catch (err) {
+      console.error("Class Fetch Error:", err);
+    }
+  };
+
   const fetchSubjects = async () => {
     try {
-      const res = await API.get("/classwise-subjects");
+      const res = await API.get("/subjects");
       setSubjects(res.data.data || []);
     } catch (err) {
-      console.error("Fetch Error:", err);
+      console.error("Subject Fetch Error:", err);
     }
   };
 
   useEffect(() => {
+    fetchClasses();
     fetchSubjects();
   }, []);
 
   /* ================= INPUT ================= */
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -52,6 +58,7 @@ const ClassWiseSubjectAdmin = () => {
   };
 
   /* ================= SUBMIT ================= */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,49 +69,51 @@ const ClassWiseSubjectAdmin = () => {
 
     try {
       if (editing) {
-        await API.put("/classwise-subjects/update", {
-          classId: form.classIds[0],
-          oldName: oldSubjectName,
-          newName: form.subjectName,
-          type: form.subjectType,
+        await API.put(`/subjects/${editId}`, {
+          subjectName: form.subjectName,
+          subjectType: form.subjectType,
         });
       } else {
-        await Promise.all(
-          form.classIds.map((id) =>
-            API.post("/classwise-subjects", {
-              classId: id,
-              name: form.subjectName,
-              type: form.subjectType,
-            })
-          )
-        );
+        await API.post("/subjects", form);
       }
 
-      fetchSubjects();
+      alert("✅ Success");
+
       setForm(emptyForm);
       setEditing(false);
-      setOldSubjectName("");
+      setEditId(null);
+
+      fetchSubjects();
     } catch (err) {
       console.error("Submit Error:", err);
     }
   };
 
   /* ================= DELETE ================= */
-  const deleteSubject = async (classId, name) => {
+
+  const deleteSubject = async (id) => {
+    if (!window.confirm("Delete this subject?")) return;
+
     try {
-      await API.put("/classwise-subjects/delete", {
-        classId,
-        name,
-      });
+      await API.delete(`/subjects/${id}`);
       fetchSubjects();
     } catch (err) {
       console.error(err);
     }
   };
 
-  const deleteClass = async (classId) => {
+  const deleteClassSubjects = async (classId) => {
+    if (!window.confirm("Delete all subjects of this class?")) return;
+
     try {
-      await API.delete(`/classwise-subjects/${classId}`);
+      const filtered = subjects.filter(
+        (s) => s.classId?._id === classId
+      );
+
+      await Promise.all(
+        filtered.map((s) => API.delete(`/subjects/${s._id}`))
+      );
+
       fetchSubjects();
     } catch (err) {
       console.error(err);
@@ -112,26 +121,30 @@ const ClassWiseSubjectAdmin = () => {
   };
 
   /* ================= EDIT ================= */
-  const editSubject = (classId, sub) => {
+
+  const editSubject = (sub) => {
     setEditing(true);
-    setOldSubjectName(sub.name);
+    setEditId(sub._id);
 
     setForm({
-      classIds: [classId],
-      subjectName: sub.name,
-      subjectType: sub.type,
+      classIds: [sub.classId._id],
+      subjectName: sub.subjectName,
+      subjectType: sub.subjectType,
     });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   /* ================= GROUP ================= */
-  const groupedSubjects = classes.map((cls) => {
-    const match = subjects.find((s) => s.classId === cls._id);
 
-    return {
-      ...cls,
-      subjects: match ? match.subjects : [],
-    };
-  });
+  const groupedSubjects = classes.map((cls) => ({
+    ...cls,
+    subjects: subjects.filter(
+      (s) => s.classId?._id === cls._id
+    ),
+  }));
+
+  /* ================= UI ================= */
 
   return (
     <div className="cws-container">
@@ -151,7 +164,9 @@ const ClassWiseSubjectAdmin = () => {
                   handleCheckbox(cls._id, e.target.checked)
                 }
               />
-              <span>Class {cls.className}</span>
+              <span>
+                Class {cls.className} ({cls.sectionName})
+              </span>
             </label>
           ))}
         </div>
@@ -200,6 +215,7 @@ const ClassWiseSubjectAdmin = () => {
               onClick={() => {
                 setForm(emptyForm);
                 setEditing(false);
+                setEditId(null);
               }}
             >
               Cancel
@@ -212,44 +228,50 @@ const ClassWiseSubjectAdmin = () => {
       {groupedSubjects.map((cls) => (
         <div key={cls._id} className="class-block">
           <div className="class-header">
-            <h3>{cls.className}</h3>
+            <h3>
+              Class {cls.className} ({cls.sectionName})
+            </h3>
+
             {cls.subjects.length > 0 && (
               <button
                 className="delete-class"
-                onClick={() => deleteClass(cls._id)}
+                onClick={() => deleteClassSubjects(cls._id)}
               >
-                Delete Class
+                Delete Class Subjects
               </button>
             )}
           </div>
 
-          {cls.subjects.map((sub, i) => (
-            <div key={i} className="subject-row">
-              <div className="subject-left">
-                {sub.name.toUpperCase()}
-                {sub.type === "optional" && (
-                  <span className="optional">(Optional)</span>
-                )}
-              </div>
+          {cls.subjects.length === 0 ? (
+            <p className="empty">No subjects</p>
+          ) : (
+            cls.subjects.map((sub) => (
+              <div key={sub._id} className="subject-row">
+                <div className="subject-left">
+                  {sub.subjectName.toUpperCase()}
+                  {sub.subjectType === "optional" && (
+                    <span className="optional">(Optional)</span>
+                  )}
+                </div>
 
-              <div className="subject-actions">
-                <button
-                  className="edit-btn"
-                  onClick={() => editSubject(cls._id, sub)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="delete-btn"
-                  onClick={() =>
-                    deleteSubject(cls._id, sub.name)
-                  }
-                >
-                  Delete
-                </button>
+                <div className="subject-actions">
+                  <button
+                    className="edit-btn"
+                    onClick={() => editSubject(sub)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteSubject(sub._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       ))}
     </div>
