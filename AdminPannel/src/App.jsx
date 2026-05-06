@@ -1,23 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import AdminLayout from "../Layout/AdminLayout";
 
 import Teacher from "./Pages/Teacher/Teacher";
 import Testimonial from "./Pages/Testimonial/Testimonial";
-
 import NewsPosting from "./Pages/NewsPosting/NewsPosting";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 import StudentAdmsnDetails from "./Pages/StudentAdmsnDetails/StudentAdmsnDetails";
 import FeeCollection from "./Component/FeeCollection/FeeCollection";
 import FeeType from "./Component/FeeType/FeeType";
-
 import ProFilePicture from "./Pages/ProFilePicture/ProFilepicture";
 import DashBoard from "./Pages/DashBoard/DashBoard";
 import ColdLead from "./Component/ColdLead/ColdLead";
 import Galleryposting from "./Component/Galleryposting/Galleryposting";
 import AdmissionTable from "./Component/AdmissionTable/AdmissionTable";
 import ColdLeadTable from "./Component/ColdLeadTable/ColdLeadTable";
-import Login from "./Pages/Login/Login";
-import Protected from "./Pages/Protected/Protected";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
@@ -31,62 +33,181 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
+
 import LoginForm from "./Pages/LoginForm/LoginForm";
+
+// ================= PROTECTED ROUTE =================
+
+const ProtectedRoute = ({ children }) => {
+  const isLoggedIn =
+    localStorage.getItem("adminAuth") === "true";
+
+  return isLoggedIn ? (
+    children
+  ) : (
+    <Navigate to="/login" replace />
+  );
+};
 
 function App() {
   return (
-      <BrowserRouter>
+    <BrowserRouter>
       <Routes>
-         <Route path="/login" element={<LoginForm />} />
-         <Route
+
+        {/* ================= LOGIN PAGE ================= */}
+
+        <Route
+          path="/login"
+          element={<LoginForm />}
+        />
+
+        {/* ================= PROTECTED ADMIN ROUTES ================= */}
+
+        <Route
+          path="/"
           element={
-            <Protected>
-              
+            <ProtectedRoute>
               <AdminLayout />
-              </Protected>
-            
+            </ProtectedRoute>
           }
         >
-
-        </Route>
-        {/* Only Layout Route */}
-
-        <Route element={<AdminLayout />}>
-          <Route path="/" element={<DashBoard />} />
-          <Route path="/admin/newsposting" element={<NewsPosting />} />
-
-          <Route path="/admin/teacherposting" element={<Teacher />} />
-          <Route path="/admin/testimonial" element={<Testimonial />} />
-          <Route path="/student/admission" element={<StudentAdmission />} />
           <Route
-            path="/student/admission/details"
+            index
+            element={<DashBoard />}
+          />
+
+          <Route
+            path="admin/newsposting"
+            element={<NewsPosting />}
+          />
+
+          <Route
+            path="admin/teacherposting"
+            element={<Teacher />}
+          />
+
+          <Route
+            path="admin/testimonial"
+            element={<Testimonial />}
+          />
+
+          <Route
+            path="student/admission"
+            element={<StudentAdmission />}
+          />
+
+          <Route
+            path="student/admission/details"
             element={<StudentAdmsnDetails />}
           />
-          <Route path="/fee-collect" element={<FeeCollection />} />
-          <Route path="/fee-type" element={<FeeType />} />
-          <Route path="/admin/profile" element={<ProFilePicture />} />
 
-          <Route path="/admin/gallery" element={<Galleryposting />} />
-          <Route path="/admin/Admission-Table" element={<AdmissionTable />} />
-          <Route path="/admin/cold-lead" element={<ColdLead />} />
-          <Route path="/admin/cold-lead-table" element={<ColdLeadTable />} />
+          <Route
+            path="fee-collect"
+            element={<FeeCollection />}
+          />
 
-          <Route path="/class-post" element={<ClassesAdmin />} />
-          <Route path="/subject-post" element={<SubjectAdmin />} />
-          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
-         <Route path="/exam-result" element={<ExamResult />} />
-         <Route path="exam-result-manager" element={<ExamResultAdmin />} />
-         <Route path="/exam-type" element={<ExamTypeAdmin />} />
-         <Route path="/exam-report" element={<ExamProgressReport />} />
-          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
-          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
-          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
-          <Route path="/expense/details" element={< AddExpense/>}/>
-          <Route path="/expense-search"element={<ExpenseSearch/>}/>
-          <Route path="/expense-head"element={<ExpenseHead/>}/>
-          
-          
+          <Route
+            path="fee-type"
+            element={<FeeType />}
+          />
+
+          <Route
+            path="admin/profile"
+            element={<ProFilePicture />}
+          />
+
+          <Route
+            path="admin/gallery"
+            element={<Galleryposting />}
+          />
+
+          <Route
+            path="admin/Admission-Table"
+            element={<AdmissionTable />}
+          />
+
+          <Route
+            path="admin/cold-lead"
+            element={<ColdLead />}
+          />
+
+          <Route
+            path="admin/cold-lead-table"
+            element={<ColdLeadTable />}
+          />
+
+          <Route
+            path="class-post"
+            element={<ClassesAdmin />}
+          />
+
+          <Route
+            path="subject-post"
+            element={<SubjectAdmin />}
+          />
+
+          <Route
+            path="classwise-subject"
+            element={<ClassWiseSubjectAdmin />}
+          />
+
+          <Route
+            path="exam-result"
+            element={<ExamResult />}
+          />
+
+          <Route
+            path="exam-result-manager"
+            element={<ExamResultAdmin />}
+          />
+
+          <Route
+            path="exam-type"
+            element={<ExamTypeAdmin />}
+          />
+
+          <Route
+            path="exam-report"
+            element={<ExamProgressReport />}
+          />
+
+          <Route
+            path="attendance/student-attendance"
+            element={<StudentAttendance />}
+          />
+
+          <Route
+            path="attendance/student-leave"
+            element={<Studentleave />}
+          />
+
+          <Route
+            path="attendance/attendance-report"
+            element={<AttendanceReport />}
+          />
+
+          <Route
+            path="expense/details"
+            element={<AddExpense />}
+          />
+
+          <Route
+            path="expense-search"
+            element={<ExpenseSearch />}
+          />
+
+          <Route
+            path="expense-head"
+            element={<ExpenseHead />}
+          />
         </Route>
+
+        {/* ================= INVALID ROUTE ================= */}
+
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
       </Routes>
     </BrowserRouter>
   );

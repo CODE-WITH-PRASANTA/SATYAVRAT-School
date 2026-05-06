@@ -1,19 +1,24 @@
-// src/pages/Login/LoginForm.jsx
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-import React, { useEffect, useState } from "react";
 import "./LoginForm.css";
+
 import { useNavigate } from "react-router-dom";
+
 import {
   FaUserShield,
   FaLock,
   FaEye,
   FaEyeSlash,
+  FaCheckCircle,
 } from "react-icons/fa";
-
-import axios from "axios";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+
+  // ================= STATES =================
 
   const [showPassword, setShowPassword] =
     useState(false);
@@ -24,7 +29,11 @@ const LoginForm = () => {
   const [animate, setAnimate] =
     useState(false);
 
-  const [error, setError] = useState("");
+  const [loginSuccess, setLoginSuccess] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
 
   const [formData, setFormData] =
     useState({
@@ -32,89 +41,86 @@ const LoginForm = () => {
       password: "",
     });
 
+  // ================= PAGE ANIMATION =================
+
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setAnimate(true);
     }, 200);
+
+    return () =>
+      clearTimeout(timer);
   }, []);
 
+  // ================= HANDLE INPUT =================
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } =
+      e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     setError("");
   };
 
-  // ================= LOGIN API =================
+  // ================= HANDLE LOGIN =================
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
 
     setLoading(true);
 
     setError("");
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          username: formData.username,
-          password: formData.password,
-        }
-      );
+    setTimeout(() => {
+      const validUsername =
+        "satyavrat";
 
-      console.log(response.data);
+      const validPassword =
+        "123456";
 
-      // ================= SUCCESS =================
-
-      if (response.data.success) {
-        // TOKEN STORE
-
-        localStorage.setItem(
-          "token",
-          response.data.token
-        );
-
+      if (
+        formData.username ===
+          validUsername &&
+        formData.password ===
+          validPassword
+      ) {
+        // SAVE LOGIN
         localStorage.setItem(
           "adminAuth",
           "true"
         );
 
         localStorage.setItem(
-          "adminData",
-          JSON.stringify(response.data.user)
+          "adminUser",
+          JSON.stringify({
+            username:
+              validUsername,
+          })
         );
 
-        navigate("/");
-      } else {
-        setError(
-          response.data.message ||
-            "Invalid Username or Password"
-        );
-      }
-    } catch (err) {
-      console.log(err);
+        // SUCCESS ANIMATION
+        setLoginSuccess(true);
 
-      if (err.response) {
-        setError(
-          err.response.data.message ||
-            "Login Failed"
-        );
+        setTimeout(() => {
+          navigate("/");
+        }, 1800);
       } else {
         setError(
-          "Backend Server Not Connected"
+          "Invalid Username or Password"
         );
+
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
+    }, 1500);
   };
 
   return (
     <div className="LoginForm">
-      {/* BACKGROUND SHAPES */}
+      {/* ================= BG SHAPES ================= */}
 
       <div className="LoginForm-bgShape LoginForm-bgShape1"></div>
 
@@ -122,143 +128,204 @@ const LoginForm = () => {
 
       <div className="LoginForm-bgShape LoginForm-bgShape3"></div>
 
-      {/* CONTAINER */}
+      {/* ================= MAIN CONTAINER ================= */}
 
       <div
         className={`LoginForm-container ${
           animate
             ? "LoginForm-show"
             : ""
+        } ${
+          loginSuccess
+            ? "LoginForm-success"
+            : ""
         }`}
       >
-        {/* LEFT SIDE */}
+        {/* ================= LEFT SECTION ================= */}
 
         <div className="LoginForm-left">
           <div className="LoginForm-overlay"></div>
+
+          {/* FLOATING PARTICLES */}
+
+          <span className="LoginForm-particle particle1"></span>
+          <span className="LoginForm-particle particle2"></span>
+          <span className="LoginForm-particle particle3"></span>
+
+          {/* ANIMATED IMAGE */}
+
+          <div className="LoginForm-animatedImage">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="dashboard"
+            />
+          </div>
+
+          {/* CONTENT */}
 
           <div className="LoginForm-leftContent">
             <h1>Admin Panel</h1>
 
             <p>
-              Secure School Management
-              System Dashboard with fully
-              protected authentication
-              access.
+              Secure School
+              Management System
+              Dashboard with fully
+              protected
+              authentication access.
             </p>
 
             <div className="LoginForm-floatingCard">
-              <span>Secure Login</span>
+              <span>
+                Secure Login
+              </span>
             </div>
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* ================= RIGHT SECTION ================= */}
 
         <div className="LoginForm-right">
           <form
             className="LoginForm-form"
-            onSubmit={handleLogin}
+            onSubmit={
+              handleLogin
+            }
           >
-            {/* LOGO */}
+            {/* SUCCESS */}
 
-            <div className="LoginForm-logo">
-              <FaUserShield />
-            </div>
+            {loginSuccess ? (
+              <div className="LoginForm-successBox">
+                <FaCheckCircle />
 
-            <h2>Welcome Back</h2>
+                <h2>
+                  Login Successful
+                </h2>
 
-            <p>
-              Login to continue to Admin
-              Dashboard
-            </p>
-
-            {/* ERROR MESSAGE */}
-
-            {error && (
-              <div className="LoginForm-error">
-                {error}
+                <p>
+                  Redirecting to
+                  Dashboard...
+                </p>
               </div>
-            )}
+            ) : (
+              <>
+                {/* LOGO */}
 
-            {/* USERNAME */}
+                <div className="LoginForm-logo">
+                  <FaUserShield />
+                </div>
 
-            <div className="LoginForm-inputGroup">
-              <FaUserShield className="LoginForm-inputIcon" />
+                {/* TITLE */}
 
-              <input
-                type="text"
-                name="username"
-                placeholder="Enter Username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </div>
+                <h2>
+                  Welcome Back
+                </h2>
 
-            {/* PASSWORD */}
+                <p>
+                  Login to continue
+                  to Admin Dashboard
+                </p>
 
-            <div className="LoginForm-inputGroup">
-              <FaLock className="LoginForm-inputIcon" />
+                {/* ERROR */}
 
-              <input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
-                name="password"
-                placeholder="Enter Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-
-              <button
-                type="button"
-                className="LoginForm-eyeBtn"
-                onClick={() =>
-                  setShowPassword(
-                    !showPassword
-                  )
-                }
-              >
-                {showPassword ? (
-                  <FaEyeSlash />
-                ) : (
-                  <FaEye />
+                {error && (
+                  <div className="LoginForm-error">
+                    {error}
+                  </div>
                 )}
-              </button>
-            </div>
 
-            {/* BUTTON */}
+                {/* USERNAME */}
 
-            <button
-              type="submit"
-              className={`LoginForm-submit ${
-                loading
-                  ? "LoginForm-loading"
-                  : ""
-              }`}
-              disabled={loading}
-            >
-              {loading
-                ? "Signing In..."
-                : "Login"}
-            </button>
+                <div className="LoginForm-inputGroup">
+                  <FaUserShield className="LoginForm-inputIcon" />
 
-            {/* DEMO */}
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter Username"
+                    value={
+                      formData.username
+                    }
+                    onChange={
+                      handleChange
+                    }
+                    required
+                  />
+                </div>
 
-            <div className="LoginForm-demoCredentials">
-              <h4>Demo Credentials</h4>
+                {/* PASSWORD */}
 
-              <span>
-                Username : satyavrat
-              </span>
+                <div className="LoginForm-inputGroup">
+                  <FaLock className="LoginForm-inputIcon" />
 
-              <span>
-                Password : 123456
-              </span>
-            </div>
+                  <input
+                    type={
+                      showPassword
+                        ? "text"
+                        : "password"
+                    }
+                    name="password"
+                    placeholder="Enter Password"
+                    value={
+                      formData.password
+                    }
+                    onChange={
+                      handleChange
+                    }
+                    required
+                  />
+
+                  <button
+                    type="button"
+                    className="LoginForm-eyeBtn"
+                    onClick={() =>
+                      setShowPassword(
+                        !showPassword
+                      )
+                    }
+                  >
+                    {showPassword ? (
+                      <FaEyeSlash />
+                    ) : (
+                      <FaEye />
+                    )}
+                  </button>
+                </div>
+
+                {/* BUTTON */}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`LoginForm-submit ${
+                    loading
+                      ? "LoginForm-loading"
+                      : ""
+                  }`}
+                >
+                  {loading
+                    ? "Signing In..."
+                    : "Login"}
+                </button>
+
+                {/* DEMO */}
+
+                <div className="LoginForm-demoCredentials">
+                  <h4>
+                    Demo Credentials
+                  </h4>
+
+                  <span>
+                    Username :
+                    satyavrat
+                  </span>
+
+                  <span>
+                    Password :
+                    123456
+                  </span>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>

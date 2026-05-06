@@ -10,7 +10,7 @@ dotenv.config();
 const connectDB = require("./src/configs/db");
 
 /* ================= ROUTES ================= */
-const authRoutes = require("./src/routes/auth.routes");
+
 const newsRoutes = require("./src/routes/newsposting.routes");
 const teacherRoutes = require("./src/routes/teacher.routes");
 const galleryRoutes = require("./src/routes/gallery.routes");
@@ -73,7 +73,7 @@ app.use("/api/expenses", expenseRoutes);
 
 app.use("/api/expense-head", expenseHeadRoutes);
 
-app.use("/api/auth", authRoutes);
+
 
 
 /* ================= HEALTH CHECK ================= */

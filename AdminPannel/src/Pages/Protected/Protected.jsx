@@ -1,5 +1,3 @@
-// ================= PROTECTED.JSX =================
-
 import React from "react";
 
 import { Navigate } from "react-router-dom";
@@ -7,14 +5,12 @@ import { Navigate } from "react-router-dom";
 const Protected = ({
   children,
 }) => {
-  // CHECK TOKEN
-  const token =
+  const isAuthenticated =
     localStorage.getItem(
-      "adminToken"
-    );
+      "adminAuth"
+    ) === "true";
 
-  // NOT LOGGED IN
-  if (!token) {
+  if (!isAuthenticated) {
     return (
       <Navigate
         to="/login"
@@ -23,7 +19,6 @@ const Protected = ({
     );
   }
 
-  // LOGGED IN
   return children;
 };
 
