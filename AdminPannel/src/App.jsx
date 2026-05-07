@@ -35,6 +35,7 @@ import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import LoginForm from "./Pages/LoginForm/LoginForm";
+import ClassPost from "./Pages/ClassPost/ClassPost";
 
 // ================= PROTECTED ROUTE =================
 
@@ -200,7 +201,13 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
+          
+          <Route path="/class/post" element={<ClassPost />} />
+
+
         </Route>
+
+         
 
         {/* ================= INVALID ROUTE ================= */}
 

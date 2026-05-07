@@ -24,6 +24,7 @@ const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes")
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 const subjectRoutes = require("./src/routes/subject.routes");
+const classPostRoutes = require("./src/routes/classPost.routes");
 
 
 
@@ -72,6 +73,8 @@ app.use("/api/subjects", subjectRoutes);
 app.use("/api/expenses", expenseRoutes);
 
 app.use("/api/expense-head", expenseHeadRoutes);
+
+app.use("/api/class-post", classPostRoutes);
 
 
 
