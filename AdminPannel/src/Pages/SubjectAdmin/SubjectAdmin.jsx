@@ -17,7 +17,7 @@ export default function SubjectAdmin() {
   const [search, setSearch] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  // 🔁 FETCH FROM BACKEND
+  /* ================= FETCH ================= */
   const fetchSubjects = async () => {
     try {
       const res = await API.get("/subjects");
@@ -31,18 +31,17 @@ export default function SubjectAdmin() {
     fetchSubjects();
   }, []);
 
-  // 🧾 INPUT HANDLER
+  /* ================= INPUT ================= */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🖼 IMAGE HANDLER
+  /* ================= IMAGE ================= */
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
 
-      // preview
       setForm({
         ...form,
         image: URL.createObjectURL(file),
@@ -50,7 +49,7 @@ export default function SubjectAdmin() {
     }
   };
 
-  // 🚀 SUBMIT (POST / PUT)
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,7 +80,7 @@ export default function SubjectAdmin() {
     }
   };
 
-  // ❌ DELETE
+  /* ================= DELETE ================= */
   const deleteSubject = async (id) => {
     try {
       await API.delete(`/subjects/${id}`);
@@ -91,20 +90,22 @@ export default function SubjectAdmin() {
     }
   };
 
-  // ✏️ EDIT
-  const editSubject = (subject) => {
+  /* ================= EDIT ================= */
+  const editSubject = (s) => {
     setForm({
-      ...subject,
-      image: subject.image ? IMAGE_URL + subject.image : "",
+      subjectName: s.subjectName,
+      className: s.className,
+      teacher: s.teacher,
+      description: s.description,
+      image: s.image ? `${IMAGE_URL}${s.image}` : "",
     });
 
-    setEditId(subject._id);
+    setEditId(s._id);
     setImageFile(null);
-
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // 🔍 SEARCH
+  /* ================= SEARCH ================= */
   const filteredSubjects = subjects.filter((s) =>
     s.subjectName?.toLowerCase().includes(search.toLowerCase())
   );
@@ -124,7 +125,6 @@ export default function SubjectAdmin() {
               name="subjectName"
               value={form.subjectName}
               onChange={handleChange}
-              placeholder="Mathematics"
               required
             />
           </div>
@@ -137,7 +137,7 @@ export default function SubjectAdmin() {
               onChange={handleChange}
               required
             >
-              <option value="">Select Class</option>
+              <option value="">Select</option>
               <option>Nursery</option>
               <option>LKG</option>
               <option>UKG</option>
@@ -152,7 +152,6 @@ export default function SubjectAdmin() {
               name="teacher"
               value={form.teacher}
               onChange={handleChange}
-              placeholder="Teacher Name"
             />
           </div>
 
@@ -167,11 +166,11 @@ export default function SubjectAdmin() {
 
           <div className="form-group">
             <label>Image</label>
-            <input type="file" onChange={handleImage} />
+            <input type="file" accept="image/*" onChange={handleImage} />
           </div>
 
           <button className="btn primary">
-            {editId ? "Update Subject" : "Post Subject"}
+            {editId ? "Update" : "Post"}
           </button>
         </form>
 
@@ -184,8 +183,8 @@ export default function SubjectAdmin() {
 
             <div className="preview-content">
               <h3>{form.subjectName || "Subject Name"}</h3>
-              <p>Class: {form.className || "Class"}</p>
-              <p>Teacher: {form.teacher || "Teacher"}</p>
+              <p>{form.className || "Class"}</p>
+              <p>{form.teacher || "Teacher"}</p>
               <p>{form.description || "Description"}</p>
             </div>
           </div>
@@ -197,7 +196,7 @@ export default function SubjectAdmin() {
         <div className="table-header">
           <h2>Subject List</h2>
           <input
-            placeholder="Search subject..."
+            placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -219,12 +218,15 @@ export default function SubjectAdmin() {
               {filteredSubjects.map((s) => (
                 <tr key={s._id}>
                   <td>
-                    {s.image && (
-                      <img
-                        src={IMAGE_URL + s.image}
-                        className="table-img"
-                      />
-                    )}
+                    <img
+                      src={
+                        s.image
+                          ? `${IMAGE_URL}${s.image}`
+                          : "https://via.placeholder.com/50"
+                      }
+                      className="table-img"
+                      alt="subject"
+                    />
                   </td>
 
                   <td>{s.subjectName}</td>
@@ -252,7 +254,7 @@ export default function SubjectAdmin() {
               {filteredSubjects.length === 0 && (
                 <tr>
                   <td colSpan="5" className="no-data">
-                    No subjects found
+                    No data found
                   </td>
                 </tr>
               )}
