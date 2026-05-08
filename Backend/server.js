@@ -20,7 +20,7 @@ const admissionRoutes = require("./src/routes/admission.routes");
 const expenseRoutes = require("./src/routes/expense.routes");
 const expenseHeadRoutes = require("./src/routes/expenseHead.routes");
 const classRoutes = require("./src/routes/class.routes");
-const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes")
+
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 const subjectRoutes = require("./src/routes/subject.routes");
@@ -64,7 +64,7 @@ app.use("/api/enquiries", enquiryRoutes);
 
 /* ACADEMIC */
 app.use("/api/classes", classRoutes);
-app.use("/api/classwise-subjects", classWiseSubjectRoutes);
+
 
 /* SUBJECT (YOUR CURRENT MODULE) */
 app.use("/api/subjects", subjectRoutes);
