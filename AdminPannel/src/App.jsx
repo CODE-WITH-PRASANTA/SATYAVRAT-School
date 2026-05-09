@@ -31,6 +31,7 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
+import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 
 function App() {
   return (
@@ -83,6 +84,7 @@ function App() {
           <Route path="/expense/details" element={< AddExpense/>}/>
           <Route path="/expense-search"element={<ExpenseSearch/>}/>
           <Route path="/expense-head"element={<ExpenseHead/>}/>
+          <Route path="/admin/Advites" element={<AdvitesForm/>}/>
           
           
         </Route>

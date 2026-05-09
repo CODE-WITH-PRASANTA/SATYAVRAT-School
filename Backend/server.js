@@ -21,6 +21,7 @@ const classWiseSubjectRoutes = require("./src/routes/classWiseSubject.routes");
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 const expensesHead = require("./src/routes/expenseHeadRoutes")
+const bannerRoutes= require("./src/routes/banner.routes");
 
 
 /* LOAD ENV */
@@ -52,6 +53,7 @@ app.use("/api/expense-head",expensesHead );
 app.use("/api/classes", classRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/classwise-subjects", classWiseSubjectRoutes);
+app.use("/api/banner",bannerRoutes);
 
 
 

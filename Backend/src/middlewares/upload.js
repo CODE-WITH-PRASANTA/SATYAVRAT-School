@@ -19,7 +19,7 @@ const routeFolderMap = {
    "/testimonials": "uploads/testimonials" ,
     "/teachers": "uploads/teachers",
     "/admissions": "uploads/admissions",
-    "/subjects": "uploads/subjects", 
+    "/banner":"uploads/banner", 
     
     
 };

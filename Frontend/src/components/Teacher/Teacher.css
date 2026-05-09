@@ -1,120 +1,469 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .teacher {
-  padding: 80px 15px;
-  background: #f8f9fb;
-  font-family: "Poppins", sans-serif;
-}
+  width: 100%;
+  padding: 90px 20px;
 
-.teacher__container {
-  max-width: 1200px;
-  margin: auto;
-}
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(37, 99, 235, 0.08),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(249, 115, 22, 0.08),
+      transparent 24%
+    ),
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      #f4f7fb 100%
+    );
 
-.teacher__title {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 40px;
-  color: #222;
-  font-weight: 600;
-}
+  font-family: "Inter", sans-serif;
 
-/* GRID */
-.teacher__grid {
-  display: grid;
-  gap: 25px;
-}
-
-/* Responsive Grid */
-@media (min-width: 992px) {
-  .teacher__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 576px) and (max-width: 991px) {
-  .teacher__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 575px) {
-  .teacher__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* CARD */
-.teacher__card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 25px 20px;
-  text-align: center;
-  transition: 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-}
-
-.teacher__card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-}
-
-/* IMAGE */
-.teacher__image {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 15px;
-  border-radius: 50%;
   overflow: hidden;
 }
 
-.teacher__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.teacher__container {
+  max-width: 1280px;
+  margin: auto;
 }
 
-/* TEXT */
+/* ================= TOP ================= */
+
+.teacher__top {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.teacher__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 18px;
+
+  background: rgba(37, 99, 235, 0.1);
+
+  color: #2563eb;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  margin-bottom: 18px;
+}
+
+.teacher__title {
+  font-size: 48px;
+  font-weight: 800;
+  color: #0f172a;
+
+  margin-bottom: 16px;
+}
+
+.teacher__subtitle {
+  max-width: 760px;
+  margin: auto;
+
+  font-size: 15px;
+  line-height: 1.8;
+
+  color: #64748b;
+}
+
+/* ================= GRID ================= */
+
+.teacher__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ================= CARD ================= */
+
+.teacher__card {
+  background: rgba(255, 255, 255, 0.9);
+
+  border-radius: 28px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.8);
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+
+  transition: 0.35s ease;
+}
+
+.teacher__card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 22px 55px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ================= IMAGE ================= */
+
+.teacher__imageWrap {
+  position: relative;
+
+  padding: 18px 18px 0;
+}
+
+.teacher__image {
+  width: 100%;
+  height: 280px;
+
+  object-fit: cover;
+
+  border-radius: 22px;
+}
+
+/* ================= STATUS ================= */
+
+.teacher__status {
+  position: absolute;
+
+  left: 34px;
+  bottom: -14px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    #16a34a,
+    #22c55e
+  );
+
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.teacher__status span {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: #fff;
+}
+
+/* ================= CONTENT ================= */
+
+.teacher__content {
+  padding: 34px 22px 24px;
+}
+
+.teacher__tag {
+  display: inline-flex;
+
+  padding: 7px 14px;
+
+  border-radius: 999px;
+
+  background: rgba(249, 115, 22, 0.12);
+
+  color: #ea580c;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  margin-bottom: 14px;
+}
+
 .teacher__name {
-  font-size: 17px;
-  font-weight: 600;
-  color: #222;
+  font-size: 24px;
+  font-weight: 800;
+
+  color: #0f172a;
+
+  line-height: 1.3;
+
+  margin-bottom: 10px;
 }
 
 .teacher__role {
-  font-size: 13px;
-  color: #888;
-  margin: 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #2563eb;
+
+  margin-bottom: 16px;
 }
 
 .teacher__desc {
-  font-size: 13px;
-  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+
+  color: #64748b;
+
+  margin-bottom: 20px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+/* ================= LINE ================= */
+
+.teacher__line {
+  width: 90px;
+  height: 4px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    #fb7185,
+    #f59e0b
+  );
+
+  margin-bottom: 20px;
+}
+
+/* ================= PHONE ================= */
+
+.teacher__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+
+  padding: 12px 16px;
+
+  background: #f8fafc;
+
+  border-radius: 14px;
+
+  border: 1px solid #e2e8f0;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #0f172a;
+
+  margin-bottom: 22px;
+
+  overflow: hidden;
+}
+
+.teacher__phone svg {
+  color: #2563eb;
+
+  min-width: 18px;
+
+  font-size: 16px;
+}
+
+.teacher__phone span {
+  flex: 1;
+
+  overflow-wrap: break-word;
+
+  word-break: break-word;
+
   line-height: 1.5;
 }
 
-/* PAGINATION */
-.teacher__pagination {
-  margin-top: 35px;
+/* ================= SOCIAL ================= */
+
+.teacher__socials {
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.teacher__socials a {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
+
+  background: #eef2f7;
+
+  color: #2563eb;
+
+  text-decoration: none;
+
+  font-size: 16px;
+
+  transition: 0.3s ease;
 }
 
-.nav-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  background: #0d6efd;
+.teacher__socials a:hover {
+  transform: translateY(-4px);
+
+  background: #2563eb;
+
   color: #fff;
+}
+
+/* ================= PAGINATION ================= */
+
+.teacher__pagination {
+  margin-top: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+}
+
+.teacher__navBtn {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  background: #fff;
+
+  color: #2563eb;
+
+  font-size: 16px;
+
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.3s;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  transition: 0.3s ease;
 }
 
-.nav-btn:hover {
-  background: #084298;
+.teacher__navBtn:hover {
+  background: #2563eb;
+  color: #fff;
 }
 
-.nav-btn:disabled {
-  background: #ccc;
+.teacher__navBtn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
+}
+
+.teacher__pageInfo {
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #334155;
+}
+
+/* ================= EMPTY ================= */
+
+.teacher__empty {
+  grid-column: 1/-1;
+
+  background: #fff;
+
+  padding: 60px 20px;
+
+  border-radius: 24px;
+
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #64748b;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 991px) {
+  .teacher__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .teacher__title {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .teacher {
+    padding: 70px 16px;
+  }
+
+  .teacher__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher__title {
+    font-size: 30px;
+  }
+
+  .teacher__subtitle {
+    font-size: 14px;
+  }
+
+  .teacher__image {
+    height: 260px;
+  }
+}
+
+@media (max-width: 520px) {
+  .teacher__content {
+    padding: 34px 18px 22px;
+  }
+
+  .teacher__image {
+    height: 230px;
+  }
+
+  .teacher__name {
+    font-size: 22px;
+  }
+
+  .teacher__role {
+    font-size: 15px;
+  }
+
+  .teacher__desc {
+    font-size: 13px;
+  }
+
+  .teacher__phone {
+    font-size: 14px;
+  }
+
+  .teacher__socials a {
+    width: 40px;
+    height: 40px;
+
+    font-size: 14px;
+  }
 }

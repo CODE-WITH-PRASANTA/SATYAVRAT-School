@@ -54,6 +54,8 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     { name: "Cold Lead", path: "/admin/cold-lead", icon: <FaChalkboardTeacher /> },
     { name: "Cold Lead Table", path: "/admin/cold-lead-table", icon: <FaChalkboardTeacher /> },
+     { name: "FloatingBanner", path: "admin/Advites", icon: <FaChalkboardTeacher /> },
+    
 
     { name: "News Posting", path: "/admin/newsposting", icon: <FaNewspaper /> },
     { name: "Teacher Posting", path: "/admin/teacherposting", icon: <FaChalkboardTeacher /> },
