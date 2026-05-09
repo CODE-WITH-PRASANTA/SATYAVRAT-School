@@ -7,35 +7,49 @@ import {
 
 import AdminLayout from "../Layout/AdminLayout";
 
-/* ================= PAGES ================= */
+/* ================= DASHBOARD ================= */
 
 import DashBoard from "./Pages/DashBoard/DashBoard";
 
+/* ================= AUTH ================= */
+
 import LoginForm from "./Pages/LoginForm/LoginForm";
+
+/* ================= NEWS ================= */
 
 import NewsPosting from "./Pages/NewsPosting/NewsPosting";
 
 import CommentManagement from "./Pages/CommentManagement/CommentManagement";
 
+/* ================= TEACHER ================= */
+
 import Teacher from "./Pages/Teacher/Teacher";
+
+/* ================= TESTIMONIAL ================= */
 
 import Testimonial from "./Pages/Testimonial/Testimonial";
 
+/* ================= GALLERY ================= */
+
 import Galleryposting from "./Component/Galleryposting/Galleryposting";
+
+/* ================= COLD LEAD ================= */
 
 import ColdLead from "./Component/ColdLead/ColdLead";
 
 import ColdLeadTable from "./Component/ColdLeadTable/ColdLeadTable";
 
+/* ================= ADMISSION ================= */
+
 import AdmissionTable from "./Component/AdmissionTable/AdmissionTable";
-
-import ProFilePicture from "./Pages/ProFilePicture/ProFilepicture";
-
-/* ================= STUDENT ================= */
 
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 
 import StudentAdmsnDetails from "./Pages/StudentAdmsnDetails/StudentAdmsnDetails";
+
+/* ================= PROFILE ================= */
+
+import ProFilePicture from "./Pages/ProFilePicture/ProFilepicture";
 
 /* ================= FEES ================= */
 
@@ -80,6 +94,10 @@ import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
+
+/* ================= ADVERTISE ================= */
+
+import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -297,9 +315,16 @@ function App() {
             element={<ExpenseHead />}
           />
 
+          {/* ================= ADVERTISE ================= */}
+
+          <Route
+            path="admin/advites"
+            element={<AdvitesForm />}
+          />
+
         </Route>
 
-        {/* ================= INVALID ROUTE ================= */}
+        {/* ================= INVALID ================= */}
 
         <Route
           path="*"

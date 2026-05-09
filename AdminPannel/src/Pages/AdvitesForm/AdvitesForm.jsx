@@ -3,9 +3,7 @@ import React, {
   useState,
 } from "react";
 
-import API, {
-  IMAGE_URL,
-} from "../../Api/axios";
+import API, { IMAGE_URL,} from "../../Api/axios";
 
 import "./AdvitesForm.css";
 

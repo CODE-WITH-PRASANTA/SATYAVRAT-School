@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-/* ================= ICONS ================= */
-
 import {
   FaHome,
   FaNewspaper,
@@ -17,6 +15,7 @@ import {
   FaQuoteLeft,
   FaComments,
   FaBook,
+  FaBullhorn,
 } from "react-icons/fa";
 
 import {
@@ -30,43 +29,25 @@ import {
 
 import "./Sidebar.css";
 
-export default function Sidebar({
-  sidebarOpen,
-  setSidebarOpen,
-}) {
-  const [openMenu, setOpenMenu] =
-    useState(null);
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
-  const [isMobile, setIsMobile] =
-    useState(window.innerWidth <= 1024);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  /* ================= RESPONSIVE ================= */
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(
-        window.innerWidth <= 1024
-      );
+      setIsMobile(window.innerWidth <= 1024);
     };
 
-    window.addEventListener(
-      "resize",
-      handleResize
-    );
+    window.addEventListener("resize", handleResize);
 
     return () =>
-      window.removeEventListener(
-        "resize",
-        handleResize
-      );
+      window.removeEventListener("resize", handleResize);
   }, []);
 
-  /* ================= TOGGLE ================= */
-
   const toggleMenu = (name) => {
-    setOpenMenu(
-      openMenu === name ? null : name
-    );
+    setOpenMenu(openMenu === name ? null : name);
   };
 
   const handleMenuClick = () => {
@@ -75,9 +56,8 @@ export default function Sidebar({
     }
   };
 
-  /* ================= MENU ================= */
-
   const menu = [
+
     {
       name: "Dashboard",
       path: "/",
@@ -95,8 +75,6 @@ export default function Sidebar({
       path: "/admin/cold-lead-table",
       icon: <FaChalkboardTeacher />,
     },
-
-    /* ================= NEWS MANAGEMENT ================= */
 
     {
       name: "News Management",
@@ -117,15 +95,11 @@ export default function Sidebar({
       ],
     },
 
-    /* ================= TEACHER ================= */
-
     {
       name: "Teacher Posting",
       path: "/admin/teacherposting",
       icon: <FaChalkboardTeacher />,
     },
-
-    /* ================= TESTIMONIAL ================= */
 
     {
       name: "Testimonial",
@@ -133,15 +107,17 @@ export default function Sidebar({
       icon: <FaQuoteLeft />,
     },
 
-    /* ================= GALLERY ================= */
-
     {
       name: "Gallery Posting",
       path: "/admin/gallery",
       icon: <FaImages />,
     },
 
-    /* ================= ADMISSION ================= */
+    {
+      name: "Advertise Form",
+      path: "/admin/advites",
+      icon: <FaBullhorn />,
+    },
 
     {
       name: "Admission Table",
@@ -155,14 +131,10 @@ export default function Sidebar({
       icon: <FaBook />,
     },
 
-    /* ================= ERP ================= */
-
     {
       type: "section",
       label: "ERP Solution",
     },
-
-    /* ================= STUDENT HUB ================= */
 
     {
       name: "Student Hub",
@@ -177,14 +149,11 @@ export default function Sidebar({
 
         {
           name: "Student Details",
-          path:
-            "/student/admission/details",
+          path: "/student/admission/details",
           icon: <FaUserTie />,
         },
       ],
     },
-
-    /* ================= PAYTRACK ================= */
 
     {
       name: "Student Paytrack",
@@ -205,19 +174,11 @@ export default function Sidebar({
       ],
     },
 
-    /* ================= CLASS MANAGEMENT ================= */
-
     {
       name: "Class Management",
       path: "/class-post",
       icon: <FiBookOpen />,
     },
-
-    /* ================= CLASS POST ================= */
-
-  
-
-    /* ================= SUBJECT ================= */
 
     {
       name: "Subject Post",
@@ -225,15 +186,11 @@ export default function Sidebar({
       icon: <FiEdit />,
     },
 
-    /* ================= CLASSWISE SUBJECT ================= */
-
     {
       name: "Classwise Subject",
       path: "/classwise-subject",
       icon: <FiLayers />,
     },
-
-    /* ================= EXAM ================= */
 
     {
       name: "Exam Result Desk",
@@ -247,8 +204,7 @@ export default function Sidebar({
 
         {
           name: "Exam Score Manager",
-          path:
-            "/exam-result-manager",
+          path: "/exam-result-manager",
         },
 
         {
@@ -263,8 +219,6 @@ export default function Sidebar({
       ],
     },
 
-    /* ================= ATTENDANCE ================= */
-
     {
       name: "Attendance",
       icon: <FiCheckSquare />,
@@ -272,25 +226,20 @@ export default function Sidebar({
       submenu: [
         {
           name: "Student Attendance",
-          path:
-            "/attendance/student-attendance",
+          path: "/attendance/student-attendance",
         },
 
         {
           name: "Student Leave",
-          path:
-            "/attendance/student-leave",
+          path: "/attendance/student-leave",
         },
 
         {
           name: "Attendance Report",
-          path:
-            "/attendance/attendance-report",
+          path: "/attendance/attendance-report",
         },
       ],
     },
-
-    /* ================= EXPENSE ================= */
 
     {
       name: "Expense",
@@ -315,16 +264,12 @@ export default function Sidebar({
     },
   ];
 
-  /* ================= JSX ================= */
-
   return (
     <>
       {sidebarOpen && isMobile && (
         <div
           className="sidebar-overlay"
-          onClick={() =>
-            setSidebarOpen(false)
-          }
+          onClick={() => setSidebarOpen(false)}
         />
       )}
 
@@ -334,7 +279,6 @@ export default function Sidebar({
         }`}
       >
 
-        {/* HEADER */}
         <div className="sidebar-header">
 
           <div className="sidebar-brand">
@@ -346,9 +290,7 @@ export default function Sidebar({
             {sidebarOpen && (
               <div className="sidebar-brand-text">
                 <h2>Admin Panel</h2>
-                <p>
-                  Management System
-                </p>
+                <p>Management System</p>
               </div>
             )}
 
@@ -356,12 +298,10 @@ export default function Sidebar({
 
         </div>
 
-        {/* MENU */}
         <nav className="sidebar-menu">
 
           {menu.map((item, index) => {
 
-            /* SECTION */
             if (item.type === "section") {
               return sidebarOpen ? (
                 <div
@@ -379,7 +319,6 @@ export default function Sidebar({
                 key={item.name}
               >
 
-                {/* SUBMENU */}
                 {item.submenu ? (
                   <>
 
@@ -422,45 +361,38 @@ export default function Sidebar({
 
                     </button>
 
-                    {/* DROPDOWN */}
                     {openMenu === item.name &&
                       sidebarOpen && (
                         <div className="submenu">
 
-                          {item.submenu.map(
-                            (sub) => (
+                          {item.submenu.map((sub) => (
 
-                              <NavLink
-                                key={sub.path}
-                                to={sub.path}
-                                onClick={
-                                  handleMenuClick
-                                }
-                                className={({
-                                  isActive,
-                                }) =>
-                                  `submenu-link ${
-                                    isActive
-                                      ? "active"
-                                      : ""
-                                  }`
-                                }
-                              >
+                            <NavLink
+                              key={sub.path}
+                              to={sub.path}
+                              onClick={handleMenuClick}
+                              className={({ isActive }) =>
+                                `submenu-link ${
+                                  isActive
+                                    ? "active"
+                                    : ""
+                                }`
+                              }
+                            >
 
-                                {sub.icon && (
-                                  <span className="submenu-icon">
-                                    {sub.icon}
-                                  </span>
-                                )}
-
-                                <span className="submenu-text">
-                                  {sub.name}
+                              {sub.icon && (
+                                <span className="submenu-icon">
+                                  {sub.icon}
                                 </span>
+                              )}
 
-                              </NavLink>
+                              <span className="submenu-text">
+                                {sub.name}
+                              </span>
 
-                            )
-                          )}
+                            </NavLink>
+
+                          ))}
 
                         </div>
                       )}
@@ -468,7 +400,6 @@ export default function Sidebar({
                   </>
                 ) : (
 
-                  /* NORMAL MENU */
                   <NavLink
                     to={item.path}
                     onClick={handleMenuClick}
