@@ -1,100 +1,141 @@
 import React from "react";
 import "./VissionMission.css";
 
-// IMPORT IMAGES (use your provided images here)
+// IMPORT IMAGES
 import mainImg from "../../assets/Home-About.webp";
-import shapeBorder from "../../assets/border-shape.png"
+import shapeBorder from "../../assets/border-shape.png";
 import iconMission from "../../assets/Mission-icon.svg";
 import iconVision from "../../assets/Vision-icon.svg";
 
 const VissionMission = () => {
   return (
     <section className="aboutSection">
+
       <div className="aboutSection__container">
 
-        {/* LEFT SIDE IMAGE */}
+        {/* ================= LEFT IMAGE ================= */}
         <div className="aboutSection__left">
+
           <div className="aboutSection__imageWrapper">
+
             <img
               src={mainImg}
-              alt="about"
+              alt="SATYAVRAT VIDYA NIKETAN HIGH SCHOOL"
               className="aboutSection__mainImg"
             />
+
             <img
               src={shapeBorder}
-              alt="shape"
+              alt="border shape"
               className="aboutSection__shape"
             />
+
           </div>
+
         </div>
 
-        {/* RIGHT SIDE CONTENT */}
+        {/* ================= RIGHT CONTENT ================= */}
         <div className="aboutSection__right">
 
-          <span className="aboutSection__tag">About Us</span>
+          <span className="aboutSection__tag">
+            Vision & Mission
+          </span>
 
           <h2 className="aboutSection__title">
-            Welcome To Learning Step <br />
-            <span>International School</span>
+            Welcome To <br />
+            <span>SATYAVRAT VIDYA NIKETAN HIGH SCHOOL</span>
           </h2>
 
           <p className="aboutSection__desc">
-            Founded in 2019, Learning Step International School provides a
-            nurturing and inclusive environment where students grow with
-            confidence, creativity, and strong values. We focus on academic
-            excellence along with moral, social, and personal development.
+            SATYAVRAT VIDYA NIKETAN HIGH SCHOOL is dedicated to
+            providing quality education in a safe, disciplined,
+            and motivating environment. Our school believes in
+            developing knowledge, confidence, values, creativity,
+            and leadership qualities in every student. We focus
+            on both academic excellence and overall personality
+            development to help students build a successful future.
           </p>
 
-          {/* CARDS */}
+          {/* ================= CARDS ================= */}
           <div className="aboutSection__cards">
 
+            {/* MISSION */}
             <div className="aboutSection__card aboutSection__card--mission">
-              <img src={iconMission} alt="mission" />
+
+              <img
+                src={iconMission}
+                alt="Our Mission"
+              />
+
               <div>
+
                 <h4>Our Mission</h4>
+
                 <p>
-                  To inspire lifelong learners through quality education,
-                  creativity, and global awareness.
+                  To provide students with quality education,
+                  strong moral values, discipline, and practical
+                  learning that prepares them for future success
+                  and responsible citizenship.
                 </p>
+
               </div>
+
             </div>
 
+            {/* VISION */}
             <div className="aboutSection__card aboutSection__card--vision">
-              <img src={iconVision} alt="vision" />
+
+              <img
+                src={iconVision}
+                alt="Our Vision"
+              />
+
               <div>
+
                 <h4>Our Vision</h4>
+
                 <p>
-                  To empower students with knowledge, values, and skills for a
-                  successful future.
+                  To create a positive learning environment where
+                  students grow with confidence, knowledge,
+                  creativity, and leadership skills to achieve
+                  excellence in every stage of life.
                 </p>
+
               </div>
+
             </div>
 
           </div>
 
-          {/* BOTTOM SECTION */}
+          {/* ================= BOTTOM SECTION ================= */}
           <div className="aboutSection__bottom">
 
+            {/* DIRECTOR */}
             <div className="aboutSection__director">
-            
+
               <div>
-                <h5>Mr. Vishnu Sharma</h5>
-                <span>Founder & Managing Director</span>
+                <h3>Moorat Kuswahaa</h3>
+                <h4>Director</h4>
               </div>
+
             </div>
 
+            {/* CALL */}
             <div className="aboutSection__call">
-            
+
               <div>
                 <span>Call Us Now</span>
-                <h5>+91 7014627894</h5>
+                <h5>+91 9753317591</h5>
               </div>
+
             </div>
 
           </div>
 
         </div>
+
       </div>
+
     </section>
   );
 };

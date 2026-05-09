@@ -2,13 +2,30 @@ const mongoose = require("mongoose");
 
 const subjectSchema = new mongoose.Schema(
   {
-    subjectName: { type: String, required: true },
-    className: { type: String, required: true },
-    teacher: { type: String },
-    description: { type: String },
-    image: { type: String }, // stored filename
+    classId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+      required: true,
+    },
+
+    subjectName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    subjectType: {
+      type: String,
+      enum: ["regular", "optional"],
+      default: "regular",
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model("Subject", subjectSchema);
+module.exports = mongoose.model(
+  "Subject",
+  subjectSchema
+);

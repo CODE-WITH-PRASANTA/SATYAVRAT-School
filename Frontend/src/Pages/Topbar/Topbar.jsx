@@ -1,32 +1,47 @@
 import React from "react";
 import "./Topbar.css";
-import { FaPhoneAlt, FaEnvelope, FaUser, FaShoppingCart } from "react-icons/fa";
+import { FaPhoneAlt, FaEnvelope, FaWhatsapp } from "react-icons/fa";
 
 const Topbar = () => {
+
+  // WhatsApp Number
+  const whatsappNumber = "919753317591";
+
+  // Open WhatsApp Chat
+  const handleWhatsApp = () => {
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=Hello%20Satyavrat%20School`,
+      "_blank"
+    );
+  };
+
   return (
     <div className="topbar">
       <div className="topbar-container">
-        
-        {/* Left Section */}
+
+        {/* LEFT SECTION */}
         <div className="topbar-left">
-          <span className="topbar-item">
+
+          <div className="topbar-item">
             <FaPhoneAlt className="topbar-icon" />
-            +91 9876543210
-          </span>
-          <span className="topbar-item">
+            <span>+91 9753317591</span>
+          </div>
+
+          <div className="topbar-item">
             <FaEnvelope className="topbar-icon" />
-            support@example.com
-          </span>
+            <span>satyavratms@gmail.com</span>
+          </div>
+
         </div>
 
-        {/* Right Section */}
+        {/* RIGHT SECTION */}
         <div className="topbar-right">
-          <button className="topbar-btn">
-            <FaUser className="topbar-icon" />
+
+          <button className="topbar-btn" onClick={handleWhatsApp}>
+            <FaWhatsapp className="topbar-btn-icon" />
             Contact Us
           </button>
 
-       
         </div>
 
       </div>

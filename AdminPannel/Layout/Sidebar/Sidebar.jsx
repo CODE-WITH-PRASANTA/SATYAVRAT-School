@@ -63,6 +63,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
     { name: "Gallery posting", path: "/admin/gallery", icon: <FaMoneyBillWave /> },
     { name: "Admission Table", path: "/admin/Admission-Table", icon: <FaImages /> },
+     { name: "Class Post", path: "/class/post", icon: <FaQuoteLeft /> },
 
     { type: "section", label: "ERP Solution" },
 

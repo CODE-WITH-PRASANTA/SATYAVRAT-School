@@ -1,70 +1,101 @@
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 .floatingicons-container {
   position: fixed;
+
   right: 20px;
-  bottom: 20px;
+  bottom: 25px;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+
   z-index: 9999;
 }
 
-/* ICON BASE */
+/* ================= COMMON ICON ================= */
 .floatingicons-icon {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
+
   border-radius: 50%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: 0.3s;
+
   text-decoration: none;
+
+  color: #fff;
+  font-size: 24px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.3s ease;
 }
 
-/* WHATSAPP */
-.floatingicons-icon.whatsapp {
+/* ================= HOVER ================= */
+.floatingicons-icon:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* ================= WHATSAPP ================= */
+.whatsapp {
   background: #25d366;
 }
 
-.floatingicons-icon.whatsapp:hover {
+.whatsapp:hover {
   background: #1ebe5d;
-  transform: scale(1.1);
 }
 
-/* CALL */
-.floatingicons-icon.call {
-  background: #2563eb;
+/* ================= CALL ================= */
+.call {
+  background: #007bff;
 }
 
-.floatingicons-icon.call:hover {
-  background: #1d4ed8;
-  transform: scale(1.1);
+.call:hover {
+  background: #005fd1;
 }
 
-/* TOP BUTTON */
-.floatingicons-icon.top {
-  background: #111;
+/* ================= TOP BUTTON ================= */
+.top {
+  background: #ff9800;
 }
 
-.floatingicons-icon.top:hover {
-  background: #333;
-  transform: scale(1.1);
+.top:hover {
+  background: #f57c00;
 }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
+/* ================= TABLET ================= */
+@media (max-width: 768px) {
+
   .floatingicons-container {
     right: 15px;
-    bottom: 15px;
+    bottom: 20px;
   }
 
   .floatingicons-icon {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
   }
+
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+
+  .floatingicons-container {
+    right: 12px;
+    bottom: 15px;
+    gap: 12px;
+  }
+
+  .floatingicons-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+
 }
