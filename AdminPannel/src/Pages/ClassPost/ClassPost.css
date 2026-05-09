@@ -1,0 +1,477 @@
+/* =========================
+   CLASS POST MAIN LAYOUT
+========================= */
+
+.ClassPost {
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #f4f5fb;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  overflow: hidden;
+}
+
+/* =========================
+   COMMON CARD DESIGN
+========================= */
+
+.ClassPostFormSection,
+.ClassPostTableSection {
+  width: 100%;
+  min-width: 0;
+}
+
+.ClassPostFormContainer,
+.ClassPostTableContainer {
+  width: 100%;
+  height: calc(100vh - 120px);
+
+  background: #ffffff;
+  border-radius: 18px;
+
+  padding: 22px;
+  box-sizing: border-box;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+
+  overflow: hidden;
+}
+
+/* =========================
+   FORM CONTAINER
+========================= */
+
+.ClassPostFormContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+
+.ClassPostFormContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ClassPostFormContainer::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 10px;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.ClassPostHeading {
+  font-size: 34px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.ClassPostForm {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* INPUT GROUP */
+
+.ClassPostInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LABEL */
+
+.ClassPostLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* INPUTS */
+
+.ClassPostInput,
+.ClassPostTextarea,
+.ClassPostSelect,
+.ClassPostFileInput {
+  width: 100%;
+
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+
+  padding: 15px 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  background: #ffffff;
+  color: #111827;
+
+  outline: none;
+  transition: 0.3s ease;
+
+  box-sizing: border-box;
+}
+
+/* TEXTAREA */
+
+.ClassPostTextarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* PLACEHOLDER */
+
+.ClassPostInput::placeholder,
+.ClassPostTextarea::placeholder {
+  color: #9ca3af;
+}
+
+/* FOCUS */
+
+.ClassPostInput:focus,
+.ClassPostTextarea:focus,
+.ClassPostSelect:focus,
+.ClassPostFileInput:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+/* FILE INPUT */
+
+.ClassPostFileInput {
+  cursor: pointer;
+  padding: 12px;
+}
+
+/* BUTTON */
+
+.ClassPostSubmitBtn {
+  width: 100%;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+
+  color: white;
+
+  padding: 16px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.ClassPostSubmitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+}
+
+/* =========================
+   TABLE SECTION
+========================= */
+
+.ClassPostTableContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TABLE WRAPPER */
+
+.ClassPostTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* SCROLLBAR */
+
+.ClassPostTableWrapper::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+.ClassPostTableWrapper::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 20px;
+}
+
+/* TABLE */
+
+.ClassPostTable {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+/* HEAD */
+
+.ClassPostTable thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  background: linear-gradient(135deg, #4f46e5, #4361ee);
+}
+
+/* HEAD CELLS */
+
+.ClassPostTable th {
+  padding: 18px 16px;
+
+  text-align: left;
+
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* BODY CELLS */
+
+.ClassPostTable td {
+  padding: 18px 16px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #334155;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* ROW HOVER */
+
+.ClassPostTable tbody tr:hover {
+  background: #f8faff;
+}
+
+/* ACTION BUTTONS */
+
+.ClassPostActionButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* EDIT */
+
+.ClassPostEditBtn {
+  border: none;
+  border-radius: 8px;
+
+  background: #f59e0b;
+  color: white;
+
+  padding: 9px 14px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.ClassPostEditBtn:hover {
+  background: #d97706;
+}
+
+/* DELETE */
+
+.ClassPostDeleteBtn {
+  border: none;
+  border-radius: 8px;
+
+  background: #ef4444;
+  color: white;
+
+  padding: 9px 14px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.ClassPostDeleteBtn:hover {
+  background: #dc2626;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.ClassPostPagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* PAGE BUTTON */
+
+.ClassPostPageBtn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #e0e7ff;
+  color: #3730a3;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.ClassPostPageBtn:hover {
+  background: #c7d2fe;
+}
+
+/* ACTIVE */
+
+.ClassPostActivePage {
+  background: #4f46e5;
+  color: white;
+}
+
+/* =========================
+   LARGE DESKTOP
+========================= */
+
+@media (max-width: 1400px) {
+  .ClassPostHeading {
+    font-size: 28px;
+  }
+}
+
+/* =========================
+   LAPTOP
+========================= */
+
+@media (max-width: 1200px) {
+  .ClassPost {
+    grid-template-columns: 1fr;
+  }
+
+  .ClassPostFormContainer,
+  .ClassPostTableContainer {
+    height: auto;
+    min-height: 600px;
+  }
+
+  .ClassPostTable {
+    min-width: 950px;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .ClassPost {
+    padding: 14px;
+    gap: 18px;
+  }
+
+  .ClassPostFormContainer,
+  .ClassPostTableContainer {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .ClassPostHeading {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .ClassPostInput,
+  .ClassPostTextarea,
+  .ClassPostSelect,
+  .ClassPostFileInput {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .ClassPostSubmitBtn {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .ClassPost {
+    padding: 10px;
+  }
+
+  .ClassPostFormContainer,
+  .ClassPostTableContainer {
+    padding: 14px;
+  }
+
+  .ClassPostHeading {
+    font-size: 21px;
+  }
+
+  .ClassPostLabel {
+    font-size: 14px;
+  }
+
+  .ClassPostInput,
+  .ClassPostTextarea,
+  .ClassPostSelect,
+  .ClassPostFileInput {
+    font-size: 13px;
+  }
+
+  .ClassPostTable th,
+  .ClassPostTable td {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .ClassPostEditBtn,
+  .ClassPostDeleteBtn {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .ClassPostPageBtn {
+    width: 36px;
+    height: 36px;
+  }
+}

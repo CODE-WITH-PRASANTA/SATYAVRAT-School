@@ -1,0 +1,349 @@
+/* ================= CONTAINER ================= */
+.cws-container {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.cws-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+/* ================= CARD ================= */
+.cws-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cws-card h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+/* ================= NEW CLASS BOX DESIGN ================= */
+
+.class-box-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+  margin-bottom: 16px;
+}
+
+.class-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 16px;
+  border: 1px solid #dcdfe5;
+  border-radius: 16px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 78px;
+}
+
+.class-box:hover {
+  border-color: #4f7cff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(79, 124, 255, 0.12);
+}
+
+.class-box.active {
+  border-color: #4f7cff;
+  background: #f5f8ff;
+  box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.1);
+}
+
+.class-box input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #4f7cff;
+  flex-shrink: 0;
+}
+
+.class-box-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.class-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #24324a;
+}
+
+.section-name {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.selected-count {
+  margin-bottom: 18px;
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ================= INPUT ================= */
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  margin: 14px 0;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #4f7cff;
+  box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.12);
+}
+
+/* ================= RADIO ================= */
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 18px 0;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f7cff;
+}
+
+/* ================= BUTTONS ================= */
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.primary {
+  background: #4f7cff;
+  color: #fff;
+}
+
+.primary:hover {
+  background: #3465f0;
+}
+
+.secondary {
+  background: #9ca3af;
+  color: #fff;
+}
+
+.secondary:hover {
+  background: #7c8593;
+}
+
+/* ================= CLASS BLOCK ================= */
+.class-block {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+/* HEADER */
+.class-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.class-header h3 {
+  font-size: 20px;
+  color: #1e293b;
+}
+
+.delete-class {
+  color: #ef4444;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ================= SUBJECT ROW ================= */
+.subject-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition: 0.3s;
+}
+
+.subject-row:hover {
+  background: #f4f7ff;
+  border-color: #c7d2fe;
+}
+
+/* LEFT TEXT */
+.subject-left {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+.optional {
+  color: #2563eb;
+  font-size: 12px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+.subject-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.subject-actions button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.edit-btn {
+  color: #f59e0b;
+}
+
+.edit-btn:hover {
+  opacity: 0.7;
+}
+
+.delete-btn {
+  color: #ef4444;
+}
+
+.delete-btn:hover {
+  opacity: 0.7;
+}
+
+/* EMPTY TEXT */
+.empty {
+  color: #94a3b8;
+  padding: 12px 0;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* 💻 Tablet */
+@media (max-width: 992px) {
+  .class-box-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .cws-container {
+    padding: 12px;
+  }
+
+  .cws-title {
+    font-size: 20px;
+  }
+
+  .cws-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .class-box-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .class-box {
+    padding: 16px;
+    min-height: 70px;
+  }
+
+  .class-name {
+    font-size: 18px;
+  }
+
+  .section-name {
+    font-size: 13px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .subject-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .subject-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .class-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

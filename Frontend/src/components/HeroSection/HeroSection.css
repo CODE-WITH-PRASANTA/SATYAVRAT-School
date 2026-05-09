@@ -5,7 +5,8 @@
   overflow: hidden;
 }
 
-/* SLIDE */
+/* ================= SLIDE ================= */
+
 .heroSlide {
   position: absolute;
   width: 100%;
@@ -17,14 +18,14 @@
   transition: all 1.5s ease-in-out;
 }
 
-/* ACTIVE SLIDE */
 .heroSlide.active {
   opacity: 1;
   transform: scale(1);
   z-index: 1;
 }
 
-/* OVERLAY */
+/* ================= OVERLAY ================= */
+
 .heroOverlay {
   position: absolute;
   width: 100%;
@@ -37,30 +38,37 @@
   z-index: 2;
 }
 
-/* CONTENT */
+/* ================= CONTENT ================= */
+
 .heroContent {
   position: relative;
   z-index: 3;
   height: 100%;
   max-width: 1100px;
   margin: auto;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #fff;
+
   text-align: center;
+  color: #fff;
+
   padding: 20px;
+
   animation: fadeUp 1.5s ease;
 }
 
-/* HAND IMAGE */
+/* ================= HAND IMAGE ================= */
+
 .heroHand {
   width: 60px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-/* TEXT */
+/* ================= TEXT ================= */
+
 .heroTopText {
   font-size: 18px;
   margin-bottom: 10px;
@@ -68,91 +76,178 @@
 }
 
 .heroHeading {
-  font-size: 42px;
+  font-size: 54px;
   font-weight: 700;
-  margin: 10px 0;
   line-height: 1.3;
+  margin-bottom: 15px;
+  max-width: 1000px;
 }
 
 .heroSub {
-  font-size: 16px;
-  margin-bottom: 20px;
-  max-width: 600px;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 720px;
+  margin-bottom: 30px;
 }
 
-/* BUTTONS */
-.heroButtons {
-  display: flex;
-  gap: 15px;
-}
+/* ================= CONTACT BUTTON ================= */
 
-.btn {
-  padding: 12px 28px;
+.contactBtn {
+  padding: 14px 34px;
   border: none;
-  cursor: pointer;
+  border-radius: 6px;
+
+  background: #ffc107;
+  color: #000;
+
+  font-size: 16px;
   font-weight: 600;
-  border-radius: 4px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contactBtn:hover {
+  background: #ffb300;
+  transform: translateY(-4px);
+}
+
+/* ================= ARROWS ================= */
+
+.heroArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 10;
+
+  width: 50px;
+  height: 50px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+
+  font-size: 28px;
+  cursor: pointer;
+
   transition: 0.3s;
 }
 
-.btn.primary {
-  background: #ffc107;
-  color: #000;
+.heroArrow:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.btn.secondary {
-  background: #2196f3;
-  color: #fff;
+.heroArrow.left {
+  left: 20px;
 }
 
-.btn:hover {
-  transform: translateY(-3px);
+.heroArrow.right {
+  right: 20px;
 }
 
-/* ANIMATION */
+/* ================= DOTS ================= */
+
+.heroDots {
+  position: absolute;
+  bottom: 25px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.activeDot {
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* ================= ANIMATION ================= */
+
 @keyframes fadeUp {
   from {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* ================= RESPONSIVE ================= */
+/* ================= TABLET ================= */
 
-/* TABLET */
 @media (max-width: 992px) {
   .heroHeading {
-    font-size: 32px;
+    font-size: 38px;
   }
 
   .heroSub {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
+
 @media (max-width: 600px) {
   .heroSection {
     height: 80vh;
   }
 
-  .heroHeading {
-    font-size: 24px;
+  .heroHand {
+    width: 50px;
   }
 
   .heroTopText {
     font-size: 14px;
   }
 
-  .heroButtons {
-    flex-direction: column;
+  .heroHeading {
+    font-size: 28px;
+    line-height: 1.4;
   }
 
-  .btn {
-    width: 100%;
+  .heroSub {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 22px;
   }
-}`
+
+  .contactBtn {
+    width: 100%;
+    max-width: 220px;
+    padding: 13px 20px;
+  }
+
+  .heroArrow {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .heroArrow.left {
+    left: 10px;
+  }
+
+  .heroArrow.right {
+    right: 10px;
+  }
+}

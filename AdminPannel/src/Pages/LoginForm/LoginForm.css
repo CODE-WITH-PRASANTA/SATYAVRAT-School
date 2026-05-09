@@ -1,0 +1,730 @@
+/* ================= MAIN ================= */
+
+.LoginForm {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(
+    135deg,
+    #081120,
+    #0f172a,
+    #111827
+  );
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= BACKGROUND SHAPES ================= */
+
+.LoginForm-bgShape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: LoginFormFloat 8s infinite ease-in-out;
+}
+
+.LoginForm-bgShape1 {
+  width: 320px;
+  height: 320px;
+  background: #06b6d4;
+  top: -100px;
+  left: -100px;
+}
+
+.LoginForm-bgShape2 {
+  width: 300px;
+  height: 300px;
+  background: #9333ea;
+  bottom: -120px;
+  right: -100px;
+}
+
+.LoginForm-bgShape3 {
+  width: 240px;
+  height: 240px;
+  background: #2563eb;
+  top: 40%;
+  left: 45%;
+}
+
+@keyframes LoginFormFloat {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(30px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ================= CONTAINER ================= */
+
+.LoginForm-container {
+  width: 100%;
+  max-width: 1150px;
+  min-height: 680px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  opacity: 0;
+
+  transform: scale(0.8) translateY(60px);
+
+  transition: all 0.8s ease;
+}
+
+.LoginForm-show {
+  opacity: 1;
+
+  transform: scale(1) translateY(0);
+}
+
+/* ================= LEFT SIDE ================= */
+
+.LoginForm-left {
+  position: relative;
+
+  background: linear-gradient(
+    135deg,
+    #0ea5e9,
+    #2563eb,
+    #7c3aed
+  );
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  overflow: hidden;
+}
+
+.LoginForm-overlay {
+  position: absolute;
+
+  width: 220%;
+
+  height: 220%;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  transform: rotate(25deg);
+
+  animation: LoginOverlay 12s linear infinite;
+}
+
+@keyframes LoginOverlay {
+  from {
+    transform: rotate(25deg) translateX(-20%);
+  }
+
+  to {
+    transform: rotate(25deg) translateX(20%);
+  }
+}
+
+.LoginForm-leftContent {
+  position: relative;
+
+  z-index: 10;
+
+  padding: 40px;
+
+  color: white;
+
+  animation: LoginTextUp 1s ease;
+}
+
+.LoginForm-leftContent h1 {
+  font-size: 58px;
+
+  margin-bottom: 20px;
+
+  line-height: 1.1;
+}
+
+.LoginForm-leftContent p {
+  font-size: 17px;
+
+  line-height: 1.8;
+
+  opacity: 0.95;
+
+  max-width: 450px;
+}
+
+.LoginForm-floatingCard {
+  margin-top: 45px;
+
+  padding: 18px 28px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(10px);
+
+  display: inline-block;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  animation: LoginPulse 2s infinite;
+}
+
+@keyframes LoginPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ================= RIGHT SIDE ================= */
+
+.LoginForm-right {
+  background: rgba(255, 255, 255, 0.96);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 45px;
+}
+
+.LoginForm-form {
+  width: 100%;
+
+  max-width: 420px;
+
+  animation: LoginTextUp 1s ease;
+}
+
+@keyframes LoginTextUp {
+  from {
+    opacity: 0;
+
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* ================= LOGO ================= */
+
+.LoginForm-logo {
+  width: 95px;
+
+  height: 95px;
+
+  margin: auto;
+
+  margin-bottom: 25px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 40px;
+
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+
+  animation: LoginRotate 5s linear infinite;
+}
+
+@keyframes LoginRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= HEADINGS ================= */
+
+.LoginForm-form h2 {
+  text-align: center;
+
+  font-size: 36px;
+
+  color: #111827;
+
+  margin-bottom: 10px;
+}
+
+.LoginForm-form p {
+  text-align: center;
+
+  color: #6b7280;
+
+  margin-bottom: 35px;
+
+  font-size: 15px;
+}
+
+/* ================= INPUT GROUP ================= */
+
+.LoginForm-inputGroup {
+  position: relative;
+
+  margin-bottom: 24px;
+}
+
+.LoginForm-inputGroup input {
+  width: 100%;
+
+  height: 62px;
+
+  border-radius: 18px;
+
+  border: 2px solid #e5e7eb;
+
+  padding: 0 58px;
+
+  font-size: 15px;
+
+  background: white;
+
+  transition: 0.3s ease;
+
+  outline: none;
+}
+
+.LoginForm-inputGroup input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.1);
+
+  transform: translateY(-2px);
+}
+
+.LoginForm-inputIcon {
+  position: absolute;
+
+  top: 50%;
+
+  left: 20px;
+
+  transform: translateY(-50%);
+
+  color: #6b7280;
+
+  font-size: 17px;
+}
+
+.LoginForm-eyeBtn {
+  position: absolute;
+
+  top: 50%;
+
+  right: 18px;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  color: #6b7280;
+
+  font-size: 17px;
+}
+
+/* ================= BUTTON ================= */
+
+.LoginForm-submit {
+  width: 100%;
+
+  height: 60px;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  margin-top: 5px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.LoginForm-submit::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: -100%;
+
+  width: 100%;
+
+  height: 100%;
+
+  background: rgba(255, 255, 255, 0.2);
+
+  transition: 0.5s ease;
+}
+
+.LoginForm-submit:hover::before {
+  left: 100%;
+}
+
+.LoginForm-submit:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 14px 35px rgba(37, 99, 235, 0.35);
+}
+
+/* ================= BUTTON LOADING ================= */
+
+.LoginForm-loading {
+  animation: LoginLoading 1s infinite;
+}
+
+@keyframes LoginLoading {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ================= DEMO CARD ================= */
+
+.LoginForm-demoCredentials {
+  margin-top: 30px;
+
+  background: #f3f4f6;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  border: 1px solid #e5e7eb;
+}
+
+.LoginForm-demoCredentials h4 {
+  color: #111827;
+
+  font-size: 16px;
+}
+
+.LoginForm-demoCredentials span {
+  color: #374151;
+
+  font-size: 14px;
+}
+/* ================= ANIMATED IMAGE ================= */
+
+.LoginForm-animatedImage {
+  position: absolute;
+  top: 90px;
+  right: 70px;
+  z-index: 5;
+  animation: LoginFloatImage 5s ease-in-out infinite;
+}
+
+.LoginForm-animatedImage img {
+  width: 260px;
+  filter: drop-shadow(
+    0 20px 40px rgba(0, 0, 0, 0.35)
+  );
+}
+
+@keyframes LoginFloatImage {
+  0% {
+    transform: translateY(0px)
+      rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px)
+      rotate(3deg);
+  }
+
+  100% {
+    transform: translateY(0px)
+      rotate(0deg);
+  }
+}
+
+/* ================= PARTICLES ================= */
+
+.LoginForm-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.3
+  );
+  animation: LoginParticleFloat 8s infinite;
+}
+
+.particle1 {
+  width: 18px;
+  height: 18px;
+  top: 120px;
+  left: 80px;
+}
+
+.particle2 {
+  width: 12px;
+  height: 12px;
+  bottom: 120px;
+  right: 120px;
+}
+
+.particle3 {
+  width: 22px;
+  height: 22px;
+  top: 50%;
+  left: 40%;
+}
+
+@keyframes LoginParticleFloat {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateY(-30px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 0.4;
+  }
+}
+
+/* ================= SUCCESS ================= */
+
+.LoginForm-successBox {
+  text-align: center;
+  animation: LoginSuccessAnim 0.8s ease;
+}
+
+.LoginForm-successBox svg {
+  font-size: 90px;
+  color: #22c55e;
+  margin-bottom: 20px;
+  animation: LoginSuccessPop 1s ease;
+}
+
+.LoginForm-successBox h2 {
+  font-size: 34px;
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.LoginForm-successBox p {
+  color: #6b7280;
+}
+
+@keyframes LoginSuccessAnim {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes LoginSuccessPop {
+  0% {
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ================= CONTAINER SUCCESS ================= */
+
+.LoginForm-success {
+  transform: scale(1.02);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 950px) {
+  .LoginForm-animatedImage {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 30px;
+  }
+
+  .LoginForm-animatedImage img {
+    width: 180px;
+  }
+}
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 950px) {
+  .LoginForm-container {
+    grid-template-columns: 1fr;
+  }
+
+  .LoginForm-left {
+    min-height: 320px;
+  }
+
+  .LoginForm-leftContent h1 {
+    font-size: 42px;
+  }
+
+  .LoginForm-leftContent {
+    text-align: center;
+  }
+
+  .LoginForm-leftContent p {
+    margin: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .LoginForm {
+    padding: 12px;
+  }
+
+  .LoginForm-container {
+    border-radius: 22px;
+  }
+
+  .LoginForm-right {
+    padding: 25px;
+  }
+
+  .LoginForm-leftContent {
+    padding: 25px;
+  }
+
+  .LoginForm-leftContent h1 {
+    font-size: 34px;
+  }
+
+  .LoginForm-form h2 {
+    font-size: 28px;
+  }
+
+  .LoginForm-inputGroup input {
+    height: 56px;
+    font-size: 14px;
+  }
+
+  .LoginForm-submit {
+    height: 56px;
+  }
+
+  .LoginForm-logo {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .LoginForm-leftContent h1 {
+    font-size: 28px;
+  }
+
+  .LoginForm-leftContent p {
+    font-size: 14px;
+  }
+
+  .LoginForm-demoCredentials {
+    padding: 18px;
+  }
+}
