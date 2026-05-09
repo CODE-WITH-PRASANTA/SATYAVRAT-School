@@ -1,155 +1,634 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
 .ts {
+  width: 100%;
+  min-height: 100vh;
   padding: 30px;
-  background: #f5f7fb;
-  font-family: Poppins;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(59, 130, 246, 0.12),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(249, 115, 22, 0.1),
+      transparent 20%
+    ),
+    linear-gradient(
+      180deg,
+      #f8fbff 0%,
+      #f2f6fb 100%
+    );
+
+  font-family: "Inter", sans-serif;
 }
 
-/* GRID */
+.ts__container {
+  width: 100%;
+}
+
+/* ================= TOP ================= */
+
+.ts__top {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.ts__label {
+  display: inline-flex;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: rgba(37, 99, 235, 0.1);
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  margin-bottom: 16px;
+}
+
+.ts__title {
+  font-size: 42px;
+
+  font-weight: 800;
+
+  color: #0f172a;
+
+  margin-bottom: 14px;
+}
+
+.ts__subtitle {
+  max-width: 700px;
+
+  margin: auto;
+
+  font-size: 15px;
+
+  line-height: 1.8;
+
+  color: #64748b;
+}
+
+/* ================= GRID ================= */
+
 .ts__grid {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
+
+  gap: 28px;
+
+  margin-bottom: 30px;
 }
 
-/* CARD */
-.ts__card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 16px;
+/* ================= CARD ================= */
+
+.ts__card,
+.ts__tableCard {
+  background: rgba(255, 255, 255, 0.88);
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* INPUT */
+.ts__cardHeader {
+  margin-bottom: 24px;
+}
+
+.ts__cardHeader h3 {
+  font-size: 24px;
+
+  font-weight: 800;
+
+  color: #0f172a;
+
+  margin-bottom: 6px;
+}
+
+.ts__cardHeader p {
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+/* ================= FORM ================= */
+
+.ts__form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.ts__formGroup {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.ts__formGroup label {
+  font-size: 13px;
+
+  font-weight: 700;
+
+  color: #334155;
+}
+
 .ts__input,
 .ts__textarea,
 .ts__select {
   width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+
+  padding: 15px 16px;
+
+  border-radius: 16px;
+
+  border: 1px solid #dbe4ee;
+
+  background: white;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition: 0.3s ease;
+
+  font-family: "Inter", sans-serif;
 }
 
-/* BUTTON */
+.ts__textarea {
+  resize: none;
+}
+
+.ts__input:focus,
+.ts__textarea:focus,
+.ts__select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 4px
+    rgba(37, 99, 235, 0.1);
+}
+
+/* ================= BUTTONS ================= */
+
 .ts__btnRow {
   display: flex;
+
+  gap: 14px;
+
+  margin-top: 6px;
+}
+
+.ts__btnPrimary,
+.ts__btnSecondary {
+  flex: 1;
+
+  border: none;
+
+  padding: 14px 18px;
+
+  border-radius: 16px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   gap: 10px;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
 }
 
 .ts__btnPrimary {
-  flex: 1;
-  background: #00bfa6;
-  color: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: white;
 }
 
 .ts__btnSecondary {
-  flex: 1;
-  background: #eee;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
+  background: #eef2f7;
+
+  color: #0f172a;
 }
 
-/* PREVIEW */
+.ts__btnPrimary:hover,
+.ts__btnSecondary:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= PREVIEW ================= */
+
 .ts__preview {
-  background: linear-gradient(135deg,#4dc0b5,#7ed0c5);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  color: #fff;
+  position: relative;
+
+  border-radius: 30px;
+
+  padding: 35px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+
+  color: white;
+
+  box-shadow:
+    0 24px 50px rgba(37, 99, 235, 0.25);
+}
+
+.ts__quote {
+  position: absolute;
+
+  top: 25px;
+
+  right: 25px;
+
+  font-size: 70px;
+
+  opacity: 0.1;
+}
+
+.ts__previewCard {
+  position: relative;
+  z-index: 2;
+}
+
+.ts__previewTop {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
 }
 
 .ts__avatar {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
+
   border-radius: 50%;
-  margin: 20px 0;
+
+  object-fit: cover;
+
+  border: 4px solid rgba(255,255,255,0.2);
+}
+
+.ts__avatarIcon {
+  font-size: 80px;
+}
+
+.ts__previewTop h4 {
+  font-size: 24px;
+
+  font-weight: 800;
+
+  margin-bottom: 5px;
+}
+
+.ts__previewTop span {
+  font-size: 14px;
+
+  opacity: 0.8;
+}
+
+.ts__preview p {
+  font-size: 16px;
+
+  line-height: 1.9;
+
+  margin-bottom: 24px;
 }
 
 .ts__stars {
-  color: gold;
+  display: flex;
+
+  gap: 6px;
+
+  color: #facc15;
+
+  font-size: 18px;
 }
 
-/* TABLE */
+/* ================= TABLE ================= */
+
+.ts__tableTop {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+.ts__tableTop h3 {
+  font-size: 24px;
+
+  font-weight: 800;
+
+  color: #0f172a;
+
+  margin-bottom: 5px;
+}
+
+.ts__tableTop p {
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+.ts__count {
+  background: rgba(37, 99, 235, 0.1);
+
+  color: #2563eb;
+
+  padding: 10px 16px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
 .ts__tableWrap {
-  margin-top: 30px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 16px;
   overflow-x: auto;
 }
 
 .ts__table {
   width: 100%;
-  border-collapse: collapse;
+
+  min-width: 900px;
+
+  border-collapse: separate;
+
+  border-spacing: 0 14px;
 }
 
 .ts__table th {
   text-align: left;
-  padding: 12px;
-  font-size: 14px;
-  color: #555;
+
+  padding: 0 14px 12px;
+
+  font-size: 12px;
+
+  text-transform: uppercase;
+
+  color: #64748b;
+
+  font-weight: 800;
+}
+
+.ts__table tbody tr {
+  background: white;
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.ts__table tbody tr:hover {
+  transform: translateY(-2px);
 }
 
 .ts__table td {
-  padding: 12px;
-  border-top: 1px solid #eee;
+  padding: 18px 14px;
+
+  vertical-align: middle;
+}
+
+.ts__table tbody tr td:first-child {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.ts__table tbody tr td:last-child {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* ================= USER ================= */
+
+.ts__user {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
 }
 
 .ts__tableImg {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
+  width: 65px;
+  height: 65px;
 
-.ts__iconEdit {
-  color: #2563eb;
-  margin-right: 10px;
-  cursor: pointer;
-}
+  border-radius: 18px;
 
-.ts__iconDelete {
-  color: #dc2626;
-  cursor: pointer;
-}
-
-/* KEEP TABLE STRUCTURE ALWAYS */
-.ts__tableWrap {
-  margin-top: 30px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 16px;
-  overflow-x: auto; /* ✅ scroll instead of breaking */
-}
-
-/* TABLE */
-.ts__table {
-  width: 100%;
-  min-width: 700px; /* ✅ prevents collapse */
-  border-collapse: collapse;
-}
-
-/* CELLS */
-.ts__table th,
-.ts__table td {
-  padding: 12px;
-  text-align: left;
-  white-space: nowrap; /* ✅ keeps alignment */
-}
-
-/* IMAGE */
-.ts__tableImg {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   object-fit: cover;
+
+  border: 3px solid #eef2ff;
 }
 
-/* GRID RESPONSIVE (ONLY THIS PART) */
-@media (max-width: 768px) {
+.ts__user h4 {
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: #0f172a;
+
+  margin-bottom: 4px;
+}
+
+.ts__user span {
+  font-size: 12px;
+
+  color: #64748b;
+}
+
+.ts__review {
+  max-width: 320px;
+
+  white-space: normal;
+
+  line-height: 1.7;
+
+  color: #475569;
+
+  font-size: 14px;
+}
+
+.ts__rating {
+  display: flex;
+
+  gap: 4px;
+
+  color: #facc15;
+}
+
+/* ================= ACTIONS ================= */
+
+.ts__actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.ts__editBtn,
+.ts__deleteBtn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  transition: 0.3s ease;
+}
+
+.ts__editBtn {
+  background: rgba(37, 99, 235, 0.1);
+
+  color: #2563eb;
+}
+
+.ts__deleteBtn {
+  background: rgba(239, 68, 68, 0.1);
+
+  color: #ef4444;
+}
+
+.ts__editBtn:hover {
+  background: #2563eb;
+
+  color: white;
+
+  transform: translateY(-2px);
+}
+
+.ts__deleteBtn:hover {
+  background: #ef4444;
+
+  color: white;
+
+  transform: translateY(-2px);
+}
+
+/* ================= EMPTY ================= */
+
+.ts__empty {
+  text-align: center;
+
+  padding: 40px !important;
+
+  color: #64748b;
+
+  font-weight: 700;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
   .ts__grid {
-    grid-template-columns: 1fr; /* only form/preview stack */
+    grid-template-columns: 1fr;
+  }
+
+  .ts__title {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ts {
+    padding: 18px;
+  }
+
+  .ts__card,
+  .ts__tableCard {
+    padding: 20px;
+  }
+
+  .ts__btnRow {
+    flex-direction: column;
+  }
+
+  .ts__preview {
+    padding: 28px;
+  }
+
+  .ts__previewTop {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ts__tableTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .ts__title {
+    font-size: 28px;
+  }
+
+  .ts__subtitle {
+    font-size: 14px;
+  }
+
+  .ts__preview p {
+    font-size: 14px;
+  }
+
+  .ts__avatar {
+    width: 70px;
+    height: 70px;
   }
 }
