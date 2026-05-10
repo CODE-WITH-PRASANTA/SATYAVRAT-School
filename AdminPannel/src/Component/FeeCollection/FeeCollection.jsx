@@ -60,13 +60,13 @@ const FeeCollection = () => {
     setPage(1);
   }, [tableSearch]);
 
-  // ✅ AUTO DATE (runs once)
+  // AUTO DATE
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setDate(today);
   }, []);
 
-  // ✅ CLOSE ACTION MENU (global click)
+  // CLOSE ACTION MENU
   useEffect(() => {
     const closeMenu = () => setActiveMenu(null);
 
@@ -145,17 +145,17 @@ const FeeCollection = () => {
       (f.admissionNo || "").toLowerCase().includes(tableSearch.toLowerCase()) ||
       (f.rollNumber || "").toString().includes(tableSearch);
 
-    // ✅ CLASS FILTER
+    // CLASS FILTER
     const matchesClass = filterClass
       ? (f.class || "").toLowerCase() === filterClass.toLowerCase()
       : true;
 
-    // ✅ MONTH FILTER
+    // MONTH FILTER
     const matchesMonth = filterMonth
       ? new Date(f.date).getMonth() + 1 === Number(filterMonth)
       : true;
 
-    // ✅ DATE RANGE FILTER
+    // DATE RANGE FILTER
     const feeDate = f.date ? new Date(f.date) : null;
 
     const matchesFromDate = filterFromDate
@@ -179,6 +179,7 @@ const FeeCollection = () => {
   const totalPages = Math.ceil(filteredFees.length / rowsPerPage);
 
   /* ================= SAVE FEE ================= */
+
   const saveFee = async () => {
     if (!selectedStudent) {
       alert("Select student first");
@@ -193,11 +194,11 @@ const FeeCollection = () => {
     try {
       const totalAmount = Number(amount) || 0;
 
-      // ✅ DISCOUNT CALCULATION
+      // DISCOUNT CALCULATION
       const discountAmount = (totalAmount * discount) / 100;
       const finalAmount = totalAmount - discountAmount;
 
-      // ✅ FULL PAYMENT (AFTER DISCOUNT)
+      // FULL PAYMENT
       const paidAmount = finalAmount;
 
       await API.post("/admission/fees", {
@@ -209,8 +210,8 @@ const FeeCollection = () => {
         class: selectedStudent.class,
         section: selectedStudent.section,
 
-        amount: totalAmount, // ✅ FULL AMOUNT (IMPORTANT)
-        paid: paidAmount, // ✅ AFTER DISCOUNT
+        amount: totalAmount,
+        paid: paidAmount,
 
         discount,
         paymentMethod,
@@ -226,17 +227,19 @@ const FeeCollection = () => {
 
       // RESET
       setShowCollect(false);
-      setSelectedStudent(null);
-      setStudentSearch("");
-      setAmount("");
-      setDiscount(0);
-      setFeeType("");
-      setPaymentMethod("Cash");
-      setNote("");
 
-      // ✅ RESET DATE
-      const today = new Date().toISOString().split("T")[0];
-      setDate(today);
+      setTimeout(() => {
+        setSelectedStudent(null);
+        setStudentSearch("");
+        setAmount("");
+        setDiscount(0);
+        setFeeType("");
+        setPaymentMethod("Cash");
+        setNote("");
+
+        const today = new Date().toISOString().split("T")[0];
+        setDate(today);
+      }, 250);
     } catch (err) {
       console.log(err);
     }
@@ -362,18 +365,19 @@ const FeeCollection = () => {
           <tbody>
             {currentRows.map((s, i) => {
               const amountValue = Number(s.amount || 0);
+
               const discountPercent =
                 s.discount !== undefined && s.discount !== null
                   ? Number(s.discount)
                   : 0;
 
-              const discountAmount = (amountValue * discountPercent) / 100;
-
               return (
                 <tr key={s._id}>
                   <td>{indexFirst + i + 1}</td>
 
-                  <td className="FeeCollection-admission">{s.admissionNo}</td>
+                  <td className="FeeCollection-admission">
+                    {s.admissionNo}
+                  </td>
 
                   <td>{s.name}</td>
 
@@ -382,6 +386,7 @@ const FeeCollection = () => {
                   <td>
                     {s.class} ({s.section})
                   </td>
+
                   <td>₹{amountValue.toLocaleString("en-IN")}</td>
 
                   <td>{discountPercent}%</td>
@@ -407,7 +412,7 @@ const FeeCollection = () => {
                       <button
                         className="FeeCollection-actionBtn"
                         onClick={(e) => {
-                          e.stopPropagation(); // ✅ IMPORTANT
+                          e.stopPropagation();
                           setActiveMenu(activeMenu === s._id ? null : s._id);
                         }}
                       >
@@ -470,149 +475,163 @@ const FeeCollection = () => {
         </button>
       </div>
 
-      {showCollect && (
-        <div className="FeeCollection-modal">
-          <div className="FeeCollection-modalContent">
-            <FiX className="fee-close" onClick={() => setShowCollect(false)} />
+      {/* COLLECT FEES MODAL */}
 
-            <h3>Collect Fees</h3>
+      <div
+        className={`FeeCollection-modal ${
+          showCollect
+            ? "FeeCollection-modal-show"
+            : "FeeCollection-modal-hide"
+        }`}
+      >
+        <div className="FeeCollection-modalContent">
+          <FiX
+            className="fee-close"
+            onClick={() => {
+              setShowCollect(false);
+            }}
+          />
 
-            <div className="FeeCollection-formGrid">
-              <input
-                placeholder="Search Name / Roll No"
-                value={studentSearch}
-                onChange={(e) => {
-                  setStudentSearch(e.target.value);
-                  setShowDropdown(true); // ✅ show dropdown
-                }}
-              />
+          <h3>Collect Fees</h3>
 
-              {showDropdown && studentSearch && (
-                <div className="FeeCollection-studentResults">
-                  {filteredStudents.slice(0, 5).map((s) => (
-                    <div
-                      key={s._id}
-                      className="FeeCollection-studentItem"
-                      onClick={() => {
-                        setSelectedStudent(s);
-                        setStudentSearch(`${s.firstName} ${s.lastName}`);
-                        setShowDropdown(false); // ✅ HIDE DROPDOWN
-                      }}
-                    >
-                      <strong>
-                        {s.firstName} {s.lastName}
-                      </strong>
+          <div className="FeeCollection-formGrid">
+            <input
+              placeholder="Search Name / Roll No"
+              value={studentSearch}
+              onChange={(e) => {
+                setStudentSearch(e.target.value);
+                setShowDropdown(true);
+              }}
+            />
 
-                      <p>
-                        Roll: {s.rollNumber} | {s.class} ({s.section})
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
+            {showDropdown && studentSearch && (
+              <div className="FeeCollection-studentResults">
+                {filteredStudents.slice(0, 5).map((s) => (
+                  <div
+                    key={s._id}
+                    className="FeeCollection-studentItem"
+                    onClick={() => {
+                      setSelectedStudent(s);
+                      setStudentSearch(`${s.firstName} ${s.lastName}`);
+                      setShowDropdown(false);
+                    }}
+                  >
+                    <strong>
+                      {s.firstName} {s.lastName}
+                    </strong>
 
-              {selectedStudent && (
-                <div className="FeeCollection-selectedStudent">
-                  <p>
-                    <b>Admission:</b> {selectedStudent.admissionNo}
-                  </p>
+                    <p>
+                      Roll: {s.rollNumber} | {s.class} ({s.section})
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
 
-                  <p>
-                    <b>Name:</b> {selectedStudent.firstName}{" "}
-                    {selectedStudent.lastName}
-                  </p>
+            {selectedStudent && (
+              <div className="FeeCollection-selectedStudent">
+                <p>
+                  <b>Admission:</b> {selectedStudent.admissionNo}
+                </p>
 
-                  <p>
-                    <b>Class:</b> {selectedStudent.class} (
-                    {selectedStudent.section})
-                  </p>
+                <p>
+                  <b>Name:</b> {selectedStudent.firstName}{" "}
+                  {selectedStudent.lastName}
+                </p>
 
-                  <p>
-                    <b>Roll:</b> {selectedStudent.rollNumber}
-                  </p>
-                </div>
-              )}
+                <p>
+                  <b>Class:</b> {selectedStudent.class} (
+                  {selectedStudent.section})
+                </p>
 
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+                <p>
+                  <b>Roll:</b> {selectedStudent.rollNumber}
+                </p>
+              </div>
+            )}
 
-              <input
-                placeholder="Amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
 
-              <select
-                value={discount}
-                onChange={(e) => setDiscount(Number(e.target.value))}
-              >
-                <option value={0}>No Discount</option>
-                <option value={10}>10%</option>
-                <option value={20}>20%</option>
-                <option value={30}>30%</option>
-              </select>
+            <input
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
 
-              <select
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              >
-                <option>Cash</option>
-                <option>Card</option>
-                <option>Bank</option>
-              </select>
+            <select
+              value={discount}
+              onChange={(e) => setDiscount(Number(e.target.value))}
+            >
+              <option value={0}>No Discount</option>
+              <option value={10}>10%</option>
+              <option value={20}>20%</option>
+              <option value={30}>30%</option>
+            </select>
 
-              <select
-                value={feeType}
-                onChange={(e) => setFeeType(e.target.value)}
-              >
-                <option value="">Select Fee Type</option>
-                <option value="Monthly Fee">Monthly Fee</option>
-                <option value="Admission Fee">Admission Fee</option>
-                <option value="Transport Fee">Transport Fee</option>
-                <option value="Exam Fee">Exam Fee</option>
-                <option value="Hostel Fee">Hostel Fee</option>
-              </select>
+            <select
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            >
+              <option>Cash</option>
+              <option>Card</option>
+              <option>Bank</option>
+            </select>
 
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="Paid">Paid</option>
-                <option value="Pending">Unpaid</option>
-                <option value="Partial">Partial</option>
-              </select>
+            <select
+              value={feeType}
+              onChange={(e) => setFeeType(e.target.value)}
+            >
+              <option value="">Select Fee Type</option>
+              <option value="Monthly Fee">Monthly Fee</option>
+              <option value="Admission Fee">Admission Fee</option>
+              <option value="Transport Fee">Transport Fee</option>
+              <option value="Exam Fee">Exam Fee</option>
+              <option value="Hostel Fee">Hostel Fee</option>
+            </select>
 
-              <textarea
-                placeholder="Note"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </div>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="Paid">Paid</option>
+              <option value="Pending">Unpaid</option>
+              <option value="Partial">Partial</option>
+            </select>
 
-            <div className="FeeCollection-formBtns">
-              <button
-                className="cancel"
-                onClick={() => {
-                  setShowCollect(false);
+            <textarea
+              placeholder="Note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+          </div>
+
+          <div className="FeeCollection-formBtns">
+            <button
+              className="cancel"
+              onClick={() => {
+                setShowCollect(false);
+
+                setTimeout(() => {
                   setStudentSearch("");
                   setSelectedStudent(null);
                   setAmount("");
                   setDate("");
-                }}
-              >
-                Cancel
-              </button>
+                }, 250);
+              }}
+            >
+              Cancel
+            </button>
 
-              <button className="save" onClick={saveFee}>
-                Save
-              </button>
-            </div>
+            <button className="save" onClick={saveFee}>
+              Save
+            </button>
           </div>
         </div>
-      )}
+      </div>
 
       <ReceiptModal
         showReceipt={showReceipt}

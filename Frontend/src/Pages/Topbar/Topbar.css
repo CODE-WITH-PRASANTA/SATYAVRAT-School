@@ -1,89 +1,138 @@
+/* ===== TOPBAR ===== */
 .topbar {
   width: 100%;
   background: #111;
   color: #fff;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
+  border-bottom: 1px solid #222;
 }
 
+/* ===== CONTAINER ===== */
 .topbar-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 8px 16px;
+  width: 100%;
+  padding: 10px 30px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* LEFT */
+/* ===== LEFT SIDE ===== */
 .topbar-left {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 25px;
 }
 
+/* ===== ITEM ===== */
 .topbar-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .topbar-item:hover {
   color: #00bcd4;
 }
 
-/* RIGHT */
-.topbar-right {
-  display: flex;
-  gap: 12px;
+/* ===== ICON ===== */
+.topbar-icon {
+  font-size: 14px;
+  color: #00bcd4;
 }
 
+/* ===== RIGHT SIDE ===== */
+.topbar-right {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ===== BUTTON ===== */
 .topbar-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: 1px solid #444;
+  gap: 8px;
+
+  background: #25d366;
   color: #fff;
-  padding: 5px 10px;
+
+  border: none;
+  outline: none;
+
+  padding: 8px 18px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
   cursor: pointer;
+
   transition: all 0.3s ease;
 }
 
+/* ===== BUTTON ICON ===== */
+.topbar-btn-icon {
+  font-size: 16px;
+}
+
+/* ===== HOVER ===== */
 .topbar-btn:hover {
-  background: #00bcd4;
-  border-color: #00bcd4;
-  color: #000;
+  background: #1ebe5d;
+  transform: translateY(-2px);
 }
 
-/* ICON */
-.topbar-icon {
-  font-size: 14px;
-}
-
-/* 📱 Responsive */
+/* ===== TABLET RESPONSIVE ===== */
 @media (max-width: 768px) {
+
   .topbar-container {
+<<<<<<< HEAD
     gap: 8px;
+=======
+    flex-direction: column;
+    gap: 12px;
+>>>>>>> ff8a3c7d4dd755951416b2a3fdbc223cdc646b96
     text-align: center;
   }
 
   .topbar-left {
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
   }
 
   .topbar-right {
+    margin-left: 0;
+    width: 100%;
     justify-content: center;
   }
+
 }
 
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 480px) {
+
   .topbar {
     font-size: 12px;
   }
 
-  .topbar-btn {
-    padding: 4px 8px;
+  .topbar-container {
+    padding: 10px 15px;
   }
+
+  .topbar-item {
+    font-size: 12px;
+  }
+
+  .topbar-btn {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+
 }

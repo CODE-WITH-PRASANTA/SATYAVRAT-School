@@ -1,18 +1,29 @@
 const express = require("express");
+
 const router = express.Router();
 
 const {
-  createSubject,
-  getSubjects,
-  updateSubject,
-  deleteSubject,
+  createClass,
+  getClasses,
+  updateClass,
   deleteClass,
-} = require("../controllers/classWiseSubject.controller");
+} = require("../controllers/class.controller");
 
-router.post("/", createSubject);
-router.get("/", getSubjects);
-router.put("/update", updateSubject);
-router.put("/delete", deleteSubject);
-router.delete("/:classId", deleteClass);
+
+// ================= CREATE CLASS =================
+router.post("/", createClass);
+
+
+// ================= GET ALL CLASSES =================
+router.get("/", getClasses);
+
+
+// ================= UPDATE CLASS =================
+router.put("/:id", updateClass);
+
+
+// ================= DELETE CLASS =================
+router.delete("/:id", deleteClass);
+
 
 module.exports = router;

@@ -1,20 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Pacifico&family=Source+Sans+3:wght@400;500;600&display=swap");
 
 /* SECTION */
+
 .ourClasses {
   background: #f3f3f3;
-  padding: 40px 20px;
+  padding: 70px 20px;
 }
 
 .ourClasses__container {
-  max-width: 1110px;
+  max-width: 1400px;
   margin: auto;
 }
 
 /* HEADER */
+
 .ourClasses__header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .ourClasses__title {
@@ -27,7 +29,7 @@
 
 .ourClasses__subtitle {
   font-family: "Pacifico", cursive;
-  font-size: 22px;
+  font-size: 24px;
   color: #7d7d7d;
   margin: 10px 0 20px;
 }
@@ -35,9 +37,13 @@
 .ourClasses__text {
   font-size: 18px;
   color: #777;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.7;
 }
 
-/* SUN DESIGN */
+/* SUN */
+
 .ourClasses__sun {
   position: absolute;
   top: -15px;
@@ -49,19 +55,32 @@
 }
 
 /* GRID */
+
 .ourClasses__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(
+    4,
+    1fr
+  );
   gap: 25px;
 }
 
 /* CARD */
+
 .ourClassesCard {
   background: #fff;
   border: 1px solid #e5e5e5;
+  transition: 0.3s;
+}
+
+.ourClassesCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px
+    rgba(0, 0, 0, 0.08);
 }
 
 /* IMAGE */
+
 .ourClassesCard__imageWrap {
   position: relative;
   height: 260px;
@@ -75,18 +94,23 @@
 }
 
 /* TAG */
+
 .ourClassesCard__tag {
   position: absolute;
   top: 20px;
   right: 20px;
+
   background: #18aef5;
   color: #fff;
-  padding: 5px 12px;
+
+  padding: 7px 14px;
+
   font-size: 14px;
   font-family: "Oswald";
 }
 
 /* BODY */
+
 .ourClassesCard__body {
   text-align: center;
   padding: 25px;
@@ -96,28 +120,37 @@
   font-family: "Pacifico";
   color: #8a8a8a;
   margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .ourClassesCard__title {
   font-family: "Oswald";
-  font-size: 22px;
+  font-size: 24px;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
 .ourClassesCard__desc {
   font-size: 16px;
   color: #777;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  line-height: 1.7;
 }
 
 /* BUTTON */
+
 .ourClassesCard__button {
   background: #f7c500;
   color: #fff;
+
   border: none;
-  padding: 12px 25px;
+
+  padding: 12px 28px;
+
   font-family: "Oswald";
+  font-size: 15px;
+
   cursor: pointer;
   transition: 0.3s;
 }
@@ -126,15 +159,112 @@
   background: #e5b700;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
+/* LOADING */
+
+.ourClassesLoading {
+  text-align: center;
+  padding: 50px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* NO DATA */
+
+.ourClassesNoData {
+  text-align: center;
+  width: 100%;
+  padding: 50px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* PAGINATION */
+
+.ourClassesPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 45px;
+  flex-wrap: wrap;
+}
+
+/* PAGE BUTTON */
+
+.ourClassesPageBtn {
+  width: 45px;
+  height: 45px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #333;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.ourClassesPageBtn:hover {
+  background: #18aef5;
+  color: #fff;
+}
+
+/* ACTIVE */
+
+.ourClassesActivePage {
+  background: #18aef5;
+  color: #fff;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1200px) {
   .ourClasses__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(
+      3,
+      1fr
+    );
   }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 768px) {
+  .ourClasses {
+    padding: 50px 15px;
+  }
+
+  .ourClasses__title {
+    font-size: 38px;
+  }
+
+  .ourClasses__subtitle {
+    font-size: 20px;
+  }
+
+  .ourClasses__text {
+    font-size: 16px;
+  }
+
   .ourClasses__grid {
     grid-template-columns: 1fr;
+  }
+
+  .ourClassesCard__imageWrap {
+    height: 240px;
+  }
+
+  .ourClassesCard__title {
+    font-size: 22px;
   }
 }

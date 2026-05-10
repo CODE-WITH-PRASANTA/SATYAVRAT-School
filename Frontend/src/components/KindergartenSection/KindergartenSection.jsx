@@ -19,11 +19,9 @@ const KindergartenSection = () => {
 
         {/* HEADER */}
         <div className="kindergartenSection__header">
-          <h2>Welcome to Our Kindergarten</h2>
+          <h2>Welcome to Our  Satyavrat Vidya Niketan High School</h2>
 
-          <p className="kindergartenSection__subtitle">
-            Satyavrat Vidya Niketan High School
-          </p>
+         
 
           <p className="kindergartenSection__description">
             Our kindergarten program is designed to give young learners a happy and safe start to their education. 

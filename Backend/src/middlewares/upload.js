@@ -1,148 +1,255 @@
+/* =========================================================
+   UPLOAD MIDDLEWARE WITH WEBP CONVERSION
+   FILE: src/middlewares/upload.js
+========================================================= */
+
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const sharp = require("sharp");
 
-/* ================= HELPERS ================= */
+/* =========================================================
+   CREATE DIRECTORY IF NOT EXISTS
+========================================================= */
+
 const ensureDir = (dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 };
 
-/* ================= ROUTE → FOLDER MAP ================= */
+/* =========================================================
+   ROUTE TO FOLDER MAPPING
+========================================================= */
+
 const routeFolderMap = {
   "/gallery": "uploads/gallery",
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
+  "/class-post": "uploads/class-post",
   "/testimonials": "uploads/testimonials",
   "/teachers": "uploads/teachers",
   "/admissions": "uploads/admissions",
   "/subjects": "uploads/subjects",
 };
 
-/* ================= GET UPLOAD PATH ================= */
+/* =========================================================
+   GET DYNAMIC UPLOAD PATH
+========================================================= */
+
 const getUploadPath = (req) => {
   let uploadPath = "uploads/common";
 
-  const url = req.originalUrl.toLowerCase();
+  const currentUrl = req.originalUrl.toLowerCase();
 
   for (const route in routeFolderMap) {
-    if (url.includes(route)) {
+    if (currentUrl.includes(route)) {
       uploadPath = routeFolderMap[route];
       break;
     }
   }
 
   ensureDir(uploadPath);
+
   return uploadPath;
 };
 
-/* ================= MULTER CONFIG ================= */
+/* =========================================================
+   MULTER MEMORY STORAGE
+========================================================= */
+
 const storage = multer.memoryStorage();
 
+/* =========================================================
+   FILE FILTER
+========================================================= */
+
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|webp/;
+  const allowedMimeTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+  ];
 
-  const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
-
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
+  if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files (jpg, png, webp) allowed"));
+    cb(
+      new Error(
+        "Only JPG, JPEG, PNG and WEBP images are allowed"
+      ),
+      false
+    );
   }
 };
 
+/* =========================================================
+   MULTER CONFIGURATION
+========================================================= */
+
 const upload = multer({
   storage,
+
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
 });
 
-/* ================= GENERATE FILE NAME ================= */
+/* =========================================================
+   GENERATE FILE NAME
+========================================================= */
+
 const generateFileName = () => {
-  return `${Date.now()}-${Math.round(Math.random() * 1e9)}.webp`;
+  const uniqueName = `${Date.now()}-${Math.round(
+    Math.random() * 1e9
+  )}`;
+
+  return `${uniqueName}.webp`;
 };
 
-/* ================= SHARP CONVERTER ================= */
+/* =========================================================
+   CONVERT IMAGE TO WEBP
+========================================================= */
+
 const convertToWebp = async (req, res, next) => {
   try {
-    if (!req.file && !req.files) return next();
+    if (!req.file && !req.files) {
+      return next();
+    }
 
     const uploadPath = getUploadPath(req);
 
-    /* ===== SINGLE FILE ===== */
+    /* =====================================================
+       SINGLE IMAGE
+    ===================================================== */
+
     if (req.file) {
       const filename = generateFileName();
-      const outputPath = path.join(uploadPath, filename);
+
+      const outputPath = path.join(
+        process.cwd(),
+        uploadPath,
+        filename
+      );
 
       await sharp(req.file.buffer)
-        .resize(1200, 1200, { fit: "inside" })
-        .webp({ quality: 80 })
+        .resize({
+          width: 1200,
+          height: 1200,
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .webp({
+          quality: 80,
+        })
         .toFile(outputPath);
 
-      const relativePath = "/" + outputPath.replace(/\\/g, "/");
+      const imagePath = `/${uploadPath}/${filename}`.replace(
+        /\\/g,
+        "/"
+      );
 
-      req.file.path = relativePath;
-      req.body[req.file.fieldname] = relativePath;
+      req.file.filename = filename;
+
+      req.file.path = imagePath;
+
+      req.body[req.file.fieldname] = imagePath;
     }
 
-    /* ===== MULTIPLE FILES ===== */
-    if (req.files) {
-      for (const field in req.files) {
-        req.body[field] = [];
+    /* =====================================================
+       MULTIPLE IMAGES
+    ===================================================== */
 
-        for (const file of req.files[field]) {
+    if (req.files) {
+      for (const fieldName in req.files) {
+        req.body[fieldName] = [];
+
+        for (const file of req.files[fieldName]) {
           const filename = generateFileName();
-          const outputPath = path.join(uploadPath, filename);
+
+          const outputPath = path.join(
+            process.cwd(),
+            uploadPath,
+            filename
+          );
 
           await sharp(file.buffer)
-            .resize(1200, 1200, { fit: "inside" })
-            .webp({ quality: 80 })
+            .resize({
+              width: 1200,
+              height: 1200,
+              fit: "inside",
+              withoutEnlargement: true,
+            })
+            .webp({
+              quality: 80,
+            })
             .toFile(outputPath);
 
-          const relativePath = "/" + outputPath.replace(/\\/g, "/");
+          const imagePath = `/${uploadPath}/${filename}`.replace(
+            /\\/g,
+            "/"
+          );
 
-          file.path = relativePath;
-          req.body[field].push(relativePath);
+          file.filename = filename;
+
+          file.path = imagePath;
+
+          req.body[fieldName].push(imagePath);
         }
       }
     }
 
     next();
-  } catch (err) {
-    console.error("SHARP ERROR:", err);
-    res.status(500).json({
+  } catch (error) {
+    console.error("WEBP CONVERSION ERROR:", error);
+
+    return res.status(500).json({
       success: false,
-      message: err.message,
+      message: "Image processing failed",
+      error: error.message,
     });
   }
 };
 
-/* ================= DELETE IMAGE ================= */
+/* =========================================================
+   DELETE IMAGE FILE
+========================================================= */
+
 const deleteImageFile = (imagePath) => {
   try {
     if (!imagePath) return;
 
-    const cleanPath = imagePath.startsWith("/")
-      ? imagePath.slice(1)
-      : imagePath;
+    let cleanPath = imagePath;
 
-    const fullPath = path.join(process.cwd(), cleanPath);
+    if (cleanPath.startsWith("/")) {
+      cleanPath = cleanPath.substring(1);
+    }
+
+    const fullPath = path.join(
+      process.cwd(),
+      cleanPath
+    );
 
     if (fs.existsSync(fullPath)) {
       fs.unlinkSync(fullPath);
-      console.log("🗑 Deleted:", fullPath);
+
+      console.log("IMAGE DELETED:", fullPath);
     }
-  } catch (err) {
-    console.error("DELETE ERROR:", err.message);
+  } catch (error) {
+    console.error(
+      "DELETE IMAGE ERROR:",
+      error.message
+    );
   }
 };
+
+/* =========================================================
+   EXPORTS
+========================================================= */
 
 module.exports = {
   upload,

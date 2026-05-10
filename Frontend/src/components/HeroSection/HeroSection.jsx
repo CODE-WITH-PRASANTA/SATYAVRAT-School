@@ -12,16 +12,12 @@ const HeroSection = () => {
       titleTop: "Welcome to Satyavrat Vidya Niketan High School",
       heading: "A Safe, Caring and Inspiring Place for Every Student",
       sub: "At Satyavrat Vidya Niketan High School, we believe every child deserves quality education, strong values, and the confidence to succeed in life.",
-      btn1: "Get Started",
-      btn2: null,
     },
     {
       image: slide2,
       titleTop: "Learning Beyond Books",
       heading: "Building Knowledge, Skills and Bright Futures",
       sub: "We create a friendly and supportive environment where students can learn, explore new ideas, and grow into responsible individuals.",
-      btn1: "Explore More",
-      btn2: "Read About Us",
     },
   ];
 
@@ -36,15 +32,21 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // Manual Controls
+  // Next Slide
   const nextSlide = () => {
     setActive((prev) => (prev + 1) % slides.length);
   };
 
+  // Previous Slide
   const prevSlide = () => {
     setActive((prev) =>
       prev === 0 ? slides.length - 1 : prev - 1
     );
+  };
+
+  // Contact Call
+  const handleContactClick = () => {
+    window.location.href = "tel:9753317591";
   };
 
   return (
@@ -60,12 +62,14 @@ const HeroSection = () => {
           role="img"
           aria-label={`Slide ${index + 1} - ${slide.heading}`}
         >
+          {/* Overlay */}
           <div className="heroOverlay"></div>
 
+          {/* Content */}
           <div className="heroContent">
             <img
               src={hand}
-              alt="School learning icon"
+              alt="School Icon"
               className="heroHand"
               loading="lazy"
             />
@@ -76,30 +80,28 @@ const HeroSection = () => {
 
             <p className="heroSub">{slide.sub}</p>
 
-            <div className="heroButtons">
-              <button className="btn primary">
-                {slide.btn1}
-              </button>
-
-              {slide.btn2 && (
-                <button className="btn secondary">
-                  {slide.btn2}
-                </button>
-              )}
-            </div>
+            {/* Contact Button */}
+            <button
+              className="contactBtn"
+              onClick={handleContactClick}
+            >
+              Contact Us
+            </button>
           </div>
         </div>
       ))}
 
-      {/* Navigation Arrows */}
+      {/* Left Arrow */}
       <button className="heroArrow left" onClick={prevSlide}>
         ❮
       </button>
+
+      {/* Right Arrow */}
       <button className="heroArrow right" onClick={nextSlide}>
         ❯
       </button>
 
-      {/* Dots Indicator */}
+      {/* Dots */}
       <div className="heroDots">
         {slides.map((_, index) => (
           <span
