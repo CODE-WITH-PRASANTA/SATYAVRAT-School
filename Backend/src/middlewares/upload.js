@@ -27,6 +27,12 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
+   "/testimonials": "uploads/testimonials" ,
+    "/teachers": "uploads/teachers",
+    "/admissions": "uploads/admissions",
+    "/banner":"uploads/banner", 
+    
+    
   "/class-post": "uploads/class-post",
   "/testimonials": "uploads/testimonials",
   "/teachers": "uploads/teachers",

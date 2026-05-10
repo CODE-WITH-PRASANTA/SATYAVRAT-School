@@ -1,147 +1,501 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
 import "./BlogComment.css";
-import { FaReply } from "react-icons/fa";
 
-const commentsData = [
-  {
-    id: 1,
-    name: "Game Smith",
-    date: "Mar 7, 2017",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
-    text: "leads a rag-tag fugitive fleet on a lonely quest - a shining planet known as Earth. So lets make the most of this beautiful day.",
-  },
-  {
-    id: 2,
-    name: "Adam Gem",
-    date: "Mar 10, 2017",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
-    text: "Just two good ol' boys Wouldn't change if they could. Fightin' the system like a true modern day Robin Hood.",
-  },
-  {
-    id: 3,
-    name: "John Doe",
-    date: "Mar 19, 2017",
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80",
-    text: "Ne Go Speed Racer go. And you know where you were then. Mister we could use a man like Herbert Hoover again.",
-  },
-];
+import {
+  FaReply,
+  FaPaperPlane,
+  FaUserCircle,
+} from "react-icons/fa";
 
-const galleryImages = [
-  "https://images.unsplash.com/photo-1516627145497-ae6968895b75?auto=format&fit=crop&w=300&q=80",
-  "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=300&q=80",
-  "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=300&q=80",
-  "https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=300&q=80",
-  "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=300&q=80",
-  "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=300&q=80",
-];
+import {
+  useParams,
+} from "react-router-dom";
 
-const tags = ["Music", "Toys", "Sports", "Childhood", "Education", "Nutritions", "Link"];
+import API from "../../api/axios";
+
+/* ================= API ================= */
+
+const COMMENT_API =
+  "/news-comments";
 
 const BlogComment = () => {
+
+  const { id } = useParams();
+
+  const [comments, setComments] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [form, setForm] =
+    useState({
+      name: "",
+      email: "",
+      website: "",
+      message: "",
+    });
+
+  const [replyData, setReplyData] =
+    useState({
+      parentId: null,
+      text: "",
+    });
+
+  /* ================= FETCH COMMENTS ================= */
+
+  const fetchComments = async () => {
+    try {
+      setLoading(true);
+
+      const res = await API.get(
+        `${COMMENT_API}/blog/${id}`
+      );
+
+      setComments(
+        res.data.data || []
+      );
+    } catch (error) {
+      console.error(
+        "FETCH COMMENTS ERROR:",
+        error
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchComments();
+    }
+  }, [id]);
+
+  /* ================= ADD COMMENT ================= */
+
+  const handleSubmit = async (
+    e
+  ) => {
+    e.preventDefault();
+
+    if (
+      !form.name ||
+      !form.message
+    )
+      return;
+
+    try {
+      await API.post(
+        COMMENT_API,
+        {
+          blogId: id,
+
+          name: form.name,
+
+          email: form.email,
+
+          website: form.website,
+
+          message: form.message,
+
+          status: "Approved",
+        }
+      );
+
+      setForm({
+        name: "",
+        email: "",
+        website: "",
+        message: "",
+      });
+
+      fetchComments();
+    } catch (error) {
+      console.error(
+        "COMMENT ERROR:",
+        error
+      );
+    }
+  };
+
+  /* ================= ADD REPLY ================= */
+
+  const handleReplySubmit =
+    async (parentId) => {
+      if (!replyData.text)
+        return;
+
+      try {
+        await API.post(
+          COMMENT_API,
+          {
+            blogId: id,
+
+            parentId,
+
+            name: "Visitor",
+
+            email: "",
+
+            website: "",
+
+            message:
+              replyData.text,
+
+            status: "Approved",
+          }
+        );
+
+        setReplyData({
+          parentId: null,
+          text: "",
+        });
+
+        fetchComments();
+      } catch (error) {
+        console.error(
+          "REPLY ERROR:",
+          error
+        );
+      }
+    };
+
   return (
     <section className="BlogComment">
+
       <div className="BlogComment__container">
-        <div className="BlogComment__left">
-          <div className="BlogComment__commentsHeader">
-            <h2 className="BlogComment__title">Comments (3)</h2>
-          </div>
 
-          <div className="BlogComment__commentsList">
-            {commentsData.map((comment) => (
-              <div className="BlogComment__commentCard" key={comment.id}>
-                <div className="BlogComment__commentAvatarPart">
-                  <div className="BlogComment__avatarWrap">
-                    <img
-                      src={comment.image}
-                      alt={comment.name}
-                      className="BlogComment__avatar"
-                    />
-                  </div>
-                  <h4 className="BlogComment__userName">{comment.name}</h4>
-                </div>
+        {/* HEADER */}
+        <div className="BlogComment__commentsHeader">
 
-                <div className="BlogComment__commentContent">
-                  <span className="BlogComment__date">{comment.date}</span>
-                  <p className="BlogComment__text">{comment.text}</p>
+          <h2 className="BlogComment__title">
 
-                  <button className="BlogComment__replyBtn" type="button">
-                    <FaReply />
-                    <span>Reply</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+            Comments (
+            {comments.length})
 
-          <div className="BlogComment__formSection">
-            <h2 className="BlogComment__formTitle">Leave A Comment</h2>
+          </h2>
 
-            <form className="BlogComment__form">
-              <textarea
-                className="BlogComment__textarea"
-                placeholder="Type Your Message..."
-              ></textarea>
+          <p className="BlogComment__subtitle">
 
-              <div className="BlogComment__inputRow">
-                <input
-                  type="text"
-                  className="BlogComment__input"
-                  placeholder="Your full name..."
-                />
-                <input
-                  type="email"
-                  className="BlogComment__input"
-                  placeholder="Your email id..."
-                />
-                <input
-                  type="text"
-                  className="BlogComment__input"
-                  placeholder="Website"
-                />
-              </div>
+            Share your thoughts
+            and reply to
+            discussions.
 
-              <button type="submit" className="BlogComment__submitBtn">
-                Send Your Message
-              </button>
-            </form>
-          </div>
+          </p>
+
         </div>
 
-        <aside className="BlogComment__right">
-          <div className="BlogComment__sidebarInner">
-            <div className="BlogComment__widget">
-              <h3 className="BlogComment__widgetTitle">Gallery</h3>
+        {/* ================= COMMENTS ================= */}
 
-              <div className="BlogComment__gallery">
-                {galleryImages.map((image, index) => (
-                  <div className="BlogComment__galleryItem" key={index}>
-                    <img
-                      src={image}
-                      alt={`gallery-${index + 1}`}
-                      className="BlogComment__galleryImg"
-                    />
+        <div className="BlogComment__commentsList">
+
+          {loading ? (
+
+            <div className="BlogComment__empty">
+              Loading comments...
+            </div>
+
+          ) : comments.length ===
+            0 ? (
+
+            <div className="BlogComment__empty">
+              No comments yet
+            </div>
+
+          ) : (
+
+            comments.map(
+              (comment) => (
+
+                <div
+                  className="BlogComment__commentCard"
+                  key={
+                    comment._id
+                  }
+                >
+
+                  {/* AVATAR */}
+                  <div className="BlogComment__avatarWrap">
+
+                    <FaUserCircle />
+
                   </div>
-                ))}
-              </div>
+
+                  {/* CONTENT */}
+                  <div className="BlogComment__commentContent">
+
+                    <div className="BlogComment__top">
+
+                      <div>
+
+                        <h4>
+                          {
+                            comment.name
+                          }
+                        </h4>
+
+                        <span>
+
+                          {new Date(
+                            comment.createdAt
+                          ).toDateString()}
+
+                        </span>
+
+                      </div>
+
+                      <button
+                        className="BlogComment__replyBtn"
+                        onClick={() =>
+                          setReplyData(
+                            {
+                              parentId:
+                                comment._id,
+
+                              text: "",
+                            }
+                          )
+                        }
+                      >
+
+                        <FaReply />
+
+                        Reply
+
+                      </button>
+
+                    </div>
+
+                    <p>
+                      {
+                        comment.message
+                      }
+                    </p>
+
+                    {/* ================= REPLIES ================= */}
+
+                    {comment.replies
+                      ?.length >
+                      0 && (
+
+                      <div className="BlogComment__replyList">
+
+                        {comment.replies.map(
+                          (
+                            reply
+                          ) => (
+
+                            <div
+                              className="BlogComment__replyCard"
+                              key={
+                                reply._id
+                              }
+                            >
+
+                              <div className="BlogComment__replyAvatar">
+
+                                <FaUserCircle />
+
+                              </div>
+
+                              <div className="BlogComment__replyContent">
+
+                                <h5>
+                                  {
+                                    reply.name
+                                  }
+                                </h5>
+
+                                <span>
+
+                                  {new Date(
+                                    reply.createdAt
+                                  ).toDateString()}
+
+                                </span>
+
+                                <p>
+
+                                  {
+                                    reply.message
+                                  }
+
+                                </p>
+
+                              </div>
+
+                            </div>
+
+                          )
+                        )}
+
+                      </div>
+
+                    )}
+
+                    {/* ================= REPLY BOX ================= */}
+
+                    {replyData.parentId ===
+                      comment._id && (
+
+                      <div className="BlogComment__replyBox">
+
+                        <textarea
+                          placeholder="Write your reply..."
+                          value={
+                            replyData.text
+                          }
+                          onChange={(
+                            e
+                          ) =>
+                            setReplyData(
+                              {
+                                ...replyData,
+                                text:
+                                  e
+                                    .target
+                                    .value,
+                              }
+                            )
+                          }
+                        />
+
+                        <button
+                          onClick={() =>
+                            handleReplySubmit(
+                              comment._id
+                            )
+                          }
+                        >
+
+                          Send Reply
+
+                        </button>
+
+                      </div>
+
+                    )}
+
+                  </div>
+
+                </div>
+
+              )
+            )
+
+          )}
+
+        </div>
+
+        {/* ================= FORM ================= */}
+
+        <div className="BlogComment__formSection">
+
+          <h2 className="BlogComment__formTitle">
+
+            Leave A Comment
+
+          </h2>
+
+          <form
+            className="BlogComment__form"
+            onSubmit={
+              handleSubmit
+            }
+          >
+
+            <textarea
+              className="BlogComment__textarea"
+              placeholder="Write your comment..."
+              value={
+                form.message
+              }
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  message:
+                    e.target
+                      .value,
+                })
+              }
+            />
+
+            <div className="BlogComment__inputRow">
+
+              <input
+                type="text"
+                placeholder="Your Name"
+                className="BlogComment__input"
+                value={
+                  form.name
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    name:
+                      e.target
+                        .value,
+                  })
+                }
+              />
+
+              <input
+                type="email"
+                placeholder="Your Email"
+                className="BlogComment__input"
+                value={
+                  form.email
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    email:
+                      e.target
+                        .value,
+                  })
+                }
+              />
+
+              <input
+                type="text"
+                placeholder="Website"
+                className="BlogComment__input"
+                value={
+                  form.website
+                }
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    website:
+                      e.target
+                        .value,
+                  })
+                }
+              />
+
             </div>
 
-            <div className="BlogComment__widget">
-              <h3 className="BlogComment__widgetTitle">Tags</h3>
+            <button
+              type="submit"
+              className="BlogComment__submitBtn"
+            >
 
-              <div className="BlogComment__tags">
-                {tags.map((tag, index) => (
-                  <button key={index} type="button" className="BlogComment__tag">
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
+              <FaPaperPlane />
+
+              Send Comment
+
+            </button>
+
+          </form>
+
+        </div>
+
       </div>
+
     </section>
   );
 };

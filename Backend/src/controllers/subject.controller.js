@@ -1,94 +1,127 @@
 const Subject = require("../models/subject.model");
 
-/* CREATE */
+/* ======================================================
+   CREATE SUBJECT
+====================================================== */
 const createSubject = async (req, res) => {
   try {
-    const data = {
-      subjectName: req.body.subjectName,
-      className: req.body.className,
-      teacher: req.body.teacher,
-      description: req.body.description,
-      image: req.body.image || "", // ✅ IMPORTANT FIX
-    };
 
-    const subject = await Subject.create(data);
+    const {
+      classId,
+      subjectName,
+      subjectType,
+    } = req.body;
 
-    res.status(201).json({
+    /* ================= VALIDATION ================= */
+
+    if (!classId || !subjectName) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields required",
+      });
+    }
+
+    /* ================= CREATE ================= */
+
+    const subject = await Subject.create({
+      classId,
+      subjectName,
+      subjectType,
+    });
+
+    return res.status(201).json({
       success: true,
       data: subject,
     });
+
   } catch (error) {
-    console.error("CREATE ERROR:", error);
-    res.status(500).json({
+
+    console.log("CREATE SUBJECT ERROR:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-/* GET */
+/* ======================================================
+   GET SUBJECTS
+====================================================== */
 const getSubjects = async (req, res) => {
   try {
-    const subjects = await Subject.find().sort({ createdAt: -1 });
 
-    res.json({
+    const subjects = await Subject.find()
+      .populate("classId")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
       success: true,
       data: subjects,
     });
+
   } catch (error) {
-    console.error("GET ERROR:", error);
-    res.status(500).json({
+
+    console.log("GET SUBJECT ERROR:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-/* UPDATE */
+/* ======================================================
+   UPDATE SUBJECT
+====================================================== */
 const updateSubject = async (req, res) => {
   try {
-    const updateData = {
-      subjectName: req.body.subjectName,
-      className: req.body.className,
-      teacher: req.body.teacher,
-      description: req.body.description,
-    };
 
-    if (req.body.image) {
-      updateData.image = req.body.image; // ✅ FIXED
-    }
-
-    const subject = await Subject.findByIdAndUpdate(
+    const updated = await Subject.findByIdAndUpdate(
       req.params.id,
-      updateData,
-      { new: true }
+      {
+        subjectName: req.body.subjectName,
+        subjectType: req.body.subjectType,
+      },
+      {
+        new: true,
+      }
     );
 
-    res.json({
+    return res.status(200).json({
       success: true,
-      data: subject,
+      data: updated,
     });
+
   } catch (error) {
-    console.error("UPDATE ERROR:", error);
-    res.status(500).json({
+
+    console.log("UPDATE SUBJECT ERROR:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-/* DELETE */
+/* ======================================================
+   DELETE SUBJECT
+====================================================== */
 const deleteSubject = async (req, res) => {
   try {
+
     await Subject.findByIdAndDelete(req.params.id);
 
-    res.json({
+    return res.status(200).json({
       success: true,
-      message: "Deleted successfully",
+      message: "Deleted Successfully",
     });
+
   } catch (error) {
-    console.error("DELETE ERROR:", error);
-    res.status(500).json({
+
+    console.log("DELETE SUBJECT ERROR:", error);
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

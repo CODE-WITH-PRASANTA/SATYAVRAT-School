@@ -8,6 +8,7 @@ import {
   FaChalkboardTeacher,
   FaUserTie,
   FaCommentDots,
+  FaComments,
   FaChevronDown,
   FaAddressBook,
   FaMoneyBillWave,
@@ -36,7 +37,25 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       { name: "Cold Lead", path: "/admin/cold-lead", icon: <FaChalkboardTeacher /> },   
       { name: "Cold Lead Table", path: "/admin/cold-lead-table", icon: <FaChalkboardTeacher /> },   
 
-        { name: "News Posting", path: "/admin/newsposting", icon: <FaNewspaper /> },
+      {
+         name: "News Management",
+         icon: <FaNewspaper />,
+         submenu: [
+
+     {
+         name: "News Posting",
+         path: "/admin/newsposting",
+         icon: <FaNewspaper />,
+     },
+
+    {
+      name: "Comment Management",
+      path: "/admin/comment-management",
+      icon: <FaComments />,
+    },
+
+    ],
+   },
         { name: "Teacher Posting", path: "/admin/teacherposting", icon: <FaChalkboardTeacher /> },
         { name: "Testimonial", path: "/admin/testimonial", icon: <FaQuoteLeft /> },
 

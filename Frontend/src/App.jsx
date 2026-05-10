@@ -9,6 +9,7 @@ import FloatingForm from "./Pages/FloatingForm/FloatingForm";
 import FloatingIcons from "./Pages/FloatingIcons/FloatingIcons";
 import Home from "./Pages/Home/Home";
 import BlogDetails from "./Pages/BlogDetails/BlogDetails";
+import AdvitiesForm from "./Pages/AdvitiesForm/AdvitiesForm";
 
 
 function App() {
@@ -22,13 +23,14 @@ function App() {
       <Routes>
         
        <Route path="/" element={<Home />} />
-       <Route path="/blog-details" element={<BlogDetails/>}/>
+       <Route path="/blog/:id" element={<BlogDetails />} />
 
       </Routes>
 
       {/* 🔥 Floating UI */}
       <FloatingIcons />
       <FloatingForm />
+      <AdvitiesForm/>
 
       {/* 🔻 Footer */}
       <Footer />

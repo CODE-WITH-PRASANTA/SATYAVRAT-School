@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./BlogActivitesHome.css";
-import API, { IMAGE_URL } from "../../api/axios";
+import API, { IMAGE_URL } from "../../Api/axios";
+import { Link } from "react-router-dom";
 
 const BlogActivitesHome = () => {
-  const [activeTab, setActiveTab] = useState("education");
+  const [activeTab, setActiveTab] = useState("Education");
   const [newsData, setNewsData] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     const loadNews = async () => {
@@ -15,8 +17,12 @@ const BlogActivitesHome = () => {
           ? res.data.data
           : [];
 
-        console.log("NEWS DATA:", data); // DEBUG
-        setNewsData(data);
+        // ACTIVE POSTS ONLY
+        const activePosts = data
+          .filter((item) => item?.status === "Active")
+          .sort((a, b) => b.order - a.order);
+
+        setNewsData(activePosts);
       } catch (error) {
         console.error("API Error:", error);
         setNewsData([]);
@@ -26,22 +32,33 @@ const BlogActivitesHome = () => {
     loadNews();
   }, []);
 
+  // CATEGORY FILTER
   const filteredData = newsData.filter(
     (item) =>
-      item?.category?.toLowerCase() === activeTab.toLowerCase()
+      item?.category?.toLowerCase() ===
+      activeTab.toLowerCase()
   );
 
-  // ✅ FINAL IMAGE HANDLER (STRONG FIX)
+  // LOAD MORE
+  const visibleBlogs = filteredData.slice(0, visibleCount);
+
+  // REMOVE HTML TAGS
+  const stripHtml = (html) => {
+    if (!html) return "";
+
+    return html.replace(/<[^>]+>/g, "");
+  };
+
+  // IMAGE FIX
   const getImage = (img) => {
-    if (!img) return "https://via.placeholder.com/150";
+    if (!img)
+      return "https://via.placeholder.com/600x400";
 
-    console.log("IMAGE PATH:", img); // DEBUG
-
-    // already full URL
     if (img.startsWith("http")) return img;
 
-    // remove duplicate slashes
-    const cleanPath = img.startsWith("/") ? img : `/${img}`;
+    const cleanPath = img.startsWith("/")
+      ? img
+      : `/${img}`;
 
     return `${IMAGE_URL}${cleanPath}`;
   };
@@ -53,120 +70,143 @@ const BlogActivitesHome = () => {
         {/* HEADER */}
         <div className="ba-header">
           <h2>BLOG & ACTIVITIES</h2>
-          <p className="subtitle">Time Line & Activities</p>
+
+          <p className="subtitle">
+            Time Line & Activities
+          </p>
+
           <p className="desc">
-            We are group of teachers who really love childrens and enjoy every moment of teaching
+            We are group of teachers who really love
+            childrens and enjoy every moment of teaching
           </p>
         </div>
 
-        <div className="ba-content">
+        {/* CATEGORY TABS */}
+        <div className="tabs">
 
-          {/* LEFT */}
-          <div className="ba-left">
-            {newsData.length > 0 ? (
-              newsData.slice(0, 3).map((item, i) => (
-                <div className="ba-card" key={i}>
+          {[
+            "Education",
+            "Activities",
+            "Painting",
+            "Games",
+          ].map((tab) => (
+            <button
+              key={tab}
+              className={
+                activeTab === tab ? "active" : ""
+              }
+              onClick={() => {
+                setActiveTab(tab);
+                setVisibleCount(6);
+              }}
+            >
+              {tab.toUpperCase()}
+            </button>
+          ))}
 
-                  <div className="ba-img">
-                    <img
-                      src={getImage(item.image)}
-                      alt="news"
-                      onError={(e) => {
-                        console.log("❌ Image failed:", item.image);
-                        e.target.src = "https://via.placeholder.com/150";
-                      }}
-                    />
+        </div>
 
-                    <div className="ba-date">
-                      {item?.date
-                        ? new Date(item.date).toDateString()
-                        : "No Date"}
-                    </div>
-                  </div>
+        {/* BLOG GRID */}
+        <div className="blog-grid">
 
-                  <div className="ba-info">
-                    <h4>{item?.title}</h4>
+          {visibleBlogs.length > 0 ? (
+            visibleBlogs.map((item) => (
+              <div
+                className="blog-card"
+                key={item._id}
+              >
 
-                    <div className="meta">
-                      <span>👤 Admin</span>
-                      <span>💬 0 Comments</span>
-                    </div>
+                {/* IMAGE */}
+                <div className="blog-image-wrap">
 
-                    <p>{item?.description}</p>
+                  <img
+                    src={getImage(item.image)}
+                    alt={item?.title}
+                    className="blog-image"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://via.placeholder.com/600x400";
+                    }}
+                  />
+
+                  <div className="blog-date">
+                    {item?.date
+                      ? new Date(item.date)
+                          .toDateString()
+                      : "No Date"}
                   </div>
 
                 </div>
-              ))
-            ) : (
-              <p>No data available</p>
-            )}
-          </div>
 
-          {/* RIGHT */}
-          <div className="ba-right">
+                {/* CONTENT */}
+                <div className="blog-content">
 
-            {/* TABS */}
-            <div className="tabs">
-              {["education", "activities", "painting", "games"].map((tab) => (
-                <button
-                  key={tab}
-                  className={activeTab === tab ? "active" : ""}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab.toUpperCase()}
-                </button>
-              ))}
-            </div>
+                  <span className="blog-category">
+                    {item?.category}
+                  </span>
 
-            {/* TAB CONTENT */}
-            <div className="tab-content">
-              {filteredData.length > 0 ? (
-                filteredData.map((item, i) => (
-                  <div key={i}>
+                  <h3>{item?.title}</h3>
 
-                    <div className="mini-card">
-                      <img
-                        src={getImage(item.image)}
-                        alt="news"
-                        onError={(e) => {
-                          console.log("❌ Image failed:", item.image);
-                          e.target.src = "https://via.placeholder.com/100";
-                        }}
-                      />
+                  <div className="blog-meta">
 
-                      <div>
-                        <h5>{item?.title}</h5>
-                        <p>{item?.description}</p>
-                      </div>
-                    </div>
+                    <span>
+                         👤 {item?.author || "Admin"}
+                    </span>
 
-                    {i !== filteredData.length - 1 && (
-                      <div className="divider"></div>
-                    )}
+                    <span>
+                         💬 {item?.comments || 0} Comments
+                    </span>
+
+                     <span>
+                          👁️ {item?.views || 0} Views
+                    </span>
 
                   </div>
-                ))
-              ) : (
-                <p>No data in this category</p>
-              )}
-            </div>
 
-            {/* BANNER */}
-            {filteredData[0]?.image && (
-              <div className="tab-banner">
-                <img
-                  src={getImage(filteredData[0].image)}
-                  alt="banner"
-                  onError={(e) => {
-                    console.log("❌ Banner failed:", filteredData[0].image);
-                    e.target.src = "https://via.placeholder.com/600x200";
-                  }}
-                />
+                  <p>
+                    {stripHtml(
+                      item?.description
+                    ).slice(0, 130)}
+                    ...
+                  </p>
+
+                  {/* READ MORE */}
+                  <Link
+                    to={`/blog/${item._id}`}
+                    className="read-more-btn"
+                  >
+                    Read More →
+                  </Link>
+
+                </div>
               </div>
-            )}
+            ))
+          ) : (
+            <div className="empty-blog">
+              No Blogs Found
+            </div>
+          )}
+
+        </div>
+
+        {/* LOAD MORE */}
+        {visibleCount < filteredData.length && (
+          <div className="load-more-wrap">
+
+            <button
+              className="load-more-btn"
+              onClick={() =>
+                setVisibleCount(
+                  (prev) => prev + 3
+                )
+              }
+            >
+              Load More Blogs
+            </button>
 
           </div>
-        </div>
+        )}
+
       </div>
     </section>
   );
