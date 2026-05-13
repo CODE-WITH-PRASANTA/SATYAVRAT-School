@@ -93,12 +93,8 @@
 @media (max-width: 768px) {
 
   .topbar-container {
-<<<<<<< HEAD
-    gap: 8px;
-=======
     flex-direction: column;
     gap: 12px;
->>>>>>> ff8a3c7d4dd755951416b2a3fdbc223cdc646b96
     text-align: center;
   }
 

@@ -4,13 +4,17 @@
   position: fixed;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100vh;
+
   z-index: 99999;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  padding: 20px;
 
   animation: popupFadeIn 0.4s ease;
 }
@@ -19,38 +23,63 @@
 
 .advertisePopup__overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(5px);
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.78);
+
+  backdrop-filter: blur(6px);
 
   animation: overlayFade 0.4s ease;
 }
 
-/* ================= CONTENT BOX ================= */
+/* ================= CONTENT ================= */
 
 .advertisePopup__content {
   position: relative;
-  width: 92%;
-  max-width: 900px;
 
-  border-radius: 24px;
-  overflow: hidden;
+  width: 100%;
+  max-width: 850px;
+
+  max-height: 92vh;
 
   background: #ffffff;
 
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
-    0 0 30px rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
 
-  transform: scale(0.8);
-  animation: popupScale 0.45s ease forwards;
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45);
+
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: popupScale 0.45s ease;
+}
+
+/* ================= IMAGE ================= */
+
+.advertisePopup__image {
+  width: 100%;
+  height: 100%;
+
+  max-height: 92vh;
+
+  object-fit: contain;
+
+  display: block;
+
+  background: #ffffff;
 }
 
 /* ================= CLOSE BUTTON ================= */
 
 .advertisePopup__close {
   position: absolute;
+
   top: 14px;
   right: 14px;
 
@@ -60,7 +89,8 @@
   border: none;
   border-radius: 50%;
 
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.75);
+
   color: #ffffff;
 
   font-size: 28px;
@@ -72,7 +102,7 @@
   align-items: center;
   justify-content: center;
 
-  z-index: 10;
+  z-index: 20;
 
   transition: all 0.3s ease;
 }
@@ -82,27 +112,13 @@
   transform: rotate(90deg) scale(1.08);
 }
 
-/* ================= IMAGE ================= */
-
-.advertisePopup__image {
-  width: 100%;
-  height: 100%;
-
-  max-height: 85vh;
-
-  object-fit: cover;
-  display: block;
-
-  transition: transform 0.5s ease;
-}
-
-
 /* ================= ANIMATIONS ================= */
 
 @keyframes popupFadeIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -112,15 +128,17 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyframes popupScale {
+
   0% {
     opacity: 0;
-    transform: scale(0.7) translateY(30px);
+    transform: scale(0.75) translateY(20px);
   }
 
   100% {
@@ -129,19 +147,22 @@
   }
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
+/* ================= TABLET ================= */
 
 @media (max-width: 768px) {
 
+  .advertisePopup {
+    padding: 14px;
+  }
+
   .advertisePopup__content {
-    width: 95%;
+    max-width: 100%;
     border-radius: 18px;
   }
 
   .advertisePopup__image {
-    max-height: 75vh;
+    max-height: 85vh;
     object-fit: contain;
-    background: #000;
   }
 
   .advertisePopup__close {
@@ -151,21 +172,30 @@
   }
 }
 
-/* ================= SMALL MOBILE ================= */
+/* ================= MOBILE ================= */
 
 @media (max-width: 480px) {
 
+  .advertisePopup {
+    padding: 10px;
+  }
+
   .advertisePopup__content {
-    width: 96%;
     border-radius: 16px;
   }
 
   .advertisePopup__image {
-    max-height: 70vh;
+    max-height: 80vh;
+    object-fit: contain;
   }
 
   .advertisePopup__close {
     top: 10px;
     right: 10px;
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 22px;
   }
 }

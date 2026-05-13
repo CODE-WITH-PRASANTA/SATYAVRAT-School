@@ -154,8 +154,8 @@ const OurClasses = () => {
                   {/* IMAGE */}
 
                   <div className="ourClassesCard__imageWrap">
-                    <img
-                      src={`http://localhost:5000${item.uploadImage}`}
+                   <img
+                      src={`${IMAGE_URL}${item.uploadImage}`}
                       alt={item.classTitle}
                       className="ourClassesCard__image"
                     />
