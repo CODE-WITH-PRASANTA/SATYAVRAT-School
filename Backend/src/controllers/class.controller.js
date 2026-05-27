@@ -1,160 +1,111 @@
 const Class = require("../models/class.model");
 
-/* ======================================================
-   CREATE CLASS
-====================================================== */
+/* ================= CREATE CLASS ================= */
+
 exports.createClass = async (req, res) => {
   try {
+
     const { className, sectionName } = req.body;
 
-    /* ===== VALIDATION ===== */
-    if (!className || !sectionName) {
-      return res.status(400).json({
-        success: false,
-        message: "Class name and section are required",
-      });
-    }
-
-    /* ===== CHECK EXIST ===== */
-    const alreadyExists = await Class.findOne({
-      className: className.trim(),
-      sectionName: sectionName.trim(),
+    const newClass = new Class({
+      className,
+      sectionName
     });
 
-    if (alreadyExists) {
-      return res.status(409).json({
-        success: false,
-        message: "Class already exists",
-      });
-    }
+    await newClass.save();
 
-    /* ===== CREATE ===== */
-    const newClass = await Class.create({
-      className: className.trim(),
-      sectionName: sectionName.trim(),
-    });
-
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       message: "Class created successfully",
-      data: newClass,
+      data: newClass
     });
 
   } catch (error) {
-    console.error("CREATE CLASS ERROR:", error);
 
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Server Error",
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Class with this section already exists"
+      });
+    }
+
+    res.status(500).json({
+      message: error.message
     });
   }
 };
 
-/* ======================================================
-   GET ALL CLASSES
-====================================================== */
+/* ================= GET ALL CLASSES ================= */
 exports.getClasses = async (req, res) => {
   try {
-    const classes = await Class.find().sort({
-      className: 1,
-      sectionName: 1,
-    });
 
-    return res.status(200).json({
+    const classes = await Class.find()
+      .sort({ className: 1, sectionName: 1 });
+
+    res.json({
       success: true,
-      count: classes.length,
-      data: classes,
+      data: classes
     });
 
   } catch (error) {
-    console.error("GET CLASSES ERROR:", error);
 
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Server Error",
+    res.status(500).json({
+      message: error.message
     });
+
   }
 };
-
-/* ======================================================
-   UPDATE CLASS
-====================================================== */
+/* ================= UPDATE CLASS ================= */
 exports.updateClass = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { className, sectionName } = req.body;
 
-    /* ===== VALIDATION ===== */
-    if (!className || !sectionName) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required",
-      });
-    }
-
-    /* ===== UPDATE ===== */
-    const updatedClass = await Class.findByIdAndUpdate(
-      id,
-      {
-        className: className.trim(),
-        sectionName: sectionName.trim(),
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
+    const updated = await Class.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
     );
 
-    if (!updatedClass) {
+    if (!updated) {
       return res.status(404).json({
-        success: false,
-        message: "Class not found",
+        message: "Class not found"
       });
     }
 
-    return res.status(200).json({
+    res.json({
       success: true,
       message: "Class updated successfully",
-      data: updatedClass,
+      data: updated
     });
 
   } catch (error) {
-    console.error("UPDATE CLASS ERROR:", error);
 
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Server Error",
+    res.status(500).json({
+      message: error.message
     });
+
   }
 };
-
-/* ======================================================
-   DELETE CLASS
-====================================================== */
+/* ================= DELETE CLASS ================= */
 exports.deleteClass = async (req, res) => {
   try {
-    const { id } = req.params;
 
-    const deletedClass = await Class.findByIdAndDelete(id);
+    const deleted = await Class.findByIdAndDelete(req.params.id);
 
-    if (!deletedClass) {
+    if (!deleted) {
       return res.status(404).json({
-        success: false,
-        message: "Class not found",
+        message: "Class not found"
       });
     }
 
-    return res.status(200).json({
+    res.json({
       success: true,
-      message: "Class deleted successfully",
+      message: "Class deleted successfully"
     });
 
   } catch (error) {
-    console.error("DELETE CLASS ERROR:", error);
 
-    return res.status(500).json({
-      success: false,
-      message: error.message || "Server Error",
+    res.status(500).json({
+      message: error.message
     });
+
   }
 };

@@ -167,6 +167,12 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         },
 
         {
+          name: "Wallet",
+          path: "/wallet",
+          icon: <FaMoneyBillWave />,
+        },
+
+        {
           name: "Fee Type",
           path: "/fee-type",
           icon: <FaMoneyBillWave />,

@@ -25,19 +25,8 @@ const AddExpense = () => {
     description: "",
   });
 
-  // ✅ STATIC EXPENSE HEADS
-  const [expenseHeads] = useState([
-    { _id: 1, name: "Office Expense" },
-    { _id: 2, name: "Electricity Bill" },
-    { _id: 3, name: "Water Bill" },
-    { _id: 4, name: "Internet Expense" },
-    { _id: 5, name: "Transport Expense" },
-    { _id: 6, name: "Salary Expense" },
-    { _id: 7, name: "Maintenance Expense" },
-    { _id: 8, name: "Stationary Expense" },
-    { _id: 9, name: "Food Expense" },
-    { _id: 10, name: "Marketing Expense" },
-  ]);
+  // ================= DYNAMIC EXPENSE HEADS =================
+  const [expenseHeads, setExpenseHeads] = useState([]);
 
   const accountTypes = ["Savings", "Salary", "Current"];
 
@@ -61,8 +50,21 @@ const AddExpense = () => {
   // ================= FETCH EXPENSES =================
   useEffect(() => {
     fetchExpenses();
+    fetchExpenseHeads();
   }, []);
 
+  // ================= FETCH EXPENSE HEADS =================
+  const fetchExpenseHeads = async () => {
+    try {
+      const res = await API.get("/expense-head");
+
+      setExpenseHeads(res.data);
+    } catch (err) {
+      console.log("Expense Head Fetch Error:", err);
+    }
+  };
+
+  // ================= FETCH EXPENSES =================
   const fetchExpenses = async () => {
     try {
       const res = await API.get("/expenses");
