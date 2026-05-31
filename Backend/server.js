@@ -23,7 +23,7 @@ const galleryRoutes = require("./src/routes/gallery.routes");
 
 const enquiryRoutes = require("./src/routes/coldlead.routes");
 
-const admissionRoutes = require("./src/routes/admission.routes");
+
 
 const expenseRoutes = require("./src/routes/expense.routes");
 
@@ -38,6 +38,16 @@ const bannerRoutes = require("./src/routes/banner.routes");
 const subjectRoutes = require("./src/routes/subject.routes");
 
 const classPostRoutes = require("./src/routes/classPost.routes");
+
+const studentAdmissionRoutes = require(
+  "./src/routes/studentAdmission.routes"
+);
+
+const walletRoutes = require("./src/routes/wallet.routes")
+
+const AdmsonfeeRoutes = require("./src/routes/admissionfee.routes");
+
+const feeTypes = require("./src/routes/feeType.routes");
 
 /* ================= INIT APP ================= */
 
@@ -122,10 +132,7 @@ app.use(
 
 /* STUDENT + ENQUIRY */
 
-app.use(
-  "/api/students",
-  admissionRoutes
-);
+
 
 app.use(
   "/api/enquiries",
@@ -161,6 +168,13 @@ app.use(
   expenseHeadRoutes
 );
 
+app.use("/api/students", studentAdmissionRoutes);
+
+app.use("/api/wallet", walletRoutes);
+
+app.use("/api/admission", AdmsonfeeRoutes);
+
+app.use("/api/feetypes", feeTypes);
 /* ================= HEALTH CHECK ================= */
 
 app.get("/", (req, res) => {

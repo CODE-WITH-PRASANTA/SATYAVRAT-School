@@ -98,6 +98,7 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 /* ================= ADVERTISE ================= */
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
+import Wallet from "./Component/Wallet/Wallet";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -321,6 +322,8 @@ function App() {
             path="admin/advites"
             element={<AdvitesForm />}
           />
+
+          <Route path="/wallet" element={<Wallet />} />
 
         </Route>
 

@@ -1,6 +1,6 @@
 /* =========================================================
    UPLOAD MIDDLEWARE WITH WEBP CONVERSION
-   FILE: src/middlewares/upload.js
+   FILE: middleware/upload.js
 ========================================================= */
 
 const multer = require("multer");
@@ -27,17 +27,23 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
-   "/testimonials": "uploads/testimonials" ,
-    "/teachers": "uploads/teachers",
-    "/admissions": "uploads/admissions",
-    "/banner":"uploads/banner", 
-    
-    
-  "/class-post": "uploads/class-post",
-  "/testimonials": "uploads/testimonials",
   "/teachers": "uploads/teachers",
-  "/admissions": "uploads/admissions",
   "/subjects": "uploads/subjects",
+  "/testimonials": "uploads/testimonials",
+  "/blogs": "uploads/blogs",
+  "/banner": "uploads/banner",
+
+  /* ================= STUDENTS ================= */
+  "/students": "uploads/students",
+
+  /* ================= ADMISSION ================= */
+  "/admissions": "uploads/admissions",
+
+  /* ================= STUDENT LEAVE ================= */
+  "/student-leave": "uploads/student-leave",
+
+  /* ================= CLASS POST ================= */
+  "/class-post": "uploads/class-post",
 };
 
 /* =========================================================
@@ -72,22 +78,109 @@ const storage = multer.memoryStorage();
 ========================================================= */
 
 const fileFilter = (req, file, cb) => {
-  const allowedMimeTypes = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-  ];
+  try {
+    const route = req.originalUrl.toLowerCase();
 
-  if (allowedMimeTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(
-      new Error(
-        "Only JPG, JPEG, PNG and WEBP images are allowed"
-      ),
-      false
-    );
+    const mime = file.mimetype;
+
+    const isImage = mime.startsWith("image/");
+    const isPDF = mime === "application/pdf";
+
+    const isDOC =
+      mime === "application/msword" ||
+      mime ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+    /* =====================================================
+       STUDENT MODULE VALIDATION
+    ===================================================== */
+
+    if (route.includes("/students")) {
+      const field = file.fieldname;
+
+      /* ================= IMAGE ONLY ================= */
+
+      const imageFields = [
+        "studentPhoto",
+        "fatherPhoto",
+        "motherPhoto",
+        "guardianPhoto",
+      ];
+
+      /* ================= PDF ONLY ================= */
+
+      const pdfFields = [
+        "reportCard",
+        "tc",
+        "samagraId",
+        "nidaCard",
+        "previousMarksheet",
+        "dobCertificate",
+        "incomeCertificate",
+        "pip",
+      ];
+
+      /* ================= PDF OR IMAGE ================= */
+
+      const mixedFields = [
+        "aadhaarStudent",
+        "aadhaarParent",
+      ];
+
+      /* ================= IMAGE VALIDATION ================= */
+
+      if (imageFields.includes(field)) {
+        if (!isImage) {
+          return cb(
+            new Error(`${field} must be image`)
+          );
+        }
+
+        return cb(null, true);
+      }
+
+      /* ================= PDF VALIDATION ================= */
+
+      if (pdfFields.includes(field)) {
+        if (!isPDF) {
+          return cb(
+            new Error(`${field} must be PDF`)
+          );
+        }
+
+        return cb(null, true);
+      }
+
+      /* ================= PDF OR IMAGE ================= */
+
+      if (mixedFields.includes(field)) {
+        if (!isImage && !isPDF) {
+          return cb(
+            new Error(
+              `${field} must be PDF or image`
+            )
+          );
+        }
+
+        return cb(null, true);
+      }
+    }
+
+    /* =====================================================
+       DEFAULT VALIDATION
+    ===================================================== */
+
+    if (isImage || isPDF || isDOC) {
+      cb(null, true);
+    } else {
+      cb(
+        new Error(
+          "Only images, PDF, DOC, DOCX files are allowed"
+        )
+      );
+    }
+  } catch (error) {
+    cb(error);
   }
 };
 
@@ -101,7 +194,7 @@ const upload = multer({
   fileFilter,
 
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 10 * 1024 * 1024, // 10MB
   },
 });
 
@@ -109,19 +202,94 @@ const upload = multer({
    GENERATE FILE NAME
 ========================================================= */
 
-const generateFileName = () => {
-  const uniqueName = `${Date.now()}-${Math.round(
-    Math.random() * 1e9
-  )}`;
-
-  return `${uniqueName}.webp`;
+const generateFileName = (
+  fieldname,
+  ext = ".webp"
+) => {
+  return `${fieldname}_${Date.now()}${ext}`;
 };
 
 /* =========================================================
-   CONVERT IMAGE TO WEBP
+   PROCESS FILE
 ========================================================= */
 
-const convertToWebp = async (req, res, next) => {
+const processFile = async (
+  file,
+  uploadPath
+) => {
+  const isImage =
+    file.mimetype.startsWith("image/");
+
+  /* =====================================================
+     IMAGE -> WEBP
+  ===================================================== */
+
+  if (isImage) {
+    const filename = generateFileName(
+      file.fieldname,
+      ".webp"
+    );
+
+    const outputPath = path.join(
+      process.cwd(),
+      uploadPath,
+      filename
+    );
+
+    await sharp(file.buffer)
+      .resize({
+        width: 1200,
+        height: 1200,
+        fit: "inside",
+        withoutEnlargement: true,
+      })
+      .webp({
+        quality: 80,
+      })
+      .toFile(outputPath);
+
+    return `/${uploadPath}/${filename}`.replace(
+      /\\/g,
+      "/"
+    );
+  }
+
+  /* =====================================================
+     PDF / DOC FILES
+  ===================================================== */
+
+  const ext = path.extname(
+    file.originalname
+  ).toLowerCase();
+
+  const filename = generateFileName(
+    file.fieldname,
+    ext
+  );
+
+  const outputPath = path.join(
+    process.cwd(),
+    uploadPath,
+    filename
+  );
+
+  fs.writeFileSync(outputPath, file.buffer);
+
+  return `/${uploadPath}/${filename}`.replace(
+    /\\/g,
+    "/"
+  );
+};
+
+/* =========================================================
+   CONVERT TO WEBP
+========================================================= */
+
+const convertToWebp = async (
+  req,
+  res,
+  next
+) => {
   try {
     if (!req.file && !req.files) {
       return next();
@@ -130,106 +298,70 @@ const convertToWebp = async (req, res, next) => {
     const uploadPath = getUploadPath(req);
 
     /* =====================================================
-       SINGLE IMAGE
+       SINGLE FILE
     ===================================================== */
 
     if (req.file) {
-      const filename = generateFileName();
-
-      const outputPath = path.join(
-        process.cwd(),
-        uploadPath,
-        filename
+      const savedPath = await processFile(
+        req.file,
+        uploadPath
       );
 
-      await sharp(req.file.buffer)
-        .resize({
-          width: 1200,
-          height: 1200,
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .webp({
-          quality: 80,
-        })
-        .toFile(outputPath);
+      req.file.path = savedPath;
 
-      const imagePath = `/${uploadPath}/${filename}`.replace(
-        /\\/g,
-        "/"
-      );
-
-      req.file.filename = filename;
-
-      req.file.path = imagePath;
-
-      req.body[req.file.fieldname] = imagePath;
+      req.body[req.file.fieldname] =
+        savedPath;
     }
 
     /* =====================================================
-       MULTIPLE IMAGES
+       MULTIPLE FILES
     ===================================================== */
 
     if (req.files) {
       for (const fieldName in req.files) {
         req.body[fieldName] = [];
 
-        for (const file of req.files[fieldName]) {
-          const filename = generateFileName();
-
-          const outputPath = path.join(
-            process.cwd(),
-            uploadPath,
-            filename
+        for (const file of req.files[
+          fieldName
+        ]) {
+          const savedPath = await processFile(
+            file,
+            uploadPath
           );
 
-          await sharp(file.buffer)
-            .resize({
-              width: 1200,
-              height: 1200,
-              fit: "inside",
-              withoutEnlargement: true,
-            })
-            .webp({
-              quality: 80,
-            })
-            .toFile(outputPath);
+          file.path = savedPath;
 
-          const imagePath = `/${uploadPath}/${filename}`.replace(
-            /\\/g,
-            "/"
+          req.body[fieldName].push(
+            savedPath
           );
-
-          file.filename = filename;
-
-          file.path = imagePath;
-
-          req.body[fieldName].push(imagePath);
         }
       }
     }
 
     next();
   } catch (error) {
-    console.error("WEBP CONVERSION ERROR:", error);
+    console.error(
+      "WEBP CONVERSION ERROR:",
+      error
+    );
 
     return res.status(500).json({
       success: false,
-      message: "Image processing failed",
+      message: "File upload failed",
       error: error.message,
     });
   }
 };
 
 /* =========================================================
-   DELETE IMAGE FILE
+   DELETE FILE
 ========================================================= */
 
-const deleteImageFile = (imagePath) => {
+const deleteImageFile = (filePath) => {
   try {
-    if (!imagePath) return;
+    if (!filePath) return;
 
-    let cleanPath = imagePath;
+    let cleanPath = filePath;
 
     if (cleanPath.startsWith("/")) {
       cleanPath = cleanPath.substring(1);
@@ -243,11 +375,14 @@ const deleteImageFile = (imagePath) => {
     if (fs.existsSync(fullPath)) {
       fs.unlinkSync(fullPath);
 
-      console.log("IMAGE DELETED:", fullPath);
+      console.log(
+        "FILE DELETED:",
+        fullPath
+      );
     }
   } catch (error) {
     console.error(
-      "DELETE IMAGE ERROR:",
+      "DELETE FILE ERROR:",
       error.message
     );
   }
