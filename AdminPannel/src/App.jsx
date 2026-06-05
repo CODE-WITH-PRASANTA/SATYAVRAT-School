@@ -99,6 +99,8 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -315,6 +317,7 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
+          
 
           {/* ================= ADVERTISE ================= */}
 
@@ -324,6 +327,8 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/cancellfee" element={<CancelFeeReceipt />} />
+          <Route path="/BoardFeeCollection" element={<BoardFeeCollection/>}/>
 
         </Route>
 
