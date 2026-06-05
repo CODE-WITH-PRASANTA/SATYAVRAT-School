@@ -99,8 +99,13 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+<<<<<<< HEAD
 import FeeConcession from "./Component/Feeconcession/Feeconcession";
 import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
+=======
+import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
+>>>>>>> dd34a9bfbb930a2e0e8b8aa7c23cc8a6a8e832f0
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -317,6 +322,7 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
+          
 
           {/* ================= ADVERTISE ================= */}
 
@@ -326,8 +332,14 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
+<<<<<<< HEAD
           <Route path="/fee-concession" element={<FeeConcession />} />
           <Route path="/Sibling-fee-entry" element={<Siblingfeeentry  />} /> 
+=======
+          <Route path="/cancellfee" element={<CancelFeeReceipt />} />
+          <Route path="/BoardFeeCollection" element={<BoardFeeCollection/>}/>
+
+>>>>>>> dd34a9bfbb930a2e0e8b8aa7c23cc8a6a8e832f0
         </Route>
 
         {/* ================= INVALID ================= */}
