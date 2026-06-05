@@ -99,6 +99,8 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+import FeeConcession from "./Component/Feeconcession/Feeconcession";
+import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -324,7 +326,8 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
-
+          <Route path="/fee-concession" element={<FeeConcession />} />
+          <Route path="/Sibling-fee-entry" element={<Siblingfeeentry  />} /> 
         </Route>
 
         {/* ================= INVALID ================= */}
