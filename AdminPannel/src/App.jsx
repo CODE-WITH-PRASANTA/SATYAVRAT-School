@@ -99,6 +99,8 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+import FeeEditManual from "./Component/FeeEditManual/FeeEditManual";
+import BoardFeeStructure from "./Component/BoardFeeStructure/BoardFeeStructure";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -324,6 +326,9 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/fee-edit" element={<FeeEditManual />} />
+          <Route path="/board-fee" element={<BoardFeeStructure/>}/>
+
 
         </Route>
 
