@@ -1,0 +1,292 @@
+.feeConcession {
+  width: 100%;
+  background: #fff;
+}
+
+/* TOP */
+
+.feeConcessionTop {
+  background: #dfe1e7;
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feeConcessionSearchBox {
+  width: 500px;
+  height: 38px;
+  background: white;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.feeConcessionSearchBox input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.feeConcessionAddBtn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #7b0cf6;
+  color: white;
+  cursor: pointer;
+  font-size: 26px;
+  transition: .3s;
+  box-shadow: 0 8px 20px rgba(123,12,246,.35);
+}
+
+.feeConcessionAddBtn:hover {
+  transform: rotate(90deg) scale(1.08);
+}
+
+/* TABLE */
+
+.feeConcessionTableWrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.feeConcessionTable {
+  min-width: 1200px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.feeConcessionTable th,
+.feeConcessionTable td {
+  padding: 18px;
+  text-align: left;
+  border-bottom: 1px solid #ececec;
+}
+
+.feeConcessionTable th {
+  font-weight: 700;
+}
+
+.feeConcessionTable tbody tr:hover {
+  background: #faf7ff;
+}
+
+.feeConcessionDelete {
+  color: red;
+  cursor: pointer;
+  font-size: 22px;
+  transition: .3s;
+}
+
+.feeConcessionDelete:hover {
+  transform: scale(1.2);
+}
+
+/* PAGINATION */
+
+.feeConcessionPagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  align-items: center;
+  padding: 20px;
+}
+
+.feeConcessionItems {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.feeConcessionItems select {
+  height: 45px;
+  padding: 0 15px;
+  border-radius: 10px;
+}
+
+.feeConcessionPages {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.feeConcessionPages button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+/* MODAL */
+
+.feeConcessionModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.feeConcessionModal {
+  width: 95%;
+  max-width: 1400px;
+  background: white;
+  border-radius: 14px;
+  animation: popup .35s ease;
+}
+
+@keyframes popup {
+  from {
+    transform: scale(.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.feeConcessionModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px;
+  border-bottom: 1px solid #eee;
+}
+
+.feeConcessionClose {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 34px;
+}
+
+.feeConcessionModalBody {
+  padding: 30px;
+  min-height: 250px;
+}
+
+.feeConcessionModalSearch {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 10px;
+}
+
+.feeConcessionModalSearch input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.feeConcessionModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px;
+}
+
+.feeConcessionBrowseBtn {
+  background: #f53d09;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.feeConcessionCancelBtn {
+  border: 1px solid #ddd;
+  padding: 12px 26px;
+  border-radius: 10px;
+  background: white;
+}
+
+.feeConcessionSaveBtn {
+  border: none;
+  background: #7b0cf6;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 10px;
+}
+
+.feeConcessionPreview {
+  padding: 0 25px 25px;
+  color: #666;
+}
+
+/* DELETE MODAL */
+
+.feeConcessionDeleteOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feeConcessionDeleteModal {
+  width: 340px;
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+}
+
+.feeConcessionDeleteBtns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.feeConcessionConfirmDelete {
+  background: #7b0cf6;
+  color: white;
+  border: none;
+  padding: 10px 35px;
+  border-radius: 10px;
+}
+
+.feeConcessionCancelDelete {
+  background: transparent;
+  border: none;
+  color: red;
+}
+
+/* MOBILE */
+
+@media (max-width:768px) {
+
+  .feeConcessionTop {
+    padding: 12px;
+  }
+
+  .feeConcessionSearchBox {
+    width: calc(100% - 70px);
+  }
+
+  .feeConcessionModalFooter {
+    flex-direction: column;
+  }
+
+  .feeConcessionBrowseBtn,
+  .feeConcessionCancelBtn,
+  .feeConcessionSaveBtn {
+    width: 100%;
+  }
+
+  .feeConcessionPagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
