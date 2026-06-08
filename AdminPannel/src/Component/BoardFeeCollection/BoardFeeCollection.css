@@ -1,0 +1,400 @@
+/* ===========================
+   BOARD FEE COLLECTION
+=========================== */
+
+.board-fee-collection-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.board-fee-collection-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 25px;
+}
+
+/* ===========================
+   SEARCH BOX
+=========================== */
+
+.board-fee-collection-search-wrapper {
+  width: 100%;
+  height: 56px;
+  border: 1px solid #b5b5b5;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 28px;
+}
+
+.board-fee-collection-search-icon {
+  font-size: 22px;
+  color: #111827;
+}
+
+.board-fee-collection-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  margin-left: 15px;
+  font-size: 18px;
+  background: transparent;
+}
+
+.board-fee-collection-search-input::placeholder {
+  color: #666;
+}
+
+/* ===========================
+   CONTENT AREA
+=========================== */
+
+.board-fee-collection-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+/* ===========================
+   STUDENT CARD
+=========================== */
+
+.board-fee-collection-student-card {
+  background: #d9edf9;
+  border-radius: 14px;
+  padding: 18px;
+  min-height: 145px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-fee-collection-student-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.board-fee-collection-student-left div {
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+}
+
+.board-fee-collection-student-right {
+  width: 120px;
+  text-align: center;
+}
+
+.board-fee-collection-student-icon {
+  font-size: 70px;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.board-fee-collection-student-right div {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* ===========================
+   FORM SECTION
+=========================== */
+
+.board-fee-collection-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.board-fee-collection-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ===========================
+   INPUTS & SELECT
+=========================== */
+
+.board-fee-collection-form-row select,
+.board-fee-collection-form-row input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #bcbcbc;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+/* ===========================
+   DATE PICKER
+=========================== */
+
+.board-fee-collection-date-box {
+  position: relative;
+}
+
+.board-fee-collection-date-box input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #ff4d4f;
+  border-radius: 10px;
+  padding: 0 45px 0 16px;
+  outline: none;
+}
+
+.board-fee-collection-date-box svg {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4f46e5;
+  font-size: 20px;
+}
+
+/* ===========================
+   FEES HEADER
+=========================== */
+
+.board-fee-collection-fees-header {
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board-fee-collection-fees-header span {
+  font-size: 16px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.board-fee-collection-fees-header button {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===========================
+   AMOUNT GRID
+=========================== */
+
+.board-fee-collection-amount-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.board-fee-collection-field {
+  position: relative;
+}
+
+.board-fee-collection-field label {
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  background: #f5f5f5;
+  padding: 0 6px;
+  font-size: 14px;
+  color: #808080;
+}
+
+.board-fee-collection-field input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid #b8b8b8;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+.board-fee-collection-save-btn {
+  width: 110px;
+  height: 42px;
+  align-self: end;
+  justify-self: end;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+/* ===========================
+   MODAL
+=========================== */
+
+.board-fee-collection-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.board-fee-collection-modal {
+  width: 670px;
+  max-width: 95%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.board-fee-collection-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 28px;
+  border-bottom: 1px solid #ececec;
+}
+
+.board-fee-collection-modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.board-fee-collection-modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 34px;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.board-fee-collection-modal-table {
+  padding: 0 25px 20px;
+}
+
+.board-fee-collection-modal table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.board-fee-collection-modal th {
+  text-align: left;
+  padding: 14px 10px;
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.board-fee-collection-modal td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #efefef;
+  font-size: 15px;
+}
+
+.board-fee-collection-modal tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 1024px) {
+  .board-fee-collection-content {
+    grid-template-columns: 1fr;
+  }
+
+  .board-fee-collection-student-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .board-fee-collection-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .board-fee-collection-amount-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .board-fee-collection-fees-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .board-fee-collection-student-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .board-fee-collection-student-right {
+    width: 100%;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .board-fee-collection-container {
+    padding: 10px;
+  }
+
+  .board-fee-collection-title {
+    font-size: 20px;
+  }
+
+  .board-fee-collection-search-wrapper {
+    height: 50px;
+  }
+
+  .board-fee-collection-search-input {
+    font-size: 15px;
+  }
+
+  .board-fee-collection-amount-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .board-fee-collection-save-btn {
+    width: 100%;
+  }
+
+  .board-fee-collection-modal-header h3 {
+    font-size: 18px;
+  }
+
+  .board-fee-collection-modal-table {
+    overflow-x: auto;
+  }
+
+  .board-fee-collection-modal table {
+    min-width: 500px;
+  }
+}
