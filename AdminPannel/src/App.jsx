@@ -329,10 +329,11 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
+          
           <Route path="/fee-concession" element={<FeeConcession />} />
-          <Route path="/Sibling-fee-entry" element={<Siblingfeeentry  />} /> 
-          <Route path="/cancellfee" element={<CancelFeeReceipt />} />
-          <Route path="/BoardFeeCollection" element={<BoardFeeCollection/>}/>
+          <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
+          <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
+          <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
 
         </Route>
 
