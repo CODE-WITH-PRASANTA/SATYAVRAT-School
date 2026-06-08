@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 import {
-  FaHome,
+ FaHome,
   FaNewspaper,
   FaImages,
   FaChalkboardTeacher,
@@ -16,6 +16,17 @@ import {
   FaComments,
   FaBook,
   FaBullhorn,
+  FaRupeeSign,
+  FaLayerGroup,
+  FaListAlt,
+  FaPercentage,
+  FaExclamationCircle,
+  FaSitemap,
+  FaEdit,
+  FaHandHoldingUsd,
+  FaMoneyCheckAlt,
+  FaUsers,
+  FaBan,
 } from "react-icons/fa";
 
 import {
@@ -179,6 +190,70 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         },
       ],
     },
+
+
+    {
+  name: "Fee",
+  icon: <FaRupeeSign />,
+  submenu: [
+    {
+      name: "Fee Group",
+      path: "/fee-group",
+      icon: <FaLayerGroup />,
+    },
+    {
+      name: "Fee Head",
+      path: "/fee-head",
+      icon: <FaListAlt />,
+    },
+    {
+      name: "Concession Category",
+      path: "/concession-category",
+      icon: <FaPercentage />,
+    },
+    {
+      name: "Fee Fine Master",
+      path: "/fee-fine-master",
+      icon: <FaExclamationCircle />,
+    },
+    {
+      name: "Fee Structure",
+      path: "/fee-structure",
+      icon: <FaSitemap />,
+    },
+    {
+      name: "Fee Edit Manual",
+      path: "/fee-edit-manual",
+      icon: <FaEdit />,
+    },
+    {
+      name: "Fee Concession",
+      path: "/fee-concession",
+      icon: <FaHandHoldingUsd />,
+    },
+    {
+      name: "Fee Entry",
+      path: "/fee-entry",
+      icon: <FaMoneyCheckAlt />,
+    },
+    {
+      name: "Sibling Fee Entry",
+      path: "/sibling-fee-entry",
+      icon: <FaUsers />,
+    },
+    {
+      name: "Cancel Fee",
+      path: "/cancel-fee",
+      icon: <FaBan />,
+    },
+    {
+      name: "Board Fee Manual Entry",
+      path: "/board-fee-manual-entry",
+      icon: <FaClipboardList />,
+    },
+  ],
+},
+
 
     {
       name: "Class Management",
