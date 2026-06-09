@@ -101,6 +101,10 @@ import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
 import FeeEditManual from "./Component/FeeEditManual/FeeEditManual";
 import BoardFeeStructure from "./Component/BoardFeeStructure/BoardFeeStructure";
+import FeeConcession from "./Component/Feeconcession/Feeconcession";
+import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
+import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -317,6 +321,7 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
+          
 
           {/* ================= ADVERTISE ================= */}
 
@@ -326,9 +331,15 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
-          <Route path="/fee-edit" element={<FeeEditManual />} />
-          <Route path="/board-fee" element={<BoardFeeStructure/>}/>
+          
+          <Route path="/fee-edit-manual" element={<FeeEditManual />} />
+          <Route path="/fee-structure" element={<BoardFeeStructure/>}/>
 
+          
+          <Route path="/fee-concession" element={<FeeConcession />} />
+          <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
+          <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
+          <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
 
         </Route>
 

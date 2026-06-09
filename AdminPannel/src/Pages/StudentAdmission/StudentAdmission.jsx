@@ -7,42 +7,66 @@ import { useNavigate } from "react-router-dom";
 import DownloadFrom from '../../assets/ApplicationForm.pdf.pdf'
 
 const initialFormState = {
+  /* Student Details */
+
+  formNo: "",
   admissionNo: "",
+  admissionDate: "",
+
   class: "",
   section: "",
-  rollNumber: "",
-  biometricId: "",
-  admissionDate: "",
-  firstName: "",
-  lastName: "",
+  medium: "",
+  samagraId: "",
+
+  aadharNumber: "",
+  apaarId: "",
+  penNo: "",
+  enrollmentNo: "",
+
+  studentName: "",
   gender: "",
   dob: "",
-  category: "",
+
+  nationality: "",
+  motherTongue: "",
   religion: "",
+
+  category: "",
   caste: "",
-  mobile: "",
-  email: "",
   bloodGroup: "",
-  house: "",
-  sponsor: "",
+
   height: "",
   weight: "",
-  aadharNumber: "",
 
-  pen: "",
-  srNo: "",
-  apaarId: "",
+  bankAccountNumber: "",
+  bankName: "",
+  ifscCode: "",
+
+  previousSchool: "",
+  tcNumber: "",
+
+  /* Father Details */
 
   fatherName: "",
   fatherPhone: "",
   fatherDob: "",
   fatherOccupation: "",
+  fatherQualification: "",
+  fatherIncome: "",
+  fatherAadhar: "",
   marriageAnniversary: "",
+
+  /* Mother Details */
 
   motherName: "",
   motherPhone: "",
   motherDob: "",
   motherOccupation: "",
+  motherQualification: "",
+  motherIncome: "",
+  motherAadhar: "",
+
+  /* Guardian */
 
   guardianType: "",
   guardianName: "",
@@ -52,31 +76,26 @@ const initialFormState = {
   guardianOccupation: "",
   guardianAddress: "",
 
+  /* Address */
+
   guardianAddressSame: false,
   permanentAddressSame: false,
+
   currentAddress: "",
   permanentAddress: "",
 
-  feeGroup: "",
-  discountList: "",
-  discountMonth: "",
+  district: "",
+  pinCode: "",
+  whatsappNo: "",
+  area: "",
 
-  routeList: "",
-  busStop: "",
+  /* Transport */
 
-  hostelType: "",
-  hostelName: "",
-  roomType: "",
-  room: "",
+  transportRequired: "",
 
-  bankAccountNumber: "",
-  bankName: "",
-  branchCode: "",
+  /* Documents */
 
-  previousSchoolDetails: "",
-  note: "",
-
-  studentBehaviour: [],
+  documents: {},
 };
 
 export default function StudentAdmission() {
@@ -217,7 +236,7 @@ export default function StudentAdmission() {
         !formData.admissionNo ||
         !formData.class ||
         !formData.section ||
-        !formData.firstName ||
+        !formData.studentName ||
         !formData.gender ||
         !formData.dob
       ) {
@@ -314,729 +333,562 @@ export default function StudentAdmission() {
         </div>
 
         {/* ================= STUDENT DETAILS ================= */}
-        <AccordionSection title="Student Details">
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Admission No *"
-                  name="admissionNo"
-                  value={formData.admissionNo}
-                  onChange={handleChange}
-                />
+     <AccordionSection title="Student Details">
+  <div className="Student-Admission-FormGrid">
 
-                <FormSelect
-                  label="Class *"
-                  name="class"
-                  value={formData.class}
-                  options={classes.map((cls) => cls.className)}
-                  onChange={handleChange}
-                />
+    <div className="Student-Admission-Left">
 
-                <FormSelect
-                  label="Section *"
-                  options={["A", "B", "C"]}
-                  name="section"
-                  value={formData.section}
-                  onChange={handleChange}
-                />
-              </div>
+      {/* Row 1 */}
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Roll Number"
-                  name="rollNumber"
-                  value={formData.rollNumber}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Form No"
+          name="formNo"
+          value={formData.formNo}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Biometric Id"
-                  name="biometricId"
-                  value={formData.biometricId}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Admission No"
+          name="admissionNo"
+          value={formData.admissionNo}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Admission Date"
-                  type="date"
-                  name="admissionDate"
-                  value={formData.admissionDate}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Admission Date"
+          type="date"
+          name="admissionDate"
+          value={formData.admissionDate}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="First Name *"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
+      {/* Row 2 */}
 
-                <FormInput
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormSelect
+          label="Class"
+          name="class"
+          value={formData.class}
+          options={classes.map((cls) => cls.className)}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Gender *"
-                  name="gender"
-                  value={formData.gender}
-                  options={["Male", "Female"]}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Medium"
+          name="medium"
+          value={formData.medium}
+          onChange={handleChange}
+        />
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Date of Birth *"
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Samagra ID"
+          name="samagraId"
+          value={formData.samagraId}
+          onChange={handleChange}
+        />
+      </div>
 
-                <FormSelect
-                  label="Category"
-                  name="category"
-                  value={formData.category}
-                  options={["General", "OBC", "SC", "ST"]}
-                  onChange={handleChange}
-                />
+      {/* Row 3 */}
 
-                <FormInput
-                  label="Religion"
-                  name="religion"
-                  value={formData.religion}
-                  onChange={handleChange}
-                />
-              </div>
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Aadhar Card No"
+          name="aadharNumber"
+          value={formData.aadharNumber}
+          onChange={handleChange}
+        />
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Caste"
-                  name="caste"
-                  value={formData.caste}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="APAAR ID"
+          name="apaarId"
+          value={formData.apaarId}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Mobile Number"
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="PEN No"
+          name="penNo"
+          value={formData.penNo}
+          onChange={handleChange}
+        />
+      </div>
 
-                <FormInput
-                  label="Email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
+      {/* Row 4 */}
 
-              <div className="Student-Admission-Row">
-                <FormSelect
-                  label="Blood Group"
-                  name="bloodGroup"
-                  value={formData.bloodGroup}
-                  options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Enrollment No"
+          name="enrollmentNo"
+          value={formData.enrollmentNo}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="House"
-                  name="house"
-                  options={["Red", "Blue", "Green", "Yellow"]}
-                  value={formData.house}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Student Weight"
+          name="weight"
+          value={formData.weight}
+          onChange={handleChange}
+        />
 
-                <FormSelect
-                  label="Sponsor"
-                  name="sponsor"
-                  value={formData.sponsor}
-                  options={["Government", "Private", "Self"]}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Height"
+          name="height"
+          value={formData.height}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Height"
-                  name="height"
-                  value={formData.height}
-                  onChange={handleChange}
-                />
+      {/* Row 5 */}
 
-                <FormInput
-                  label="Weight"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Student Name"
+          name="studentName"
+          value={formData.studentName}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Aadhar Number"
-                  name="aadharNumber"
-                  value={formData.aadharNumber}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+        <FormSelect
+          label="Gender"
+          name="gender"
+          value={formData.gender}
+          options={["Male", "Female"]}
+          onChange={handleChange}
+        />
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="studentPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.studentPhoto}
-              />
-            </div>
-          </div>
-        </AccordionSection>
+        <FormInput
+          label="Date of Birth"
+          type="date"
+          name="dob"
+          value={formData.dob}
+          onChange={handleChange}
+        />
+      </div>
 
-        {/* ================= CUSTOM FIELD ================= */}
-        <AccordionSection title="Custom Field">
-          <div className="Student-Admission-SingleColumn">
-            <FormInput
-              label="PEN"
-              name="pen"
-              value={formData.pen}
-              onChange={handleChange}
-            />
+      {/* Row 6 */}
 
-            <FormInput
-              label="SR NO"
-              name="srNo"
-              value={formData.srNo}
-              onChange={handleChange}
-            />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Nationality"
+          name="nationality"
+          value={formData.nationality}
+          onChange={handleChange}
+        />
 
-            <FormInput
-              label="APAAR ID"
-              name="apaarId"
-              value={formData.apaarId}
-              onChange={handleChange}
-            />
+        <FormInput
+          label="Mother Tongue"
+          name="motherTongue"
+          value={formData.motherTongue}
+          onChange={handleChange}
+        />
 
-            <div className="Student-Admission-Group">
-              <label className="Student-Admission-Label">
-                Students Behaviour
-              </label>
+        <FormInput
+          label="Religion"
+          name="religion"
+          value={formData.religion}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-CheckboxGroup">
-                {["Good", "Average", "Bad"].map((item) => (
-                  <label key={item}>
-                    <input
-                      type="checkbox"
-                      value={item}
-                      checked={formData.studentBehaviour.includes(item)}
-                      onChange={(e) => {
-                        const checked = e.target.checked;
+      {/* Row 7 */}
 
-                        setFormData((prev) => ({
-                          ...prev,
-                          studentBehaviour: checked
-                            ? [...prev.studentBehaviour, item]
-                            : prev.studentBehaviour.filter((v) => v !== item),
-                        }));
-                      }}
-                    />
-                    {item}
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-        </AccordionSection>
+      <div className="Student-Admission-Row">
+        <FormSelect
+          label="Category"
+          name="category"
+          value={formData.category}
+          options={["SC", "ST", "OBC", "GEN"]}
+          onChange={handleChange}
+        />
+
+        <FormInput
+          label="Caste"
+          name="caste"
+          value={formData.caste}
+          onChange={handleChange}
+        />
+
+        <FormInput
+          label="Blood Group"
+          name="bloodGroup"
+          value={formData.bloodGroup}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* Row 8 */}
+
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Bank A/C Number"
+          name="bankAccountNumber"
+          value={formData.bankAccountNumber}
+          onChange={handleChange}
+        />
+
+        <FormInput
+          label="IFSC Code"
+          name="ifscCode"
+          value={formData.ifscCode}
+          onChange={handleChange}
+        />
+
+        <FormInput
+          label="Bank Name & Place"
+          name="bankName"
+          value={formData.bankName}
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* Row 9 */}
+
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Previous School Name"
+          name="previousSchool"
+          value={formData.previousSchool}
+          onChange={handleChange}
+        />
+
+        <FormInput
+          label="TC Number"
+          name="tcNumber"
+          value={formData.tcNumber}
+          onChange={handleChange}
+        />
+
+        <div></div>
+      </div>
+
+    </div>
+
+    <div className="Student-Admission-Right">
+      <PhotoUploadBox
+        name="studentPhoto"
+        onFileChange={handleFileChange}
+        existingImage={formData.studentPhoto}
+      />
+    </div>
+
+  </div>
+</AccordionSection>
+
+       
         {/* ================= PARENT / GUARDIAN ================= */}
-        <AccordionSection title="Parent / Guardian Details">
-          {/* ================= FATHER ================= */}
+       <AccordionSection title="Parent Details">
 
-          <h3 className="Student-Admission-SectionTitle">Father Details</h3>
+  {/* ================= FATHER ================= */}
 
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Father Name"
-                  name="fatherName"
-                  value={formData.fatherName}
-                  onChange={handleChange}
-                />
+  <h3 className="Student-Admission-SectionTitle">
+    Father Details
+  </h3>
 
-                <FormInput
-                  label="Father Phone"
-                  name="fatherPhone"
-                  value={formData.fatherPhone}
-                  onChange={handleChange}
-                />
+  <div className="Student-Admission-FormGrid">
 
-                <FormInput
-                  label="Father DOB"
-                  type="date"
-                  name="fatherDob"
-                  value={formData.fatherDob}
-                  onChange={handleChange}
-                />
-              </div>
+    <div className="Student-Admission-Left">
 
-              <div className="Student-Admission-Row Student-Admission-TwoColumn">
-                <FormInput
-                  label="Father Occupation"
-                  name="fatherOccupation"
-                  value={formData.fatherOccupation}
-                  onChange={handleChange}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Father Name"
+          name="fatherName"
+          value={formData.fatherName}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Marriage Anniversary Date"
-                  type="date"
-                  name="marriageAnniversary"
-                  value={formData.marriageAnniversary}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+        <FormInput
+          label="Qualification"
+          name="fatherQualification"
+          value={formData.fatherQualification}
+          onChange={handleChange}
+        />
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="fatherPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.fatherPhoto}
-              />
-            </div>
-          </div>
+        <FormInput
+          label="Occupation"
+          name="fatherOccupation"
+          value={formData.fatherOccupation}
+          onChange={handleChange}
+        />
+      </div>
 
-          {/* ================= MOTHER ================= */}
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Annual Income"
+          name="fatherIncome"
+          value={formData.fatherIncome}
+          onChange={handleChange}
+        />
 
-          <h3 className="Student-Admission-SectionTitle">Mother Details</h3>
+        <FormInput
+          label="Mobile Number"
+          name="fatherPhone"
+          value={formData.fatherPhone}
+          onChange={handleChange}
+        />
 
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row Student-Admission-TwoColumn">
-                <FormInput
-                  label="Mother Name"
-                  name="motherName"
-                  value={formData.motherName}
-                  onChange={handleChange}
-                />
+        <FormInput
+          label="Aadhar Number"
+          name="fatherAadhar"
+          value={formData.fatherAadhar}
+          onChange={handleChange}
+        />
+      </div>
 
-                <FormInput
-                  label="Mother Phone"
-                  name="motherPhone"
-                  value={formData.motherPhone}
-                  onChange={handleChange}
-                />
-              </div>
+    </div>
 
-              <div className="Student-Admission-Row Student-Admission-TwoColumn">
-                <FormInput
-                  label="Mother DOB"
-                  type="date"
-                  name="motherDob"
-                  value={formData.motherDob}
-                  onChange={handleChange}
-                />
+    <div className="Student-Admission-Right">
+      <PhotoUploadBox
+        name="fatherPhoto"
+        onFileChange={handleFileChange}
+        existingImage={formData.fatherPhoto}
+      />
+    </div>
 
-                <FormInput
-                  label="Mother Occupation"
-                  name="motherOccupation"
-                  value={formData.motherOccupation}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+  </div>
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="motherPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.motherPhoto}
-              />
-            </div>
-          </div>
+  {/* ================= MOTHER ================= */}
 
-          {/* ================= GUARDIAN ================= */}
+  <h3 className="Student-Admission-SectionTitle">
+    Mother Details
+  </h3>
 
-          <h3 className="Student-Admission-SectionTitle">Guardian Details</h3>
+  <div className="Student-Admission-FormGrid">
 
-          <div className="Student-Admission-Group">
-            <label className="Student-Admission-Label">If Guardian Is </label>
+    <div className="Student-Admission-Left">
 
-            <div className="Student-Admission-RadioGroup">
-              <label>
-                <input
-                  type="radio"
-                  name="guardianType"
-                  value="Father"
-                  checked={formData.guardianType === "Father"}
-                  onChange={(e) => handleChange("guardianType", e.target.value)}
-                />
-                Father
-              </label>
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Mother Name"
+          name="motherName"
+          value={formData.motherName}
+          onChange={handleChange}
+        />
 
-              <label>
-                <input
-                  type="radio"
-                  name="guardianType"
-                  value="Mother"
-                  checked={formData.guardianType === "Mother"}
-                  onChange={(e) => handleChange("guardianType", e.target.value)}
-                />
-                Mother
-              </label>
+        <FormInput
+          label="Qualification"
+          name="motherQualification"
+          value={formData.motherQualification}
+          onChange={handleChange}
+        />
 
-              <label>
-                <input
-                  type="radio"
-                  name="guardianType"
-                  value="Other"
-                  checked={formData.guardianType === "Other"}
-                  onChange={(e) => handleChange("guardianType", e.target.value)}
-                />
-                Other
-              </label>
-            </div>
-          </div>
+        <FormInput
+          label="Occupation"
+          name="motherOccupation"
+          value={formData.motherOccupation}
+          onChange={handleChange}
+        />
+      </div>
 
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Guardian Name"
-                  name="guardianName"
-                  value={formData.guardianName}
-                  onChange={handleChange}
-                  disabled={formData.guardianType !== "Other"}
-                />
+      <div className="Student-Admission-Row">
+        <FormInput
+          label="Annual Income"
+          name="motherIncome"
+          value={formData.motherIncome}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Guardian Relation"
-                  name="guardianRelation"
-                  value={formData.guardianRelation}
-                  onChange={handleChange}
-                  disabled={formData.guardianType !== "Other"}
-                />
+        <FormInput
+          label="Mobile Number"
+          name="motherPhone"
+          value={formData.motherPhone}
+          onChange={handleChange}
+        />
 
-                <FormInput
-                  label="Guardian Email"
-                  name="guardianEmail"
-                  value={formData.guardianEmail}
-                  onChange={handleChange}
-                />
-              </div>
+        <FormInput
+          label="Aadhar Number"
+          name="motherAadhar"
+          value={formData.motherAadhar}
+          onChange={handleChange}
+        />
+      </div>
 
-              <div className="Student-Admission-Row Student-Admission-TwoColumn">
-                <FormInput
-                  label="Guardian Phone"
-                  name="guardianPhone"
-                  value={formData.guardianPhone}
-                  onChange={handleChange}
-                  disabled={formData.guardianType !== "Other"}
-                />
+    </div>
 
-                <FormInput
-                  label="Guardian Occupation"
-                  name="guardianOccupation"
-                  value={formData.guardianOccupation}
-                  onChange={handleChange}
-                />
-              </div>
+    <div className="Student-Admission-Right">
+      <PhotoUploadBox
+        name="motherPhoto"
+        onFileChange={handleFileChange}
+        existingImage={formData.motherPhoto}
+      />
+    </div>
 
-              <FormTextarea
-                label="Guardian Address"
-                name="guardianAddress"
-                value={formData.guardianAddress}
-                onChange={handleChange}
-              />
-            </div>
+  </div>
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="guardianPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.guardianPhoto}
-              />
-            </div>
-          </div>
-        </AccordionSection>
+  {/* ================= ADDRESS DETAILS ================= */}
 
-        {/* ================= OTHER DETAILS ================= */}
-        <AccordionSection title="Other Details">
-          <h3 className="Student-Admission-SectionTitle">
-            Student Address Details
-          </h3>
+  <h3 className="Student-Admission-SectionTitle">
+    Address Details
+  </h3>
 
-          <div className="Student-Admission-AddressGrid">
-            <div>
-              <label className="Student-Admission-CheckboxInline">
-                <input
-                  type="checkbox"
-                  checked={formData.guardianAddressSame}
-                  onChange={(e) =>
-                    handleChange("guardianAddressSame", e.target.checked)
-                  }
-                />
-                If Guardian Address is Current Address
-              </label>
+  <div className="Student-Admission-Row">
 
-              <FormTextarea
-                label="Current Address"
-                name="currentAddress"
-                value={formData.currentAddress}
-                onChange={handleChange}
-                disabled={formData.guardianAddressSame}
-              />
-            </div>
+    <FormTextarea
+      label="Residential Address"
+      name="currentAddress"
+      value={formData.currentAddress}
+      onChange={handleChange}
+    />
 
-            <div>
-              <label className="Student-Admission-CheckboxInline">
-                <input
-                  type="checkbox"
-                  checked={formData.permanentAddressSame}
-                  onChange={(e) =>
-                    handleChange("permanentAddressSame", e.target.checked)
-                  }
-                />
-                If Permanent Address is Current Address
-              </label>
+  </div>
 
-              <FormTextarea
-                label="Permanent Address"
-                name="permanentAddress"
-                value={formData.permanentAddress}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+  <div className="Student-Admission-Row">
 
-          <h3 className="Student-Admission-SectionTitle">Student Fee Assign</h3>
+    <FormInput
+      label="District"
+      name="district"
+      value={formData.district}
+      onChange={handleChange}
+    />
 
-          <FormSelect
-            label="Fee Group"
-            name="feeGroup"
-            value={formData.feeGroup}
-            options={[
-              "General Fee",
-              "Hostel Fee",
-              "Transport Fee",
-              "Sports Fee",
-              "Library Fee",
-            ]}
-            onChange={handleChange}
-          />
+    <FormInput
+      label="Pin Code"
+      name="pinCode"
+      value={formData.pinCode}
+      onChange={handleChange}
+    />
 
-          <h3 className="Student-Admission-SectionTitle">Assign Discount</h3>
+    <FormInput
+      label="WhatsApp Number"
+      name="whatsappNo"
+      value={formData.whatsappNo}
+      onChange={handleChange}
+    />
 
-          <div className="Student-Admission-Row Student-Admission-TwoColumn">
-            <FormSelect
-              label="Discount List"
-              name="discountList"
-              value={formData.discountList}
-              options={[
-                "No Discount",
-                "Sibling Discount",
-                "Staff Child Discount",
-                "Merit Scholarship",
-                "Financial Aid",
-              ]}
-              onChange={handleChange}
-            />
+  </div>
 
-            <FormSelect
-              label="Month"
-              name="discountMonth"
-              value={formData.discountMonth}
-              options={[
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December",
-              ]}
-              onChange={handleChange}
-            />
-          </div>
+  <div className="Student-Admission-Row">
 
-          <h3 className="Student-Admission-SectionTitle">Transport Details</h3>
+    <FormSelect
+      label="School Transportation"
+      name="transportRequired"
+      value={formData.transportRequired}
+      options={["Yes", "No"]}
+      onChange={handleChange}
+    />
 
-          <div className="Student-Admission-Row Student-Admission-TwoColumn">
-            <FormSelect
-              label="Route List"
-              name="routeList"
-              value={formData.routeList}
-              options={[
-                "Route A - City Center",
-                "Route B - North Area",
-                "Route C - South Area",
-                "Route D - East Area",
-                "Route E - West Area",
-              ]}
-              onChange={handleChange}
-            />
+    <FormInput
+      label="Area"
+      name="area"
+      value={formData.area}
+      onChange={handleChange}
+    />
 
-            <FormSelect
-              label="Bus Stop"
-              name="busStop"
-              value={formData.busStop}
-              options={[
-                "Main Market",
-                "Bus Stand",
-                "Railway Station",
-                "City Mall",
-                "Hospital Chowk",
-                "Sector 1",
-                "Sector 2",
-                "Sector 3",
-              ]}
-              onChange={handleChange}
-            />
-          </div>
+    <div></div>
 
-          <h3 className="Student-Admission-SectionTitle">Hostel Details</h3>
+  </div>
 
-          <div className="Student-Admission-Row Student-Admission-TwoColumn">
-            <FormSelect
-              label="Hostel Type"
-              name="hostelType"
-              value={formData.hostelType}
-              options={["Boys Hostel", "Girls Hostel", "Day Boarding"]}
-              onChange={handleChange}
-            />
+</AccordionSection>
 
-            <FormSelect
-              label="Hostel Name"
-              name="hostelName"
-              value={formData.hostelName}
-              options={[
-                "Tagore Hostel",
-                "Vivekananda Hostel",
-                "APJ Abdul Kalam Hostel",
-                "Sarojini Naidu Hostel",
-              ]}
-              onChange={handleChange}
-            />
-
-            <FormSelect
-              label="Room Type"
-              name="roomType"
-              value={formData.roomType}
-              options={[
-                "Single Room",
-                "Double Sharing",
-                "Triple Sharing",
-                "Dormitory",
-              ]}
-              onChange={handleChange}
-            />
-
-            <FormSelect
-              label="Room"
-              name="room"
-              value={formData.room}
-              options={["101", "102", "103", "201", "202", "203", "301", "302"]}
-              onChange={handleChange}
-            />
-          </div>
-
-          <h3 className="Student-Admission-SectionTitle">
-            Miscellaneous Details
-          </h3>
-
-          <div className="Student-Admission-Row Student-Admission-TwoColumn">
-            <FormInput
-              label="Bank Account Number"
-              name="bankAccountNumber"
-              value={formData.bankAccountNumber}
-              onChange={handleChange}
-            />
-
-            <FormInput
-              label="Bank Name"
-              name="bankName"
-              value={formData.bankName}
-              onChange={handleChange}
-            />
-
-            <FormInput
-              label="Branch Code"
-              name="branchCode"
-              value={formData.branchCode}
-              onChange={handleChange}
-            />
-          </div>
-
-          <FormTextarea
-            label="Previous School Details"
-            name="previousSchoolDetails"
-            value={formData.previousSchoolDetails}
-            onChange={handleChange}
-          />
-
-          <FormTextarea
-            label="Note"
-            name="note"
-            value={formData.note}
-            onChange={handleChange}
-          />
-        </AccordionSection>
+       
 
         {/* ================= UPLOAD DOCUMENTS ================= */}
-        <AccordionSection title="Upload Documents">
-          <table className="Student-Admission-DocumentTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Document Name</th>
-                <th>Upload / View File</th>
-              </tr>
-            </thead>
+       <AccordionSection title="Upload Documents">
 
-            <tbody>
-              {[
-                { label: "Report Card", field: "reportCard" },
-                { label: "TC", field: "tc" },
-                { label: "Samagra ID", field: "samagraId" },
-                { label: "NIDA Card Number", field: "nidaCard" },
-                {
-                  label: "Previous Year Marksheet",
-                  field: "previousMarksheet",
-                },
-                { label: "Student DOB Certificate", field: "dobCertificate" },
-                { label: "Aadhaar Card", field: "aadhaarStudent" },
-                { label: "Aadhaar Card (Parent)", field: "aadhaarParent" },
-                { label: "Income Certificate", field: "incomeCertificate" },
-                { label: "PIP", field: "pip" },
-              ].map((item, index) => (
-                <tr key={item.field}>
-                  <td>{index + 1}</td>
+  <table className="Student-Admission-DocumentTable">
 
-                  <td className="Student-Admission-DocName">{item.label}</td>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Document Name</th>
+        <th>Upload / View File</th>
+      </tr>
+    </thead>
 
-                  <td className="Student-Admission-DocumentCell">
-                    <DocumentUpload
-                      name={item.field}
-                      existingFile={(formData.documents || {})[item.field]}
-                      onFileChange={handleFileChange}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </AccordionSection>
+    <tbody>
+
+      {[
+        {
+          label: "Student Passport Photo",
+          field: "studentPhoto",
+        },
+
+        {
+          label: "Father Passport Photo",
+          field: "fatherPhoto",
+        },
+
+        {
+          label: "Mother Passport Photo",
+          field: "motherPhoto",
+        },
+
+        {
+          label: "Student Aadhaar Card",
+          field: "studentAadhar",
+        },
+
+        {
+          label: "Father Aadhaar Card",
+          field: "fatherAadhar",
+        },
+
+        {
+          label: "Mother Aadhaar Card",
+          field: "motherAadhar",
+        },
+
+        {
+          label: "Samagra ID",
+          field: "samagraIdDoc",
+        },
+
+        {
+          label: "Birth Certificate",
+          field: "birthCertificate",
+        },
+
+        {
+          label: "Transfer Certificate (TC)",
+          field: "tcCertificate",
+        },
+
+        {
+          label: "Previous School Marksheet",
+          field: "previousMarksheet",
+        },
+
+        {
+          label: "Bank Passbook",
+          field: "bankPassbook",
+        },
+
+        {
+          label: "Income Certificate",
+          field: "incomeCertificate",
+        },
+      ].map((item, index) => (
+
+        <tr key={item.field}>
+
+          <td>{index + 1}</td>
+
+          <td className="Student-Admission-DocName">
+            {item.label}
+          </td>
+
+          <td className="Student-Admission-DocumentCell">
+
+            <DocumentUpload
+              name={item.field}
+              existingFile={
+                (formData.documents || {})[item.field]
+              }
+              onFileChange={handleFileChange}
+            />
+
+          </td>
+
+        </tr>
+
+      ))}
+
+    </tbody>
+
+  </table>
+
+</AccordionSection>
 
         {/* SUBMIT */}
         <div className="Student-Admission-SubmitWrapper">
