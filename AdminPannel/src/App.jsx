@@ -111,6 +111,8 @@ import FeeConcession from "./Component/Feeconcession/Feeconcession";
 import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
 import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
 import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
+import Concessioncategory from "./Component/Concessioncategory/Concessioncategory";
+import Feeentry from "./Component/Feeentry/Feeentry";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -395,8 +397,10 @@ function App() {
           <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
           <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
           <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
-
-        </Route>
+          <Route path="/concession-category" element={<Concessioncategory/>} />
+          <Route path="/fee-entry" element={<Feeentry />} />
+          
+          </Route>
 
         {/* ================= INVALID ================= */}
 
