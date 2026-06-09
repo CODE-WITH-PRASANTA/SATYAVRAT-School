@@ -7,67 +7,143 @@ import {
 
 import AdminLayout from "../Layout/AdminLayout";
 
-import Teacher from "./Pages/Teacher/Teacher";
-import Testimonial from "./Pages/Testimonial/Testimonial";
-import NewsPosting from "./Pages/NewsPosting/NewsPosting";
-import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
-import StudentAdmsnDetails from "./Pages/StudentAdmsnDetails/StudentAdmsnDetails";
-import FeeCollection from "./Component/FeeCollection/FeeCollection";
-import FeeType from "./Component/FeeType/FeeType";
-import ProFilePicture from "./Pages/ProFilePicture/ProFilepicture";
+/* ================= DASHBOARD ================= */
+
 import DashBoard from "./Pages/DashBoard/DashBoard";
-import ColdLead from "./Component/ColdLead/ColdLead";
-import Galleryposting from "./Component/Galleryposting/Galleryposting";
-import AdmissionTable from "./Component/AdmissionTable/AdmissionTable";
-import ColdLeadTable from "./Component/ColdLeadTable/ColdLeadTable";
-import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
-import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
-import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
-import ExamResult from "./Pages/ExamResult/ExamResult";
-import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
-import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
-import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
-import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
-import Studentleave from "./Pages/Studentleave/Studentleave";
-import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
-import AddExpense from "./Pages/AddExpense/AddExpense";
-import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
-import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
-import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
+
+/* ================= AUTH ================= */
 
 import LoginForm from "./Pages/LoginForm/LoginForm";
+
+/* ================= NEWS ================= */
+
+import NewsPosting from "./Pages/NewsPosting/NewsPosting";
+
+import CommentManagement from "./Pages/CommentManagement/CommentManagement";
+
+/* ================= TEACHER ================= */
+
+import Teacher from "./Pages/Teacher/Teacher";
+
+/* ================= TESTIMONIAL ================= */
+
+import Testimonial from "./Pages/Testimonial/Testimonial";
+
+/* ================= GALLERY ================= */
+
+import Galleryposting from "./Component/Galleryposting/Galleryposting";
+
+/* ================= COLD LEAD ================= */
+
+import ColdLead from "./Component/ColdLead/ColdLead";
+
+import ColdLeadTable from "./Component/ColdLeadTable/ColdLeadTable";
+
+/* ================= ADMISSION ================= */
+
+import AdmissionTable from "./Component/AdmissionTable/AdmissionTable";
+
+import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
+
+import StudentAdmsnDetails from "./Pages/StudentAdmsnDetails/StudentAdmsnDetails";
+
+/* ================= PROFILE ================= */
+
+import ProFilePicture from "./Pages/ProFilePicture/ProFilepicture";
+
+/* ================= FEES ================= */
+
+import FeeCollection from "./Component/FeeCollection/FeeCollection";
+
+import FeeType from "./Component/FeeType/FeeType";
+
+/* ================= CLASS ================= */
+
+import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
+
 import ClassPost from "./Pages/ClassPost/ClassPost";
 import FeeGroup from "./Pages/FeeGroup/FeeGroup";
 import FeeHead from "./Pages/FeeHead/FeeHead";
 import FeeStructure from "./Pages/FeeStructure/FeeStructure";
 import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
-// ================= PROTECTED ROUTE =================
+/* ================= SUBJECT ================= */
 
-const ProtectedRoute = ({ children }) => {
+import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
+
+import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+
+/* ================= EXAM ================= */
+
+import ExamResult from "./Pages/ExamResult/ExamResult";
+
+import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
+
+import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
+
+import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
+
+/* ================= ATTENDANCE ================= */
+
+import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
+
+import Studentleave from "./Pages/Studentleave/Studentleave";
+
+import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
+
+/* ================= EXPENSE ================= */
+
+import AddExpense from "./Pages/AddExpense/AddExpense";
+
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
+
+/* ================= ADVERTISE ================= */
+
+import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
+import Wallet from "./Component/Wallet/Wallet";
+import FeeConcession from "./Component/Feeconcession/Feeconcession";
+import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
+import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
+
+/* ================= PROTECTED ROUTE ================= */
+
+const ProtectedRoute = ({
+  children,
+}) => {
   const isLoggedIn =
-    localStorage.getItem("adminAuth") === "true";
+    localStorage.getItem(
+      "adminAuth"
+    ) === "true";
 
   return isLoggedIn ? (
     children
   ) : (
-    <Navigate to="/login" replace />
+    <Navigate
+      to="/login"
+      replace
+    />
   );
 };
+
+/* ================= APP ================= */
 
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
 
-        {/* ================= LOGIN PAGE ================= */}
+        {/* ================= LOGIN ================= */}
 
         <Route
           path="/login"
           element={<LoginForm />}
         />
 
-        {/* ================= PROTECTED ADMIN ROUTES ================= */}
+        {/* ================= ADMIN ================= */}
 
         <Route
           path="/"
@@ -77,10 +153,15 @@ function App() {
             </ProtectedRoute>
           }
         >
+
+          {/* DASHBOARD */}
+
           <Route
             index
             element={<DashBoard />}
           />
+
+          {/* ================= NEWS ================= */}
 
           <Route
             path="admin/newsposting"
@@ -88,9 +169,18 @@ function App() {
           />
 
           <Route
+            path="admin/comment-management"
+            element={<CommentManagement />}
+          />
+
+          {/* ================= TEACHER ================= */}
+
+          <Route
             path="admin/teacherposting"
             element={<Teacher />}
           />
+
+          {/* ================= TESTIMONIAL ================= */}
 
           <Route
             path="admin/testimonial"
@@ -136,16 +226,14 @@ function App() {
             path="admin/profile"
             element={<ProFilePicture />}
           />
+          {/* ================= GALLERY ================= */}
 
           <Route
             path="admin/gallery"
             element={<Galleryposting />}
           />
 
-          <Route
-            path="admin/Admission-Table"
-            element={<AdmissionTable />}
-          />
+          {/* ================= COLD LEAD ================= */}
 
           <Route
             path="admin/cold-lead"
@@ -157,10 +245,57 @@ function App() {
             element={<ColdLeadTable />}
           />
 
+          {/* ================= ADMISSION ================= */}
+
+          <Route
+            path="admin/Admission-Table"
+            element={<AdmissionTable />}
+          />
+
+          {/* ================= PROFILE ================= */}
+
+          <Route
+            path="admin/profile"
+            element={<ProFilePicture />}
+          />
+
+          {/* ================= STUDENTS ================= */}
+
+          <Route
+            path="student/admission"
+            element={<StudentAdmission />}
+          />
+
+          <Route
+            path="student/admission/details"
+            element={<StudentAdmsnDetails />}
+          />
+
+          {/* ================= FEES ================= */}
+
+          <Route
+            path="fee-collect"
+            element={<FeeCollection />}
+          />
+
+          <Route
+            path="fee-type"
+            element={<FeeType />}
+          />
+
+          {/* ================= CLASS ================= */}
+
           <Route
             path="class-post"
             element={<ClassesAdmin />}
           />
+
+          <Route
+            path="class/post"
+            element={<ClassPost />}
+          />
+
+          {/* ================= SUBJECT ================= */}
 
           <Route
             path="subject-post"
@@ -171,6 +306,8 @@ function App() {
             path="classwise-subject"
             element={<ClassWiseSubjectAdmin />}
           />
+
+          {/* ================= EXAM ================= */}
 
           <Route
             path="exam-result"
@@ -192,6 +329,8 @@ function App() {
             element={<ExamProgressReport />}
           />
 
+          {/* ================= ATTENDANCE ================= */}
+
           <Route
             path="attendance/student-attendance"
             element={<StudentAttendance />}
@@ -206,6 +345,8 @@ function App() {
             path="attendance/attendance-report"
             element={<AttendanceReport />}
           />
+
+          {/* ================= EXPENSE ================= */}
 
           <Route
             path="expense/details"
@@ -228,18 +369,36 @@ function App() {
           <Route path="/admin/feestructure" element={<FeeStructure/>}/>
           <Route path="/admin/feeentry" element={<FeeEntry/>}/>
 
+          {/* ================= ADVERTISE ================= */}
+
+          <Route
+            path="admin/advites"
+            element={<AdvitesForm />}
+          />
+
+          <Route path="/wallet" element={<Wallet />} />
+          
+          <Route path="/fee-concession" element={<FeeConcession />} />
+          <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
+          <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
+          <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
 
         </Route>
 
-         
-
-        {/* ================= INVALID ROUTE ================= */}
+        {/* ================= INVALID ================= */}
 
         <Route
           path="*"
-          element={<Navigate to="/" replace />}
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
         />
+
       </Routes>
+
     </BrowserRouter>
   );
 }

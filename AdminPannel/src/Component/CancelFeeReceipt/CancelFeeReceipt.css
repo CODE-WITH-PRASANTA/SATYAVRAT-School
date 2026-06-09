@@ -1,0 +1,168 @@
+.cancel-fee-receipt-container {
+  width: 100%;
+  padding: 0;
+}
+
+.cancel-fee-receipt-card {
+  width: 100%;
+  min-height: 85vh;
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* Search */
+
+.cancel-fee-receipt-search-wrapper {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.cancel-fee-receipt-search-box {
+  width: 620px;
+  max-width: 100%;
+  height: 54px;
+  border: 1px solid #9f9f9f;
+  border-radius: 12px;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+}
+
+.cancel-fee-receipt-search-icon {
+  font-size: 28px;
+  color: #111;
+  flex-shrink: 0;
+}
+
+.cancel-fee-receipt-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding-left: 15px;
+  font-size: 17px;
+  color: #333;
+}
+
+.cancel-fee-receipt-search-input::placeholder {
+  color: #666;
+}
+
+/* Student Card */
+
+.cancel-fee-receipt-student-card {
+  width: 410px;
+  max-width: 100%;
+  background: #f8f1e7;
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cancel-fee-receipt-left-section {
+  flex: 1;
+}
+
+.cancel-fee-receipt-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cancel-fee-receipt-row span {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  min-width: 120px;
+}
+
+.cancel-fee-receipt-row p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Right */
+
+.cancel-fee-receipt-right-section {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cancel-fee-receipt-student-icon {
+  font-size: 62px;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.cancel-fee-receipt-type-row {
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.cancel-fee-receipt-type-row span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #000;
+}
+
+.cancel-fee-receipt-type-row p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .cancel-fee-receipt-search-box {
+    width: 100%;
+  }
+
+  .cancel-fee-receipt-student-card {
+    width: 100%;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .cancel-fee-receipt-card {
+    padding: 12px;
+  }
+
+  .cancel-fee-receipt-search-box {
+    height: 50px;
+  }
+
+  .cancel-fee-receipt-search-icon {
+    font-size: 24px;
+  }
+
+  .cancel-fee-receipt-student-card {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .cancel-fee-receipt-right-section {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .cancel-fee-receipt-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .cancel-fee-receipt-row span {
+    min-width: auto;
+  }
+}

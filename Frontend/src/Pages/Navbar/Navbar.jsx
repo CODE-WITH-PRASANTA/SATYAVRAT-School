@@ -13,14 +13,14 @@ const Navbar = () => {
 
           {/* LOGO */}
           <div className="navbar-logo">
-            <a href="#home">
+            <a href="/">
               <img src={logo} alt="logo" className="navbar-logo-img" />
             </a>
           </div>
 
           {/* DESKTOP MENU */}
           <ul className="navbar-menu">
-            <li><a href="#home">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#classes">Classes</a></li>
             <li><a href="#whychooseus">Why Choose Us</a></li>
@@ -60,7 +60,7 @@ const Navbar = () => {
 
         {/* MOBILE MENU */}
         <ul className="mobile-menu-list">
-          <li><a href="#home" onClick={() => setMenuOpen(false)}>Home</a></li>
+          <li><a href="/" onClick={() => setMenuOpen(false)}>Home</a></li>
           <li><a href="#about" onClick={() => setMenuOpen(false)}>About Us</a></li>
           <li><a href="#classes" onClick={() => setMenuOpen(false)}>Classes</a></li>
           <li><a href="#whychooseus" onClick={() => setMenuOpen(false)}>Why Choose Us</a></li>

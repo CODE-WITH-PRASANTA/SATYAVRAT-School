@@ -1,164 +1,201 @@
-.advitiesForm {
-  position: relative;
+/* ================= MAIN POPUP ================= */
+
+.advertisePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+
   width: 100%;
-  min-height: 100vh;
-  background-image: url("https://images.unsplash.com/photo-1509062522246-3755977927d7");
-  background-size: cover;
-  background-position: center;
+  height: 100vh;
+
+  z-index: 99999;
+
   display: flex;
   align-items: center;
-  padding: 80px 7%;
-  overflow: hidden;
+  justify-content: center;
+
+  padding: 20px;
+
+  animation: popupFadeIn 0.4s ease;
 }
 
-.advitiesForm__overlay {
+/* ================= OVERLAY ================= */
+
+.advertisePopup__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+
+  background: rgba(0, 0, 0, 0.78);
+
+  backdrop-filter: blur(6px);
+
+  animation: overlayFade 0.4s ease;
 }
 
-.advitiesForm__container {
+/* ================= CONTENT ================= */
+
+.advertisePopup__content {
   position: relative;
-  z-index: 2;
+
   width: 100%;
+  max-width: 850px;
+
+  max-height: 92vh;
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45);
+
+  z-index: 10;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 60px;
-  flex-wrap: wrap;
+  justify-content: center;
+
+  animation: popupScale 0.45s ease;
 }
 
-.advitiesForm__content {
-  flex: 1;
-  min-width: 320px;
-  color: #fff;
-}
+/* ================= IMAGE ================= */
 
-.advitiesForm__tag {
-  display: inline-block;
-  padding: 10px 22px;
-  background: #ffffff22;
-  border: 1px solid #ffffff55;
-  border-radius: 30px;
-  font-size: 14px;
-  margin-bottom: 20px;
-  backdrop-filter: blur(8px);
-}
-
-.advitiesForm__title {
-  font-size: 58px;
-  line-height: 1.2;
-  font-weight: 800;
-  margin-bottom: 25px;
-}
-
-.advitiesForm__desc {
-  max-width: 600px;
-  font-size: 17px;
-  line-height: 1.8;
-  color: #f1f1f1;
-  margin-bottom: 35px;
-}
-
-.advitiesForm__btn {
-  padding: 15px 38px;
-  background: #ffb703;
-  color: #111;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.advitiesForm__btn:hover {
-  transform: translateY(-3px);
-}
-
-.advitiesForm__formBox {
-  width: 420px;
-  background: #fff;
-  border-radius: 25px;
-  padding: 35px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-}
-
-.advitiesForm__formTitle {
-  font-size: 32px;
-  font-weight: 700;
-  color: #111;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.advitiesForm__form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.advitiesForm__input {
+.advertisePopup__image {
   width: 100%;
-  height: 55px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 0 18px;
-  font-size: 15px;
-  outline: none;
-  transition: 0.3s;
+  height: 100%;
+
+  max-height: 92vh;
+
+  object-fit: contain;
+
+  display: block;
+
+  background: #ffffff;
 }
 
-.advitiesForm__input:focus {
-  border-color: #ffb703;
-}
+/* ================= CLOSE BUTTON ================= */
 
-.advitiesForm__submit {
-  height: 55px;
+.advertisePopup__close {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  width: 42px;
+  height: 42px;
+
   border: none;
-  border-radius: 12px;
-  background: #111827;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.75);
+
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 600;
+
   cursor: pointer;
-  transition: 0.3s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 20;
+
+  transition: all 0.3s ease;
 }
 
-.advitiesForm__submit:hover {
-  background: #ffb703;
-  color: #111;
+.advertisePopup__close:hover {
+  background: #ff2d55;
+  transform: rotate(90deg) scale(1.08);
 }
 
-@media (max-width: 992px) {
-  .advitiesForm__container {
-    flex-direction: column;
-    align-items: flex-start;
+/* ================= ANIMATIONS ================= */
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
   }
 
-  .advitiesForm__title {
-    font-size: 42px;
-  }
-
-  .advitiesForm__formBox {
-    width: 100%;
+  to {
+    opacity: 1;
   }
 }
 
-@media (max-width: 576px) {
-  .advitiesForm {
-    padding: 60px 20px;
+@keyframes overlayFade {
+  from {
+    opacity: 0;
   }
 
-  .advitiesForm__title {
-    font-size: 32px;
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popupScale {
+
+  0% {
+    opacity: 0;
+    transform: scale(0.75) translateY(20px);
   }
 
-  .advitiesForm__desc {
-    font-size: 15px;
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px) {
+
+  .advertisePopup {
+    padding: 14px;
   }
 
-  .advitiesForm__formBox {
-    padding: 25px;
+  .advertisePopup__content {
+    max-width: 100%;
+    border-radius: 18px;
+  }
+
+  .advertisePopup__image {
+    max-height: 85vh;
+    object-fit: contain;
+  }
+
+  .advertisePopup__close {
+    width: 38px;
+    height: 38px;
+    font-size: 24px;
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .advertisePopup {
+    padding: 10px;
+  }
+
+  .advertisePopup__content {
+    border-radius: 16px;
+  }
+
+  .advertisePopup__image {
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .advertisePopup__close {
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 22px;
   }
 }

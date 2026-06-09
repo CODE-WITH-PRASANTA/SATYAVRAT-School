@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+} from "react";
+
 import "./TestimonialSection.css";
+
+import API, {
+  IMAGE_URL,
+} from "../../api/axios";
 
 import {
   FaQuoteLeft,
@@ -8,63 +16,90 @@ import {
   FaStar,
 } from "react-icons/fa";
 
-import axios from "axios";
-
 const TestimonialSection = () => {
-  const [testimonials, setTestimonials] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
 
-  const IMAGE_URL = "http://localhost:5000";
+  const [testimonials, setTestimonials] =
+    useState([]);
+
+  const [index, setIndex] =
+    useState(0);
+
+  const [loading, setLoading] =
+    useState(true);
 
   /* ================= FETCH ================= */
 
   useEffect(() => {
-    const fetchTestimonials = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/testimonials"
-        );
 
-        const data = res.data?.data || res.data || [];
+    const fetchTestimonials =
+      async () => {
 
-        setTestimonials(data);
-      } catch (error) {
-        console.error(
-          "Error fetching testimonials:",
-          error
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+        try {
+
+          const res =
+            await API.get(
+              "/testimonials"
+            );
+
+          const data =
+            res.data?.data || [];
+
+          setTestimonials(data);
+
+        } catch (error) {
+
+          console.error(
+            "Error fetching testimonials:",
+            error
+          );
+
+        } finally {
+
+          setLoading(false);
+
+        }
+      };
 
     fetchTestimonials();
+
   }, []);
 
   /* ================= AUTO SLIDE ================= */
 
   useEffect(() => {
-    if (!testimonials.length) return;
 
-    const interval = setInterval(() => {
-      setIndex(
-        (prev) => (prev + 1) % testimonials.length
-      );
-    }, 4000);
+    if (!testimonials.length)
+      return;
 
-    return () => clearInterval(interval);
+    const interval =
+      setInterval(() => {
+
+        setIndex(
+          (prev) =>
+            (prev + 1) %
+            testimonials.length
+        );
+
+      }, 4000);
+
+    return () =>
+      clearInterval(interval);
+
   }, [testimonials]);
 
   /* ================= NAVIGATION ================= */
 
   const nextSlide = () => {
+
     setIndex(
-      (prev) => (prev + 1) % testimonials.length
+      (prev) =>
+        (prev + 1) %
+        testimonials.length
     );
   };
 
   const prevSlide = () => {
+
     setIndex((prev) =>
       prev === 0
         ? testimonials.length - 1
@@ -75,10 +110,14 @@ const TestimonialSection = () => {
   /* ================= IMAGE FIX ================= */
 
   const getImage = (img) => {
-    if (!img)
-      return "https://i.pravatar.cc/150?img=12";
 
-    if (img.startsWith("http")) return img;
+    if (!img) {
+      return "https://i.pravatar.cc/150?img=12";
+    }
+
+    if (img.startsWith("http")) {
+      return img;
+    }
 
     return `${IMAGE_URL}${img}`;
   };
@@ -86,6 +125,7 @@ const TestimonialSection = () => {
   /* ================= LOADING ================= */
 
   if (loading) {
+
     return (
       <section className="testimonialMini">
         <div className="testimonialMini__loading">
@@ -98,6 +138,7 @@ const TestimonialSection = () => {
   /* ================= EMPTY ================= */
 
   if (!testimonials.length) {
+
     return (
       <section className="testimonialMini">
         <div className="testimonialMini__loading">
@@ -107,14 +148,18 @@ const TestimonialSection = () => {
     );
   }
 
-  const current = testimonials[index];
+  const current =
+    testimonials[index];
 
   return (
     <section className="testimonialMini">
+
       <div className="testimonialMini__container">
 
         {/* TOP */}
+
         <div className="testimonialMini__top">
+
           <span className="testimonialMini__badge">
             Testimonials
           </span>
@@ -122,33 +167,44 @@ const TestimonialSection = () => {
           <h2 className="testimonialMini__title">
             Parents Feedback
           </h2>
+
         </div>
 
         {/* CARD */}
+
         <div className="testimonialMini__card">
 
           {/* QUOTE */}
+
           <div className="testimonialMini__quoteWrap">
             <FaQuoteLeft />
           </div>
 
           {/* REVIEW */}
+
           <p className="testimonialMini__review">
+
             {current.reviewText ||
               "No review available"}
+
           </p>
 
           {/* STARS */}
+
           <div className="testimonialMini__stars">
+
             {[...Array(current.rating || 5)].map(
               (_, i) => (
                 <FaStar key={i} />
               )
             )}
+
           </div>
 
           {/* PROFILE */}
+
           <div className="testimonialMini__profile">
+
             <img
               src={getImage(current.image)}
               alt={current.parentName}
@@ -156,17 +212,23 @@ const TestimonialSection = () => {
             />
 
             <div>
+
               <h3 className="testimonialMini__name">
-                {current.parentName || "Anonymous"}
+
+                {current.parentName ||
+                  "Anonymous"}
+
               </h3>
 
               <span className="testimonialMini__role">
                 Parent Review
               </span>
+
             </div>
           </div>
 
           {/* AVATARS */}
+
           <div className="testimonialMini__avatars">
 
             <button
@@ -177,7 +239,9 @@ const TestimonialSection = () => {
             </button>
 
             <div className="testimonialMini__avatarList">
+
               {testimonials.map((item, i) => (
+
                 <div
                   key={item._id || i}
                   className={`testimonialMini__avatarItem ${
@@ -185,13 +249,17 @@ const TestimonialSection = () => {
                       ? "testimonialMini__avatarItem--active"
                       : ""
                   }`}
-                  onClick={() => setIndex(i)}
+                  onClick={() =>
+                    setIndex(i)
+                  }
                 >
+
                   <img
                     src={getImage(item.image)}
                     alt={item.parentName}
                     className="testimonialMini__avatar"
                   />
+
                 </div>
               ))}
             </div>
@@ -205,8 +273,11 @@ const TestimonialSection = () => {
           </div>
 
           {/* DOTS */}
+
           <div className="testimonialMini__dots">
+
             {testimonials.map((_, i) => (
+
               <button
                 key={i}
                 className={`testimonialMini__dot ${
@@ -214,8 +285,11 @@ const TestimonialSection = () => {
                     ? "testimonialMini__dot--active"
                     : ""
                 }`}
-                onClick={() => setIndex(i)}
+                onClick={() =>
+                  setIndex(i)
+                }
               ></button>
+
             ))}
           </div>
         </div>

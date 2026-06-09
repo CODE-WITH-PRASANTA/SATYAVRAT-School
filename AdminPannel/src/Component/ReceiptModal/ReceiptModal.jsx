@@ -8,84 +8,7 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
 
   /* PRINT */
   const handlePrint = () => {
-    const content = document.getElementById("receipt-print-area");
-
-    if (!content) return;
-
-    const printWindow = window.open("", "", "width=900,height=650");
-
-    printWindow.document.write(`
-    <html>
-      <head>
-        <title>Receipt</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-          }
-
-          .receipt-card {
-            width: 190mm;
-            margin: auto;
-          }
-
-          .receipt-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          }
-
-          .receipt-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-          }
-
-          .receipt-table th,
-          .receipt-table td {
-            border: 1px solid #000;
-            padding: 10px;
-            text-align: center;
-          }
-
-          .receipt-total {
-            background: #fef3c7;
-            font-weight: bold;
-          }
-
-          .receipt-footer {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-between;
-          }
-
-          .receipt-line {
-            border-top: 1px solid #000;
-            width: 120px;
-            margin: auto;
-          }
-
-          .receipt-thank {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-          }
-        </style>
-      </head>
-
-      <body>
-        ${content.innerHTML}
-      </body>
-    </html>
-  `);
-
-    printWindow.document.close();
-    printWindow.focus();
-
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 500);
+    window.print();
   };
 
   /* PDF */
@@ -105,18 +28,27 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
 
   return (
     <div className="receipt-overlay">
+
       {/* ✅ ADD ID ONLY (NO DESIGN CHANGE) */}
       <div className="receipt-card" id="receipt-print-area">
+
         {/* CLOSE */}
-        <FiX className="receipt-close" onClick={() => setShowReceipt(false)} />
+        <FiX
+          className="receipt-close"
+          onClick={() => setShowReceipt(false)}
+        />
 
         {/* HEADER */}
         <div className="receipt-header">
           <img src={logo} alt="logo" className="receipt-logo" />
 
           <div>
-            <h2 className="receipt-title">Bright star school</h2>
-            <p className="receipt-address">San Diego, California</p>
+            <h2 className="receipt-title">
+              Learning Step International School
+            </h2>
+            <p className="receipt-address">
+              San Diego, California
+            </p>
           </div>
         </div>
 
@@ -125,9 +57,7 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
         {/* RECEIPT INFO */}
         <div className="receipt-top">
           <div>
-            <p>
-              <b>Receipt No:</b> #{selectedFee._id?.slice(-6)}
-            </p>
+            <p><b>Receipt No:</b> #{selectedFee._id?.slice(-6)}</p>
             <p>
               <b>Date:</b>{" "}
               {selectedFee.date
@@ -137,26 +67,18 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
           </div>
 
           <div>
-            <p>
-              <b>Payment Mode:</b> {selectedFee.paymentMethod}
-            </p>
-            <p>
-              <b>Collected By:</b> Admin
-            </p>
+            <p><b>Payment Mode:</b> {selectedFee.paymentMethod}</p>
+            <p><b>Collected By:</b> Admin</p>
           </div>
         </div>
 
         {/* STUDENT INFO */}
         <div className="receipt-student">
-          <p>
-            <b>Student Name:</b> {selectedFee.name}
-          </p>
+          <p><b>Student Name:</b> {selectedFee.name}</p>
           <p>
             <b>Class:</b> {selectedFee.class} ({selectedFee.section})
           </p>
-          <p>
-            <b>Roll No:</b> {selectedFee.rollNumber}
-          </p>
+          <p><b>Roll No:</b> {selectedFee.rollNumber}</p>
         </div>
 
         {/* TABLE */}
@@ -182,12 +104,8 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
             )}
 
             <tr className="receipt-total">
-              <td>
-                <b>Total Paid</b>
-              </td>
-              <td>
-                <b>₹ {selectedFee.paid}</b>
-              </td>
+              <td><b>Total Paid</b></td>
+              <td><b>₹ {selectedFee.paid}</b></td>
             </tr>
 
             <tr>
@@ -199,9 +117,7 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
 
         {/* NOTE */}
         <div className="receipt-note">
-          <p>
-            <b>Note:</b> {selectedFee.note || "No remarks"}
-          </p>
+          <p><b>Note:</b> {selectedFee.note || "No remarks"}</p>
         </div>
 
         {/* FOOTER */}
@@ -217,19 +133,20 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
           </div>
         </div>
 
-        <p className="receipt-thank">Thank you for your payment!</p>
+        <p className="receipt-thank">
+          Thank you for your payment!
+        </p>
+
       </div>
 
       {/* ✅ BUTTONS (NO DESIGN CHANGE TO CARD) */}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
+      <div style={{
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+        display: "flex",
+        gap: "10px"
+      }}>
         <button
           style={{
             padding: "10px 15px",
@@ -237,7 +154,7 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
             color: "#fff",
             border: "none",
             borderRadius: "5px",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
           onClick={handlePDF}
         >
@@ -251,7 +168,7 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
             color: "#fff",
             border: "none",
             borderRadius: "5px",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
           onClick={handlePrint}
         >
@@ -265,13 +182,14 @@ const ReceiptModal = ({ showReceipt, setShowReceipt, selectedFee, logo }) => {
             color: "#fff",
             border: "none",
             borderRadius: "5px",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
           onClick={() => setShowReceipt(false)}
         >
           Close
         </button>
       </div>
+
     </div>
   );
 };

@@ -2,7 +2,6 @@
 .gallery {
   padding: 100px 20px;
   background: radial-gradient(circle at top, #eef2f7, #dfe9f3);
-  min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from "../../api/axios"; // make sure this file exists
+import API from "../../api/axios";
 import "./ClassesAdmin.css";
 
 export default function ClassesAdmin() {
@@ -13,13 +13,14 @@ export default function ClassesAdmin() {
   const [search, setSearch] = useState("");
   const [editId, setEditId] = useState(null);
 
-  // 🔁 FETCH CLASSES FROM BACKEND
+  /* ================= FETCH CLASSES ================= */
+
   const fetchClasses = async () => {
     try {
       const res = await API.get("/classes");
       setClasses(res.data.data || []);
     } catch (err) {
-      console.error("Fetch Error:", err);
+      console.error(err);
     }
   };
 
@@ -27,7 +28,8 @@ export default function ClassesAdmin() {
     fetchClasses();
   }, []);
 
-  // 🧾 HANDLE INPUT
+  /* ================= HANDLE INPUT ================= */
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -35,60 +37,67 @@ export default function ClassesAdmin() {
     });
   };
 
-  // 🚀 SUBMIT (POST / PUT)
+  /* ================= SUBMIT ================= */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       if (editId) {
-        // UPDATE
         await API.put(`/classes/${editId}`, form);
       } else {
-        // CREATE
         await API.post("/classes", form);
       }
 
-      fetchClasses(); // refresh list
+      fetchClasses();
       setForm(emptyForm);
       setEditId(null);
     } catch (err) {
-      console.error("Submit Error:", err);
+      console.error(err);
     }
   };
 
-  // ❌ DELETE
+  /* ================= DELETE ================= */
+
   const deleteClass = async (id) => {
     try {
       await API.delete(`/classes/${id}`);
       fetchClasses();
     } catch (err) {
-      console.error("Delete Error:", err);
+      console.error(err);
     }
   };
 
-  // ✏️ EDIT
+  /* ================= EDIT ================= */
+
   const editClass = (c) => {
     setForm({
       className: c.className || "",
       sectionName: c.sectionName || "",
     });
+
     setEditId(c._id);
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  // 🔍 SEARCH FILTER
+  /* ================= SEARCH ================= */
+
   const filteredClasses = classes.filter((c) =>
     (c.className || "").toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="classes-container">
-      <h1 className="page-title">Classes Admin Panel</h1>
+    <div className="classes-page">
+      <h1 className="classes-title">Classes Admin Panel</h1>
 
       {/* FORM */}
-      <div className="card">
-        <form onSubmit={handleSubmit} className="form">
+
+      <div className="classes-card">
+        <form onSubmit={handleSubmit} className="classes-form">
           <h2 className="form-title">
             {editId ? "Edit Class" : "Add Class"}
           </h2>
@@ -96,37 +105,38 @@ export default function ClassesAdmin() {
           <div className="form-grid">
             <div className="form-group">
               <label>Class Name</label>
+
               <input
                 name="className"
-                value={form.className}
+                value={form.className || ""}
                 onChange={handleChange}
                 placeholder="Example: Class 1"
-                required
               />
             </div>
 
             <div className="form-group">
               <label>Section Name</label>
+
               <input
                 name="sectionName"
-                value={form.sectionName}
+                value={form.sectionName || ""}
                 onChange={handleChange}
                 placeholder="Example: A"
-                required
               />
             </div>
           </div>
 
-          <button className="btn primary">
+          <button className="submit-btn">
             {editId ? "Update Class" : "Post Class"}
           </button>
         </form>
       </div>
 
       {/* TABLE */}
-      <div className="card">
+
+      <div className="classes-card">
         <div className="table-header">
-          <h2>Class List</h2>
+          <h2 className="table-title">Class List</h2>
 
           <input
             placeholder="Search class..."
@@ -137,7 +147,7 @@ export default function ClassesAdmin() {
         </div>
 
         <div className="table-wrapper">
-          <table className="table">
+          <table className="classes-table">
             <thead>
               <tr>
                 <th>Class</th>
@@ -153,17 +163,17 @@ export default function ClassesAdmin() {
                   <td>{c.sectionName}</td>
 
                   <td>
-                    <div className="actions">
+                    <div className="action-buttons">
                       <button
                         onClick={() => editClass(c)}
-                        className="btn warning"
+                        className="edit-btn"
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() => deleteClass(c._id)}
-                        className="btn danger"
+                        className="delete-btn"
                       >
                         Delete
                       </button>

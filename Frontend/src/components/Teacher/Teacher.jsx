@@ -3,10 +3,6 @@ import "./Teacher.css";
 import API, { IMAGE_URL } from "../../api/axios";
 
 import {
-  FaFacebookF,
-  FaInstagram,
-  FaEnvelope,
-  FaWhatsapp,
   FaPhoneAlt,
   FaArrowLeft,
   FaArrowRight,
@@ -152,53 +148,6 @@ const Teacher = () => {
                       <span>{teacher.phone}</span>
                     </a>
                   )}
-
-                  {/* SOCIALS */}
-                  <div className="teacher__socials">
-                    <a
-                      href={
-                        teacher.facebook ||
-                        "https://facebook.com"
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FaFacebookF />
-                    </a>
-
-                    <a
-                      href={
-                        teacher.instagram ||
-                        "https://instagram.com"
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FaInstagram />
-                    </a>
-
-                    <a
-                      href={`mailto:${
-                        teacher.email ||
-                        "info@example.com"
-                      }`}
-                    >
-                      <FaEnvelope />
-                    </a>
-
-                    <a
-                      href={`https://wa.me/${
-                        teacher.phone?.replace(
-                          /\D/g,
-                          ""
-                        ) || ""
-                      }`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FaWhatsapp />
-                    </a>
-                  </div>
                 </div>
               </div>
             ))
