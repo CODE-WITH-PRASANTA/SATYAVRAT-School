@@ -99,6 +99,8 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+import Freegroup from "./Component/Freegroup/Freegroup";
+import Freehead from "./Component/Freehead/Freehead";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -324,6 +326,10 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/Free" element={<Freegroup/>} />
+          <Route path="/head" element={<Freehead />} />
+
+
 
         </Route>
 
@@ -340,6 +346,9 @@ function App() {
         />
 
       </Routes>
+      
+        
+      
 
     </BrowserRouter>
   );
