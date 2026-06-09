@@ -62,6 +62,10 @@ import FeeType from "./Component/FeeType/FeeType";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 
 import ClassPost from "./Pages/ClassPost/ClassPost";
+import FeeGroup from "./Pages/FeeGroup/FeeGroup";
+import FeeHead from "./Pages/FeeHead/FeeHead";
+import FeeStructure from "./Pages/FeeStructure/FeeStructure";
+import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
 /* ================= SUBJECT ================= */
 
@@ -101,6 +105,12 @@ import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
 import Freegroup from "./Component/Freegroup/Freegroup";
 import Freehead from "./Component/Freehead/Freehead";
+import FeeEditManual from "./Component/FeeEditManual/FeeEditManual";
+import BoardFeeStructure from "./Component/BoardFeeStructure/BoardFeeStructure";
+import FeeConcession from "./Component/Feeconcession/Feeconcession";
+import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
+import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -181,6 +191,45 @@ function App() {
             element={<Testimonial />}
           />
 
+          <Route
+            path="student/admission"
+            element={<StudentAdmission />}
+          />
+
+          <Route
+            path="student/admission/details"
+            element={<StudentAdmsnDetails />}
+          />
+
+          <Route
+            path="fee-collect"
+            element={<FeeCollection />}
+          />
+
+          <Route path="/class-post" element={<ClassesAdmin />} />
+          <Route path="/subject-post" element={<SubjectAdmin />} />
+          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
+         <Route path="/exam-result" element={<ExamResult />} />
+         <Route path="exam-result-manager" element={<ExamResultAdmin />} />
+         <Route path="/exam-type" element={<ExamTypeAdmin />} />
+         <Route path="/exam-report" element={<ExamProgressReport />} />
+          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
+          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
+          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
+          <Route path="/expense/details" element={< AddExpense/>}/>
+          <Route path="/expense-search"element={<ExpenseSearch/>}/>
+          <Route path="/expense-head"element={<ExpenseHead/>}/>
+          <Route path="/admin/Advites" element={<AdvitesForm/>}/>
+          
+          <Route
+            path="fee-type"
+            element={<FeeType />}
+          />
+
+          <Route
+            path="admin/profile"
+            element={<ProFilePicture />}
+          />
           {/* ================= GALLERY ================= */}
 
           <Route
@@ -317,6 +366,12 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
+          
+          <Route path="/class/post" element={<ClassPost />} />
+           <Route path="/admin/feegroup" element={<FeeGroup/>}/>
+          <Route path="/admin/feehead" element={<FeeHead/>}/>
+          <Route path="/admin/feestructure" element={<FeeStructure/>}/>
+          <Route path="/admin/feeentry" element={<FeeEntry/>}/>
 
           {/* ================= ADVERTISE ================= */}
 
@@ -326,10 +381,20 @@ function App() {
           />
 
           <Route path="/wallet" element={<Wallet />} />
-          <Route path="/Free" element={<Freegroup/>} />
-          <Route path="/head" element={<Freehead />} />
+          
+          <Route path="/fee-group" element={<Freegroup/>} />
+          <Route path="/fee-head" element={<Freehead />} />
 
 
+          
+          <Route path="/fee-edit-manual" element={<FeeEditManual />} />
+          <Route path="/fee-structure" element={<BoardFeeStructure/>}/>
+
+          
+          <Route path="/fee-concession" element={<FeeConcession />} />
+          <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
+          <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
+          <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
 
         </Route>
 

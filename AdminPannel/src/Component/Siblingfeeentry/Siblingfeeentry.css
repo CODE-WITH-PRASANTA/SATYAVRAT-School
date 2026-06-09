@@ -1,0 +1,337 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+.Siblingfeeentry{
+  width:100%;
+  padding:20px;
+  background:#f7f7f7;
+}
+
+/* Modal Overlay */
+
+.receipt-modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:15px;
+}
+
+.receipt-modal{
+  width:100%;
+  max-width:1000px;
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  animation:popup .3s ease;
+}
+
+.receipt-modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  border-bottom:1px solid #eee;
+}
+
+.receipt-modal-header h2{
+  margin:0;
+  color:#333;
+}
+
+.close-btn{
+  border:none;
+  background:none;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.table-wrapper{
+  overflow:auto;
+  max-height:500px;
+}
+
+.table-wrapper table{
+  width:100%;
+  min-width:800px;
+  border-collapse:collapse;
+}
+
+.table-wrapper th{
+  background:#f5f5f5;
+  padding:15px;
+  text-align:left;
+  font-size:15px;
+}
+
+.table-wrapper td{
+  padding:14px;
+  border-top:1px solid #eee;
+}
+
+.table-wrapper tr:hover{
+  background:#faf4ff;
+}
+
+@keyframes popup{
+  from{
+    opacity:0;
+    transform:scale(.9);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+.Siblingfeeentry-search-wrapper{
+  width:100%;
+  max-width:800px;
+  height:60px;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 20px;
+}
+
+.Siblingfeeentry-search-wrapper input{
+  border:none;
+  outline:none;
+  width:100%;
+  font-size:16px;
+}
+
+.Siblingfeeentry-content{
+  margin-top:25px;
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:20px;
+}
+
+.Siblingfeeentry-student-card{
+  background:#f6f0e2;
+  border-radius:15px;
+  padding:25px;
+  min-height:180px;
+}
+
+.Siblingfeeentry-student-card p{
+  margin-bottom:14px;
+  font-size:17px;
+}
+
+.Siblingfeeentry-right{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.field{
+  width:100%;
+}
+
+.field label{
+  display:block;
+  margin-bottom:8px;
+  margin-left:10px;
+  font-size:14px;
+  color:#666;
+}
+
+.custom-input{
+  width:100%;
+  height:60px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:0 15px;
+  font-size:16px;
+}
+
+.date-wrapper{
+  position:relative;
+}
+
+.custom-datepicker{
+  width:100%;
+  height:60px;
+  border:1.5px solid #ff4d1a;
+  border-radius:12px;
+  padding:0 50px 0 18px;
+  color:#ff4d1a;
+  font-size:16px;
+  outline:none;
+}
+
+.calendar-icon{
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#7b2cff;
+  font-size:24px;
+  pointer-events:none;
+}
+
+.Siblingfeeentry-bottom{
+  margin-top:30px;
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:flex-end;
+}
+
+.total-box{
+  flex:1;
+  min-width:220px;
+}
+
+.total-box label{
+  display:block;
+  margin-bottom:8px;
+  margin-left:10px;
+}
+
+.total-box input{
+  width:100%;
+  height:60px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:0 15px;
+}
+
+.action-buttons{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.receipt-btn{
+  border:none;
+  background:#f4430d;
+  color:#fff;
+  padding:15px 25px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.save-btn{
+  border:none;
+  background:linear-gradient(
+    180deg,
+    #9c1cff,
+    #7000ff
+  );
+  color:#fff;
+  padding:15px 25px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.receipt-btn:hover,
+.save-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* DatePicker Popup */
+
+.react-datepicker{
+  border-radius:16px !important;
+  overflow:hidden;
+  border:none !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.react-datepicker__day--selected{
+  background:#c79bff !important;
+  color:#000 !important;
+  border-radius:50% !important;
+}
+
+.react-datepicker__header{
+  background:#fff !important;
+}
+
+.react-datepicker__current-month{
+  font-weight:700;
+}
+
+/* Tablet */
+
+@media (max-width:992px){
+
+  .Siblingfeeentry-content{
+    grid-template-columns:1fr;
+  }
+
+  .Siblingfeeentry-right{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+  .receipt-modal{
+    max-width:100%;
+  }
+
+  .receipt-modal-header h2{
+    font-size:18px;
+  }
+
+  .table-wrapper table{
+    min-width:700px;
+  }
+}
+
+@media(max-width:480px){
+
+  .receipt-modal-header{
+    padding:15px;
+  }
+
+  .receipt-modal-header h2{
+    font-size:16px;
+  }
+
+  .close-btn{
+    font-size:24px;
+  }
+}
+
+/* Small Mobile */
+
+@media (max-width:480px){
+
+  .Siblingfeeentry{
+    padding:12px;
+  }
+
+  .Siblingfeeentry-search-wrapper{
+    height:55px;
+  }
+
+  .custom-datepicker,
+  .custom-input{
+    height:55px;
+    font-size:14px;
+  }
+
+  .Siblingfeeentry-student-card{
+    padding:18px;
+  }
+
+  .Siblingfeeentry-student-card p{
+    font-size:14px;
+  }
+}

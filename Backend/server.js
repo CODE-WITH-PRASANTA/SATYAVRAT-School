@@ -32,9 +32,14 @@ const expenseHeadRoutes = require("./src/routes/expenseHead.routes");
 const classRoutes = require("./src/routes/class.routes");
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
+<<<<<<< HEAD
+const expensesHead = require("./src/routes/expenseHeadRoutes")
+const bannerRoutes= require("./src/routes/banner.routes");
+=======
 
 const bannerRoutes = require("./src/routes/banner.routes");
 
+>>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
 const subjectRoutes = require("./src/routes/subject.routes");
 
 const classPostRoutes = require("./src/routes/classPost.routes");
@@ -99,6 +104,14 @@ app.use(
 /* ================= API ROUTES ================= */
 
 /* CORE */
+<<<<<<< HEAD
+app.use("/api/news", newsRoutes);
+app.use("/api/teachers", teacherRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/students", admissionRoutes);
+=======
+>>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
 
 app.use(
   "/api/news",
@@ -115,6 +128,9 @@ app.use(
   teacherRoutes
 );
 
+<<<<<<< HEAD
+app.use("/api/testimonials", testimonialRoutes);
+=======
 app.use(
   "/api/gallery",
   galleryRoutes
@@ -129,6 +145,7 @@ app.use(
   "/api/banner",
   bannerRoutes
 );
+>>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
 
 /* STUDENT + ENQUIRY */
 
