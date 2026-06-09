@@ -83,6 +83,18 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     },
 
      {
+      name: "Fees",
+      icon: <FaImages />,
+      submenu: [
+       { name: "Fees", path: "/admin/fees", icon: <FaMoneyBillWave /> },
+        { name: "Fee Group", path: "/admin/feegroup" },
+         { name: "Fee Head", path: "/admin/feehead" },
+         { name: "Fee Structure", path: "/admin/feestructure" },
+         { name: "Fee Entry", path: "/admin/feeentry" },
+      ],
+    },
+
+     {
     label: "Class Post",
     icon: FiBookOpen,
     path: "/class-post",

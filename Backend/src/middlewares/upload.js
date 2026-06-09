@@ -27,20 +27,17 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
-<<<<<<< HEAD
    "/testimonials": "uploads/testimonials" ,
     "/teachers": "uploads/teachers",
     "/admissions": "uploads/admissions",
     "/banner":"uploads/banner", 
     
     
-=======
   "/class-post": "uploads/class-post",
   "/testimonials": "uploads/testimonials",
   "/teachers": "uploads/teachers",
   "/admissions": "uploads/admissions",
   "/subjects": "uploads/subjects",
->>>>>>> 70477aa9e6b2718dd181e6c41db2d41d06264804
 };
 
 /* =========================================================

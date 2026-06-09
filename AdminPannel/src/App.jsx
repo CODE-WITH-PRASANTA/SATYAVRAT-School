@@ -37,6 +37,10 @@ import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 
 import LoginForm from "./Pages/LoginForm/LoginForm";
 import ClassPost from "./Pages/ClassPost/ClassPost";
+import FeeGroup from "./Pages/FeeGroup/FeeGroup";
+import FeeHead from "./Pages/FeeHead/FeeHead";
+import FeeStructure from "./Pages/FeeStructure/FeeStructure";
+import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
 // ================= PROTECTED ROUTE =================
 
@@ -108,7 +112,6 @@ function App() {
             element={<FeeCollection />}
           />
 
-<<<<<<< HEAD
           <Route path="/class-post" element={<ClassesAdmin />} />
           <Route path="/subject-post" element={<SubjectAdmin />} />
           <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
@@ -124,7 +127,6 @@ function App() {
           <Route path="/expense-head"element={<ExpenseHead/>}/>
           <Route path="/admin/Advites" element={<AdvitesForm/>}/>
           
-=======
           <Route
             path="fee-type"
             element={<FeeType />}
@@ -219,9 +221,12 @@ function App() {
             path="expense-head"
             element={<ExpenseHead />}
           />
->>>>>>> 70477aa9e6b2718dd181e6c41db2d41d06264804
           
           <Route path="/class/post" element={<ClassPost />} />
+           <Route path="/admin/feegroup" element={<FeeGroup/>}/>
+          <Route path="/admin/feehead" element={<FeeHead/>}/>
+          <Route path="/admin/feestructure" element={<FeeStructure/>}/>
+          <Route path="/admin/feeentry" element={<FeeEntry/>}/>
 
 
         </Route>

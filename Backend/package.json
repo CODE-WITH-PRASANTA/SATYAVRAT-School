@@ -4,11 +4,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-<<<<<<< HEAD
     "fs": "^0.0.1-security",
-=======
     "jsonwebtoken": "^9.0.3",
->>>>>>> 70477aa9e6b2718dd181e6c41db2d41d06264804
     "mongoose": "^9.4.1",
     "multer": "^2.1.1",
     "path": "^0.12.7",

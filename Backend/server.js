@@ -23,13 +23,10 @@ const classRoutes = require("./src/routes/class.routes");
 
 
 const testimonialRoutes = require("./src/routes/testimonial.routes");
-<<<<<<< HEAD
 const expensesHead = require("./src/routes/expenseHeadRoutes")
 const bannerRoutes= require("./src/routes/banner.routes");
-=======
 const subjectRoutes = require("./src/routes/subject.routes");
 const classPostRoutes = require("./src/routes/classPost.routes");
->>>>>>> 70477aa9e6b2718dd181e6c41db2d41d06264804
 
 
 
@@ -61,7 +58,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/news", newsRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/gallery", galleryRoutes);
-<<<<<<< HEAD
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", admissionRoutes);
 
@@ -74,8 +70,6 @@ app.use("/api/banner",bannerRoutes);
 
 
 
-=======
->>>>>>> 70477aa9e6b2718dd181e6c41db2d41d06264804
 app.use("/api/testimonials", testimonialRoutes);
 
 /* STUDENT + ENQUIRY */
