@@ -27,8 +27,21 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
+<<<<<<< HEAD
+   "/testimonials": "uploads/testimonials" ,
+    "/teachers": "uploads/teachers",
+    "/admissions": "uploads/admissions",
+    "/banner":"uploads/banner", 
+    
+    
+  "/class-post": "uploads/class-post",
+  "/testimonials": "uploads/testimonials",
+=======
+>>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
   "/teachers": "uploads/teachers",
   "/subjects": "uploads/subjects",
+<<<<<<< HEAD
+=======
   "/testimonials": "uploads/testimonials",
   "/blogs": "uploads/blogs",
   "/banner": "uploads/banner",
@@ -44,6 +57,7 @@ const routeFolderMap = {
 
   /* ================= CLASS POST ================= */
   "/class-post": "uploads/class-post",
+>>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
 };
 
 /* =========================================================

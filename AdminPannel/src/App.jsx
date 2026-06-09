@@ -62,6 +62,10 @@ import FeeType from "./Component/FeeType/FeeType";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 
 import ClassPost from "./Pages/ClassPost/ClassPost";
+import FeeGroup from "./Pages/FeeGroup/FeeGroup";
+import FeeHead from "./Pages/FeeHead/FeeHead";
+import FeeStructure from "./Pages/FeeStructure/FeeStructure";
+import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
 /* ================= SUBJECT ================= */
 
@@ -185,6 +189,45 @@ function App() {
             element={<Testimonial />}
           />
 
+          <Route
+            path="student/admission"
+            element={<StudentAdmission />}
+          />
+
+          <Route
+            path="student/admission/details"
+            element={<StudentAdmsnDetails />}
+          />
+
+          <Route
+            path="fee-collect"
+            element={<FeeCollection />}
+          />
+
+          <Route path="/class-post" element={<ClassesAdmin />} />
+          <Route path="/subject-post" element={<SubjectAdmin />} />
+          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
+         <Route path="/exam-result" element={<ExamResult />} />
+         <Route path="exam-result-manager" element={<ExamResultAdmin />} />
+         <Route path="/exam-type" element={<ExamTypeAdmin />} />
+         <Route path="/exam-report" element={<ExamProgressReport />} />
+          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
+          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
+          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
+          <Route path="/expense/details" element={< AddExpense/>}/>
+          <Route path="/expense-search"element={<ExpenseSearch/>}/>
+          <Route path="/expense-head"element={<ExpenseHead/>}/>
+          <Route path="/admin/Advites" element={<AdvitesForm/>}/>
+          
+          <Route
+            path="fee-type"
+            element={<FeeType />}
+          />
+
+          <Route
+            path="admin/profile"
+            element={<ProFilePicture />}
+          />
           {/* ================= GALLERY ================= */}
 
           <Route
@@ -322,6 +365,11 @@ function App() {
             element={<ExpenseHead />}
           />
           
+          <Route path="/class/post" element={<ClassPost />} />
+           <Route path="/admin/feegroup" element={<FeeGroup/>}/>
+          <Route path="/admin/feehead" element={<FeeHead/>}/>
+          <Route path="/admin/feestructure" element={<FeeStructure/>}/>
+          <Route path="/admin/feeentry" element={<FeeEntry/>}/>
 
           {/* ================= ADVERTISE ================= */}
 
