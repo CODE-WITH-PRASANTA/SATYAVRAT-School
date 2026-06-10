@@ -211,11 +211,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       path: "/concession-category",
       icon: <FaPercentage />,
     },
-    {
-      name: "Fee Fine Master",
-      path: "/fee-fine-master",
-      icon: <FaExclamationCircle />,
-    },
+   
     {
       name: "Fee Structure",
       path: "/fee-structure",
