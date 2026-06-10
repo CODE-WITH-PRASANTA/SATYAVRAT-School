@@ -103,10 +103,16 @@ import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 import AdvitesForm from "./Pages/AdvitesForm/AdvitesForm";
 import Wallet from "./Component/Wallet/Wallet";
+import Freegroup from "./Component/Freegroup/Freegroup";
+import Freehead from "./Component/Freehead/Freehead";
+import FeeEditManual from "./Component/FeeEditManual/FeeEditManual";
+import BoardFeeStructure from "./Component/BoardFeeStructure/BoardFeeStructure";
 import FeeConcession from "./Component/Feeconcession/Feeconcession";
 import Siblingfeeentry from "./Component/Siblingfeeentry/Siblingfeeentry";
 import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
 import BoardFeeCollection from "./Component/BoardFeeCollection/BoardFeeCollection";
+import Concessioncategory from "./Component/Concessioncategory/Concessioncategory";
+import Feeentry from "./Component/Feeentry/Feeentry";
 
 /* ================= PROTECTED ROUTE ================= */
 
@@ -365,10 +371,10 @@ function App() {
           
           <Route path="/class/post" element={<ClassPost />} />
           
-           <Route path="/admin/feegroup" element={<FeeGroup/>}/>
-          <Route path="/admin/feehead" element={<FeeHead/>}/>
-          <Route path="/admin/feestructure" element={<FeeStructure/>}/>
-          <Route path="/admin/feeentry" element={<FeeEntry/>}/>
+           
+          
+          
+          
 
           {/* ================= ADVERTISE ================= */}
 
@@ -379,12 +385,23 @@ function App() {
 
           <Route path="/wallet" element={<Wallet />} />
           
+          <Route path="/fee-group" element={<FeeGroup/>} />
+          <Route path="/fee-head" element={<FeeHead />} />
+
+
+          
+          <Route path="/fee-edit-manual" element={<FeeEditManual />} />
+          <Route path="/fee-structure" element={<FeeStructure/>}/>
+
+          
           <Route path="/fee-concession" element={<FeeConcession />} />
           <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} /> 
           <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
           <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
-
-        </Route>
+          <Route path="/concession-category" element={<Concessioncategory/>} />
+          <Route path="/fee-entry" element={<FeeEntry />} />
+          
+          </Route>
 
         {/* ================= INVALID ================= */}
 
@@ -399,6 +416,9 @@ function App() {
         />
 
       </Routes>
+      
+        
+      
 
     </BrowserRouter>
   );
