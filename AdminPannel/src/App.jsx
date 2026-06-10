@@ -364,6 +364,7 @@ function App() {
           />
           
           <Route path="/class/post" element={<ClassPost />} />
+          
            <Route path="/admin/feegroup" element={<FeeGroup/>}/>
           <Route path="/admin/feehead" element={<FeeHead/>}/>
           <Route path="/admin/feestructure" element={<FeeStructure/>}/>
