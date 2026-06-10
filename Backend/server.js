@@ -42,7 +42,7 @@ const subjectRoutes = require("./src/routes/subject.routes");
 const classPostRoutes = require("./src/routes/classPost.routes");
 
 const studentAdmissionRoutes = require(
-  "./src/routes/studentAdmission.routes"
+  "./src/routes/Student/studentadmission.routes"
 );
 
 const walletRoutes = require("./src/routes/wallet.routes")
@@ -175,13 +175,22 @@ app.use(
   expenseHeadRoutes
 );
 
-app.use("/api/students", studentAdmissionRoutes);
 
 app.use("/api/wallet", walletRoutes);
 
 app.use("/api/admission", AdmsonfeeRoutes);
 
 app.use("/api/feetypes", feeTypes);
+
+
+// ERP SOLUTIONS
+
+// student admission
+
+app.use("/api/students", studentAdmissionRoutes);
+
+
+
 /* ================= HEALTH CHECK ================= */
 
 app.get("/", (req, res) => {

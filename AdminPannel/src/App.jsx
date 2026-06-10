@@ -370,10 +370,11 @@ function App() {
           />
           
           <Route path="/class/post" element={<ClassPost />} />
-           <Route path="/admin/feegroup" element={<FeeGroup/>}/>
-          <Route path="/admin/feehead" element={<FeeHead/>}/>
-          <Route path="/admin/feestructure" element={<FeeStructure/>}/>
-          <Route path="/admin/feeentry" element={<FeeEntry/>}/>
+          
+           
+          
+          
+          
 
           {/* ================= ADVERTISE ================= */}
 
@@ -384,13 +385,13 @@ function App() {
 
           <Route path="/wallet" element={<Wallet />} />
           
-          <Route path="/fee-group" element={<Freegroup/>} />
-          <Route path="/fee-head" element={<Freehead />} />
+          <Route path="/fee-group" element={<FeeGroup/>} />
+          <Route path="/fee-head" element={<FeeHead />} />
 
 
           
           <Route path="/fee-edit-manual" element={<FeeEditManual />} />
-          <Route path="/fee-structure" element={<BoardFeeStructure/>}/>
+          <Route path="/fee-structure" element={<FeeStructure/>}/>
 
           
           <Route path="/fee-concession" element={<FeeConcession />} />
@@ -398,7 +399,7 @@ function App() {
           <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
           <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/>
           <Route path="/concession-category" element={<Concessioncategory/>} />
-          <Route path="/fee-entry" element={<Feeentry />} />
+          <Route path="/fee-entry" element={<FeeEntry />} />
           
           </Route>
 

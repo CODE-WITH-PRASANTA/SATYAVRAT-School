@@ -134,6 +134,10 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       name: "fees Management",
       icon: <FaImages />,
       submenu: [
+<<<<<<< HEAD
+=======
+       
+>>>>>>> 04475c0c806d4c82fa3cdbb632ec33046a4e9c36
         { name: "Fee Group", path: "/admin/feegroup" },
         { name: "Fee Head", path: "/admin/feehead" },
         { name: "Fee Structure", path: "/admin/feestructure" },

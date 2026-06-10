@@ -14,6 +14,6 @@ const expenseHeadSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ExpenseHead = mongoose.model("ExpenseHead", expenseHeadSchema);
+const ExpenseHead = mongoose.model("ExpenseHeads", expenseHeadSchema);
 
 module.exports = ExpenseHead;

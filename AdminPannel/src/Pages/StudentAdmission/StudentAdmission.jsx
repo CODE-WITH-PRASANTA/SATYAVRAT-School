@@ -4,12 +4,12 @@ import API, { IMAGE_URL } from "../../api/axios";
 import { Download } from "lucide-react";
 import "./StudentAdmission.css";
 import { useNavigate } from "react-router-dom";
-import DownloadFrom from '../../assets/ApplicationForm.pdf.pdf'
+import DownloadFrom from "../../assets/ApplicationForm.pdf.pdf";
 
 const initialFormState = {
   /* Student Details */
 
-  formNo: "",
+  rollNumber: "",
   admissionNo: "",
   admissionDate: "",
 
@@ -105,6 +105,21 @@ export default function StudentAdmission() {
   const [editId, setEditId] = useState(null);
   const [classes, setClasses] = useState([]);
   const navigate = useNavigate();
+
+  const classOptions = [
+    "LKG",
+    "UKG",
+    "1st",
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+    "6th",
+    "7th",
+    "8th",
+    "9th",
+    "10th",
+  ];
 
   useEffect(() => {
     const id = localStorage.getItem("editStudentId");
@@ -235,7 +250,7 @@ export default function StudentAdmission() {
       if (
         !formData.admissionNo ||
         !formData.class ||
-        !formData.section ||
+        // !formData.section ||
         !formData.studentName ||
         !formData.gender ||
         !formData.dob
@@ -316,579 +331,534 @@ export default function StudentAdmission() {
           <h1 className="Student-Admission-Title">
             {editId ? "Edit Student" : "Student Admission"}
           </h1>
-         <button
-          className="Student-Admission-DownloadBtn"
-          onClick={() => {
-            const link = document.createElement("a");
-            link.href = DownloadFrom;
-            link.download = "ApplicationForm.pdf";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }}
-        >
-          <Download size={18} />
-          Download Form
-        </button>
+          <button
+            className="Student-Admission-DownloadBtn"
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = DownloadFrom;
+              link.download = "ApplicationForm.pdf";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
+          >
+            <Download size={18} />
+            Download Form
+          </button>
         </div>
 
         {/* ================= STUDENT DETAILS ================= */}
-     <AccordionSection title="Student Details">
-  <div className="Student-Admission-FormGrid">
+        <AccordionSection title="Student Details">
+          <div className="Student-Admission-FormGrid">
+            <div className="Student-Admission-Left">
+              {/* Row 1 */}
 
-    <div className="Student-Admission-Left">
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Roll Number"
+                  name="rollNumber"
+                  value={formData.rollNumber}
+                  onChange={handleChange}
+                />
 
-      {/* Row 1 */}
+                <FormInput
+                  label="Admission No"
+                  name="admissionNo"
+                  value={formData.admissionNo}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Form No"
-          name="formNo"
-          value={formData.formNo}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Admission Date"
+                  type="date"
+                  name="admissionDate"
+                  value={formData.admissionDate}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="Admission No"
-          name="admissionNo"
-          value={formData.admissionNo}
-          onChange={handleChange}
-        />
+              {/* Row 2 */}
 
-        <FormInput
-          label="Admission Date"
-          type="date"
-          name="admissionDate"
-          value={formData.admissionDate}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormSelect
+                  label="Class"
+                  name="class"
+                  value={formData.class}
+                  options={classOptions}
+                  onChange={handleChange}
+                />
 
-      {/* Row 2 */}
+                <FormInput
+                  label="Medium"
+                  name="medium"
+                  value={formData.medium}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormSelect
-          label="Class"
-          name="class"
-          value={formData.class}
-          options={classes.map((cls) => cls.className)}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Samagra ID"
+                  name="samagraId"
+                  value={formData.samagraId}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="Medium"
-          name="medium"
-          value={formData.medium}
-          onChange={handleChange}
-        />
+              {/* Row 3 */}
 
-        <FormInput
-          label="Samagra ID"
-          name="samagraId"
-          value={formData.samagraId}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Aadhar Card No"
+                  name="aadharNumber"
+                  value={formData.aadharNumber}
+                  onChange={handleChange}
+                />
 
-      {/* Row 3 */}
+                <FormInput
+                  label="APAAR ID"
+                  name="apaarId"
+                  value={formData.apaarId}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Aadhar Card No"
-          name="aadharNumber"
-          value={formData.aadharNumber}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="PEN No"
+                  name="penNo"
+                  value={formData.penNo}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="APAAR ID"
-          name="apaarId"
-          value={formData.apaarId}
-          onChange={handleChange}
-        />
+              {/* Row 4 */}
 
-        <FormInput
-          label="PEN No"
-          name="penNo"
-          value={formData.penNo}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Enrollment No"
+                  name="enrollmentNo"
+                  value={formData.enrollmentNo}
+                  onChange={handleChange}
+                />
 
-      {/* Row 4 */}
+                <FormInput
+                  label="Student Weight"
+                  name="weight"
+                  value={formData.weight}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Enrollment No"
-          name="enrollmentNo"
-          value={formData.enrollmentNo}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Height"
+                  name="height"
+                  value={formData.height}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="Student Weight"
-          name="weight"
-          value={formData.weight}
-          onChange={handleChange}
-        />
+              {/* Row 5 */}
 
-        <FormInput
-          label="Height"
-          name="height"
-          value={formData.height}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Student Name"
+                  name="studentName"
+                  value={formData.studentName}
+                  onChange={handleChange}
+                />
 
-      {/* Row 5 */}
+                <FormSelect
+                  label="Gender"
+                  name="gender"
+                  value={formData.gender}
+                  options={["Male", "Female"]}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Student Name"
-          name="studentName"
-          value={formData.studentName}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Date of Birth"
+                  type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormSelect
-          label="Gender"
-          name="gender"
-          value={formData.gender}
-          options={["Male", "Female"]}
-          onChange={handleChange}
-        />
+              {/* Row 6 */}
 
-        <FormInput
-          label="Date of Birth"
-          type="date"
-          name="dob"
-          value={formData.dob}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Nationality"
+                  name="nationality"
+                  value={formData.nationality}
+                  onChange={handleChange}
+                />
 
-      {/* Row 6 */}
+                <FormInput
+                  label="Mother Tongue"
+                  name="motherTongue"
+                  value={formData.motherTongue}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Nationality"
-          name="nationality"
-          value={formData.nationality}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Religion"
+                  name="religion"
+                  value={formData.religion}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="Mother Tongue"
-          name="motherTongue"
-          value={formData.motherTongue}
-          onChange={handleChange}
-        />
+              {/* Row 7 */}
 
-        <FormInput
-          label="Religion"
-          name="religion"
-          value={formData.religion}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormSelect
+                  label="Category"
+                  name="category"
+                  value={formData.category}
+                  options={["SC", "ST", "OBC", "GEN"]}
+                  onChange={handleChange}
+                />
 
-      {/* Row 7 */}
+                <FormInput
+                  label="Caste"
+                  name="caste"
+                  value={formData.caste}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormSelect
-          label="Category"
-          name="category"
-          value={formData.category}
-          options={["SC", "ST", "OBC", "GEN"]}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Blood Group"
+                  name="bloodGroup"
+                  value={formData.bloodGroup}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="Caste"
-          name="caste"
-          value={formData.caste}
-          onChange={handleChange}
-        />
+              {/* Row 8 */}
 
-        <FormInput
-          label="Blood Group"
-          name="bloodGroup"
-          value={formData.bloodGroup}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Bank A/C Number"
+                  name="bankAccountNumber"
+                  value={formData.bankAccountNumber}
+                  onChange={handleChange}
+                />
 
-      {/* Row 8 */}
+                <FormInput
+                  label="IFSC Code"
+                  name="ifscCode"
+                  value={formData.ifscCode}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Bank A/C Number"
-          name="bankAccountNumber"
-          value={formData.bankAccountNumber}
-          onChange={handleChange}
-        />
+                <FormInput
+                  label="Bank Name & Place"
+                  name="bankName"
+                  value={formData.bankName}
+                  onChange={handleChange}
+                />
+              </div>
 
-        <FormInput
-          label="IFSC Code"
-          name="ifscCode"
-          value={formData.ifscCode}
-          onChange={handleChange}
-        />
+              {/* Row 9 */}
 
-        <FormInput
-          label="Bank Name & Place"
-          name="bankName"
-          value={formData.bankName}
-          onChange={handleChange}
-        />
-      </div>
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Previous School Name"
+                  name="previousSchool"
+                  value={formData.previousSchool}
+                  onChange={handleChange}
+                />
 
-      {/* Row 9 */}
+                <FormInput
+                  label="TC Number"
+                  name="tcNumber"
+                  value={formData.tcNumber}
+                  onChange={handleChange}
+                />
 
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Previous School Name"
-          name="previousSchool"
-          value={formData.previousSchool}
-          onChange={handleChange}
-        />
+                <div></div>
+              </div>
+            </div>
 
-        <FormInput
-          label="TC Number"
-          name="tcNumber"
-          value={formData.tcNumber}
-          onChange={handleChange}
-        />
+            <div className="Student-Admission-Right">
+              <PhotoUploadBox
+                name="studentPhoto"
+                onFileChange={handleFileChange}
+                existingImage={formData.studentPhoto}
+              />
+            </div>
+          </div>
+        </AccordionSection>
 
-        <div></div>
-      </div>
-
-    </div>
-
-    <div className="Student-Admission-Right">
-      <PhotoUploadBox
-        name="studentPhoto"
-        onFileChange={handleFileChange}
-        existingImage={formData.studentPhoto}
-      />
-    </div>
-
-  </div>
-</AccordionSection>
-
-       
         {/* ================= PARENT / GUARDIAN ================= */}
-       <AccordionSection title="Parent Details">
-
-  {/* ================= FATHER ================= */}
-
-  <h3 className="Student-Admission-SectionTitle">
-    Father Details
-  </h3>
-
-  <div className="Student-Admission-FormGrid">
-
-    <div className="Student-Admission-Left">
-
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Father Name"
-          name="fatherName"
-          value={formData.fatherName}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Qualification"
-          name="fatherQualification"
-          value={formData.fatherQualification}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Occupation"
-          name="fatherOccupation"
-          value={formData.fatherOccupation}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Annual Income"
-          name="fatherIncome"
-          value={formData.fatherIncome}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Mobile Number"
-          name="fatherPhone"
-          value={formData.fatherPhone}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Aadhar Number"
-          name="fatherAadhar"
-          value={formData.fatherAadhar}
-          onChange={handleChange}
-        />
-      </div>
-
-    </div>
-
-    <div className="Student-Admission-Right">
-      <PhotoUploadBox
-        name="fatherPhoto"
-        onFileChange={handleFileChange}
-        existingImage={formData.fatherPhoto}
-      />
-    </div>
-
-  </div>
-
-  {/* ================= MOTHER ================= */}
-
-  <h3 className="Student-Admission-SectionTitle">
-    Mother Details
-  </h3>
-
-  <div className="Student-Admission-FormGrid">
-
-    <div className="Student-Admission-Left">
-
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Mother Name"
-          name="motherName"
-          value={formData.motherName}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Qualification"
-          name="motherQualification"
-          value={formData.motherQualification}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Occupation"
-          name="motherOccupation"
-          value={formData.motherOccupation}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="Student-Admission-Row">
-        <FormInput
-          label="Annual Income"
-          name="motherIncome"
-          value={formData.motherIncome}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Mobile Number"
-          name="motherPhone"
-          value={formData.motherPhone}
-          onChange={handleChange}
-        />
-
-        <FormInput
-          label="Aadhar Number"
-          name="motherAadhar"
-          value={formData.motherAadhar}
-          onChange={handleChange}
-        />
-      </div>
-
-    </div>
-
-    <div className="Student-Admission-Right">
-      <PhotoUploadBox
-        name="motherPhoto"
-        onFileChange={handleFileChange}
-        existingImage={formData.motherPhoto}
-      />
-    </div>
-
-  </div>
-
-  {/* ================= ADDRESS DETAILS ================= */}
-
-  <h3 className="Student-Admission-SectionTitle">
-    Address Details
-  </h3>
-
-  <div className="Student-Admission-Row">
-
-    <FormTextarea
-      label="Residential Address"
-      name="currentAddress"
-      value={formData.currentAddress}
-      onChange={handleChange}
-    />
-
-  </div>
-
-  <div className="Student-Admission-Row">
-
-    <FormInput
-      label="District"
-      name="district"
-      value={formData.district}
-      onChange={handleChange}
-    />
-
-    <FormInput
-      label="Pin Code"
-      name="pinCode"
-      value={formData.pinCode}
-      onChange={handleChange}
-    />
-
-    <FormInput
-      label="WhatsApp Number"
-      name="whatsappNo"
-      value={formData.whatsappNo}
-      onChange={handleChange}
-    />
-
-  </div>
-
-  <div className="Student-Admission-Row">
-
-    <FormSelect
-      label="School Transportation"
-      name="transportRequired"
-      value={formData.transportRequired}
-      options={["Yes", "No"]}
-      onChange={handleChange}
-    />
-
-    <FormInput
-      label="Area"
-      name="area"
-      value={formData.area}
-      onChange={handleChange}
-    />
-
-    <div></div>
-
-  </div>
-
-</AccordionSection>
-
-       
-
-        {/* ================= UPLOAD DOCUMENTS ================= */}
-       <AccordionSection title="Upload Documents">
-
-  <table className="Student-Admission-DocumentTable">
-
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Document Name</th>
-        <th>Upload / View File</th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      {[
-        {
-          label: "Student Passport Photo",
-          field: "studentPhoto",
-        },
-
-        {
-          label: "Father Passport Photo",
-          field: "fatherPhoto",
-        },
-
-        {
-          label: "Mother Passport Photo",
-          field: "motherPhoto",
-        },
-
-        {
-          label: "Student Aadhaar Card",
-          field: "studentAadhar",
-        },
-
-        {
-          label: "Father Aadhaar Card",
-          field: "fatherAadhar",
-        },
-
-        {
-          label: "Mother Aadhaar Card",
-          field: "motherAadhar",
-        },
-
-        {
-          label: "Samagra ID",
-          field: "samagraIdDoc",
-        },
-
-        {
-          label: "Birth Certificate",
-          field: "birthCertificate",
-        },
-
-        {
-          label: "Transfer Certificate (TC)",
-          field: "tcCertificate",
-        },
-
-        {
-          label: "Previous School Marksheet",
-          field: "previousMarksheet",
-        },
-
-        {
-          label: "Bank Passbook",
-          field: "bankPassbook",
-        },
-
-        {
-          label: "Income Certificate",
-          field: "incomeCertificate",
-        },
-      ].map((item, index) => (
-
-        <tr key={item.field}>
-
-          <td>{index + 1}</td>
-
-          <td className="Student-Admission-DocName">
-            {item.label}
-          </td>
-
-          <td className="Student-Admission-DocumentCell">
-
-            <DocumentUpload
-              name={item.field}
-              existingFile={
-                (formData.documents || {})[item.field]
-              }
-              onFileChange={handleFileChange}
+        <AccordionSection title="Parent Details">
+          {/* ================= FATHER ================= */}
+
+          <h3 className="Student-Admission-SectionTitle">Father Details</h3>
+
+          <div className="Student-Admission-FormGrid">
+            <div className="Student-Admission-Left">
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Father Name"
+                  name="fatherName"
+                  value={formData.fatherName}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Qualification"
+                  name="fatherQualification"
+                  value={formData.fatherQualification}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Occupation"
+                  name="fatherOccupation"
+                  value={formData.fatherOccupation}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Annual Income"
+                  name="fatherIncome"
+                  value={formData.fatherIncome}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Mobile Number"
+                  name="fatherPhone"
+                  value={formData.fatherPhone}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Aadhar Number"
+                  name="fatherAadhar"
+                  value={formData.fatherAadhar}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="Student-Admission-Right">
+              <PhotoUploadBox
+                name="fatherPhoto"
+                onFileChange={handleFileChange}
+                existingImage={formData.fatherPhoto}
+              />
+            </div>
+          </div>
+
+          {/* ================= MOTHER ================= */}
+
+          <h3 className="Student-Admission-SectionTitle">Mother Details</h3>
+
+          <div className="Student-Admission-FormGrid">
+            <div className="Student-Admission-Left">
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Mother Name"
+                  name="motherName"
+                  value={formData.motherName}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Qualification"
+                  name="motherQualification"
+                  value={formData.motherQualification}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Occupation"
+                  name="motherOccupation"
+                  value={formData.motherOccupation}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="Student-Admission-Row">
+                <FormInput
+                  label="Annual Income"
+                  name="motherIncome"
+                  value={formData.motherIncome}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Mobile Number"
+                  name="motherPhone"
+                  value={formData.motherPhone}
+                  onChange={handleChange}
+                />
+
+                <FormInput
+                  label="Aadhar Number"
+                  name="motherAadhar"
+                  value={formData.motherAadhar}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="Student-Admission-Right">
+              <PhotoUploadBox
+                name="motherPhoto"
+                onFileChange={handleFileChange}
+                existingImage={formData.motherPhoto}
+              />
+            </div>
+          </div>
+
+          {/* ================= ADDRESS DETAILS ================= */}
+
+          <h3 className="Student-Admission-SectionTitle">Address Details</h3>
+
+          <div className="Student-Admission-Row">
+            <FormTextarea
+              label="Residential Address"
+              name="currentAddress"
+              value={formData.currentAddress}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="Student-Admission-Row">
+            <FormInput
+              label="District"
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
             />
 
-          </td>
+            <FormInput
+              label="Pin Code"
+              name="pinCode"
+              value={formData.pinCode}
+              onChange={handleChange}
+            />
 
-        </tr>
+            <FormInput
+              label="WhatsApp Number"
+              name="whatsappNo"
+              value={formData.whatsappNo}
+              onChange={handleChange}
+            />
+          </div>
 
-      ))}
+          <div className="Student-Admission-Row">
+            <FormSelect
+              label="School Transportation"
+              name="transportRequired"
+              value={formData.transportRequired}
+              options={["Yes", "No"]}
+              onChange={handleChange}
+            />
 
-    </tbody>
+            <FormInput
+              label="Area"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+            />
 
-  </table>
+            <div></div>
+          </div>
+        </AccordionSection>
 
-</AccordionSection>
+        {/* ================= UPLOAD DOCUMENTS ================= */}
+        <AccordionSection title="Upload Documents">
+          <table className="Student-Admission-DocumentTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Document Name</th>
+                <th>Upload / View File</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {[
+                {
+                  label: "Student Passport Photo",
+                  field: "studentPhoto",
+                },
+
+                {
+                  label: "Father Passport Photo",
+                  field: "fatherPhoto",
+                },
+
+                {
+                  label: "Mother Passport Photo",
+                  field: "motherPhoto",
+                },
+
+                {
+                  label: "Student Aadhaar Card",
+                  field: "studentAadhar",
+                },
+
+                {
+                  label: "Father Aadhaar Card",
+                  field: "fatherAadhar",
+                },
+
+                {
+                  label: "Mother Aadhaar Card",
+                  field: "motherAadhar",
+                },
+
+                {
+                  label: "Samagra ID",
+                  field: "samagraIdDoc",
+                },
+
+                {
+                  label: "Birth Certificate",
+                  field: "birthCertificate",
+                },
+
+                {
+                  label: "Transfer Certificate (TC)",
+                  field: "tcCertificate",
+                },
+
+                {
+                  label: "Previous School Marksheet",
+                  field: "previousMarksheet",
+                },
+
+                {
+                  label: "Bank Passbook",
+                  field: "bankPassbook",
+                },
+
+                {
+                  label: "Income Certificate",
+                  field: "incomeCertificate",
+                },
+              ].map((item, index) => (
+                <tr key={item.field}>
+                  <td>{index + 1}</td>
+
+                  <td className="Student-Admission-DocName">{item.label}</td>
+
+                  <td className="Student-Admission-DocumentCell">
+                    <DocumentUpload
+                      name={item.field}
+                      existingFile={(formData.documents || {})[item.field]}
+                      onFileChange={handleFileChange}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </AccordionSection>
 
         {/* SUBMIT */}
         <div className="Student-Admission-SubmitWrapper">
