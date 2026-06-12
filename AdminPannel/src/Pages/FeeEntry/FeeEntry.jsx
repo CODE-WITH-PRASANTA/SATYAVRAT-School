@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import API from '../../Api/axios';
 import './FeeEntry.css';
 
 const FeeEntry = () => {
   // UI Toggle States
-  const [isReceiptsDropdownOpen, setIsReceiptsDropdownOpen] = useState(false);
   const [isStatementModalOpen, setIsStatementModalOpen] = useState(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isAcClosingModalOpen, setIsAcClosingModalOpen] = useState(false);
+
+  // Student Search State
+  const [studentQuery, setStudentQuery] = useState('');
+  const [studentSuggestions, setStudentSuggestions] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [searchError, setSearchError] = useState('');
 
   // Form Value States
   const [entryDate, setEntryDate] = useState('2026-06-08');
   const [closingDate, setClosingDate] = useState('2026-06-08');
   const [narrationText, setNarrationText] = useState('');
+  const [receiptNo, setReceiptNo] = useState('');
+  const [paymentMode, setPaymentMode] = useState('Cash');
+  const [feeType, setFeeType] = useState('All');
+  const [feeHeads, setFeeHeads] = useState([]);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [advanceAmount, setAdvanceAmount] = useState(0);
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [remark, setRemark] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
+  const [saveError, setSaveError] = useState('');
+  const [feeStructureLoading, setFeeStructureLoading] = useState(false);
 
   // Column visibility checklist state for the Fee Statement modal
   const [visibleColumns, setVisibleColumns] = useState({
@@ -36,10 +53,132 @@ const FeeEntry = () => {
     }));
   };
 
-  const handleAcClosingSubmit = (e) => {
+  const grossAmount = feeHeads.reduce((sum, row) => sum + Number(row.amount || 0), 0);
+  const totalPayable = grossAmount - Number(discountAmount || 0) + Number(advanceAmount || 0);
+  const dueAmount = totalPayable - Number(paidAmount || 0);
+
+  useEffect(() => {
+    if (!selectedStudent?.class) {
+      setFeeHeads([]);
+      return;
+    }
+
+    const loadFeeStructure = async () => {
+      setFeeStructureLoading(true);
+      try {
+        const response = await API.get(`/fee-structure/all?search=${encodeURIComponent(selectedStudent.class)}`);
+        if (response.data?.success && response.data?.data?.length > 0) {
+          const structure = response.data.data[0];
+          const items = structure.feeItems?.map((item) => ({
+            feeHeadId: item.feeHead?._id || item.feeHead,
+            feeHeadName: typeof item.feeHead === 'object' ? (item.feeHead?.feeHeadName || 'Unknown') : 'Unknown',
+            amount: item.total && item.total > 0 ? item.total : (item.amounts ? Object.values(item.amounts).reduce((a, b) => a + b, 0) : 0),
+          })) || [];
+          setFeeHeads(items.length > 0 ? items : []);
+        } else {
+          setFeeHeads([]);
+        }
+      } catch (error) {
+        console.error('Error loading fee structure:', error);
+        setFeeHeads([]);
+      } finally {
+        setFeeStructureLoading(false);
+      }
+    };
+
+    loadFeeStructure();
+  }, [selectedStudent]);
+
+  const getPremiumBadge = (student) => {
+    const premiumMatch = student?.category?.toLowerCase() === 'premium' ||
+      student?.feeGroup?.toLowerCase?.()?.includes('premium');
+    return premiumMatch;
+  };
+
+  const handleSearchChange = async (value) => {
+    setStudentQuery(value);
+    setSaveMessage('');
+    setSaveError('');
+
+    if (!value || value.length < 2) {
+      setStudentSuggestions([]);
+      return;
+    }
+
+    try {
+      const response = await API.get(`/students/search/list?q=${encodeURIComponent(value)}`);
+      setStudentSuggestions(response.data);
+      setSearchError('');
+    } catch (error) {
+      setSearchError('Unable to fetch students.');
+      setStudentSuggestions([]);
+    }
+  };
+
+  const handleSelectStudent = (student) => {
+    setSelectedStudent(student);
+    setStudentQuery(`${student.studentName || ''} (${student.admissionNo || ''})`);
+    setStudentSuggestions([]);
+  };
+
+  const handleFeeHeadChange = (index, field, value) => {
+    const list = [...feeHeads];
+    list[index][field] = field === 'amount' ? Number(value || 0) : value;
+    setFeeHeads(list);
+  };
+
+  const handleRemoveFeeHead = (index) => {
+    const list = feeHeads.filter((_, idx) => idx !== index);
+    setFeeHeads(list);
+  };
+
+  const handleSaveFeeEntry = async (e) => {
     e.preventDefault();
-    console.log("A/C Closing Submitted:", { date: closingDate, narration: narrationText });
-    setIsAcClosingModalOpen(false);
+    setSaveMessage('');
+    setSaveError('');
+
+    if (!selectedStudent?._id) {
+      setSaveError('Select a student before saving.');
+      return;
+    }
+
+    if (!paymentMode) {
+      setSaveError('Choose a payment mode.');
+      return;
+    }
+
+    try {
+      const payload = {
+        studentId: selectedStudent._id,
+        entryDate,
+        receiptNo,
+        paymentMode,
+        feeHeads,
+        discountAmount: Number(discountAmount || 0),
+        advanceAdjustment: Number(advanceAmount || 0),
+        paidAmount: Number(paidAmount || 0),
+        remark,
+        installmentMonth: '',
+      };
+
+      const response = await API.post('/fee-entry/create', payload);
+      setSaveMessage(response.data.message || 'Fee entry saved successfully.');
+      setSaveError('');
+      setReceiptNo('');
+      setFeeHeads([]);
+      setDiscountAmount(0);
+      setAdvanceAmount(0);
+      setPaidAmount(0);
+      setRemark('');
+    } catch (error) {
+      setSaveError(error.response?.data?.message || 'Failed to save fee entry.');
+    }
+  };
+
+  const handleClearSelection = () => {
+    setSelectedStudent(null);
+    setStudentQuery('');
+    setStudentSuggestions([]);
   };
 
   return (
@@ -48,40 +187,98 @@ const FeeEntry = () => {
       <div className="fee-entry-header-row">
         <div className="search-bar-wrapper">
           <span className="search-icon">🔍</span>
-          <input type="text" placeholder="Search" className="search-input" />
+          <input
+            type="text"
+            placeholder="Search student by name or admission no."
+            className="search-input"
+            value={studentQuery}
+            onChange={(e) => handleSearchChange(e.target.value)}
+          />
+          {studentSuggestions.length > 0 && (
+            <div className="suggestions-dropdown">
+              {studentSuggestions.map((student) => (
+                <button
+                  type="button"
+                  key={student._id}
+                  className={`suggestion-item ${getPremiumBadge(student) ? 'suggestion-premium' : 'suggestion-standard'}`}
+                  onClick={() => handleSelectStudent(student)}
+                  title={`${student.studentName} - Adm: ${student.admissionNo} - Class: ${student.class}`}
+                >
+                  <div className="suggestion-label">
+                    <div className="suggestion-name">{student.studentName || 'Unnamed'}</div>
+                    <div className="suggestion-meta">Adm: {student.admissionNo || '-'} | Class: {student.class || '-'}</div>
+                  </div>
+                  {getPremiumBadge(student) && <span className="suggestion-badge">★ PREMIUM</span>}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-        <button className="btn-ac-open" onClick={() => setIsAcClosingModalOpen(true)}>
-          A/C Open
-        </button>
+        <div className="search-actions-group">
+          {selectedStudent && (
+            <button className="btn-clear-selection" type="button" onClick={handleClearSelection}>
+              Clear Student
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* Main Form Split Layout */}
-      <div className="fee-entry-main-grid">
+      {searchError && <div className="search-error">{searchError}</div>}
+
+      {/* Main Form Split Layout */}      <div className="fee-entry-main-grid">
         {/* Left Side: Student Info Profile Card */}
         <div className="student-profile-card">
           <div className="student-info-list">
-            <div className="info-item"><strong>Enroll No. :</strong></div>
-            <div className="info-item"><strong>Sr. No. :</strong></div>
-            <div className="info-item"><strong>Adm. No. :</strong></div>
-            <div className="info-item"><strong>Name :</strong></div>
-            <div className="info-item"><strong>Class :</strong></div>
-            <div className="info-item"><strong>Father's Name :</strong></div>
-            <div className="info-item"><strong>Mother's Name :</strong></div>
-            <div className="info-item"><strong>Mobile No. :</strong></div>
-            <div className="info-item"><strong>Address :</strong></div>
-            <div className="info-item"><strong>Document Remark :</strong></div>
-            <div className="info-item"><strong>General Remark :</strong></div>
+            <div className="info-item">
+              <strong>Enroll No. :</strong> <span>{selectedStudent?.admissionNo || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Sr. No. :</strong> <span>{selectedStudent?.srNo || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Adm. No. :</strong> <span>{selectedStudent?.admissionNo || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Name :</strong> <span>{selectedStudent?.studentName || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Class :</strong> <span>{selectedStudent?.class || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Father's Name :</strong> <span>{selectedStudent?.fatherName || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Mother's Name :</strong> <span>{selectedStudent?.motherName || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Mobile No. :</strong> <span>{selectedStudent?.mobile || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Address :</strong> <span>{selectedStudent?.currentAddress || '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>Document Remark :</strong> <span>{selectedStudent ? 'Verified' : '-'}</span>
+            </div>
+            <div className="info-item">
+              <strong>General Remark :</strong> <span>{selectedStudent ? 'Ready to collect fee' : '-'}</span>
+            </div>
           </div>
 
           <div className="student-avatar-column">
             <div className="avatar-placeholder">
               <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM4.68 11.16L12 15.16l7.32-4V15c0 .4-.14.79-.4 1.09l-5.45 6.05c-.38.42-1.03.42-1.41 0L6.6 16.09c-.26-.3-.4-.69-.4-1.09v-3.84z"/>
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM4.68 11.16L12 15.16l7.32-4V15c0 .4-.14.79-.4 1.09l-5.45 6.05c-.38.42-1.03.42-1.41 0L6.6 16.09c-.26-.3-.4-.69-.4-1.09v-3.84z" />
               </svg>
             </div>
-            <div className="avatar-meta-item"><strong>Stu Type :</strong> </div>
-            <div className="avatar-meta-item"><strong>Fee Type :</strong> </div>
-            <div className="avatar-meta-item"><strong>Transport Status :</strong> </div>
+            <div className="avatar-meta-item">
+              <strong>Stu Type :</strong> <span>{selectedStudent?.category || 'N/A'}</span>
+            </div>
+            <div className="avatar-meta-item">
+              <strong>Fee Type :</strong> <span>{feeType}</span>
+            </div>
+            <div className="avatar-meta-item">
+              <strong>Transport Status :</strong> <span>{selectedStudent?.routeList ? 'Has Transport' : 'None'}</span>
+            </div>
           </div>
         </div>
 
@@ -90,7 +287,7 @@ const FeeEntry = () => {
           <div className="form-row">
             <div className="form-group floating-label-group">
               <label>Fee Type</label>
-              <select defaultValue="All" className="form-select">
+              <select value={feeType} className="form-select" onChange={(e) => setFeeType(e.target.value)}>
                 <option value="All">All</option>
                 <option value="Academic">Academic Fee</option>
                 <option value="Transport">Transport Fee</option>
@@ -100,22 +297,31 @@ const FeeEntry = () => {
             </div>
             <div className="form-group floating-label-group">
               <label>Choose a date*</label>
-              <input 
-                type="date" 
-                value={entryDate} 
-                onChange={(e) => setEntryDate(e.target.value)} 
-                className="form-input custom-date-picker" 
+              <input
+                type="date"
+                value={entryDate}
+                onChange={(e) => setEntryDate(e.target.value)}
+                className="form-input custom-date-picker"
               />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <input type="text" placeholder="Receipt No." className="form-input" />
+              <input
+                type="text"
+                placeholder="Receipt No."
+                className="form-input"
+                value={receiptNo}
+                onChange={(e) => setReceiptNo(e.target.value)}
+              />
             </div>
             <div className="form-group">
-              <select defaultValue="" className="form-select required-select">
-                <option value="" disabled hidden>Pay Mode*</option>
+              <select
+                value={paymentMode}
+                className="form-select required-select"
+                onChange={(e) => setPaymentMode(e.target.value)}
+              >
                 <option value="Cash">Cash</option>
                 <option value="Online">Online Pay</option>
                 <option value="Cheque">Cheque</option>
@@ -128,111 +334,158 @@ const FeeEntry = () => {
       </div>
 
       {/* Advanced Amount & Installment Checkboxes Layout Row */}
-      <div className="billing-modifiers-row">
-        <div className="adv-amount-fieldset">
-          <span className="fieldset-label">Adv. Amount</span>
-          <input type="checkbox" className="custom-checkbox" />
-        </div>
-        <div className="installment-months-wrapper">
-          <span className="installment-label">Installment Months</span>
-          <input type="checkbox" className="custom-checkbox" />
-        </div>
+      {/* Installment + Head Wise Fees Layout */}
+<div className="fee-panels-row">
+
+  {/* Left Installment Card */}
+  <div className="installment-card">
+
+    <div className="installment-card-title">
+      Installment Months
+    </div>
+
+    <div className="installment-top-check">
+      <input type="checkbox" />
+    </div>
+
+    <div className="installment-grid">
+
+      {[
+        "Apr",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+      ].map((month) => (
+        <label key={month} className="month-item">
+          <input type="checkbox" />
+          <span>{month}</span>
+        </label>
+      ))}
+
+    </div>
+  </div>
+
+  {/* Right Fees Card */}
+  <div className="fees-card">
+
+    <div className="accordion-header-bar">
+      <span className="accordion-title-text">Fee Details</span>
+      <div className="accordion-action-buttons-group">
+        <button className="btn-show-receipts" type="button" onClick={() => setIsStatementModalOpen(true)}>
+          Show Receipts
+        </button>
       </div>
+    </div>
 
-      {/* Accordion List Table Section Container */}
-      <div className="accordion-section-container">
-        <div className="accordion-header-bar">
-          <span className="accordion-title-text">Head Wise Fees</span>
-          <div className="accordion-action-buttons-group">
-            <button 
-              className="btn-show-receipts" 
-              onClick={() => setIsReceiptsDropdownOpen(!isReceiptsDropdownOpen)}
-            >
-              Show Receipts
-            </button>
-            <button 
-              className={`btn-accordion-toggle ${isReceiptsDropdownOpen ? 'rotated' : ''}`}
-              onClick={() => setIsReceiptsDropdownOpen(!isReceiptsDropdownOpen)}
-            >
-              ▼
-            </button>
-
-            {isReceiptsDropdownOpen && (
-              <div className="receipts-dropdown-menu">
-                <div className="dropdown-menu-item" onClick={() => { setIsStatementModalOpen(true); setIsReceiptsDropdownOpen(false); }}>
-                  📄 View Fee Statement
-                </div>
-                <div className="dropdown-menu-item" onClick={() => setIsReceiptsDropdownOpen(false)}>
-                  🖨️ Print Last Receipt
-                </div>
-                <div className="dropdown-menu-item" onClick={() => setIsReceiptsDropdownOpen(false)}>
-                  🔄 Sync Pending Dues
-                </div>
-              </div>
+    <div className="accordion-collapsible-panel">
+      <div className="table-responsive-container">
+        <table className="head-wise-fees-table">
+          <thead>
+            <tr>
+              <th>FEE HEAD</th>
+              <th>AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody>
+            {feeStructureLoading && (
+              <tr>
+                <td colSpan="2" style={{ textAlign: 'center', padding: '20px' }}>Loading fee structure...</td>
+              </tr>
             )}
-          </div>
-        </div>
-
-        <div className="accordion-collapsible-panel">
-          <div className="table-responsive-container">
-            <table className="head-wise-fees-table">
-              <thead>
-                <tr>
-                  <th className="table-header-checkbox-cell">
-                    <input type="checkbox" defaultChecked className="table-red-checkbox" />
-                  </th>
-                  <th>HEAD</th>
-                  <th>AMT.</th>
-                  <th>CONC.</th>
-                  <th>PAYABLE</th>
-                </tr>
-              </thead>
-              <tbody>
+            {!feeStructureLoading && feeHeads.length > 0 ? (
+              <>
+                {feeHeads.map((row, index) => (
+                  <tr key={`${row.feeHeadId}-${index}`}>
+                    <td>{row.feeHeadName}</td>
+                    <td style={{ textAlign: 'center' }}>
+                      <span>₹{Number(row.amount || 0).toFixed(2)}</span>
+                    </td>
+                  </tr>
+                ))}
                 <tr className="table-summary-row">
-                  <td></td>
                   <td><strong>Total</strong></td>
-                  <td><strong>0</strong></td>
-                  <td><strong>0</strong></td>
-                  <td><strong>0</strong></td>
+                  <td style={{ textAlign: 'center' }}><strong>₹{grossAmount.toFixed(2)}</strong></td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+              </>
+            ) : (
+              <tr>
+                <td colSpan="2" style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
+                  Select a student to view fee structure
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
+    </div>
+
+  </div>
+
+</div>
 
       {/* Calculation Form Summary Fields Row */}
       <div className="calculation-summary-dashboard-grid">
         <div className="calc-group-field">
           <label>Grand Total</label>
-          <input type="text" value="0" readOnly className="calc-input-box" />
+          <input type="text" value={grossAmount.toFixed(2)} readOnly className="calc-input-box" />
         </div>
         <div className="calc-group-field">
           <label>Advance Paid</label>
-          <input type="text" value="0" readOnly className="calc-input-box" />
+          <input type="number" value={advanceAmount} onChange={(e) => setAdvanceAmount(Number(e.target.value || 0))} className="calc-input-box" />
         </div>
         <div className="calc-group-field simple-placeholder-field">
-          <input type="text" placeholder="Discount" className="calc-input-box" />
+          <input
+            type="number"
+            placeholder="Discount"
+            value={discountAmount}
+            onChange={(e) => setDiscountAmount(Number(e.target.value || 0))}
+            className="calc-input-box"
+          />
         </div>
         <div className="calc-group-field">
-          <label>Payable Amou</label>
-          <input type="text" value="0" readOnly className="calc-input-box" />
+          <label>Payable Amount</label>
+          <input type="text" value={totalPayable.toFixed(2)} readOnly className="calc-input-box" />
         </div>
         <div className="calc-group-field">
           <label>Total Paid*</label>
-          <input type="text" value="0" className="calc-input-box required-border" />
+          <input
+            type="number"
+            value={paidAmount}
+            onChange={(e) => setPaidAmount(Number(e.target.value || 0))}
+            className="calc-input-box required-border"
+          />
         </div>
         <div className="calc-group-field">
           <label>Due Amount</label>
-          <input type="text" value="0" readOnly className="calc-input-box" />
+          <input type="text" value={dueAmount.toFixed(2)} readOnly className="calc-input-box" />
         </div>
       </div>
 
       {/* Action Footer Buttons Submit Bar */}
       <div className="form-action-footer-bar">
-        <input type="text" placeholder="Receipt Remark" className="receipt-remark-input" />
-        <button className="btn-save-form">Save</button>
+        <input
+          type="text"
+          placeholder="Receipt Remark"
+          className="receipt-remark-input"
+          value={remark}
+          onChange={(e) => setRemark(e.target.value)}
+        />
+        <button className="btn-save-form" type="button" onClick={handleSaveFeeEntry}>
+          Save
+        </button>
       </div>
+      {(saveMessage || saveError) && (
+        <div className={`save-status ${saveError ? 'error' : 'success'}`}>
+          {saveError || saveMessage}
+        </div>
+      )}
 
       {/* POPUP 1: Fee Statement Modal Overlay */}
       {isStatementModalOpen && (
@@ -288,11 +541,31 @@ const FeeEntry = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="empty-table-placeholder-row">
-                    <td colSpan="14" style={{ textAlign: 'center', padding: '30px', color: '#999' }}>
-                      No data records available
-                    </td>
-                  </tr>
+                  {feeHeads.length > 0 ? (
+                    feeHeads.map((row, index) => (
+                      <tr key={`${row.feeHeadName}-${index}`}>
+                        <td>{index + 1}</td>
+                        {visibleColumns.recNo && <td>{receiptNo || 'N/A'}</td>}
+                        {visibleColumns.recDate && <td>{entryDate || 'N/A'}</td>}
+                        {visibleColumns.createdDate && <td>{new Date().toLocaleDateString()}</td>}
+                        {visibleColumns.period && <td>{feeType}</td>}
+                        {visibleColumns.payMode && <td>{paymentMode}</td>}
+                        {visibleColumns.grossAmt && <td>{row.amount}</td>}
+                        {visibleColumns.discAmt && <td>{discountAmount}</td>}
+                        {visibleColumns.remark && <td>{remark || '-'}</td>}
+                        {visibleColumns.tPayableAmt && <td>{totalPayable}</td>}
+                        {visibleColumns.paidAmt && <td>{paidAmount}</td>}
+                        {visibleColumns.dueAmt && <td>{dueAmount}</td>}
+                        {visibleColumns.advAmt && <td>{advanceAmount}</td>}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="empty-table-placeholder-row">
+                      <td colSpan="14" style={{ textAlign: 'center', padding: '30px', color: '#999' }}>
+                        No data records available
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

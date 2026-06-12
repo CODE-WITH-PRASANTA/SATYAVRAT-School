@@ -6,7 +6,7 @@ import "./FeeStructure.css";
 
 // Master Reference Dropdown Configurations
 const STRUCTURE_TYPES = ["Monthly", "Quarterly", "Half-Yearly", "Annually"];
-const CLASSES = ["N.C.", "L.K.G.", "U.K.G.", "1st", "2nd", "3rd", "6th"];
+const CLASSES = ["LKG","UKG","1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th",];
 const STREAMS = [
   "None",
   "Humanities",
