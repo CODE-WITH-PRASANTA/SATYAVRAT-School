@@ -3,7 +3,7 @@ import './FeeEntry.css';
 
 const FeeEntry = () => {
   // UI Toggle States
-  const [isReceiptsDropdownOpen, setIsReceiptsDropdownOpen] = useState(false);
+ 
   const [isStatementModalOpen, setIsStatementModalOpen] = useState(false);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [isAcClosingModalOpen, setIsAcClosingModalOpen] = useState(false);
@@ -128,78 +128,111 @@ const FeeEntry = () => {
       </div>
 
       {/* Advanced Amount & Installment Checkboxes Layout Row */}
-      <div className="billing-modifiers-row">
-        <div className="adv-amount-fieldset">
-          <span className="fieldset-label">Adv. Amount</span>
-          <input type="checkbox" className="custom-checkbox" />
-        </div>
-        <div className="installment-months-wrapper">
-          <span className="installment-label">Installment Months</span>
-          <input type="checkbox" className="custom-checkbox" />
-        </div>
+      {/* Installment + Head Wise Fees Layout */}
+<div className="fee-panels-row">
+
+  {/* Left Installment Card */}
+  <div className="installment-card">
+
+    <div className="installment-card-title">
+      Installment Months
+    </div>
+
+    <div className="installment-top-check">
+      <input type="checkbox" />
+    </div>
+
+    <div className="installment-grid">
+
+      {[
+        "Apr",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+      ].map((month) => (
+        <label key={month} className="month-item">
+          <input type="checkbox" />
+          <span>{month}</span>
+        </label>
+      ))}
+
+    </div>
+  </div>
+
+  {/* Right Fees Card */}
+  <div className="fees-card">
+
+    <div className="accordion-header-bar">
+      <span className="accordion-title-text">
+        Head Wise Fees
+      </span>
+
+      <div className="accordion-action-buttons-group">
+
+      <button
+  className="btn-show-receipts"
+  onClick={() => setIsStatementModalOpen(true)}
+>
+  Show Receipts
+</button>
+        
+
+        
       </div>
+    </div>
 
-      {/* Accordion List Table Section Container */}
-      <div className="accordion-section-container">
-        <div className="accordion-header-bar">
-          <span className="accordion-title-text">Head Wise Fees</span>
-          <div className="accordion-action-buttons-group">
-            <button 
-              className="btn-show-receipts" 
-              onClick={() => setIsReceiptsDropdownOpen(!isReceiptsDropdownOpen)}
-            >
-              Show Receipts
-            </button>
-            <button 
-              className={`btn-accordion-toggle ${isReceiptsDropdownOpen ? 'rotated' : ''}`}
-              onClick={() => setIsReceiptsDropdownOpen(!isReceiptsDropdownOpen)}
-            >
-              ▼
-            </button>
+    <div className="accordion-collapsible-panel">
+      <div className="table-responsive-container">
+        <table className="head-wise-fees-table">
+          <thead>
+            <tr>
+              <th className="table-header-checkbox-cell">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="table-red-checkbox"
+                />
+              </th>
+              <th>HEAD</th>
+              <th>AMT.</th>
+              <th>CONC.</th>
+              <th>PAYABLE</th>
+            </tr>
+          </thead>
 
-            {isReceiptsDropdownOpen && (
-              <div className="receipts-dropdown-menu">
-                <div className="dropdown-menu-item" onClick={() => { setIsStatementModalOpen(true); setIsReceiptsDropdownOpen(false); }}>
-                  📄 View Fee Statement
-                </div>
-                <div className="dropdown-menu-item" onClick={() => setIsReceiptsDropdownOpen(false)}>
-                  🖨️ Print Last Receipt
-                </div>
-                <div className="dropdown-menu-item" onClick={() => setIsReceiptsDropdownOpen(false)}>
-                  🔄 Sync Pending Dues
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="accordion-collapsible-panel">
-          <div className="table-responsive-container">
-            <table className="head-wise-fees-table">
-              <thead>
-                <tr>
-                  <th className="table-header-checkbox-cell">
-                    <input type="checkbox" defaultChecked className="table-red-checkbox" />
-                  </th>
-                  <th>HEAD</th>
-                  <th>AMT.</th>
-                  <th>CONC.</th>
-                  <th>PAYABLE</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="table-summary-row">
-                  <td></td>
-                  <td><strong>Total</strong></td>
-                  <td><strong>0</strong></td>
-                  <td><strong>0</strong></td>
-                  <td><strong>0</strong></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          <tbody>
+            <tr className="table-summary-row">
+              <td></td>
+              <td>
+                <strong>Total</strong>
+              </td>
+              <td>
+                <strong>0</strong>
+              </td>
+              <td>
+                <strong>0</strong>
+              </td>
+              <td>
+                <strong>0</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+    </div>
+
+  </div>
+
+</div>
+
+     
 
       {/* Calculation Form Summary Fields Row */}
       <div className="calculation-summary-dashboard-grid">
