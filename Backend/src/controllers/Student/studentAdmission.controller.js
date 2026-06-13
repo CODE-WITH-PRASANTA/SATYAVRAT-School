@@ -128,7 +128,7 @@ exports.searchStudents = async (req, res) => {
     const students = await Student.find({
       $or: [
         {
-          firstName: {
+          studentName: {
             $regex: q,
             $options: "i",
           },
@@ -145,25 +145,20 @@ exports.searchStudents = async (req, res) => {
         `
         _id
         admissionNo
-        firstName
-        lastName
+        studentName
         class
-
+        section
         studentPhoto
-
         fatherName
-        fatherMobile
+        fatherPhone
         fatherPhoto
-
         motherName
-        motherMobile
+        motherPhone
         motherPhoto
-
         guardianName
-        guardianMobile
+        guardianPhone
         guardianPhoto
-
-        address
+        currentAddress
       `,
       )
       .limit(20);

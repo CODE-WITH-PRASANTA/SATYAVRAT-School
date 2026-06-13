@@ -1,41 +1,38 @@
 import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-
 import {
- FaHome,
+  FaHome,
   FaNewspaper,
   FaImages,
-  FaChalkboardTeacher,
   FaUserTie,
-  FaCommentDots,
-  FaChevronDown,
+  FaComments,
   FaMoneyBillWave,
   FaUserGraduate,
   FaClipboardList,
   FaQuoteLeft,
-  FaComments,
-  FaBook,
   FaBullhorn,
+  FaBook,
+  FaUserPlus,
+  FaUsers,
+  FaWallet,
+  FaTags,
   FaRupeeSign,
   FaLayerGroup,
   FaListAlt,
   FaPercentage,
-  FaExclamationCircle,
   FaSitemap,
-  FaEdit,
   FaHandHoldingUsd,
   FaMoneyCheckAlt,
-  FaUsers,
   FaBan,
+  FaDatabase,
+  FaEdit,
+  FaChalkboardTeacher,
+  FaChevronDown, // ADD THIS
 } from "react-icons/fa";
 
 import {
-  FiEdit,
-  FiLayers,
-  FiBriefcase,
-  FiCreditCard,
-  FiCheckSquare,
-  FiBookOpen,
+  FiCheckSquare, // ADD THIS
+  FiCreditCard, // ADD THIS
 } from "react-icons/fi";
 
 import "./Sidebar.css";
@@ -67,279 +64,207 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     }
   };
 
-  const menu = [
+ const menu = [
+  {
+    name: "Dashboard",
+    path: "/",
+    icon: <FaHome />,
+  },
 
-    {
-      name: "Dashboard",
-      path: "/",
-      icon: <FaHome />,
-    },
+  {
+    name: "Lead Management",
+    path: "/admin/cold-lead",
+    icon: <FaUserPlus />,
+  },
 
-    {
-      name: "Cold Lead",
-      path: "/admin/cold-lead",
-      icon: <FaChalkboardTeacher />,
-    },
+  {
+    name: "Lead Records",
+    path: "/admin/cold-lead-table",
+    icon: <FaDatabase />,
+  },
 
-    {
-      name: "Cold Lead Table",
-      path: "/admin/cold-lead-table",
-      icon: <FaChalkboardTeacher />,
-    },
+  {
+    name: "News & Updates",
+    icon: <FaNewspaper />,
+    submenu: [
+      {
+        name: "Publish News",
+        path: "/admin/newsposting",
+        icon: <FaEdit />,
+      },
+      {
+        name: "Manage Comments",
+        path: "/admin/comment-management",
+        icon: <FaComments />,
+      },
+    ],
+  },
 
-    {
-      name: "News Management",
-      icon: <FaNewspaper />,
+  {
+    name: "Faculty Management",
+    path: "/admin/teacherposting",
+    icon: <FaChalkboardTeacher />,
+  },
 
-      submenu: [
-        {
-          name: "News Posting",
-          path: "/admin/newsposting",
-          icon: <FaNewspaper />,
-        },
+  {
+    name: "Testimonials",
+    path: "/admin/testimonial",
+    icon: <FaQuoteLeft />,
+  },
 
-        {
-          name: "Comment Management",
-          path: "/admin/comment-management",
-          icon: <FaComments />,
-        },
-      ],
-    },
+  {
+    name: "Media Gallery",
+    path: "/admin/gallery",
+    icon: <FaImages />,
+  },
 
-    {
-      name: "Teacher Posting",
-      path: "/admin/teacherposting",
-      icon: <FaChalkboardTeacher />,
-    },
+  {
+    name: "Advertisements",
+    path: "/admin/advites",
+    icon: <FaBullhorn />,
+  },
 
-    {
-      name: "Testimonial",
-      path: "/admin/testimonial",
-      icon: <FaQuoteLeft />,
-    },
+  {
+    name: "Admissions",
+    path: "/admin/Admission-Table",
+    icon: <FaUserGraduate />,
+  },
 
-    {
-      name: "Gallery Posting",
-      path: "/admin/gallery",
-      icon: <FaImages />,
-    },
+  {
+    name: "Class Management",
+    path: "/class/post",
+    icon: <FaBook />,
+  },
 
-    {
-      name: "Advertise Form",
-      path: "/admin/advites",
-      icon: <FaBullhorn />,
-    },
+  {
+    type: "section",
+    label: "ERP MODULES",
+  },
 
-    {
-      name: "Admission Table",
-      path: "/admin/Admission-Table",
-      icon: <FaImages />,
-    },
+  {
+    name: "Student",
+    icon: <FaUserGraduate />,
+    submenu: [
+      {
+        name: "New Admission",
+        path: "/student/admission",
+        icon: <FaUserPlus />,
+      },
+      {
+        name: "Student Directory",
+        path: "/student/admission/details",
+        icon: <FaUsers />,
+      },
+    ],
+  },
 
-    {
-      name: "Class Post",
-      path: "/class/post",
-      icon: <FaBook />,
-    },
+  {
+    name: "Fee Collection",
+    icon: <FaWallet />,
+    submenu: [
+      {
+        name: "Collect Fees",
+        path: "/fee-collect",
+        icon: <FaMoneyBillWave />,
+      },
+      {
+        name: "Wallet",
+        path: "/wallet",
+        icon: <FaWallet />,
+      },
+      {
+        name: "Fee Types",
+        path: "/fee-type",
+        icon: <FaTags />,
+      },
+    ],
+  },
 
-    {
-      type: "section",
-      label: "ERP Solution",
-    },
+  {
+    name: "Fee Configuration",
+    icon: <FaRupeeSign />,
+    submenu: [
+      {
+        name: "Fee Groups",
+        path: "/fee-group",
+        icon: <FaLayerGroup />,
+      },
+      {
+        name: "Fee Heads",
+        path: "/fee-head",
+        icon: <FaListAlt />,
+      },
+      {
+        name: "Concession Categories",
+        path: "/concession-category",
+        icon: <FaPercentage />,
+      },
+      {
+        name: "Fee Structure",
+        path: "/fee-structure",
+        icon: <FaSitemap />,
+      },
+      {
+        name: "Fee Concessions",
+        path: "/fee-concession",
+        icon: <FaHandHoldingUsd />,
+      },
+      {
+        name: "Fee Entries",
+        path: "/fee-entry",
+        icon: <FaMoneyCheckAlt />,
+      },
+      {
+        name: "Cancelled Fees",
+        path: "/cancel-fee",
+        icon: <FaBan />,
+      },
+      {
+        name: "Board Fee Entry",
+        path: "/board-fee-manual-entry",
+        icon: <FaClipboardList />,
+      },
+    ],
+  },
 
-    {
-      name: "Student Hub",
-      icon: <FaUserGraduate />,
+  {
+    name: "Attendance",
+    icon: <FiCheckSquare />,
+    submenu: [
+      {
+        name: "Student Attendance",
+        path: "/attendance/student-attendance",
+      },
+      {
+        name: "Leave Management",
+        path: "/attendance/student-leave",
+      },
+      {
+        name: "Attendance Reports",
+        path: "/attendance/attendance-report",
+      },
+    ],
+  },
 
-      submenu: [
-        {
-          name: "Student Admission",
-          path: "/student/admission",
-          icon: <FaClipboardList />,
-        },
-
-        {
-          name: "Student Details",
-          path: "/student/admission/details",
-          icon: <FaUserTie />,
-        },
-      ],
-    },
-
-    {
-      name: "Student Paytrack",
-      icon: <FaCommentDots />,
-
-      submenu: [
-        {
-          name: "Fee Collect",
-          path: "/fee-collect",
-          icon: <FaMoneyBillWave />,
-        },
-
-        {
-          name: "Wallet",
-          path: "/wallet",
-          icon: <FaMoneyBillWave />,
-        },
-
-        {
-          name: "Fee Type",
-          path: "/fee-type",
-          icon: <FaMoneyBillWave />,
-        },
-      ],
-    },
-
-
-    {
-  name: "Fee",
-  icon: <FaRupeeSign />,
-  submenu: [
-    {
-      name: "Fee Group",
-      path: "/fee-group",
-      icon: <FaLayerGroup />,
-    },
-    {
-      name: "Fee Head",
-      path: "/fee-head",
-      icon: <FaListAlt />,
-    },
-    {
-      name: "Concession Category",
-      path: "/concession-category",
-      icon: <FaPercentage />,
-    },
-   
-    {
-      name: "Fee Structure",
-      path: "/fee-structure",
-      icon: <FaSitemap />,
-    },
-    {
-      name: "Fee Edit Manual",
-      path: "/fee-edit-manual",
-      icon: <FaEdit />,
-    },
-    {
-      name: "Fee Concession",
-      path: "/fee-concession",
-      icon: <FaHandHoldingUsd />,
-    },
-    {
-      name: "Fee Entry",
-      path: "/fee-entry",
-      icon: <FaMoneyCheckAlt />,
-    },
-    {
-      name: "Sibling Fee Entry",
-      path: "/sibling-fee-entry",
-      icon: <FaUsers />,
-    },
-    {
-      name: "Cancel Fee",
-      path: "/cancel-fee",
-      icon: <FaBan />,
-    },
-    {
-      name: "Board Fee Manual Entry",
-      path: "/board-fee-manual-entry",
-      icon: <FaClipboardList />,
-    },
-  ],
-},
-
-
-    {
-      name: "Class Management",
-      path: "/class-post",
-      icon: <FiBookOpen />,
-    },
-
-    {
-      name: "Subject Post",
-      path: "/subject-post",
-      icon: <FiEdit />,
-    },
-
-    {
-      name: "Classwise Subject",
-      path: "/classwise-subject",
-      icon: <FiLayers />,
-    },
-
-    {
-      name: "Exam Result Desk",
-      icon: <FiBriefcase />,
-
-      submenu: [
-        {
-          name: "Exam Result",
-          path: "/exam-result",
-        },
-
-        {
-          name: "Exam Score Manager",
-          path: "/exam-result-manager",
-        },
-
-        {
-          name: "Type of Exam Publish",
-          path: "/exam-type",
-        },
-
-        {
-          name: "Progress Report Card",
-          path: "/exam-report",
-        },
-      ],
-    },
-
-    {
-      name: "Attendance",
-      icon: <FiCheckSquare />,
-
-      submenu: [
-        {
-          name: "Student Attendance",
-          path: "/attendance/student-attendance",
-        },
-
-        {
-          name: "Student Leave",
-          path: "/attendance/student-leave",
-        },
-
-        {
-          name: "Attendance Report",
-          path: "/attendance/attendance-report",
-        },
-      ],
-    },
-
-    {
-      name: "Expense",
-      icon: <FiCreditCard />,
-
-      submenu: [
-        {
-          name: "Add Expense",
-          path: "/expense/details",
-        },
-
-        {
-          name: "Expense Search",
-          path: "/expense-search",
-        },
-
-        {
-          name: "Expense Head",
-          path: "/expense-head",
-        },
-      ],
-    },
-  ];
+  {
+    name: "Expense",
+    icon: <FiCreditCard />,
+    submenu: [
+      {
+        name: "Add Expense",
+        path: "/expense/details",
+      },
+      {
+        name: "Expense Search",
+        path: "/expense-search",
+      },
+      {
+        name: "Expense Categories",
+        path: "/expense-head",
+      },
+    ],
+  },
+];
 
   return (
     <>

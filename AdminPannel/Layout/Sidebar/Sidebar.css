@@ -9,8 +9,6 @@
 
 /* SIDEBAR */
 .admin-sidebar {
-  width: 272px;
-  min-width: 272px;
   height: 100vh;
   position: sticky;
   top: 0;
