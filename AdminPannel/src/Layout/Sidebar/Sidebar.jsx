@@ -134,10 +134,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       name: "fees Management",
       icon: <FaImages />,
       submenu: [
-<<<<<<< HEAD
-=======
        
->>>>>>> 04475c0c806d4c82fa3cdbb632ec33046a4e9c36
         { name: "Fee Group", path: "/admin/feegroup" },
         { name: "Fee Head", path: "/admin/feehead" },
         { name: "Fee Structure", path: "/admin/feestructure" },
@@ -168,23 +165,23 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       icon: FiEdit,
       path: "/subject-post",
     },
-    {
-      label: "Classwise Subject",
-      icon: FiLayers,
-      path: "/classwise-subject",
-    },
-    { type: "divider" },
+    // {
+    //   label: "Classwise Subject",
+    //   icon: FiLayers,
+    //   path: "/classwise-subject",
+    // },
+    // { type: "divider" },
 
-    {
-      label: "Exam Result Desk",
-      icon: FiBriefcase,
-      children: [
-        { label: "Exam Result", path: "/exam-result" },
-        { label: "Exam Score Manager", path: "/exam-result-manager" },
-        { label: "Type of Exam Publish", path: "/exam-type" },
-        { label: "Progress Report Card", path: "/exam-report" },
-      ],
-    },
+    // {
+    //   label: "Exam Result Desk",
+    //   icon: FiBriefcase,
+    //   children: [
+    //     { label: "Exam Result", path: "/exam-result" },
+    //     { label: "Exam Score Manager", path: "/exam-result-manager" },
+    //     { label: "Type of Exam Publish", path: "/exam-type" },
+    //     { label: "Progress Report Card", path: "/exam-report" },
+    //   ],
+    // },
     {
       label: "Attendance",
       icon: FiCheckSquare,
