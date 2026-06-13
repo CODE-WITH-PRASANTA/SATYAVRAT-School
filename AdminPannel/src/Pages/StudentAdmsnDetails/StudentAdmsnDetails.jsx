@@ -216,16 +216,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Aadhar Number" value={student.aadharNumber} />
             </Section>
 
-            <Section title="Custom Fields">
-              <Detail label="PEN" value={student.pen} />
-              <Detail label="SR No" value={student.srNo} />
-              <Detail label="APAAR ID" value={student.apaarId} />
-              <Detail
-                label="Student Behaviour"
-                value={student.studentBehaviour?.join(", ")}
-              />
-            </Section>
-
+           
             <Section title="Father Details">
               <Detail label="Father Name" value={student.fatherName} />
               <Detail label="Father Phone" value={student.fatherPhone} />
@@ -244,24 +235,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Occupation" value={student.motherOccupation} />
             </Section>
 
-            <Section title="Guardian Details">
-              <Detail label="Guardian Type" value={student.guardianType} />
-              <Detail label="Guardian Name" value={student.guardianName} />
-              <Detail
-                label="Guardian Relation"
-                value={student.guardianRelation}
-              />
-              <Detail label="Guardian Email" value={student.guardianEmail} />
-              <Detail label="Guardian Phone" value={student.guardianPhone} />
-              <Detail
-                label="Guardian Occupation"
-                value={student.guardianOccupation}
-              />
-              <Detail
-                label="Guardian Address"
-                value={student.guardianAddress}
-              />
-            </Section>
+            
 
             <Section title="Address">
               <Detail label="Current Address" value={student.currentAddress} />
@@ -291,12 +265,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Bus Stop" value={student.busStop} />
             </Section>
 
-            <Section title="Hostel Details">
-              <Detail label="Hostel Type" value={student.hostelType} />
-              <Detail label="Hostel Name" value={student.hostelName} />
-              <Detail label="Room Type" value={student.roomType} />
-              <Detail label="Room" value={student.room} />
-            </Section>
+           
 
             <Section title="Previous School">
               <Detail

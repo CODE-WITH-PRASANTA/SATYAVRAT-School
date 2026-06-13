@@ -221,19 +221,44 @@
 .submenu-icon {
   font-size: 13px;
 }
-
 /* COLLAPSE MODE */
 .admin-sidebar.close .menu-text,
 .admin-sidebar.close .sidebar-brand-text,
-.admin-sidebar.close .menu-arrow {
+.admin-sidebar.close .menu-arrow,
+.admin-sidebar.close .sidebar-section,
+.admin-sidebar.close .submenu {
   display: none;
 }
 
+/* Center menu items */
 .admin-sidebar.close .menu-link,
 .admin-sidebar.close .menu-btn {
   justify-content: center;
+  padding: 14px 0;
 }
 
+/* Center icon wrapper */
+.admin-sidebar.close .menu-main {
+  width: 100%;
+  justify-content: center;
+  gap: 0;
+}
+
+/* Larger icon */
+.admin-sidebar.close .menu-icon {
+  width: auto;
+  font-size: 20px;
+  margin: 0;
+}
+
+/* Center logo */
+.admin-sidebar.close .sidebar-brand {
+  justify-content: center;
+}
+
+.admin-sidebar.close .sidebar-header {
+  padding: 20px 0;
+}
 /* MOBILE */
 @media (max-width: 1024px) {
   .admin-sidebar {
