@@ -1,168 +1,225 @@
-.cancel-fee-receipt-container {
-  width: 100%;
+* {
+  margin: 0;
   padding: 0;
-}
-
-.cancel-fee-receipt-card {
-  width: 100%;
-  min-height: 85vh;
-  background: #f4f4f4;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 18px;
   box-sizing: border-box;
 }
 
-/* Search */
+.cancelFeeReceipt {
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 20px;
+}
 
-.cancel-fee-receipt-search-wrapper {
+/* ================= SEARCH ================= */
+
+.cancelFeeReceipt__searchWrapper {
   width: 100%;
   margin-bottom: 25px;
 }
 
-.cancel-fee-receipt-search-box {
-  width: 620px;
-  max-width: 100%;
-  height: 54px;
-  border: 1px solid #9f9f9f;
-  border-radius: 12px;
-  background: #f7f7f7;
+.cancelFeeReceipt__searchBox {
+  width: 100%;
+  max-width: 650px;
+  height: 60px;
+  background: #fff;
+  border: 1px solid #d8dde7;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   padding: 0 18px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
-.cancel-fee-receipt-search-icon {
-  font-size: 28px;
-  color: #111;
-  flex-shrink: 0;
+.cancelFeeReceipt__searchIcon {
+  font-size: 22px;
+  color: #5f6368;
+  margin-right: 12px;
 }
 
-.cancel-fee-receipt-search-input {
+.cancelFeeReceipt__searchInput {
   flex: 1;
   border: none;
   outline: none;
+  font-size: 18px;
   background: transparent;
-  padding-left: 15px;
-  font-size: 17px;
-  color: #333;
+  color: #222;
 }
 
-.cancel-fee-receipt-search-input::placeholder {
-  color: #666;
-}
+/* ================= DEFAULT CARD ================= */
 
-/* Student Card */
-
-.cancel-fee-receipt-student-card {
-  width: 410px;
-  max-width: 100%;
-  background: #f8f1e7;
-  border-radius: 12px;
-  padding: 12px 10px;
+.cancelFeeReceipt__defaultCard {
+  width: 100%;
+  max-width: 430px;
+  background: #f5efe4;
+  border-radius: 18px;
+  padding: 22px;
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.cancel-fee-receipt-left-section {
+.cancelFeeReceipt__leftInfo {
   flex: 1;
 }
 
-.cancel-fee-receipt-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
+.cancelFeeReceipt__rightInfo {
+  width: 120px;
+  text-align: center;
 }
 
-.cancel-fee-receipt-row span {
-  font-size: 14px;
+.cancelFeeReceipt__studentIcon {
+  font-size: 60px;
+  color: #111;
+  margin-bottom: 15px;
+}
+
+.cancelFeeReceipt__field {
+  font-size: 18px;
   font-weight: 700;
+  margin-bottom: 14px;
   color: #000;
-  min-width: 120px;
 }
 
-.cancel-fee-receipt-row p {
-  margin: 0;
-  font-size: 14px;
-}
+/* ================= RESULT SECTION ================= */
 
-/* Right */
-
-.cancel-fee-receipt-right-section {
-  width: 100px;
+.cancelFeeReceipt__resultWrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
 }
 
-.cancel-fee-receipt-student-icon {
-  font-size: 62px;
-  color: #111;
-  margin-bottom: 10px;
-}
-
-.cancel-fee-receipt-type-row {
+.cancelFeeReceipt__studentCard {
   width: 100%;
-  margin-bottom: 6px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  border: 1px solid #ececec;
+  transition: 0.3s;
 }
 
-.cancel-fee-receipt-type-row span {
-  font-size: 13px;
+.cancelFeeReceipt__studentCard:hover {
+  transform: translateY(-3px);
+}
+
+.cancelFeeReceipt__studentImageSection {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f4f4f4;
+  border: 1px solid #e5e5e5;
+}
+
+.cancelFeeReceipt__studentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cancelFeeReceipt__studentContent {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.cancelFeeReceipt__column {
+  flex: 1;
+}
+
+.cancelFeeReceipt__column p {
+  font-size: 20px;
+  color: #111827;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.cancelFeeReceipt__column strong {
   font-weight: 700;
-  color: #000;
 }
 
-.cancel-fee-receipt-type-row p {
-  margin: 0;
-  font-size: 13px;
+.cancelFeeReceipt__noData {
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  padding: 50px;
+  border-radius: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ef4444;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Tablet */
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 991px) {
+  .cancelFeeReceipt__studentContent {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancelFeeReceipt__column p {
+    font-size: 16px;
+  }
+}
 
 @media (max-width: 768px) {
-  .cancel-fee-receipt-search-box {
-    width: 100%;
-  }
-
-  .cancel-fee-receipt-student-card {
-    width: 100%;
-  }
-}
-
-/* Mobile */
-
-@media (max-width: 480px) {
-  .cancel-fee-receipt-card {
-    padding: 12px;
-  }
-
-  .cancel-fee-receipt-search-box {
-    height: 50px;
-  }
-
-  .cancel-fee-receipt-search-icon {
-    font-size: 24px;
-  }
-
-  .cancel-fee-receipt-student-card {
-    flex-direction: column;
-    align-items: center;
+  .cancelFeeReceipt {
     padding: 15px;
   }
 
-  .cancel-fee-receipt-right-section {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .cancel-fee-receipt-row {
+  .cancelFeeReceipt__studentCard {
     flex-direction: column;
     align-items: flex-start;
-    gap: 2px;
   }
 
-  .cancel-fee-receipt-row span {
-    min-width: auto;
+  .cancelFeeReceipt__studentImageSection {
+    width: 90px;
+    height: 90px;
+  }
+
+  .cancelFeeReceipt__searchBox {
+    height: 55px;
+  }
+
+  .cancelFeeReceipt__searchInput {
+    font-size: 16px;
+  }
+
+  .cancelFeeReceipt__defaultCard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .cancelFeeReceipt__defaultCard {
+    flex-direction: column;
+  }
+
+  .cancelFeeReceipt__rightInfo {
+    width: 100%;
+  }
+
+  .cancelFeeReceipt__studentContent {
+    width: 100%;
+  }
+
+  .cancelFeeReceipt__column p {
+    font-size: 15px;
+  }
+
+  .cancelFeeReceipt__field {
+    font-size: 15px;
+  }
+
+  .cancelFeeReceipt__studentIcon {
+    font-size: 55px;
   }
 }

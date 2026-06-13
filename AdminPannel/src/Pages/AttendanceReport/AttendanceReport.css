@@ -1,96 +1,432 @@
-.attendance-report-page {
-  background: #f1f3f8;
+/* ==========================================================================
+   PREMIUM ATTENDANCE REPORT DASHBOARD STYLES
+   ========================================================================== */
+
+:root {
+  --primary-color: #4f46e5;       /* Modern Indigo */
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --success-color: #10b981;       /* Emerald */
+  --warning-color: #f59e0b;       /* Amber */
+  --danger-color: #ef4444;        /* Rose */
+  --info-color: #06b6d4;          /* Cyan */
+  
+  /* Neutral Palette */
+  --bg-main: #f8fafc;             /* Slate 50 */
+  --bg-card: #ffffff;
+  --text-main: #0f172a;           /* Slate 900 */
+  --text-muted: #64748b;          /* Slate 500 */
+  --border-light: #e2e8f0;        /* Slate 200 */
+  --border-focus: #cbd5e1;        /* Slate 300 */
+  
+  /* System Values */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container Layout */
+.attendanceReport {
+  padding: 2rem;
+  background-color: var(--bg-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
   min-height: 100vh;
-  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* ===== HEADER ===== */
-.attendance-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 22px;
+/* Header */
+.attendanceReport__header {
+  margin-bottom: 2rem;
 }
 
-.attendance-header h2 {
-  font-size: 22px;
+.attendanceReport__header h2 {
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #020617;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Dashboard Cards Grid */
+.attendanceReport__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Individual Module Cards */
+.attendanceReport__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.attendance-header p {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.attendance-header span {
-  color: #1e40af;
-  font-weight: 600;
-}
-
-/* ===== LIST ===== */
-.attendance-report-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* ===== REPORT CARD ===== */
-.attendance-report-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: white;
-  padding: 18px 20px;
-  border-radius: 16px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  gap: 1rem;
   cursor: pointer;
-  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
 }
 
-.attendance-report-card:hover {
+.attendanceReport__card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-focus);
 }
 
-/* ===== ICON ===== */
-.report-icon {
-  height: 52px;
-  width: 52px;
-  border-radius: 50%;
-  background: #e0e7ff;
+/* Active State Design */
+.attendanceReport__card--active {
+  border-color: var(--primary-color);
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-lg);
+}
+
+.attendanceReport__card--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--primary-color);
+}
+
+/* Icons styling mapping colors dynamically based on parent */
+.attendanceReport__icon {
+  width: 44px;
+  height: 44px;
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  transition: var(--transition-smooth);
 }
 
-/* ===== TEXT ===== */
-.report-text h3 {
-  font-size: 14px;
+.attendanceReport__card--active .attendanceReport__icon {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+/* Custom indicator colors for dashboard context */
+.attendanceReport__card:nth-child(4) .attendanceReport__icon { background-color: #fee2e2; color: var(--danger-color); }
+.attendanceReport__card:nth-child(4).attendanceReport__card--active .attendanceReport__icon { background-color: var(--danger-color); color: #fff; }
+
+.attendanceReport__card:nth-child(5) .attendanceReport__icon { background-color: #fef3c7; color: var(--warning-color); }
+.attendanceReport__card:nth-child(5).attendanceReport__card--active .attendanceReport__icon { background-color: var(--warning-color); color: #fff; }
+
+.attendanceReport__card div h4 {
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.6px;
-  color: #1e3a8a;
-  margin-bottom: 4px;
+  text-transform: uppercase;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
 }
 
-.report-text p {
-  font-size: 13px;
-  color: #6b7280;
+.attendanceReport__card div p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-/* ===== RESPONSIVE ===== */
+/* Filter Selection Card */
+.attendanceReport__filterCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.attendanceReport__filterHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.attendanceReport__filterHeader svg {
+  color: var(--text-muted);
+}
+
+/* Modern Form Controls Grid Layout */
+.attendanceReport__formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.attendanceReport__formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.attendanceReport__formGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.attendanceReport__formGroup select,
+.attendanceReport__formGroup input {
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+  background-color: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  transition: var(--transition-smooth);
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.attendanceReport__formGroup select:focus,
+.attendanceReport__formGroup input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.attendanceReport__formGroup input[readOnly] {
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Button & Actions Layout */
+.attendanceReport__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.attendanceReport__searchBtn,
+.attendanceReport__downloadBtn {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.attendanceReport__searchBtn {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+}
+
+.attendanceReport__searchBtn:hover {
+  background-color: var(--primary-hover);
+}
+
+.attendanceReport__downloadBtn {
+  background-color: #ffffff;
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+}
+
+.attendanceReport__downloadBtn:hover {
+  background-color: var(--bg-main);
+  border-color: var(--border-focus);
+}
+
+/* Main Data Presentation Layout */
+.attendanceReport__tableCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.attendanceReport__tableHeader {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.attendanceReport__tableHeader h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* Action Export Buttons */
+.attendanceReport__exportBtns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.attendanceReport__exportBtns button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-light);
+  background-color: #fff;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 1rem;
+}
+
+.attendanceReport__exportBtns button:hover {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.attendanceReport__exportBtns button:nth-child(1):hover { color: #1e7246; border-color: #1e7246; background-color: #ecfdf5; } /* Excel Accent */
+.attendanceReport__exportBtns button:nth-child(2):hover { color: #f43f5e; border-color: #f43f5e; background-color: #fff1f2; } /* PDF Accent */
+.attendanceReport__exportBtns button:nth-child(3):hover { color: var(--primary-color); border-color: var(--primary-color); background-color: var(--primary-light); }
+
+/* Premium Data Tables UI */
+.attendanceReport__tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.attendanceReport__tableWrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.attendanceReport__tableWrapper th {
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.attendanceReport__tableWrapper td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.attendanceReport__tableWrapper tbody tr {
+  transition: var(--transition-smooth);
+}
+
+.attendanceReport__tableWrapper tbody tr:hover {
+  background-color: rgba(241, 245, 249, 0.5); /* Soft highlight on row hover */
+}
+
+/* Explicit Status Badging/Formatting for Table metrics */
+.attendanceReport__tableWrapper td:nth-child(5) { font-weight: bold; color: var(--primary-color); } /* Highlight % */
+
+/* Pagination Control Strip */
+.attendanceReport__pagination {
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #fff;
+  border-top: 1px solid var(--border-light);
+}
+
+.attendanceReport__pagination button {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  background-color: #fff;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.attendanceReport__pagination button:hover:not(.active) {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.attendanceReport__pagination button.active {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+}
+
+/* Accessibility Responsive Adjustments */
 @media (max-width: 768px) {
-  .attendance-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
+  .attendanceReport { padding: 1rem; }
+  .attendanceReport__tableHeader { flex-direction: column; align-items: flex-start; }
+  .attendanceReport__actions { width: 100%; flex-direction: column-reverse; }
+  .attendanceReport__actions button { width: 100%; }
+}
+/* ===========================
+   PREMIUM REPORT TABS
+=========================== */
 
-  .attendance-report-card {
-    padding: 16px;
-  }
+.attendanceReport__premiumTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.attendanceReport__tab {
+  border: none;
+  cursor: pointer;
+  padding: 14px 24px;
+  border-radius: 14px;
+  background: white;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 14px;
+  transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.attendanceReport__tab:hover {
+  transform: translateY(-2px);
+}
+
+.attendanceReport__tab--active {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+  color: white;
+  box-shadow: 0 10px 30px rgba(37,99,235,.25);
 }
