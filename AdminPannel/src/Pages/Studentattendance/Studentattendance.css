@@ -1,365 +1,307 @@
-.StudentAttendance-container{
-  padding:20px;
-  background:#eef2f7;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.studentAttendancePage {
+  padding: 25px;
+  background: #f4f8ff;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-/* CARD */
-.StudentAttendance-card{
-  background:#fff;
-  border-radius:16px;
-  margin-bottom:20px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  border:1px solid #fbcfe8;
+.studentAttendancePage * {
+  box-sizing: border-box;
 }
 
-/* HEADER */
-.StudentAttendance-cardHeader{
-  background:#fde2e7;
-  padding:16px 20px;
-  font-weight:600;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-radius:16px 16px 0 0;
-}
-
-/* BUTTONS */
-.StudentAttendance-btnPrimary,
-.StudentAttendance-headerBtns button,
-.StudentAttendance-btnSearch{
-  background:#1e3a8a;
-  color:#fff;
-  border:none;
-  padding:8px 14px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.StudentAttendance-headerBtns{
-  display:flex;
-  gap:10px;
-}
-
-/* FORM GRID */
-.StudentAttendance-formGrid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-  padding:20px;
-}
-
-.StudentAttendance-formGrid label{
-  font-size:13px;
-  font-weight:600;
-  display:block;
-  margin-bottom:6px;
-}
-
-.StudentAttendance-formGrid select,
-.StudentAttendance-formGrid input{
-  width:100%;
-  padding:10px;
-  border-radius:6px;
-  border:1px solid #c7d2fe;
-}
-
-/* SEARCH */
-.StudentAttendance-searchRow{
-  padding:0 20px 20px;
-  display:flex;
-  justify-content:flex-end;
-}
-
-/* TOOLBAR */
-.StudentAttendance-toolbar{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 20px;
-}
-
-/* TABLE */
-.StudentAttendance-tableWrapper{
-  overflow-x:auto;
-}
-
-.StudentAttendance-table{
-  width:100%;
-  min-width:900px;
-  border-collapse:collapse;
-}
-
-.StudentAttendance-table th{
-  background:#f8d7da;
-  padding:12px;
-  border:1px solid #e5e7eb;
-}
-
-.StudentAttendance-table td{
-  padding:10px;
-  border:1px solid #e5e7eb;
-}
-
-.StudentAttendance-table select,
-.StudentAttendance-table input{
-  width:100%;
-  padding:6px;
-}
-
-/* EMPTY */
-.StudentAttendance-empty{
-  text-align:center;
-  padding:30px;
-  color:#64748b;
-}
-
-/* FOOTER */
-.StudentAttendance-footer{
-  padding:14px 20px;
-  font-size:14px;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  .StudentAttendance-formGrid{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:600px){
-  .StudentAttendance-formGrid{
-    grid-template-columns:1fr;
-  }
-
-  .StudentAttendance-cardHeader{
-    flex-direction:column;
-    gap:10px;
-    align-items:flex-start;
-  }
-}
-/* ================= PROFESSIONAL INPUT STYLE ================= */
-
-.StudentAttendance-formGrid select,
-.StudentAttendance-formGrid input {
-  width: 100%;
-  height: 42px;
-  padding: 0 14px;
-  border-radius: 8px;
-
-  /* clean professional look */
-  border: 1.5px solid #c7d2fe;
-  background-color: #ffffff;
-
-  font-size: 14px;
-  font-weight: 600;
-  color: #0f172a;
-
-  transition: all 0.25s ease;
-  appearance: none;
-}
-
-/* placeholder visibility */
-.StudentAttendance-formGrid input::placeholder {
-  color: #64748b;
-  font-weight: 500;
-  opacity: 1;
-}
-
-/* dropdown text color */
-.StudentAttendance-formGrid select {
-  color: #0f172a;
-  cursor: pointer;
-}
-
-/* focus effect (premium admin feel) */
-.StudentAttendance-formGrid select:focus,
-.StudentAttendance-formGrid input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* label improvement */
-.StudentAttendance-formGrid label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 6px;
-}
-
-/* date input icon alignment */
-.StudentAttendance-formGrid input[type="date"] {
-  padding-right: 10px;
-}
-
-
-/* ================= PAGINATION ================= */
-
-.StudentAttendance-pagination {
+/* Header UI Elements */
+.studentAttendanceHeader {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-/* prev & next */
-.page-nav {
-  padding: 8px 16px;
-  border: 1px solid #d1d5db;
+.studentAttendanceTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0b2c66;
+}
+
+.studentAttendanceTitle h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.studentAttendanceBreadcrumb {
+  color: #667085;
+  font-size: 15px;
+}
+
+/* Card Architectures */
+.studentAttendanceCard,
+.studentAttendanceTableCard {
   background: #ffffff;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 67, 200, 0.06);
+  overflow: hidden;
+  margin-bottom: 30px;
+  border: 1px solid #dbe8ff;
 }
 
-.page-nav:first-child {
-  border-radius: 6px 0 0 6px;
+.studentAttendanceCardHeader,
+.studentAttendanceTableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: linear-gradient(135deg, #ffffff, #f0f6ff);
+  border-bottom: 1px solid #e6eeff;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.page-nav:last-child {
-  border-radius: 0 6px 6px 0;
+.studentAttendanceCardTitle,
+.studentAttendanceTableTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0b2c66;
 }
 
-.page-nav:disabled {
-  background: #f3f4f6;
-  color: #9ca3af;
-  cursor: not-allowed;
-}
-
-/* numbers */
-.page-number {
-  padding: 8px 14px;
-  border: 1px solid #d1d5db;
-  border-left: none;
-  background: #ffffff;
-  cursor: pointer;
+.studentAttendanceCardTitle h3,
+.studentAttendanceTableTitle h3 {
+  margin: 0;
+  font-size: 22px;
   font-weight: 600;
 }
 
-.page-number:hover {
-  background: #eef2ff;
+/* Input Form Grid Layout */
+.studentAttendanceForm {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 30px;
 }
 
-/* active page */
-.page-number.active {
-  background: #1e3a8a;
+.attendanceInputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attendanceInputGroup label {
+  font-weight: 600;
+  color: #133a7c;
+  font-size: 14px;
+}
+
+.attendanceInputGroup select,
+.attendanceInputGroup input {
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid #cfe0ff;
+  padding: 0 16px;
+  font-size: 15px;
+  outline: none;
+  background: white;
+  width: 100%;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.attendanceInputGroup select:focus,
+.attendanceInputGroup input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+/* Action Execution System Buttons */
+.attendancePrimaryBtn,
+.attendanceSaveBtn,
+.attendanceHolidayBtn,
+.attendanceSearchBtn {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  height: 46px;
+}
+
+.attendancePrimaryBtn {
+  background: #0d6efd;
   color: white;
-  border-color: #1e3a8a;
+  padding: 0 22px;
+  border-radius: 12px;
 }
 
-/* =====================================================
-   ✅ RESPONSIVE ADMIN PANEL IMPROVEMENTS
-===================================================== */
+.attendancePrimaryBtn:hover, .attendanceSearchBtn:hover {
+  background: #0b5ed7;
+  transform: translateY(-1px);
+}
 
-/* ---------- LARGE TABLETS ---------- */
-@media (max-width: 1100px){
+.attendanceHolidayBtn {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 0 22px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+}
 
-  .StudentAttendance-formGrid{
-    grid-template-columns: repeat(2,1fr);
-  }
+.attendanceHolidayBtn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
 
-  .StudentAttendance-toolbar{
-    flex-wrap: wrap;
-    gap:10px;
+.attendanceSaveBtn {
+  background: #0b2c66;
+  color: white;
+  padding: 0 22px;
+  border-radius: 12px;
+}
+
+.attendanceSaveBtn:hover {
+  background: #071d43;
+  transform: translateY(-1px);
+}
+
+.attendanceSearchArea {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 30px 30px;
+}
+
+.attendanceSearchBtn {
+  background: #0d6efd;
+  color: white;
+  padding: 0 28px;
+  border-radius: 12px;
+}
+
+/* Responsive Table Stylesheet */
+.tableActionButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tableResponsive {
+  overflow-x: auto;
+  padding: 25px;
+  width: 100%;
+}
+
+.attendanceTable {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.attendanceTable th {
+  background: #edf4ff;
+  color: #0b2c66;
+  padding: 16px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.attendanceTable td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eef3ff;
+  color: #334155;
+  font-size: 14px;
+}
+
+.attendanceTable tr:hover {
+  background: #f8fbff;
+}
+
+.tableSelect,
+.tableNoteInput {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #d6e4ff;
+  border-radius: 8px;
+  padding: 0 12px;
+  outline: none;
+  font-size: 14px;
+}
+
+.tableSelect:focus,
+.tableNoteInput:focus {
+  border-color: #0d6efd;
+}
+
+.noDataFallback {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* Multi-device Screen Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .studentAttendanceForm {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+@media (max-width: 992px) {
+  .studentAttendanceForm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
-/* ---------- TABLETS ---------- */
-@media (max-width: 768px){
-
-  .StudentAttendance-container{
-    padding:14px;
+@media (max-width: 768px) {
+  .studentAttendancePage {
+    padding: 15px;
   }
 
-  /* header stack */
-  .StudentAttendance-cardHeader{
+  .studentAttendanceHeader {
     flex-direction: column;
-    align-items:flex-start;
-    gap:12px;
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  .StudentAttendance-headerBtns{
-    width:100%;
-    justify-content:flex-start;
-    flex-wrap:wrap;
+  .studentAttendanceForm {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 16px;
   }
 
-  /* search button alignment */
-  .StudentAttendance-searchRow{
-    justify-content:flex-start;
+  .studentAttendanceCardHeader,
+  .studentAttendanceTableHeader {
+    padding: 15px 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
   }
 
-  /* toolbar stack */
-  .StudentAttendance-toolbar{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:12px;
+  .tableActionButtons, 
+  .studentAttendanceCardHeader .attendancePrimaryBtn {
+    width: 100%;
+    flex-direction: column;
   }
 
-  /* table spacing */
-  .StudentAttendance-table th,
-  .StudentAttendance-table td{
-    padding:10px 8px;
-    font-size:13px;
+  .attendancePrimaryBtn,
+  .attendanceSaveBtn,
+  .attendanceHolidayBtn,
+  .attendanceSearchBtn {
+    width: 100%;
   }
 
+  .attendanceSearchArea {
+    padding: 0 20px 20px;
+  }
+  
+  .tableResponsive {
+    padding: 15px;
+  }
 }
-
-
-/* ---------- MOBILE ---------- */
-@media (max-width: 600px){
-
-  /* single column form */
-  .StudentAttendance-formGrid{
-    grid-template-columns:1fr;
-    gap:16px;
-  }
-
-  /* buttons full width */
-  .StudentAttendance-btnPrimary,
-  .StudentAttendance-btnSearch,
-  .StudentAttendance-headerBtns button{
-    width:100%;
-    text-align:center;
-  }
-
-  /* pagination wrap nicely */
-  .StudentAttendance-pagination{
-    flex-wrap:wrap;
-    gap:6px;
-  }
-
-  .page-number,
-  .page-nav{
-    padding:7px 12px;
-    font-size:13px;
-  }
-
-}
-
-
-/* ---------- SMALL MOBILE ---------- */
-@media (max-width: 420px){
-
-  .StudentAttendance-container{
-    padding:10px;
-  }
-
-  .StudentAttendance-card{
-    border-radius:12px;
-  }
-
-  .StudentAttendance-cardHeader{
-    padding:14px;
-    font-size:14px;
-  }
-
-  .StudentAttendance-table{
-    min-width:700px; /* keeps horizontal scroll */
-  }
-
-}
-
-
-
-
