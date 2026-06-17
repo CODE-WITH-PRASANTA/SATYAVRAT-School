@@ -6,7 +6,20 @@ import "./FeeStructure.css";
 
 // Master Reference Dropdown Configurations
 const STRUCTURE_TYPES = ["Monthly", "Quarterly", "Half-Yearly", "Annually"];
-const CLASSES = ["LKG","UKG","1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th",];
+const CLASSES = [
+  "LKG",
+  "UKG",
+  "1st",
+  "2nd",
+  "3rd",
+  "4th",
+  "5th",
+  "6th",
+  "7th",
+  "8th",
+  "9th",
+  "10th",
+];
 const STREAMS = [
   "None",
   "Humanities",
@@ -44,6 +57,7 @@ const FeeStructure = () => {
       if (res.data.success) {
         setFeeHeads(res.data.data);
       }
+      console.log(feeHeads);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +133,7 @@ const FeeStructure = () => {
 
   const saveStructure = async () => {
     try {
-      const feeItems = feeHeads.map((head) => {
+      const feeItems = filteredFeeHeads.map((head) => {
         const amounts = {};
 
         activeGridCols.forEach((col) => {
@@ -176,7 +190,7 @@ const FeeStructure = () => {
 
   const updateStructure = async () => {
     try {
-      const feeItems = feeHeads.map((head) => {
+      const feeItems = filteredFeeHeads.map((head) => {
         const amounts = {};
 
         activeGridCols.forEach((col) => {
@@ -211,7 +225,7 @@ const FeeStructure = () => {
   };
 
   const calculateGrandTotal = (columns) => {
-    return feeHeads.reduce((grandSum, head) => {
+    return filteredFeeHeads.reduce((grandSum, head) => {
       return grandSum + calculateRowTotal(head._id, columns);
     }, 0);
   };
@@ -284,6 +298,12 @@ const FeeStructure = () => {
   }, [searchQuery]);
 
   const activeGridCols = getGridHeaders(selectedStructureType);
+
+  const filteredFeeHeads = feeHeads.filter(
+    (head) =>
+      head.installmentType?.toLowerCase() ===
+      selectedStructureType?.toLowerCase(),
+  );
 
   return (
     <div className="fs-premium-layout">
@@ -515,7 +535,7 @@ const FeeStructure = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {feeHeads.map((head) => (
+                        {filteredFeeHeads.map((head) => (
                           <tr
                             key={head._id}
                             className="fs-spreadsheet-body-row"
@@ -565,7 +585,7 @@ const FeeStructure = () => {
                               key={col}
                               className="fs-column-calculated-sum-cell"
                             >
-                              {feeHeads.reduce(
+                              {filteredFeeHeads.reduce(
                                 (sum, h) =>
                                   sum + (gridValues[`${h._id}-${col}`] || 0),
                                 0,
@@ -639,7 +659,7 @@ const FeeStructure = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {feeHeads.map((head) => (
+                      {filteredFeeHeads.map((head) => (
                         <tr
                           key={head._id}
                           className="fs-spreadsheet-body-row modified-highlight-rows"
@@ -686,7 +706,7 @@ const FeeStructure = () => {
                             key={col}
                             className="fs-column-calculated-sum-cell text-modify-sum"
                           >
-                            {feeHeads.reduce(
+                            {filteredFeeHeads.reduce(
                               (sum, h) =>
                                 sum + (gridValues[`${h._id}-${col}`] || 0),
                               0,

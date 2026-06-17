@@ -194,21 +194,13 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         path: "/fee-head",
         icon: <FaListAlt />,
       },
-      {
-        name: "Concession Categories",
-        path: "/concession-category",
-        icon: <FaPercentage />,
-      },
+      
       {
         name: "Fee Structure",
         path: "/fee-structure",
         icon: <FaSitemap />,
       },
-      {
-        name: "Fee Concessions",
-        path: "/fee-concession",
-        icon: <FaHandHoldingUsd />,
-      },
+      
       {
         name: "Fee Entries",
         path: "/fee-entry",
@@ -219,11 +211,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         path: "/cancel-fee",
         icon: <FaBan />,
       },
-      {
-        name: "Board Fee Entry",
-        path: "/board-fee-manual-entry",
-        icon: <FaClipboardList />,
-      },
+      
     ],
   },
 

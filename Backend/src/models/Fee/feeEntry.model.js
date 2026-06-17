@@ -88,9 +88,12 @@ const feeEntrySchema = new mongoose.Schema(
       default: "",
     },
     installmentMonth: {
+      type: [String],
+      default: [],
+    },
+    academicYear: {
       type: String,
-      trim: true,
-      default: "",
+      required: true,
     },
     status: {
       type: String,
@@ -104,7 +107,7 @@ const feeEntrySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 feeEntrySchema.index({ studentId: 1 });
