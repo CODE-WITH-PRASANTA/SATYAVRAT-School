@@ -17,12 +17,10 @@ import Swal from "sweetalert2";
 // Updated Dropdown Options extracted exactly from your reference images
 
 const INSTALLMENT_TYPES = [
-  "None",
   "Monthly",
   "Quarterly",
   "Half-Yearly",
   "Annually",
-  "Only Once",
 ];
 
 const FEE_TYPES = ["Day Scholar", "Hosteller"];
