@@ -1,5 +1,6 @@
 const FeeEntry = require("../../models/Fee/feeEntry.model");
 const Student = require("../../models/Student/studentAdmission.models");
+const Wallet = require("../../models/walletTransaction.model");
 
 const calculateTotals = ({
   feeHeads = [],
@@ -24,6 +25,24 @@ const calculateTotals = ({
   return { grossAmount, totalPayable, dueAmount, status };
 };
 
+const generateReceiptNo = async () => {
+  const year = new Date().getFullYear();
+
+  const lastReceipt = await FeeEntry.findOne({
+    receiptNo: { $regex: `^RCP-${year}` },
+  })
+    .sort({ createdAt: -1 })
+    .select("receiptNo");
+
+  let nextNo = 1;
+
+  if (lastReceipt?.receiptNo) {
+    nextNo = parseInt(lastReceipt.receiptNo.split("-").pop(), 10) + 1;
+  }
+
+  return `RCP-${year}-${String(nextNo).padStart(4, "0")}`;
+};
+
 exports.createFeeEntry = async (req, res) => {
   try {
     const {
@@ -37,7 +56,6 @@ exports.createFeeEntry = async (req, res) => {
       paidAmount,
       remark,
       installmentMonth,
-      receiptNo,
     } = req.body;
 
     const student = await Student.findById(studentId);
@@ -101,6 +119,8 @@ exports.createFeeEntry = async (req, res) => {
       paidAmount,
     });
 
+    const autoReceiptNo = await generateReceiptNo();
+
     // ==========================
     // SAVE ENTRY
     // ==========================
@@ -113,7 +133,7 @@ exports.createFeeEntry = async (req, res) => {
       class: student.class || "",
       section: student.section || "",
       entryDate,
-      receiptNo,
+      receiptNo: autoReceiptNo,
       paymentMode,
       feeHeads,
       discountAmount: Number(discountAmount || 0),
@@ -124,9 +144,23 @@ exports.createFeeEntry = async (req, res) => {
       ...totals,
     });
 
+    // ==========================
+    // CREATE WALLET TRANSACTION
+    // ==========================
+    if (Number(paidAmount) > 0) {
+      await Wallet.create({
+        type: "credit",
+        amount: Number(paidAmount),
+        source: "fee",
+        referenceId: feeEntry._id,
+        description: `Fee payment received from ${student.studentName || student.firstName} (${autoReceiptNo})`,
+        createdBy: studentId,
+      });
+    }
+
     return res.status(201).json({
       success: true,
-      message: "Fee entry saved",
+      message: "Fee entry saved and wallet transaction recorded",
       data: feeEntry,
     });
   } catch (error) {

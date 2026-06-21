@@ -490,7 +490,8 @@ const Wallet = () => {
                       >
                         {formatMoney(tx.amount)}
                       </td>
-                      <td>{tx.createdBy || "Admin"}</td>
+                      {/* <td>{tx.createdBy || "Admin"}</td> */}
+                      <td>Admin</td>
                       <td>{formatDate(tx.createdAt)}</td>
                       <td>
                         <button
