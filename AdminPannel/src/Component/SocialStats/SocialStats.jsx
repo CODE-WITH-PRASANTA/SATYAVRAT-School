@@ -2,46 +2,38 @@ import React from "react";
 import "./SocialStats.css";
 import { FaFacebookF, FaTwitter, FaGooglePlusG, FaLinkedinIn } from "react-icons/fa";
 
-const SocialStats = () => {
+const formatNumber = (value) => Number(value || 0).toLocaleString("en-IN");
+
+const SocialStats = ({ data }) => {
+  const stats = data?.socialStats || [];
+  const defaults = [
+    { key: "news", label: "News posts", value: 0 },
+    { key: "views", label: "News views", value: 0 },
+    { key: "gallery", label: "Gallery photos", value: 0 },
+    { key: "testimonials", label: "Testimonials", value: 0 },
+  ];
+  const items = stats.length ? stats : defaults;
+  const icons = [FaFacebookF, FaTwitter, FaGooglePlusG, FaLinkedinIn];
+  const classes = ["facebook", "twitter", "google", "linkedin"];
+
   return (
     <div className="socialStats-wrapper">
+      {items.map((item, index) => {
+        const Icon = icons[index] || FaFacebookF;
 
-      {/* Facebook */}
-      <div className="socialStats-card facebook">
-        <div className="socialStats-content">
-          <FaFacebookF className="socialStats-icon" />
-          <p>Like us on facebook</p>
-          <h3>30,000</h3>
-        </div>
-      </div>
-
-      {/* Twitter */}
-      <div className="socialStats-card twitter">
-        <div className="socialStats-content">
-          <FaTwitter className="socialStats-icon" />
-          <p>Follow us on twitter</p>
-          <h3>1,11,000</h3>
-        </div>
-      </div>
-
-      {/* Google Plus */}
-      <div className="socialStats-card google">
-        <div className="socialStats-content">
-          <FaGooglePlusG className="socialStats-icon" />
-          <p>Follow us on googleplus</p>
-          <h3>19,000</h3>
-        </div>
-      </div>
-
-      {/* LinkedIn */}
-      <div className="socialStats-card linkedin">
-        <div className="socialStats-content">
-          <FaLinkedinIn className="socialStats-icon" />
-          <p>Follow us on linked</p>
-          <h3>45,000</h3>
-        </div>
-      </div>
-
+        return (
+          <div
+            className={`socialStats-card ${classes[index] || "facebook"}`}
+            key={item.key || item.label}
+          >
+            <div className="socialStats-content">
+              <Icon className="socialStats-icon" />
+              <p>{item.label}</p>
+              <h3>{formatNumber(item.value)}</h3>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
