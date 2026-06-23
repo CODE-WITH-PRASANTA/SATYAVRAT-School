@@ -10,6 +10,7 @@ import FloatingIcons from "./Pages/FloatingIcons/FloatingIcons";
 import Home from "./Pages/Home/Home";
 import BlogDetails from "./Pages/BlogDetails/BlogDetails";
 import AdvitiesForm from "./Pages/AdvitiesForm/AdvitiesForm";
+import FeeSection from "./components/FeeSection/FeeSection";
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         
        <Route path="/" element={<Home />} />
        <Route path="/blog/:id" element={<BlogDetails />} />
-
+  
       </Routes>
 
       {/* 🔥 Floating UI */}

@@ -11,24 +11,16 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import "./FeeHead.css";
+import API from "../../Api/axios";
+import Swal from "sweetalert2";
 
 // Updated Dropdown Options extracted exactly from your reference images
-const FEE_GROUPS = [
-  "None",
-  "Admission Fee",
-  "Quarterly Examination Fee",
-  "Tuition Fee",
-  "Half Yearly Examination Fee",
-  "Annual Examination Fee",
-];
 
 const INSTALLMENT_TYPES = [
-  "None",
   "Monthly",
   "Quarterly",
   "Half-Yearly",
   "Annually",
-  "Only Once",
 ];
 
 const FEE_TYPES = ["Day Scholar", "Hosteller"];
@@ -50,26 +42,34 @@ const CustomSelect = ({ label, options, value, onChange, required }) => {
   }, []);
 
   return (
-    <div className={`fh-custom-select-wrapper ${value ? "has-value" : ""} ${isOpen ? "is-open" : ""}`} ref={dropdownRef}>
+    <div
+      className={`fh-custom-select-wrapper ${value ? "has-value" : ""} ${isOpen ? "is-open" : ""}`}
+      ref={dropdownRef}
+    >
       <label className="fh-custom-select-label">
         {label} {required && <span className="fh-required-star">*</span>}
       </label>
-      <div className="fh-custom-select-trigger" onClick={() => setIsOpen(!isOpen)}>
-        <span>{value || "Select Option..."}</span>
+      <div
+        className="fh-custom-select-trigger"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{value ? value : "Select Option..."}</span>
         <FaChevronDown className="fh-select-arrow-icon" />
       </div>
       {isOpen && (
         <div className="fh-custom-select-dropdown-menu">
           {options.map((option) => (
             <div
-              key={option}
-              className={`fh-custom-select-item ${value === option ? "is-selected" : ""}`}
+              key={option.value}
+              className={`fh-custom-select-item ${
+                value === option.value ? "is-selected" : ""
+              }`}
               onClick={() => {
-                onChange(option);
+                onChange(option.value);
                 setIsOpen(false);
               }}
             >
-              {option}
+              {option.label}
             </div>
           ))}
         </div>
@@ -85,7 +85,8 @@ const FeeHead = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentId, setCurrentId] = useState(null);
-
+  const [feeGroups, setFeeGroups] = useState([]);
+  const [feeHeads, setFeeHeads] = useState([]);
   const [columns, setColumns] = useState({
     sno: true,
     feeGroup: true,
@@ -100,15 +101,6 @@ const FeeHead = () => {
   });
 
   // Rich initial dummy data to demonstrate perfect functional pagination structures
-  const [feeHeads, setFeeHeads] = useState([
-    { id: 1, feeGroup: "Admission Fee", feeHead: "Opening Balance", shortName: "OB", priority: 1, applyFor: "Old", gender: "Both", installment: "Annually", feeType: "Day Scholar" },
-    { id: 2, feeGroup: "Admission Fee", feeHead: "Admission Registration Fee", shortName: "AF", priority: 2, applyFor: "New", gender: "Both", installment: "Only Once", feeType: "Day Scholar" },
-    { id: 3, feeGroup: "Tuition Fee", feeHead: "Core Academic Tuition", shortName: "TUT", priority: 3, applyFor: "Both", gender: "Both", installment: "Monthly", feeType: "Day Scholar" },
-    { id: 4, feeGroup: "Quarterly Examination Fee", feeHead: "Term 1 Exam Fee", shortName: "EX1", priority: 4, applyFor: "Both", gender: "Both", installment: "Quarterly", feeType: "Hosteller" },
-    { id: 5, feeGroup: "Half Yearly Examination Fee", feeHead: "Mid-Term Evaluation", shortName: "MID", priority: 5, applyFor: "Both", gender: "Both", installment: "Half-Yearly", feeType: "Day Scholar" },
-    { id: 6, feeGroup: "Annual Examination Fee", feeHead: "Final Board Assessment", shortName: "FIN", priority: 6, applyFor: "Both", gender: "Both", installment: "Annually", feeType: "Hosteller" },
-    { id: 7, feeGroup: "Tuition Fee", feeHead: "Lab & Practical Sub-Head", shortName: "LAB", priority: 7, applyFor: "Old", gender: "Male", installment: "Quarterly", feeType: "Day Scholar" },
-  ]);
 
   const [formData, setFormData] = useState({
     feeGroup: "",
@@ -122,6 +114,35 @@ const FeeHead = () => {
     certificate: "Yes",
     priority: "",
   });
+
+  const fetchFeeGroups = async () => {
+    try {
+      const res = await API.get("/fee-group/all");
+
+      if (res.data.success) {
+        setFeeGroups(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFeeHeads = async () => {
+    try {
+      const res = await API.get("/fee-head/all");
+
+      if (res.data.success) {
+        setFeeHeads(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeeGroups();
+    fetchFeeHeads();
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -138,98 +159,148 @@ const FeeHead = () => {
   };
 
   const openAddModal = () => {
-    setEditMode(false);
-    setFormData({
-      feeGroup: "",
-      installmentType: "",
-      feeHeadName: "",
-      feeHeadShortName: "",
-      feeType: "Day Scholar",
-      applyFor: "Both",
-      gender: "Both",
-      refundable: "Yes",
-      certificate: "Yes",
-      priority: "",
-    });
-    setShowModal(true);
-  };
+  setEditMode(false);
+  setCurrentId(null);
 
-  const handleSubmit = (e) => {
+  setFormData({
+    feeGroup: "",
+    installmentType: "",
+    feeHeadName: "",
+    feeHeadShortName: "",
+    feeType: "Day Scholar",
+    applyFor: "Both",
+    gender: "Both",
+    refundable: "Yes",
+    certificate: "Yes",
+    priority: "",
+  });
+
+  setShowModal(true);
+};
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editMode) {
-      setFeeHeads((prevHeads) =>
-        prevHeads.map((item) =>
-          item.id === currentId
-            ? {
-                ...item,
-                feeGroup: formData.feeGroup,
-                feeHead: formData.feeHeadName,
-                shortName: formData.feeHeadShortName,
-                priority: formData.priority,
-                applyFor: formData.applyFor,
-                gender: formData.gender,
-                installment: formData.installmentType,
-                feeType: formData.feeType,
-              }
-            : item
-        )
-      );
-    } else {
-      setFeeHeads((prevHeads) => [
-        ...prevHeads,
-        {
-          id: Date.now(),
-          feeGroup: formData.feeGroup,
-          feeHead: formData.feeHeadName,
-          shortName: formData.feeHeadShortName,
-          priority: formData.priority,
-          applyFor: formData.applyFor,
-          gender: formData.gender,
-          installment: formData.installmentType,
-          feeType: formData.feeType,
-        },
-      ]);
+
+    try {
+      const payload = {
+        feeGroup: formData.feeGroup,
+        installmentType: formData.installmentType,
+        feeHeadName: formData.feeHeadName,
+        feeHeadShortName: formData.feeHeadShortName,
+        feeType: formData.feeType,
+        applyFor: formData.applyFor,
+        gender: formData.gender,
+        refundable: formData.refundable,
+        certificate: formData.certificate,
+        priority: Number(formData.priority),
+      };
+
+      let res;
+
+      if (editMode) {
+        res = await API.put(`/fee-head/update/${currentId}`, payload);
+      } else {
+        res = await API.post("/fee-head/create", payload);
+      }
+
+      if (res.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: editMode ? "Updated Successfully" : "Created Successfully",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        fetchFeeHeads();
+
+        setFormData({
+          feeGroup: "",
+          installmentType: "",
+          feeHeadName: "",
+          feeHeadShortName: "",
+          feeType: "Day Scholar",
+          applyFor: "Both",
+          gender: "Both",
+          refundable: "Yes",
+          certificate: "Yes",
+          priority: "",
+        });
+
+        setCurrentId(null);
+        setEditMode(false);
+        setShowModal(false);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: error.response?.data?.message || "Something went wrong",
+      });
     }
-    setShowModal(false);
   };
 
   const handleEdit = (row) => {
-    setCurrentId(row.id);
-    setEditMode(true);
+    setCurrentId(row._id);
+
     setFormData({
-      feeGroup: row.feeGroup || "",
-      installmentType: row.installment || "",
-      feeHeadName: row.feeHead,
-      feeHeadShortName: row.shortName,
-      feeType: row.feeType,
-      applyFor: row.applyFor,
-      gender: row.gender,
-      refundable: "Yes",
-      certificate: "Yes",
-      priority: row.priority,
+      feeGroup: row.feeGroup?._id || "",
+      installmentType: row.installmentType || "",
+      feeHeadName: row.feeHeadName || "",
+      feeHeadShortName: row.feeHeadShortName || "",
+      feeType: row.feeType || "Day Scholar",
+      applyFor: row.applyFor || "Both",
+      gender: row.gender || "Both",
+      refundable: row.refundable || "Yes",
+      certificate: row.certificate || "Yes",
+      priority: row.priority || "",
     });
+
+    setEditMode(true);
     setShowModal(true);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this record?")) {
-      setFeeHeads((prevHeads) => prevHeads.filter((item) => item.id !== id));
-      // Adjust page if deletion leaves current page completely empty
-      const updatedFilteredCount = filteredRows.length - 1;
-      const nextTotalPages = Math.max(1, Math.ceil(updatedFilteredCount / ITEMS_PER_PAGE));
-      if (currentPage > nextTotalPages) {
-        setCurrentPage(nextTotalPages);
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Delete Record?",
+      icon: "warning",
+      showCancelButton: true,
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await API.delete(`/fee-head/delete/${id}`);
+
+      if (res.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Deleted Successfully",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        fetchFeeHeads();
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  // Logic filters 
-  const filteredRows = useMemo(() => {
-    return feeHeads.filter((row) =>
-      row.feeHead.toLowerCase().includes(search.toLowerCase()) ||
-      row.feeGroup.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [feeHeads, search]);
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      try {
+        const res = await API.get(`/fee-head/all?search=${search}`);
+
+        setFeeHeads(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Logic filters
+  const filteredRows = feeHeads || [];
 
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(filteredRows.length / ITEMS_PER_PAGE));
@@ -241,10 +312,14 @@ const FeeHead = () => {
     return filteredRows.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredRows, currentPage]);
 
-  const startRecord = filteredRows.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const startRecord =
+    filteredRows.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const endRecord = Math.min(currentPage * ITEMS_PER_PAGE, filteredRows.length);
   const activeColumnsCount = Object.values(columns).filter(Boolean).length;
-
+  const installmentOptions = INSTALLMENT_TYPES.map((item) => ({
+    label: item,
+    value: item,
+  }));
   return (
     <div className="fh-main-container">
       {/* Top Application Toolbar */}
@@ -271,8 +346,8 @@ const FeeHead = () => {
             <FaFilter />
           </button>
 
-          <button 
-            className="fh-btn-primary-add" 
+          <button
+            className="fh-btn-primary-add"
             onClick={openAddModal}
             title="Create Fee Head Record"
           >
@@ -313,35 +388,81 @@ const FeeHead = () => {
           <thead>
             <tr className="fh-table-row-head">
               {columns.sno && <th className="fh-table-head-cell">S.No.</th>}
-              {columns.feeGroup && <th className="fh-table-head-cell">Fee Group</th>}
-              {columns.feeHead && <th className="fh-table-head-cell">Fee Head</th>}
-              {columns.shortName && <th className="fh-table-head-cell">Short Name</th>}
-              {columns.priority && <th className="fh-table-head-cell">Priority</th>}
-              {columns.applyFor && <th className="fh-table-head-cell">Apply For</th>}
+              {columns.feeGroup && (
+                <th className="fh-table-head-cell">Fee Group</th>
+              )}
+              {columns.feeHead && (
+                <th className="fh-table-head-cell">Fee Head</th>
+              )}
+              {columns.shortName && (
+                <th className="fh-table-head-cell">Short Name</th>
+              )}
+              {columns.priority && (
+                <th className="fh-table-head-cell">Priority</th>
+              )}
+              {columns.applyFor && (
+                <th className="fh-table-head-cell">Apply For</th>
+              )}
               {columns.gender && <th className="fh-table-head-cell">Gender</th>}
-              {columns.installment && <th className="fh-table-head-cell">Installment</th>}
-              {columns.feeType && <th className="fh-table-head-cell">Fee Type</th>}
-              {columns.action && <th className="fh-table-head-cell fh-table-head-cell-actions">Actions</th>}
+              {columns.installment && (
+                <th className="fh-table-head-cell">Installment</th>
+              )}
+              {columns.feeType && (
+                <th className="fh-table-head-cell">Fee Type</th>
+              )}
+              {columns.action && (
+                <th className="fh-table-head-cell fh-table-head-cell-actions">
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
 
           <tbody>
             {paginatedRows.length > 0 ? (
               paginatedRows.map((row, index) => (
-                <tr className="fh-table-row-body" key={row.id}>
+                <tr className="fh-table-row-body" key={row._id}>
                   {columns.sno && (
                     <td className="fh-table-body-cell fh-cell-bold">
                       {(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
                     </td>
                   )}
-                  {columns.feeGroup && <td className="fh-table-body-cell fh-cell-group-badge"><span>{row.feeGroup || "—"}</span></td>}
-                  {columns.feeHead && <td className="fh-table-body-cell fh-cell-primary-highlight">{row.feeHead}</td>}
-                  {columns.shortName && <td className="fh-table-body-cell"><span className="fh-badge-light">{row.shortName}</span></td>}
-                  {columns.priority && <td className="fh-table-body-cell">{row.priority || "—"}</td>}
-                  {columns.applyFor && <td className="fh-table-body-cell">{row.applyFor}</td>}
-                  {columns.gender && <td className="fh-table-body-cell">{row.gender}</td>}
-                  {columns.installment && <td className="fh-table-body-cell">{row.installment || "—"}</td>}
-                  {columns.feeType && <td className="fh-table-body-cell">{row.feeType}</td>}
+                  {columns.feeGroup && (
+                    <td className="fh-table-body-cell fh-cell-group-badge">
+                      <span>{row.feeGroup?.headGroup || "—"}</span>
+                    </td>
+                  )}
+                  {columns.feeHead && (
+                    <td className="fh-table-body-cell fh-cell-primary-highlight">
+                      {row.feeHeadName}
+                    </td>
+                  )}
+                  {columns.shortName && (
+                    <td className="fh-table-body-cell">
+                      <span className="fh-badge-light">
+                        {row.feeHeadShortName}
+                      </span>
+                    </td>
+                  )}
+                  {columns.priority && (
+                    <td className="fh-table-body-cell">
+                      {row.priority || "—"}
+                    </td>
+                  )}
+                  {columns.applyFor && (
+                    <td className="fh-table-body-cell">{row.applyFor}</td>
+                  )}
+                  {columns.gender && (
+                    <td className="fh-table-body-cell">{row.gender}</td>
+                  )}
+                  {columns.installment && (
+                    <td className="fh-table-body-cell">
+                      {row.installmentType || "—"}
+                    </td>
+                  )}
+                  {columns.feeType && (
+                    <td className="fh-table-body-cell">{row.feeType}</td>
+                  )}
 
                   {columns.action && (
                     <td className="fh-table-body-cell fh-cell-actions-container">
@@ -355,7 +476,7 @@ const FeeHead = () => {
 
                       <button
                         className="fh-btn-action-delete"
-                        onClick={() => handleDelete(row.id)}
+                        onClick={() => handleDelete(row._id)}
                         title="Delete Row"
                       >
                         <FaTrash />
@@ -366,9 +487,14 @@ const FeeHead = () => {
               ))
             ) : (
               <tr className="fh-table-row-empty">
-                <td className="fh-table-empty-fallback-cell" colSpan={activeColumnsCount}>
+                <td
+                  className="fh-table-empty-fallback-cell"
+                  colSpan={activeColumnsCount}
+                >
                   <div className="fh-empty-state-view">
-                    <p className="fh-empty-state-text">No matching records found.</p>
+                    <p className="fh-empty-state-text">
+                      No matching records found.
+                    </p>
                   </div>
                 </td>
               </tr>
@@ -380,7 +506,10 @@ const FeeHead = () => {
       {/* Pagination Module Layout */}
       <div className="fh-pagination-bottom-bar">
         <span className="fh-pagination-summary-text">
-          Showing <strong className="fh-text-dark">{startRecord}</strong> to <strong className="fh-text-dark">{endRecord}</strong> of <strong className="fh-text-dark">{filteredRows.length}</strong> records
+          Showing <strong className="fh-text-dark">{startRecord}</strong> to{" "}
+          <strong className="fh-text-dark">{endRecord}</strong> of{" "}
+          <strong className="fh-text-dark">{filteredRows.length}</strong>{" "}
+          records
         </span>
 
         <div className="fh-pagination-actions-nav">
@@ -391,13 +520,17 @@ const FeeHead = () => {
           >
             <FaChevronLeft />
           </button>
-          
-          <span className="fh-pagination-indicator">Page {currentPage} of {totalPages}</span>
-          
+
+          <span className="fh-pagination-indicator">
+            Page {currentPage} of {totalPages}
+          </span>
+
           <button
             className="fh-btn-nav-arrow"
             disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
           >
             <FaChevronRight />
           </button>
@@ -410,22 +543,35 @@ const FeeHead = () => {
           <form className="fh-modal-window-card" onSubmit={handleSubmit}>
             <div className="fh-modal-header-section">
               <div className="fh-modal-headline-wrapper">
-                <span className="fh-modal-subtitle">{editMode ? "Management Dashboard" : "Configuration Wizard"}</span>
-                <h2 className="fh-modal-main-title">{editMode ? "Modify Fee Head" : "Add Fee Head Structure"}</h2>
+                <span className="fh-modal-subtitle">
+                  {editMode ? "Management Dashboard" : "Configuration Wizard"}
+                </span>
+                <h2 className="fh-modal-main-title">
+                  {editMode ? "Modify Fee Head" : "Add Fee Head Structure"}
+                </h2>
               </div>
-              <button type="button" className="fh-btn-modal-close-trigger" onClick={() => setShowModal(false)}>
+              <button
+                type="button"
+                className="fh-btn-modal-close-trigger"
+                onClick={() => setShowModal(false)}
+              >
                 <FaTimes />
               </button>
             </div>
 
             <div className="fh-modal-scrollable-body">
               <div className="fh-modal-form-fields-grid">
-                
                 {/* Premium Custom Dropdown for Fee Group Structure */}
                 <CustomSelect
                   label="Fee Group"
-                  options={FEE_GROUPS}
-                  value={formData.feeGroup}
+                  options={feeGroups.map((item) => ({
+                    label: item.headGroup,
+                    value: item._id,
+                  }))}
+                  value={
+                    feeGroups.find((f) => f._id === formData.feeGroup)
+                      ?.headGroup || ""
+                  }
                   onChange={(val) => handleSelectChange("feeGroup", val)}
                   required
                 />
@@ -433,7 +579,7 @@ const FeeHead = () => {
                 {/* Premium Custom Dropdown for Installment Term */}
                 <CustomSelect
                   label="Installment Type"
-                  options={INSTALLMENT_TYPES}
+                  options={installmentOptions}
                   value={formData.installmentType}
                   onChange={(val) => handleSelectChange("installmentType", val)}
                   required
@@ -472,7 +618,9 @@ const FeeHead = () => {
                     onChange={handleChange}
                   >
                     {FEE_TYPES.map((f) => (
-                      <option key={f} value={f}>{f}</option>
+                      <option key={f} value={f}>
+                        {f}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -507,7 +655,9 @@ const FeeHead = () => {
                           onChange={handleChange}
                         />
                         <span className="fh-radio-custom-facade"></span>
-                        <span className="fh-radio-label-string-text">{item}</span>
+                        <span className="fh-radio-label-string-text">
+                          {item}
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -527,7 +677,9 @@ const FeeHead = () => {
                           onChange={handleChange}
                         />
                         <span className="fh-radio-custom-facade"></span>
-                        <span className="fh-radio-label-string-text">{item}</span>
+                        <span className="fh-radio-label-string-text">
+                          {item}
+                        </span>
                       </label>
                     ))}
                   </div>

@@ -10,6 +10,7 @@ import OurClasses from '../../components/OurClasses/OurClasses'
 import EnrollSection from '../../components/EnrollSection/EnrollSection'
 import FAQSection from '../../components/FAQSection/FAQSection'
 import VissionMission from '../../components/VissionMission/VissionMission'
+import FeeSection from '../../components/FeeSection/FeeSection'
 
 const Home = () => {
   return (
@@ -47,6 +48,10 @@ const Home = () => {
 
       <section id="news">
         <BlogActivitesHome/>
+      </section>
+      
+      <section id="feesection">
+        <FeeSection/>
       </section>
 
       <section id="testimonials">

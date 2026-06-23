@@ -1,264 +1,258 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Studentattendance.css";
+import {
+  Search,
+  Calendar,
+  List,
+  Save,
+  Plane,
+} from "lucide-react";
 
 const StudentAttendance = () => {
+  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedSection, setSelectedSection] = useState("");
+  const [attendanceType, setAttendanceType] = useState("");
+  const [attendanceDate, setAttendanceDate] = useState(
+    new Date().toISOString().split("T")[0] // Defaults to today's date
+  );
+  const [showTable, setShowTable] = useState(false);
 
-  /* ================= FORM STATE ================= */
-  const [criteria, setCriteria] = useState({
-    class: "",
-    section: "",
-    attendance: "",
-    date: ""
-  });
+  // Mock initial source of students
+  const initialAttendanceData = [
+    { id: 1, admissionNo: "ADM001", roll: "01", name: "Ankita Nayak", attendance: "Present", note: "-" },
+    { id: 2, admissionNo: "ADM002", roll: "02", name: "Rahul Kumar", attendance: "Absent", note: "Sick" },
+    { id: 3, admissionNo: "ADM003", roll: "03", name: "Priya Sharma", attendance: "Present", note: "-" },
+    { id: 4, admissionNo: "ADM004", roll: "04", name: "Aman Das", attendance: "Late", note: "Traffic" },
+    { id: 5, admissionNo: "ADM005", roll: "05", name: "Riya Singh", attendance: "Present", note: "-" },
+  ];
 
-  const [search, setSearch] = useState("");
+  // Dynamic state to capture user modifications inside the table
+  const [students, setStudents] = useState(initialAttendanceData);
 
-  /* ================= SAMPLE DATA ================= */
-  const students = Array.from({ length: 22 }, (_, i) => ({
-    id: i + 1,
-    admission: `ADM00${i + 1}`,
-    roll: `${i + 1}`,
-    name: ["Rahul Sharma", "Priya Das", "Amit Roy"][i % 3],
-    attendance: ["Present", "Absent", "Leave"][i % 3],
-    note: ""
-  }));
+  const classData = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+  const sectionData = ["A", "B", "C", "D"];
 
-  const [data, setData] = useState(students);
+  // Search logic handler
+  const handleSearch = () => {
+    if (!selectedClass || !selectedSection) {
+      alert("Please select both Class and Section criteria.");
+      return;
+    }
 
-  /* ================= PAGINATION ================= */
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
+    // Filter students if specific criteria match or show all
+    if (attendanceType && attendanceType !== "All") {
+      const filtered = initialAttendanceData.filter(
+        (student) => student.attendance === attendanceType
+      );
+      setStudents(filtered);
+    } else {
+      setStudents(initialAttendanceData);
+    }
 
-  /* ================= HANDLERS ================= */
+    setShowTable(true);
+  };
 
-  const handleAttendanceChange = (id, value) => {
-    setData(prev =>
-      prev.map(s =>
-        s.id === id ? { ...s, attendance: value } : s
+  // Inline table dynamic changes updates the active React State
+  const handleTableChange = (id, field, value) => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student.id === id ? { ...student, [field]: value } : student
       )
     );
   };
 
-  /* SEARCH FILTER */
-  const filtered = data.filter(s =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // Mark Holiday logic
+  const handleMarkHoliday = () => {
+    if (students.length === 0) return;
+    const confirmation = window.confirm("Mark today as a holiday for all listed students?");
+    if (confirmation) {
+      const holidayData = students.map((student) => ({
+        ...student,
+        attendance: "Absent",
+        note: "Holiday",
+      }));
+      setStudents(holidayData);
+    }
+  };
 
-  /* RESET PAGE WHEN SEARCH */
-  useEffect(() => {
-    setCurrentPage;
-  }, [search]);
+  // Mark Holiday Range placeholder triggers
+  const handleMarkHolidayRange = () => {
+    alert("Redirecting to Holiday Schedule Matrix setup interface...");
+  };
 
-  /* PAGINATION CALCULATION */
-  const totalPages = Math.ceil(filtered.length / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-
-  const currentRows = filtered.slice(
-    startIndex,
-    startIndex + rowsPerPage
-  );
-
-  const saveAttendance = () => {
-    alert("Attendance Saved Successfully ✅");
+  // Save functionality package assembler
+  const handleSaveAttendance = () => {
+    const payload = {
+      class: selectedClass,
+      section: selectedSection,
+      date: attendanceDate,
+      records: students,
+    };
+    
+    console.log("Saving Final Attendance Payload to database/API:", payload);
+    alert(`Success! Saved attendance configurations for ${students.length} items.`);
   };
 
   return (
-    <div className="StudentAttendance-container">
+    <div className="studentAttendancePage">
+      {/* Header */}
+      <div className="studentAttendanceHeader">
+        <div className="studentAttendanceTitle">
+          <Calendar size={28} />
+          <h2>Student Attendance</h2>
+        </div>
+        <div className="studentAttendanceBreadcrumb">
+          Attendance / Student Attendance
+        </div>
+      </div>
 
-      {/* ================= SELECT CRITERIA ================= */}
-      <div className="StudentAttendance-card">
-
-        <div className="StudentAttendance-cardHeader">
-          🔎 Select Criteria
-          <button className="StudentAttendance-btnPrimary">
+      {/* Search Card */}
+      <div className="studentAttendanceCard">
+        <div className="studentAttendanceCardHeader">
+          <div className="studentAttendanceCardTitle">
+            <Search size={25} />
+            <h3>Select Criteria</h3>
+          </div>
+          <button className="attendancePrimaryBtn" onClick={handleMarkHolidayRange}>
             Mark Holiday Range
           </button>
         </div>
 
-        <div className="StudentAttendance-formGrid">
-
-          <div>
+        <div className="studentAttendanceForm">
+          <div className="attendanceInputGroup">
             <label>Class *</label>
             <select
-              value={criteria.class}
-              onChange={(e)=>setCriteria({...criteria,class:e.target.value})}
+              value={selectedClass}
+              onChange={(e) => setSelectedClass(e.target.value)}
             >
               <option value="">Select Class</option>
-              <option>KSV 5th</option>
-              <option>KSV 6th</option>
-              <option>KSV 7th</option>
+              {classData.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
             </select>
           </div>
 
-          <div>
+          <div className="attendanceInputGroup">
             <label>Section *</label>
             <select
-              value={criteria.section}
-              onChange={(e)=>setCriteria({...criteria,section:e.target.value})}
+              value={selectedSection}
+              onChange={(e) => setSelectedSection(e.target.value)}
             >
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
+              <option value="">Select Section</option>
+              {sectionData.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
             </select>
           </div>
 
-          <div>
+          <div className="attendanceInputGroup">
             <label>Attendance</label>
             <select
-              value={criteria.attendance}
-              onChange={(e)=>setCriteria({...criteria,attendance:e.target.value})}
+              value={attendanceType}
+              onChange={(e) => setAttendanceType(e.target.value)}
             >
-              <option>All</option>
-              <option>Present</option>
-              <option>Absent</option>
-              <option>Leave</option>
+              <option value="">Select Attendance</option>
+              <option value="All">All</option>
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
+              <option value="Late">Late</option>
             </select>
           </div>
 
-          <div>
+          <div className="attendanceInputGroup">
             <label>Attendance Date</label>
-            <input
-              type="date"
-              value={criteria.date}
-              onChange={(e)=>setCriteria({...criteria,date:e.target.value})}
+            <input 
+              type="date" 
+              value={attendanceDate}
+              onChange={(e) => setAttendanceDate(e.target.value)}
             />
           </div>
-
         </div>
 
-        <div className="StudentAttendance-searchRow">
-          <button className="StudentAttendance-btnSearch">
-            🔍 Search
+        <div className="attendanceSearchArea">
+          <button className="attendanceSearchBtn" onClick={handleSearch}>
+            <Search size={18} />
+            Search
           </button>
         </div>
       </div>
 
-      {/* ================= ATTENDANCE TABLE ================= */}
-      <div className="StudentAttendance-card">
+      {/* Table Section container showing only when flagged active */}
+      {showTable && (
+        <div className="studentAttendanceTableCard">
+          <div className="studentAttendanceTableHeader">
+            <div className="studentAttendanceTableTitle">
+              <List size={25} />
+              <h3>Student Attendance List</h3>
+            </div>
 
-        <div className="StudentAttendance-cardHeader">
-          📋 Student Attendance List
+            <div className="tableActionButtons">
+              <button className="attendanceHolidayBtn" onClick={handleMarkHoliday}>
+                <Plane size={18} />
+                Mark As Holiday
+              </button>
 
-          <div className="StudentAttendance-headerBtns">
-            <button onClick={saveAttendance}>
-              Save Attendance
-            </button>
+              <button className="attendanceSaveBtn" onClick={handleSaveAttendance}>
+                <Save size={18} />
+                Save Attendance
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* TOOLBAR */}
-        <div className="StudentAttendance-toolbar">
-          <div>
-            Search :
-            <input
-              value={search}
-              onChange={(e)=>setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* TABLE */}
-        <div className="StudentAttendance-tableWrapper">
-          <table className="StudentAttendance-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>ADMISSION NO.</th>
-                <th>ROLL NUMBER</th>
-                <th>NAME</th>
-                <th>ATTENDANCE</th>
-                <th>NOTE</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {currentRows.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="StudentAttendance-empty">
-                    No data available in table
-                  </td>
-                </tr>
-              ) : (
-                currentRows.map((s, i) => (
-                  <tr key={s.id}>
-                    <td>{startIndex + i + 1}</td>
-                    <td>{s.admission}</td>
-                    <td>{s.roll}</td>
-                    <td>{s.name}</td>
-
-                    <td>
-                      <select
-                        value={s.attendance}
-                        onChange={(e)=>
-                          handleAttendanceChange(s.id,e.target.value)
-                        }
-                      >
-                        <option>Present</option>
-                        <option>Absent</option>
-                        <option>Leave</option>
-                      </select>
-                    </td>
-
-                    <td>
-                      <input
-                        value={s.note}
-                        onChange={(e)=>{
-                          setData(prev =>
-                            prev.map(st =>
-                              st.id === s.id
-                                ? {...st,note:e.target.value}
-                                : st
-                            )
-                          );
-                        }}
-                      />
-                    </td>
+          <div className="tableResponsive">
+            {students.length > 0 ? (
+              <table className="attendanceTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Admission No.</th>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Attendance</th>
+                    <th>Note</th>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {students.map((student, index) => (
+                    <tr key={student.id}>
+                      <td>{index + 1}</td>
+                      <td>{student.admissionNo}</td>
+                      <td>{student.roll}</td>
+                      <td>{student.name}</td>
+                      <td>
+                        <select
+                          className="tableSelect"
+                          value={student.attendance}
+                          onChange={(e) =>
+                            handleTableChange(student.id, "attendance", e.target.value)
+                          }
+                        >
+                          <option value="Present">Present</option>
+                          <option value="Absent">Absent</option>
+                          <option value="Late">Late</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          className="tableNoteInput"
+                          placeholder="Enter Note"
+                          value={student.note === "-" ? "" : student.note}
+                          onChange={(e) =>
+                            handleTableChange(student.id, "note", e.target.value)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="noDataFallback">No students found matching current filter parameters.</div>
+            )}
+          </div>
         </div>
-
-        {/* FOOTER */}
-        <div className="StudentAttendance-footer">
-          Showing {currentRows.length} of {filtered.length} entries
-        </div>
-
-        {/* ================= PAGINATION ================= */}
-        <div className="StudentAttendance-pagination">
-
-          <button
-            className="page-nav"
-            disabled={currentPage === 1}
-            onClick={()=>setCurrentPage(p=>p-1)}
-          >
-            Previous
-          </button>
-
-          {[...Array(totalPages)].map((_,index)=>(
-            <button
-              key={index}
-              className={`page-number ${
-                currentPage===index+1 ? "active": ""
-              }`}
-              onClick={()=>setCurrentPage(index+1)}
-            >
-              {index+1}
-            </button>
-          ))}
-
-          <button
-            className="page-nav"
-            disabled={currentPage === totalPages}
-            onClick={()=>setCurrentPage(p=>p+1)}
-          >
-            Next
-          </button>
-
-        </div>
-
-      </div>
+      )}
     </div>
   );
 };

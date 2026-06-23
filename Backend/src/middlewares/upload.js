@@ -27,22 +27,11 @@ const routeFolderMap = {
   "/news": "uploads/news",
   "/events": "uploads/events",
   "/classes": "uploads/classes",
-<<<<<<< HEAD
-   "/testimonials": "uploads/testimonials" ,
-    "/teachers": "uploads/teachers",
-    "/admissions": "uploads/admissions",
-    "/banner":"uploads/banner", 
-    
-    
-  "/class-post": "uploads/class-post",
   "/testimonials": "uploads/testimonials",
-=======
->>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
+
+  "/class-post": "uploads/class-post",
   "/teachers": "uploads/teachers",
   "/subjects": "uploads/subjects",
-<<<<<<< HEAD
-=======
-  "/testimonials": "uploads/testimonials",
   "/blogs": "uploads/blogs",
   "/banner": "uploads/banner",
 
@@ -57,7 +46,6 @@ const routeFolderMap = {
 
   /* ================= CLASS POST ================= */
   "/class-post": "uploads/class-post",
->>>>>>> d36e8f46e0fb62ea0637861341ef30bbaccab6ac
 };
 
 /* =========================================================
@@ -136,18 +124,13 @@ const fileFilter = (req, file, cb) => {
 
       /* ================= PDF OR IMAGE ================= */
 
-      const mixedFields = [
-        "aadhaarStudent",
-        "aadhaarParent",
-      ];
+      const mixedFields = ["aadhaarStudent", "aadhaarParent"];
 
       /* ================= IMAGE VALIDATION ================= */
 
       if (imageFields.includes(field)) {
         if (!isImage) {
-          return cb(
-            new Error(`${field} must be image`)
-          );
+          return cb(new Error(`${field} must be image`));
         }
 
         return cb(null, true);
@@ -157,9 +140,7 @@ const fileFilter = (req, file, cb) => {
 
       if (pdfFields.includes(field)) {
         if (!isPDF) {
-          return cb(
-            new Error(`${field} must be PDF`)
-          );
+          return cb(new Error(`${field} must be PDF`));
         }
 
         return cb(null, true);
@@ -169,11 +150,7 @@ const fileFilter = (req, file, cb) => {
 
       if (mixedFields.includes(field)) {
         if (!isImage && !isPDF) {
-          return cb(
-            new Error(
-              `${field} must be PDF or image`
-            )
-          );
+          return cb(new Error(`${field} must be PDF or image`));
         }
 
         return cb(null, true);
@@ -187,11 +164,7 @@ const fileFilter = (req, file, cb) => {
     if (isImage || isPDF || isDOC) {
       cb(null, true);
     } else {
-      cb(
-        new Error(
-          "Only images, PDF, DOC, DOCX files are allowed"
-        )
-      );
+      cb(new Error("Only images, PDF, DOC, DOCX files are allowed"));
     }
   } catch (error) {
     cb(error);
@@ -216,10 +189,7 @@ const upload = multer({
    GENERATE FILE NAME
 ========================================================= */
 
-const generateFileName = (
-  fieldname,
-  ext = ".webp"
-) => {
+const generateFileName = (fieldname, ext = ".webp") => {
   return `${fieldname}_${Date.now()}${ext}`;
 };
 
@@ -227,28 +197,17 @@ const generateFileName = (
    PROCESS FILE
 ========================================================= */
 
-const processFile = async (
-  file,
-  uploadPath
-) => {
-  const isImage =
-    file.mimetype.startsWith("image/");
+const processFile = async (file, uploadPath) => {
+  const isImage = file.mimetype.startsWith("image/");
 
   /* =====================================================
      IMAGE -> WEBP
   ===================================================== */
 
   if (isImage) {
-    const filename = generateFileName(
-      file.fieldname,
-      ".webp"
-    );
+    const filename = generateFileName(file.fieldname, ".webp");
 
-    const outputPath = path.join(
-      process.cwd(),
-      uploadPath,
-      filename
-    );
+    const outputPath = path.join(process.cwd(), uploadPath, filename);
 
     await sharp(file.buffer)
       .resize({
@@ -262,48 +221,29 @@ const processFile = async (
       })
       .toFile(outputPath);
 
-    return `/${uploadPath}/${filename}`.replace(
-      /\\/g,
-      "/"
-    );
+    return `/${uploadPath}/${filename}`.replace(/\\/g, "/");
   }
 
   /* =====================================================
      PDF / DOC FILES
   ===================================================== */
 
-  const ext = path.extname(
-    file.originalname
-  ).toLowerCase();
+  const ext = path.extname(file.originalname).toLowerCase();
 
-  const filename = generateFileName(
-    file.fieldname,
-    ext
-  );
+  const filename = generateFileName(file.fieldname, ext);
 
-  const outputPath = path.join(
-    process.cwd(),
-    uploadPath,
-    filename
-  );
+  const outputPath = path.join(process.cwd(), uploadPath, filename);
 
   fs.writeFileSync(outputPath, file.buffer);
 
-  return `/${uploadPath}/${filename}`.replace(
-    /\\/g,
-    "/"
-  );
+  return `/${uploadPath}/${filename}`.replace(/\\/g, "/");
 };
 
 /* =========================================================
    CONVERT TO WEBP
 ========================================================= */
 
-const convertToWebp = async (
-  req,
-  res,
-  next
-) => {
+const convertToWebp = async (req, res, next) => {
   try {
     if (!req.file && !req.files) {
       return next();
@@ -316,15 +256,11 @@ const convertToWebp = async (
     ===================================================== */
 
     if (req.file) {
-      const savedPath = await processFile(
-        req.file,
-        uploadPath
-      );
+      const savedPath = await processFile(req.file, uploadPath);
 
       req.file.path = savedPath;
 
-      req.body[req.file.fieldname] =
-        savedPath;
+      req.body[req.file.fieldname] = savedPath;
     }
 
     /* =====================================================
@@ -335,29 +271,19 @@ const convertToWebp = async (
       for (const fieldName in req.files) {
         req.body[fieldName] = [];
 
-        for (const file of req.files[
-          fieldName
-        ]) {
-          const savedPath = await processFile(
-            file,
-            uploadPath
-          );
+        for (const file of req.files[fieldName]) {
+          const savedPath = await processFile(file, uploadPath);
 
           file.path = savedPath;
 
-          req.body[fieldName].push(
-            savedPath
-          );
+          req.body[fieldName].push(savedPath);
         }
       }
     }
 
     next();
   } catch (error) {
-    console.error(
-      "WEBP CONVERSION ERROR:",
-      error
-    );
+    console.error("WEBP CONVERSION ERROR:", error);
 
     return res.status(500).json({
       success: false,
@@ -381,24 +307,15 @@ const deleteImageFile = (filePath) => {
       cleanPath = cleanPath.substring(1);
     }
 
-    const fullPath = path.join(
-      process.cwd(),
-      cleanPath
-    );
+    const fullPath = path.join(process.cwd(), cleanPath);
 
     if (fs.existsSync(fullPath)) {
       fs.unlinkSync(fullPath);
 
-      console.log(
-        "FILE DELETED:",
-        fullPath
-      );
+      console.log("FILE DELETED:", fullPath);
     }
   } catch (error) {
-    console.error(
-      "DELETE FILE ERROR:",
-      error.message
-    );
+    console.error("DELETE FILE ERROR:", error.message);
   }
 };
 

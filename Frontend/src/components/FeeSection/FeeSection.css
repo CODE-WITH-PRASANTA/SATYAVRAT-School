@@ -1,0 +1,145 @@
+.fee-section {
+  width: 100%;
+  padding: 20px 10px;
+  background: #f4f7fb;
+}
+
+.fee-container {
+  max-width: 1500px;
+  margin: auto;
+}
+
+.fee-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.fee-header h2 {
+  font-size: 38px;
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.fee-header p {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.fee-table-wrapper {
+  overflow-x: auto;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.fee-table {
+  width: 100%;
+  min-width: 1400px;
+  border-collapse: collapse;
+}
+
+.fee-table thead tr {
+  background: #2ea3da;
+}
+
+.fee-table thead th {
+  color: white;
+  padding: 18px 15px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.fee-table tbody td {
+  padding: 18px 15px;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.row-title {
+  font-weight: 700;
+  color: #334155;
+  min-width: 280px;
+  text-align: left !important;
+  padding-left: 25px !important;
+  background: #fafafa;
+}
+
+.fee-table tbody tr:hover {
+  background: #f1f8ff;
+  transform: scale(1.002);
+}
+
+.fee-table tbody tr:hover td {
+  color: #0284c7;
+}
+
+.total-row {
+  background: #edf8ff;
+}
+
+.total-row td {
+  font-weight: 700;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.total-row:hover {
+  background: #dff2ff !important;
+}
+
+.fee-table::-webkit-scrollbar {
+  height: 8px;
+}
+
+.fee-table::-webkit-scrollbar-thumb {
+  background: #2ea3da;
+  border-radius: 20px;
+}
+
+@media (max-width: 1200px) {
+  .fee-header h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .fee-header h2 {
+    font-size: 26px;
+  }
+
+  .fee-header p {
+    font-size: 14px;
+  }
+
+  .fee-table thead th,
+  .fee-table tbody td {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+
+  .row-title {
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fee-header h2 {
+    font-size: 22px;
+  }
+
+  .fee-table {
+    min-width: 1250px;
+  }
+
+  .fee-table thead th,
+  .fee-table tbody td {
+    font-size: 13px;
+    padding: 12px 10px;
+  }
+}

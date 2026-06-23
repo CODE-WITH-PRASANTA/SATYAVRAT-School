@@ -1,210 +1,645 @@
-.Studentleave-container{
-  padding:20px;
-  background:#f3f4f6;
+/* ==========================================================================
+   PREMIUM ROYAL BLUE AND WHITE THEME DEFINITIONS
+   ========================================================================== */
+:root {
+  --bg-workspace: #f0f4f9;
+  --bg-card: #ffffff;
+  --primary-deep: #0f172a;
+  --primary-blue: #1e40af;
+  --primary-accent: #2563eb;
+  --primary-light: #eff6ff;
+  --primary-border: #dbeafe;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --pure-white: #ffffff;
+  --success-color: #059669;
+  --success-bg: #ecfdf5;
+  --pending-color: #d97706;
+  --pending-bg: #fffbeb;
 }
 
-/* HEADER */
-.Studentleave-header{
-  display:flex;
-  justify-content:space-between;
-  background:#fff1f2;
-  padding:16px 20px;
-  border-radius:16px 16px 0 0;
+/* Base View Layout Structure */
+.sl-dashboard-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-workspace);
+  min-height: 100vh;
+  padding: 24px;
+  color: var(--text-dark);
 }
 
-.Studentleave-addBtn{
-  background:#1e3a8a;
-  color:#fff;
-  border:none;
-  padding:8px 16px;
-  border-radius:6px;
-  cursor:pointer;
+/* ==========================================================================
+   HEADER SECTION LAYOUT
+   ========================================================================== */
+.sl-main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 4px;
 }
 
-/* TOOLBAR */
-.Studentleave-toolbar{
-  display:flex;
-  justify-content:space-between;
-  background:#fff;
-  padding:12px;
-  border:1px solid #e5e7eb;
-  border-top:none;
+.sl-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary-blue);
 }
 
-.Studentleave-search{
-  display:flex;
-  gap:10px;
-  align-items:center;
+.sl-brand-icon {
+  background-color: var(--primary-accent);
+  color: var(--pure-white);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(37, 99, 234, 0.2);
 }
 
-.Studentleave-search input,
-.Studentleave-search select{
-  padding:6px;
-  border:1px solid #c7d2fe;
-  border-radius:4px;
+.sl-header-brand h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-/* TABLE */
-.Studentleave-tableWrapper{
-  overflow-x:auto;
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-top:none;
+.sl-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
 }
 
-.Studentleave-tableWrapper::-webkit-scrollbar{
-  height:8px;
-}
-.Studentleave-tableWrapper::-webkit-scrollbar-thumb{
-  background:#c7d2fe;
-  border-radius:10px;
+.sl-nav-link {
+  color: var(--primary-accent);
+  cursor: pointer;
+  font-weight: 500;
 }
 
-.Studentleave-table{
-  width:100%;
-  min-width:1300px;
-  border-collapse:collapse;
+.sl-nav-separator {
+  color: var(--text-muted);
 }
 
-.Studentleave-table thead{
-  background:#ffe4e6;
+.sl-nav-link.sl-nav-active {
+  color: var(--text-dark);
+  font-weight: 400;
 }
 
-.Studentleave-table th,
-.Studentleave-table td{
-  padding:14px;
-  border:1px solid #e5e7eb;
-  text-align:left;
+/* ==========================================================================
+   CONTENT CARD WRAPPER
+   ========================================================================== */
+.sl-content-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(203, 213, 225, 0.7);
+  overflow: hidden;
 }
 
-/* STATUS */
-.Studentleave-statusGreen{
-  color:#16a34a;
-  font-weight:600;
+.sl-view-wrapper {
+  padding: 24px;
 }
 
-/* ACTION */
-.Studentleave-actionCell{
-  position:relative;
+/* Card Section Internal Header Layout */
+.sl-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-light);
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border: 1px solid var(--primary-border);
 }
 
-.Studentleave-actionWrap{
-  position:relative;
-  display:inline-block;
+.sl-card-header.mb-large {
+  margin-bottom: 32px;
 }
 
-.Studentleave-actionBtn{
-  background:linear-gradient(135deg,#2563eb,#1e3a8a);
-  color:#fff;
-  border:none;
-  padding:7px 16px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
+.sl-header-icon-box {
+  background: var(--pure-white);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid var(--primary-border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.Studentleave-actionBtn:hover{
-  background:linear-gradient(135deg,#1d4ed8,#172554);
+.sl-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary-blue);
 }
 
-/* DROPDOWN */
-.Studentleave-dropdown{
-  position:absolute;
-  top:42px;
-  right:0;
-  background:#fff;
-  border-radius:10px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 12px 24px rgba(0,0,0,.18);
-  z-index:9999;
-  min-width:140px;
-  animation:fade .2s ease;
+.sl-card-title h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 
-@keyframes fade{
-  from{opacity:0; transform:translateY(6px);}
-  to{opacity:1; transform:translateY(0);}
+/* Buttons Base Architecture */
+.sl-btn-primary {
+  background-color: var(--primary-accent);
+  color: var(--pure-white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(37, 99, 234, 0.25);
+  transition: all 0.2s ease;
 }
 
-.Studentleave-dropdown button{
-  width:100%;
-  padding:10px 14px;
-  border:none;
-  background:none;
-  text-align:left;
-  cursor:pointer;
+.sl-btn-primary:hover {
+  background-color: var(--primary-blue);
+  transform: translateY(-1px);
 }
 
-.Studentleave-dropdown button:hover{
-  background:#f1f5f9;
+.sl-btn-secondary {
+  background-color: var(--pure-white);
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s ease;
 }
 
-.Studentleave-dropdown .delete{
-  color:#ef4444;
+.sl-btn-secondary:hover {
+  background-color: var(--bg-workspace);
+  border-color: var(--text-muted);
 }
 
-/* PAGINATION */
-.Studentleave-pagination{
-  display:flex;
-  justify-content:center;
-  margin:25px 0;
+/* ==========================================================================
+   DATATABLE CONTROLS TOOLBAR (UPDATED)
+   ========================================================================== */
+.sl-table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.pagination-btn,
-.pagination-number{
-  padding:8px 16px;
-  border:1px solid #d1d5db;
-  background:#fff;
-  cursor:pointer;
+.sl-toolbar-left {
+  display: flex;
+  align-items: center;
 }
 
-.pagination-number{
-  border-left:none;
+.sl-entries-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.pagination-number.active{
-  background:#1e3a8a;
-  color:#fff;
-  border-color:#1e3a8a;
+.sl-entries-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-.pagination-btn:first-child{
-  border-radius:6px 0 0 6px;
+.sl-entries-selector select {
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 6px;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--pure-white);
+  color: var(--text-dark);
+  font-size: 13px;
 }
 
-.pagination-btn:last-child{
-  border-radius:0 6px 6px 0;
+.sl-entries-selector select:focus {
+  border-color: var(--primary-accent);
 }
 
-.pagination-btn:disabled{
-  opacity:.4;
-  cursor:not-allowed;
+.sl-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
-/* HIDE SCROLLBAR BUT KEEP SCROLL */
-.Studentleave-tableWrapper{
+
+.sl-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sl-search-box label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.sl-search-box input {
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: 6px;
+  outline: none;
+  width: 240px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.sl-search-box input:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 234, 0.1);
+}
+
+/* ==========================================================================
+   RESPONSIVE DATA TABLE VIEW
+   ========================================================================== */
+.sl-table-responsive {
   overflow-x: auto;
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE & Edge */
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.01);
 }
 
-/* Chrome, Safari, Opera */
-.Studentleave-tableWrapper::-webkit-scrollbar{
+.sl-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.sl-data-table th {
+  background-color: #f8fafc;
+  color: #334155;
+  font-weight: 600;
+  padding: 14px 16px;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--border-color);
+  letter-spacing: 0.5px;
+}
+
+.sl-sort-icon {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+.sl-data-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #475569;
+  vertical-align: middle;
+}
+
+.sl-table-row:hover {
+  background-color: #f8fafc;
+}
+
+.sl-text-dark-blue {
+  color: var(--primary-blue);
+}
+
+.sl-date-range-cell {
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.sl-table-empty {
+  text-align: center;
+  padding: 48px !important;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Row Pill Badges Configuration */
+.sl-badge-days {
+  background-color: var(--primary-light);
+  color: var(--primary-accent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.sl-status-badge {
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.sl-status-badge.pending {
+  background-color: var(--pending-bg);
+  color: var(--pending-color);
+}
+
+.sl-status-badge.approved {
+  background-color: var(--success-bg);
+  color: var(--success-color);
+}
+
+.sl-truncate {
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Actions Row Buttons */
+.sl-action-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.sl-action-btn {
+  background: var(--pure-white);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all 0.15s ease;
+}
+
+.sl-action-btn:hover {
+  background-color: var(--bg-workspace);
+}
+
+.sl-action-btn.edit:hover {
+  border-color: var(--primary-accent);
+  color: var(--primary-accent);
+}
+
+.sl-action-btn.delete:hover {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+/* ==========================================================================
+   PAGINATION MANAGEMENT SYSTEM FOOTER (COMPLETELY REWRITTEN)
+   ========================================================================== */
+.sl-table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 4px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 8px;
+}
+
+.sl-pagination-info {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.sl-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sl-page-numbers-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sl-page-nav-btn {
+  border: 1px solid var(--border-color);
+  background: var(--pure-white);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: all 0.15s ease;
+}
+
+.sl-page-nav-btn:not(.disabled):hover {
+  background: #f8fafc;
+  border-color: var(--text-muted);
+}
+
+.sl-page-nav-btn.disabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.sl-page-number-btn {
+  border: 1px solid var(--border-color);
+  background: var(--pure-white);
+  min-width: 32px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  padding: 0 4px;
+}
+
+.sl-page-number-btn:hover:not(.active) {
+  background: var(--primary-light);
+  border-color: var(--primary-accent);
+  color: var(--primary-accent);
+}
+
+.sl-page-number-btn.active {
+  background: var(--primary-accent);
+  border-color: var(--primary-accent);
+  color: var(--pure-white);
+  cursor: default;
+}
+
+/* ==========================================================================
+   FORM COMPONENT GENERATOR VIEW (2ND PAGE)
+   ========================================================================== */
+.sl-premium-form {
+  padding: 0 4px;
+}
+
+.sl-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.sl-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sl-width-full {
+  grid-column: span 3;
+}
+
+.sl-form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.sl-form-label.required::after {
+  content: ' *';
+  color: #ef4444;
+}
+
+/* Premium Form Elements */
+.sl-form-select, 
+.sl-form-input, 
+.sl-form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  background-color: var(--pure-white);
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.sl-form-select:focus, 
+.sl-form-input:focus, 
+.sl-form-textarea:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 234, 0.15);
+}
+
+.sl-form-input.readonly-style {
+  background-color: #f8fafc;
+  cursor: not-allowed;
+}
+
+/* Modern Document Selector Custom Component */
+.sl-file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--pure-white);
+}
+
+.sl-file-upload-btn {
+  background-color: #e2e8f0;
+  color: #334155;
+  padding: 11px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-right: 1px solid var(--border-color);
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.sl-file-upload-btn:hover {
+  background-color: #cbd5e1;
+}
+
+.sl-file-input-hidden {
   display: none;
 }
-/* RESPONSIVE */
-@media(max-width:768px){
-  .Studentleave-toolbar{
-    flex-direction:column;
-    gap:10px;
-  }
 
-  .Studentleave-actionBtn{
-    padding:6px 12px;
-    font-size:13px;
-  }
+.sl-file-name-placeholder {
+  padding-left: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .Studentleave-dropdown{
-    left:0;
-    right:auto;
+/* Form Save Action Row Footer */
+.sl-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.sl-btn-save {
+  background-color: var(--primary-accent);
+  color: var(--pure-white);
+  border: none;
+  padding: 12px 40px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 234, 0.2);
+  transition: all 0.2s ease;
+}
+
+.sl-btn-save:hover {
+  background-color: var(--primary-blue);
+  transform: translateY(-1px);
+}
+
+/* Utility Animations */
+.fw-medium { font-weight: 500; }
+.sl-text-muted { color: var(--text-muted); }
+
+.fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES FOR TABLES & GRID
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .sl-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sl-width-full {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .sl-table-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sl-toolbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sl-table-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    text-align: center;
+  }
+  .sl-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .sl-width-full {
+    grid-column: span 1;
+  }
+  .sl-main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }

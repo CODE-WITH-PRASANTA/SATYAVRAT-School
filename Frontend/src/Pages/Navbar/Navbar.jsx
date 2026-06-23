@@ -28,6 +28,7 @@ const Navbar = () => {
             <li><a href="#programms">Our Programms</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#news">News</a></li>
+            <li><a href="#feesection">FeeSection</a></li>
             <li><a href="#contact">Contact Us</a></li>
           </ul>
 
@@ -68,6 +69,7 @@ const Navbar = () => {
           <li><a href="#programms" onClick={() => setMenuOpen(false)}>Our Programms</a></li>
           <li><a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a></li>
           <li><a href="#news" onClick={() => setMenuOpen(false)}>News</a></li>
+          <li><a href="#feesection" onClick={() => setMenuOpen(false)}>feesection</a></li>
           <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</a></li>
         </ul>
       </div>

@@ -35,11 +35,11 @@ export default function StudentAdmsnDetails() {
 
     let filtered = [...students];
 
-    if (nameSearch) {
+    if (nameSearch.trim()) {
       filtered = filtered.filter((s) =>
-        `${s.firstName || ""} ${s.lastName || ""}`
+        (s.studentName || "")
           .toLowerCase()
-          .includes(nameSearch.toLowerCase()),
+          .includes(nameSearch.toLowerCase().trim()),
       );
     }
 
@@ -60,28 +60,27 @@ export default function StudentAdmsnDetails() {
     window.location.href = "/student/admission";
   };
 
-
-
   const handleDelete = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this student?")) return;
+    if (!window.confirm("Are you sure you want to delete this student?"))
+      return;
 
-  try {
-    await API.delete(`/students/${id}`);
+    try {
+      await API.delete(`/students/${id}`);
 
-    // remove from UI instantly
-    setStudents((prev) => prev.filter((s) => s._id !== id));
-    setFilteredStudents((prev) => prev.filter((s) => s._id !== id));
+      // remove from UI instantly
+      setStudents((prev) => prev.filter((s) => s._id !== id));
+      setFilteredStudents((prev) => prev.filter((s) => s._id !== id));
 
-    if (student?._id === id) {
-      setStudent(null);
+      if (student?._id === id) {
+        setStudent(null);
+      }
+
+      alert("Student deleted successfully ✅");
+    } catch (err) {
+      console.error(err);
+      alert("Delete failed ❌");
     }
-
-    alert("Student deleted successfully ✅");
-  } catch (err) {
-    console.error(err);
-    alert("Delete failed ❌");
-  }
-};
+  };
 
   const handlePrint = () => {
     window.print();
@@ -117,7 +116,7 @@ export default function StudentAdmsnDetails() {
                 <th>Name</th>
                 <th>Roll</th>
                 <th>Class</th>
-                <th>Action</th> 
+                <th>Action</th>
               </tr>
             </thead>
 
@@ -131,9 +130,7 @@ export default function StudentAdmsnDetails() {
                   }`}
                 >
                   <td>{index + 1}</td>
-                  <td>
-                    {s.firstName} {s.lastName}
-                  </td>
+                  <td>{s.studentName}</td>
                   <td>{s.rollNumber}</td>
                   <td>{s.class}</td>
 
@@ -181,9 +178,7 @@ export default function StudentAdmsnDetails() {
               </div>
 
               <div>
-                <h1 className="Student-Details-Title">
-                  {student.firstName} {student.lastName}
-                </h1>
+                <h1 className="Student-Details-Title">{student.studentName}</h1>
                 <p>
                   Class {student.class} • Roll {student.rollNumber}
                 </p>
@@ -221,16 +216,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Aadhar Number" value={student.aadharNumber} />
             </Section>
 
-            <Section title="Custom Fields">
-              <Detail label="PEN" value={student.pen} />
-              <Detail label="SR No" value={student.srNo} />
-              <Detail label="APAAR ID" value={student.apaarId} />
-              <Detail
-                label="Student Behaviour"
-                value={student.studentBehaviour?.join(", ")}
-              />
-            </Section>
-
+           
             <Section title="Father Details">
               <Detail label="Father Name" value={student.fatherName} />
               <Detail label="Father Phone" value={student.fatherPhone} />
@@ -249,24 +235,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Occupation" value={student.motherOccupation} />
             </Section>
 
-            <Section title="Guardian Details">
-              <Detail label="Guardian Type" value={student.guardianType} />
-              <Detail label="Guardian Name" value={student.guardianName} />
-              <Detail
-                label="Guardian Relation"
-                value={student.guardianRelation}
-              />
-              <Detail label="Guardian Email" value={student.guardianEmail} />
-              <Detail label="Guardian Phone" value={student.guardianPhone} />
-              <Detail
-                label="Guardian Occupation"
-                value={student.guardianOccupation}
-              />
-              <Detail
-                label="Guardian Address"
-                value={student.guardianAddress}
-              />
-            </Section>
+            
 
             <Section title="Address">
               <Detail label="Current Address" value={student.currentAddress} />
@@ -296,12 +265,7 @@ export default function StudentAdmsnDetails() {
               <Detail label="Bus Stop" value={student.busStop} />
             </Section>
 
-            <Section title="Hostel Details">
-              <Detail label="Hostel Type" value={student.hostelType} />
-              <Detail label="Hostel Name" value={student.hostelName} />
-              <Detail label="Room Type" value={student.roomType} />
-              <Detail label="Room" value={student.room} />
-            </Section>
+           
 
             <Section title="Previous School">
               <Detail
