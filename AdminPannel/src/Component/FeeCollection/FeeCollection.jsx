@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FeeCollection.css";
-import API from "../../api/axios";
+import API from "../../Api/axios";
 import logo from "../../Assets/logo.png";
 
 import {
@@ -44,6 +44,7 @@ const FeeCollection = () => {
   const [showReceipt, setShowReceipt] = useState(false);
 
   const [activeMenu, setActiveMenu] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const rowsPerPage = 5;
   const indexLast = page * rowsPerPage;
@@ -97,6 +98,7 @@ const FeeCollection = () => {
     try {
       const res = await API.get("/students");
       setStudents(res.data.data || []);
+      console.log(res.data.data);
     } catch (err) {
       console.error(err);
     }
@@ -141,11 +143,12 @@ const FeeCollection = () => {
   /* ================= FILTER STUDENTS ================= */
 
   const filteredStudents = students.filter((s) => {
-    const name = `${s.firstName || ""} ${s.lastName || ""}`.toLowerCase();
+    const name = (s.studentName || "").toLowerCase();
 
     return (
       name.includes(studentSearch.toLowerCase()) ||
-      (s.rollNumber || "").toString().includes(studentSearch)
+      (s.rollNumber || "").toString().includes(studentSearch) ||
+      (s.admissionNo || "").toString().includes(studentSearch)
     );
   });
 
@@ -195,88 +198,88 @@ const FeeCollection = () => {
   /* ================= SAVE FEE ================= */
 
   const saveFee = async () => {
-  if (!selectedStudent) {
-    alert("⚠️ Please select a student");
-    return;
-  }
+    if (!selectedStudent) {
+      alert("⚠️ Please select a student");
+      return;
+    }
 
-  if (!amount || isNaN(amount) || Number(amount) <= 0) {
-    alert("⚠️ Enter valid amount");
-    return;
-  }
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      alert("⚠️ Enter valid amount");
+      return;
+    }
 
-  if (!feeType) {
-    alert("⚠️ Select fee type");
-    return;
-  }
+    if (!feeType) {
+      alert("⚠️ Select fee type");
+      return;
+    }
 
-  if (!date) {
-    alert("⚠️ Select date");
-    return;
-  }
+    if (!date) {
+      alert("⚠️ Select date");
+      return;
+    }
 
-  try {
-    const totalAmount = Number(amount);
+    try {
+      const totalAmount = Number(amount);
 
-    // ✅ Discount Calculation
-    const discountAmount = (totalAmount * discount) / 100;
-    const finalAmount = totalAmount - discountAmount;
+      // ✅ Discount Calculation
+      const discountAmount = (totalAmount * discount) / 100;
+      const finalAmount = totalAmount - discountAmount;
 
-    const paidAmount = finalAmount;
-    const dueAmount = totalAmount - paidAmount;
+      const paidAmount = finalAmount;
+      const dueAmount = totalAmount - paidAmount;
 
-    const payload = {
-      studentId: selectedStudent._id,
-      admissionNo: selectedStudent.admissionNo,
-      name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
-      rollNumber: selectedStudent.rollNumber,
+      const payload = {
+        studentId: selectedStudent._id,
+        admissionNo: selectedStudent.admissionNo,
+        name: selectedStudent.studentName,
+        rollNumber: selectedStudent.rollNumber,
 
-      class: selectedStudent.class,
-      section: selectedStudent.section,
+        class: selectedStudent.class,
+        section: selectedStudent.section,
 
-      amount: totalAmount,
-      paid: paidAmount,
-      due: dueAmount,
+        amount: totalAmount,
+        paid: paidAmount,
+        due: dueAmount,
 
-      discount,
-      paymentMethod,
-      note,
-      status,
+        discount,
+        paymentMethod,
+        note,
+        status,
 
-      fees: [
-        {
-          feeType,
-          amount: totalAmount,
-        },
-      ],
+        fees: [
+          {
+            feeType,
+            amount: totalAmount,
+          },
+        ],
 
-      date,
-    };
+        date,
+      };
 
-    await API.post("/admission/fees", payload);
+      await API.post("/admission/fees", payload);
 
-    alert("✅ Fee collected successfully");
+      alert("✅ Fee collected successfully");
 
-    fetchFees();
+      fetchFees();
 
-    // ✅ RESET
-    setShowCollect(false);
-    setSelectedStudent(null);
-    setStudentSearch("");
-    setAmount("");
-    setDiscount(0);
-    setFeeType("");
-    setPaymentMethod("Cash");
-    setNote("");
-    setStatus("Paid");
+      // ✅ RESET
+      setShowCollect(false);
+      setSelectedStudent(null);
+      setStudentSearch("");
+      setAmount("");
+      setDiscount(0);
+      setFeeType("");
+      setPaymentMethod("Cash");
+      setNote("");
+      setStatus("Paid");
 
-    const today = new Date().toISOString().split("T")[0];
-    setDate(today);
-  } catch (err) {
-    console.error(err);
-    alert("❌ Failed to save fee");
-  }
-};
+      const today = new Date().toISOString().split("T")[0];
+      setDate(today);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Failed to save fee");
+    }
+  };
   return (
     <div className="FeeCollection">
       {/* HEADER */}
@@ -377,7 +380,7 @@ const FeeCollection = () => {
               <th>Name</th>
               <th>Roll</th>
               <th>Class</th>
-              <th>Fee Type</th> 
+              <th>Fee Type</th>
               <th>Amount</th>
               <th>Discount %</th>
               <th>Paid</th>
@@ -390,7 +393,6 @@ const FeeCollection = () => {
 
           <tbody>
             {currentRows.map((s, i) => {
-
               // ✅ HANDLE OLD + NEW DATA
               const amountValue = s.totalAmount
                 ? Number(s.totalAmount)
@@ -515,10 +517,15 @@ const FeeCollection = () => {
               <input
                 placeholder="Search Name / Roll No"
                 value={studentSearch}
-                onChange={(e) => setStudentSearch(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                onChange={(e) => {
+                  setStudentSearch(e.target.value);
+                  setSelectedStudent(null);
+                  setShowSuggestions(true);
+                }}
               />
 
-              {studentSearch && (
+              {showSuggestions && studentSearch && (
                 <div className="FeeCollection-studentResults">
                   {filteredStudents.slice(0, 5).map((s) => (
                     <div
@@ -526,12 +533,11 @@ const FeeCollection = () => {
                       className="FeeCollection-studentItem"
                       onClick={() => {
                         setSelectedStudent(s);
-                        setStudentSearch(`${s.firstName} ${s.lastName}`);
+                        setStudentSearch(s.studentName);
+                        setShowSuggestions(false);
                       }}
                     >
-                      <strong>
-                        {s.firstName} {s.lastName}
-                      </strong>
+                      <strong>{s.studentName}</strong>
 
                       <p>
                         Roll: {s.rollNumber} | {s.class} ({s.section})
@@ -548,8 +554,7 @@ const FeeCollection = () => {
                   </p>
 
                   <p>
-                    <b>Name:</b> {selectedStudent.firstName}{" "}
-                    {selectedStudent.lastName}
+                    <b>Name:</b> {selectedStudent.studentName}
                   </p>
 
                   <p>

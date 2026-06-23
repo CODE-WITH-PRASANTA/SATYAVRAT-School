@@ -206,11 +206,6 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         path: "/fee-entry",
         icon: <FaMoneyCheckAlt />,
       },
-      {
-        name: "Cancelled Fees",
-        path: "/cancel-fee",
-        icon: <FaBan />,
-      },
       
     ],
   },

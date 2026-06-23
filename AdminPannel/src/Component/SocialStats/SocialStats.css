@@ -75,3 +75,24 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===================================
+   DARK MODE
+=================================== */
+
+.dashboard-theme.dark .socialStats-card {
+  border: 1px solid #475569;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+}
+
+.dashboard-theme.dark .socialStats-content p {
+  color: #cbd5e1;
+}
+
+.dashboard-theme.dark .socialStats-content h3 {
+  color: #ffffff;
+}
+
+.dashboard-theme.dark .socialStats-icon {
+  color: #ffffff;
+}

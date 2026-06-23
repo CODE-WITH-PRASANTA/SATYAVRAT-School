@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './StudentLeave.css';
+import './Studentleave.css';
 
 const StudentLeave = () => {
   // State to manage views: 'list' or 'form'

@@ -1,4 +1,5 @@
 const Expense = require("../models/expense.models");
+const Wallet = require("../models/walletTransaction.model");
 
 
 // ================= GET ALL =================
@@ -46,6 +47,18 @@ exports.getExpense = async (req, res) => {
 exports.createExpense = async (req, res) => {
   try {
     const newExpense = await Expense.create(req.body);
+
+    // ==========================
+    // CREATE WALLET DEBIT
+    // ==========================
+    await Wallet.create({
+      type: "debit",
+      amount: Number(newExpense.amount || 0),
+      source: "expense",
+      referenceId: newExpense._id,
+      description: `Expense paid: ${newExpense.name} (${newExpense.invoice || "no invoice"})`,
+      createdBy: newExpense.createdBy || "Admin",
+    });
 
     res.status(201).json({
       success: true,

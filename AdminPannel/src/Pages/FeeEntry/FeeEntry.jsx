@@ -32,6 +32,10 @@ const FeeEntry = () => {
   const [selectedFees, setSelectedFees] = useState([]);
   const [selectedMonths, setSelectedMonths] = useState([]);
   const [academicYear, setAcademicYear] = useState("2026-2027");
+  const [paymentHistory, setPaymentHistory] = useState([]);
+  const [paidMonths, setPaidMonths] = useState([]);
+  const [feeHeadPayments, setFeeHeadPayments] = useState({});
+  const [feeHeadMonths, setFeeHeadMonths] = useState({});
 
   // Column visibility checklist state for the Fee Statement modal
   const [visibleColumns, setVisibleColumns] = useState({
@@ -61,21 +65,22 @@ const FeeEntry = () => {
     .reduce((sum, row) => {
       // Annual Fee
       if (row.structureType === "Annually") {
-        return sum + Number(row.amount || 0);
+        const dueAmt = Math.max(
+          0,
+          Number(row.amount || 0) - Number(feeHeadPayments[row.feeHeadId] || 0),
+        );
+
+        return sum + dueAmt;
       }
 
       // Monthly / Quarterly / Half-Yearly
-      const installmentAmount = selectedMonths.reduce(
+      const currentMonthsAmount = selectedMonths.reduce(
         (total, month) => total + Number(row.amounts?.[month] || 0),
         0,
       );
 
-      return sum + installmentAmount;
+      return sum + currentMonthsAmount;
     }, 0);
-
-  const totalPayable =
-    grossAmount - Number(discountAmount || 0) + Number(advanceAmount || 0);
-  const dueAmount = totalPayable - Number(paidAmount || 0);
 
   useEffect(() => {
     if (!selectedStudent?.class) {
@@ -103,10 +108,10 @@ const FeeEntry = () => {
                   ? item.feeHead?.feeHeadName || "Unknown"
                   : "Unknown",
 
-              // store month-wise data
+              // Month-wise amount data
               amounts: item.amounts || {},
 
-              // total amount
+              // Total fee amount
               amount:
                 item.total && item.total > 0
                   ? item.total
@@ -117,18 +122,32 @@ const FeeEntry = () => {
                       )
                     : 0,
 
-              total: item.total || 0,
+              total:
+                item.total && item.total > 0
+                  ? item.total
+                  : item.amounts
+                    ? Object.values(item.amounts).reduce(
+                        (sum, value) => sum + Number(value || 0),
+                        0,
+                      )
+                    : 0,
 
               structureType: structure.structureType,
+
+              className: structure.className,
+
+              stream: structure.stream,
+
+              grandTotal: structure.grandTotal,
             })),
           );
 
-          // console.log("All Fee Structures:", response.data.data);
-          // console.log("All Fee Heads:", allItems);
+          console.log("Fee Structures:", response.data.data);
+          console.log("Mapped Fee Heads:", allItems);
 
           setFeeHeads(allItems);
 
-          // Select all fee heads by default
+          // Auto select all fee heads
           setSelectedFees(allItems.map((item) => item.feeHeadId));
         } else {
           setFeeHeads([]);
@@ -174,12 +193,70 @@ const FeeEntry = () => {
     }
   };
 
+  const loadPaymentHistory = async (studentId) => {
+    try {
+      const res = await API.get(`/fee-entry/student/${studentId}`);
+
+      if (res.data.success) {
+        setPaymentHistory(res.data.data);
+
+        // All Paid Months
+        const months = res.data.data.flatMap(
+          (item) => item.installmentMonth || [],
+        );
+
+        setPaidMonths([...new Set(months)]);
+
+        // Fee Head Wise Paid Amount
+        const feeHeadPaidMap = {};
+
+        // Fee Head Wise Paid Months
+        const feeHeadMonthsMap = {};
+
+        res.data.data.forEach((entry) => {
+          entry.feeHeads?.forEach((fee) => {
+            const feeHeadId = fee.feeHeadId;
+
+            if (!feeHeadPaidMap[feeHeadId]) {
+              feeHeadPaidMap[feeHeadId] = 0;
+            }
+
+            if (!feeHeadMonthsMap[feeHeadId]) {
+              feeHeadMonthsMap[feeHeadId] = [];
+            }
+
+            // Store months
+            feeHeadMonthsMap[feeHeadId].push(...(entry.installmentMonth || []));
+
+            // Annual Fee
+            if (fee.feeHeadName?.toLowerCase().includes("annual")) {
+              feeHeadPaidMap[feeHeadId] += Number(entry.paidAmount || 0);
+            } else {
+              feeHeadPaidMap[feeHeadId] += Number(fee.amount || 0);
+            }
+          });
+        });
+
+        // Remove duplicate months
+        Object.keys(feeHeadMonthsMap).forEach((key) => {
+          feeHeadMonthsMap[key] = [...new Set(feeHeadMonthsMap[key])];
+        });
+
+        setFeeHeadPayments(feeHeadPaidMap);
+        setFeeHeadMonths(feeHeadMonthsMap);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSelectStudent = (student) => {
     setSelectedStudent(student);
     setStudentQuery(
       `${student.studentName || ""} (${student.admissionNo || ""})`,
     );
     setStudentSuggestions([]);
+    loadPaymentHistory(student._id);
   };
 
   const handleFeeHeadChange = (index, field, value) => {
@@ -195,6 +272,7 @@ const FeeEntry = () => {
 
   const handleSaveFeeEntry = async (e) => {
     e.preventDefault();
+
     setSaveMessage("");
     setSaveError("");
 
@@ -223,7 +301,6 @@ const FeeEntry = () => {
         academicYear,
 
         entryDate,
-        receiptNo,
         paymentMode,
         feeHeads: selectedFeeHeads,
 
@@ -239,19 +316,28 @@ const FeeEntry = () => {
         dueAmount,
       };
 
-      // console.log("Saving Payload:", payload);
-
       const response = await API.post("/fee-entry/create", payload);
 
+      // Receipt Number
+      setReceiptNo(response.data.data.receiptNo);
+
+      // Refresh Student Payment History
+      await loadPaymentHistory(selectedStudent._id);
+
+      // Success Message
       setSaveMessage(response.data.message || "Fee entry saved successfully.");
 
       setSaveError("");
-      setReceiptNo("");
-      setSelectedFees([]);
+
+      // Reset Form
+      setSelectedMonths([]);
       setDiscountAmount(0);
       setAdvanceAmount(0);
       setPaidAmount(0);
       setRemark("");
+
+      // Auto Select Remaining Fee Heads
+      setSelectedFees(feeHeads.map((item) => item.feeHeadId));
     } catch (error) {
       setSaveError(
         error.response?.data?.message || "Failed to save fee entry.",
@@ -302,9 +388,34 @@ const FeeEntry = () => {
     "MAR",
   ];
 
+  const remainingMonths = allMonths.filter(
+    (month) => !paidMonths.includes(month),
+  );
+
+  const annualFeeRow = feeHeads.find((row) => row.structureType === "Annually");
+
+  const annualPaidAmount = annualFeeRow
+    ? Number(feeHeadPayments[annualFeeRow.feeHeadId] || 0)
+    : 0;
+
+  const annualDueAmount = annualFeeRow
+    ? Math.max(0, Number(annualFeeRow.amount || 0) - annualPaidAmount)
+    : 0;
+
+  const annualStatus =
+    annualPaidAmount === 0
+      ? "Pending"
+      : annualDueAmount > 0
+        ? "Partial"
+        : "Paid";
+
+  const availableMonths = allMonths.filter(
+    (month) => !paidMonths.includes(month),
+  );
+
   const handleAllMonths = (checked) => {
     if (checked) {
-      setSelectedMonths(allMonths);
+      setSelectedMonths(availableMonths);
     } else {
       setSelectedMonths([]);
     }
@@ -328,6 +439,66 @@ const FeeEntry = () => {
       return () => clearTimeout(timer);
     }
   }, [saveMessage, saveError]);
+
+  const totalFeeAmount = feeHeads.reduce(
+    (sum, row) => sum + Number(row.amount || 0),
+    0,
+  );
+
+  const totalPaidAmount = feeHeads.reduce((sum, row) => {
+    const paidMonthsForHead = feeHeadMonths[row.feeHeadId] || [];
+
+    let paidAmt = 0;
+
+    if (
+      row.structureType === "Monthly" ||
+      row.structureType === "Quarterly" ||
+      row.structureType === "Half-Yearly"
+    ) {
+      paidAmt = paidMonthsForHead.reduce(
+        (s, month) => s + Number(row.amounts?.[month] || 0),
+        0,
+      );
+    } else {
+      paidAmt = Number(feeHeadPayments[row.feeHeadId] || 0);
+    }
+
+    return sum + paidAmt;
+  }, 0);
+
+  const totalDueAmount = feeHeads
+    .filter((row) => selectedFees.includes(row.feeHeadId))
+    .reduce((sum, row) => {
+      const paidMonthsForHead = feeHeadMonths[row.feeHeadId] || [];
+
+      let paidAmt = 0;
+
+      if (
+        row.structureType === "Monthly" ||
+        row.structureType === "Quarterly" ||
+        row.structureType === "Half-Yearly"
+      ) {
+        paidAmt = paidMonthsForHead.reduce(
+          (s, month) => s + Number(row.amounts?.[month] || 0),
+          0,
+        );
+      } else {
+        paidAmt = Number(feeHeadPayments[row.feeHeadId] || 0);
+      }
+
+      const dueAmt = Math.max(0, Number(row.amount || 0) - paidAmt);
+
+      return sum + dueAmt;
+    }, 0);
+
+  const currentDueAmount = totalDueAmount;
+
+  const totalPayable =
+    currentDueAmount - Number(discountAmount || 0) + Number(advanceAmount || 0);
+
+  const dueAmount = Math.max(0, totalPayable - Number(paidAmount || 0));
+
+  // const annualFeeRow = feeHeads.find((row) => row.structureType === "Annually");
 
   return (
     <div className="fee-entry-container">
@@ -424,13 +595,85 @@ const FeeEntry = () => {
               <span>{selectedStudent?.currentAddress || "-"}</span>
             </div>
             <div className="info-item">
-              <strong>Document Remark :</strong>{" "}
+              <strong>Document Remark :</strong>
               <span>{selectedStudent ? "Verified" : "-"}</span>
             </div>
+
             <div className="info-item">
-              <strong>General Remark :</strong>{" "}
+              <strong>Total Payments :</strong>
+              <span>{paymentHistory.length}</span>
+            </div>
+
+            <div className="info-item">
+              <strong>Paid Months :</strong>
+              <span>
+                {paidMonths.length > 0 ? paidMonths.join(", ") : "No Payment"}
+              </span>
+            </div>
+
+            <div className="info-item">
+              <strong>Remaining Months :</strong>
+              <span>
+                {remainingMonths.length > 0
+                  ? remainingMonths.join(", ")
+                  : "All Months Paid"}
+              </span>
+            </div>
+
+            <div className="info-item">
+              <strong>Annual Fee :</strong>
+
+              <span
+                style={{
+                  color:
+                    annualStatus === "Paid"
+                      ? "#16a34a"
+                      : annualStatus === "Partial"
+                        ? "#f59e0b"
+                        : "#dc2626",
+                  fontWeight: "600",
+                }}
+              >
+                {annualStatus}
+              </span>
+            </div>
+
+            <div className="info-item">
+              <strong>Annual Total :</strong>
+              <span>₹{Number(annualFeeRow?.amount || 0).toFixed(2)}</span>
+            </div>
+
+            <div className="info-item">
+              <strong>Annual Paid :</strong>
+              <span
+                style={{
+                  color: "#16a34a",
+                  fontWeight: "600",
+                }}
+              >
+                ₹{annualPaidAmount.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="info-item">
+              <strong>Annual Due :</strong>
+              <span
+                style={{
+                  color: annualDueAmount > 0 ? "#dc2626" : "#16a34a",
+                  fontWeight: "600",
+                }}
+              >
+                ₹{annualDueAmount.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="info-item">
+              <strong>Status :</strong>
               <span>{selectedStudent ? "Ready to collect fee" : "-"}</span>
             </div>
+            {/* <div className="info-item">
+              <span>{selectedStudent ? "Ready to collect fee" : "-"}</span>
+            </div> */}
           </div>
 
           <div className="student-avatar-column">
@@ -501,10 +744,10 @@ const FeeEntry = () => {
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Receipt No."
+                placeholder="Auto Generated"
                 className="form-input"
                 value={receiptNo}
-                onChange={(e) => setReceiptNo(e.target.value)}
+                readOnly
               />
             </div>
             <div className="form-group">
@@ -535,23 +778,28 @@ const FeeEntry = () => {
             <div className="installment-top-check">
               <input
                 type="checkbox"
-                checked={selectedMonths.length === allMonths.length}
+                checked={
+                  availableMonths.length > 0 &&
+                  selectedMonths.length === availableMonths.length
+                }
                 onChange={(e) => handleAllMonths(e.target.checked)}
               />
               <span>Select All</span>
             </div>
 
             <div className="installment-grid">
-              {allMonths.map((month) => (
-                <label key={month} className="month-item">
-                  <input
-                    type="checkbox"
-                    checked={selectedMonths.includes(month)}
-                    onChange={() => handleMonthCheck(month)}
-                  />
-                  <span>{month}</span>
-                </label>
-              ))}
+              {allMonths
+                .filter((month) => !paidMonths.includes(month))
+                .map((month) => (
+                  <label key={month} className="month-item">
+                    <input
+                      type="checkbox"
+                      checked={selectedMonths.includes(month)}
+                      onChange={() => handleMonthCheck(month)}
+                    />
+                    <span>{month}</span>
+                  </label>
+                ))}
             </div>
           </div>
         )}
@@ -592,53 +840,227 @@ const FeeEntry = () => {
                         }}
                       />
                     </th>
+
                     <th>FEE HEAD</th>
-                    <th>AMOUNT</th>
+                    <th>TOTAL</th>
+                    <th>PAID</th>
+                    <th>DUE</th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {feeStructureLoading && (
+                  {feeStructureLoading ? (
                     <tr>
                       <td
-                        colSpan="2"
-                        style={{ textAlign: "center", padding: "20px" }}
+                        colSpan="5"
+                        style={{
+                          textAlign: "center",
+                          padding: "20px",
+                        }}
                       >
                         Loading fee structure...
                       </td>
                     </tr>
-                  )}
-                  {!feeStructureLoading && feeHeads.length > 0 ? (
+                  ) : feeHeads.length > 0 ? (
                     <>
-                      {feeHeads.map((row, index) => (
-                        <tr key={`${row.feeHeadId}-${index}`}>
-                          <td>
-                            <input
-                              type="checkbox"
-                              checked={selectedFees.includes(row.feeHeadId)}
-                              onChange={() => handleFeeCheck(row.feeHeadId)}
-                            />
-                          </td>
+                      {feeHeads.map((row, index) => {
+                        const paidMonthsForHead =
+                          feeHeadMonths[row.feeHeadId] || [];
 
-                          <td>{row.feeHeadName}</td>
+                        let paidAmt = 0;
 
-                          <td style={{ textAlign: "center" }}>
-                            ₹{Number(row.amount || 0).toFixed(2)}
-                          </td>
-                        </tr>
-                      ))}
+                        // Monthly / Quarterly / Half-Yearly
+                        if (
+                          row.structureType === "Monthly" ||
+                          row.structureType === "Quarterly" ||
+                          row.structureType === "Half-Yearly"
+                        ) {
+                          paidAmt = paidMonthsForHead.reduce(
+                            (sum, month) =>
+                              sum + Number(row.amounts?.[month] || 0),
+                            0,
+                          );
+                        } else {
+                          // Annual Fee
+                          paidAmt = Number(feeHeadPayments[row.feeHeadId] || 0);
+                        }
+
+                        const dueAmt = Math.max(
+                          0,
+                          Number(row.amount || 0) - paidAmt,
+                        );
+
+                        return (
+                          <tr key={`${row.feeHeadId}-${index}`}>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={selectedFees.includes(row.feeHeadId)}
+                                onChange={() => handleFeeCheck(row.feeHeadId)}
+                              />
+                            </td>
+
+                            <td>
+                              <div
+                                style={{
+                                  fontWeight: 600,
+                                  marginBottom: "4px",
+                                }}
+                              >
+                                {row.feeHeadName}
+                              </div>
+
+                              <small
+                                style={{
+                                  display: "block",
+                                  color: "#666",
+                                }}
+                              >
+                                Type : {row.structureType}
+                              </small>
+
+                              {row.structureType !== "Annually" && (
+                                <>
+                                  <small
+                                    style={{
+                                      display: "block",
+                                      color: "#16a34a",
+                                      marginTop: "3px",
+                                    }}
+                                  >
+                                    Paid Months :
+                                    {paidMonthsForHead.length > 0
+                                      ? ` ${paidMonthsForHead.join(", ")}`
+                                      : " None"}
+                                  </small>
+
+                                  <small
+                                    style={{
+                                      display: "block",
+                                      color: "#dc2626",
+                                    }}
+                                  >
+                                    Remaining :
+                                    {Object.keys(row.amounts || {})
+                                      .filter(
+                                        (month) =>
+                                          !paidMonthsForHead.includes(month),
+                                      )
+                                      .join(", ") || " None"}
+                                  </small>
+                                </>
+                              )}
+
+                              {row.structureType === "Annually" && (
+                                <>
+                                  <small
+                                    style={{
+                                      display: "block",
+                                      color:
+                                        paidAmt === 0
+                                          ? "#dc2626"
+                                          : dueAmt > 0
+                                            ? "#f59e0b"
+                                            : "#16a34a",
+                                      marginTop: "3px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Annual Fee :{" "}
+                                    {paidAmt === 0
+                                      ? "Pending"
+                                      : dueAmt > 0
+                                        ? "Partial"
+                                        : "Paid"}
+                                  </small>
+
+                                  <small
+                                    style={{
+                                      display: "block",
+                                      color: "#16a34a",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Paid Amount : ₹{paidAmt.toFixed(2)}
+                                  </small>
+
+                                  <small
+                                    style={{
+                                      display: "block",
+                                      color: dueAmt > 0 ? "#dc2626" : "#16a34a",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Due Amount : ₹{dueAmt.toFixed(2)}
+                                  </small>
+                                </>
+                              )}
+                            </td>
+
+                            <td
+                              style={{
+                                textAlign: "center",
+                                fontWeight: 600,
+                              }}
+                            >
+                              ₹{Number(row.amount || 0).toFixed(2)}
+                            </td>
+
+                            <td
+                              style={{
+                                textAlign: "center",
+                                color: "green",
+                                fontWeight: 600,
+                              }}
+                            >
+                              ₹{paidAmt.toFixed(2)}
+                            </td>
+
+                            <td
+                              style={{
+                                textAlign: "center",
+                                color: dueAmt > 0 ? "#dc2626" : "#16a34a",
+                                fontWeight: 600,
+                              }}
+                            >
+                              ₹{dueAmt.toFixed(2)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+
                       <tr className="table-summary-row">
-                        <td>
+                        <td colSpan="2">
                           <strong>Total</strong>
                         </td>
+
                         <td style={{ textAlign: "center" }}>
-                          <strong>₹{grossAmount.toFixed(2)}</strong>
+                          <strong>₹{totalFeeAmount.toFixed(2)}</strong>
+                        </td>
+
+                        <td
+                          style={{
+                            textAlign: "center",
+                            color: "green",
+                          }}
+                        >
+                          <strong>₹{totalPaidAmount.toFixed(2)}</strong>
+                        </td>
+
+                        <td
+                          style={{
+                            textAlign: "center",
+                            color: totalDueAmount > 0 ? "#dc2626" : "#16a34a",
+                          }}
+                        >
+                          <strong>₹{totalDueAmount.toFixed(2)}</strong>
                         </td>
                       </tr>
                     </>
                   ) : (
                     <tr>
                       <td
-                        colSpan="2"
+                        colSpan="5"
                         style={{
                           textAlign: "center",
                           padding: "20px",

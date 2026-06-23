@@ -32,6 +32,7 @@ const classRoutes = require("./src/routes/class.routes");
 const testimonialRoutes = require("./src/routes/testimonial.routes");
 const expensesHead = require("./src/routes/expenseHeadRoutes");
 const bannerRoutes = require("./src/routes/banner.routes");
+const dashboardRoutes = require("./src/routes/dashboard.routes");
 
 // const bannerRoutes = require("./src/routes/banner.routes");
 
@@ -109,6 +110,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 
 app.use("/api/banner", bannerRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 /* STUDENT + ENQUIRY */
 

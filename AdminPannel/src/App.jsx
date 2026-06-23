@@ -1,9 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AdminLayout from "../Layout/AdminLayout";
 
@@ -116,22 +111,10 @@ import Feeentry from "./Component/Feeentry/Feeentry";
 
 /* ================= PROTECTED ROUTE ================= */
 
-const ProtectedRoute = ({
-  children,
-}) => {
-  const isLoggedIn =
-    localStorage.getItem(
-      "adminAuth"
-    ) === "true";
+const ProtectedRoute = ({ children }) => {
+  const isLoggedIn = localStorage.getItem("adminAuth") === "true";
 
-  return isLoggedIn ? (
-    children
-  ) : (
-    <Navigate
-      to="/login"
-      replace
-    />
-  );
+  return isLoggedIn ? children : <Navigate to="/login" replace />;
 };
 
 /* ================= APP ================= */
@@ -139,15 +122,10 @@ const ProtectedRoute = ({
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-
         {/* ================= LOGIN ================= */}
 
-        <Route
-          path="/login"
-          element={<LoginForm />}
-        />
+        <Route path="/login" element={<LoginForm />} />
 
         {/* ================= ADMIN ================= */}
 
@@ -159,20 +137,13 @@ function App() {
             </ProtectedRoute>
           }
         >
-
           {/* DASHBOARD */}
 
-          <Route
-            index
-            element={<DashBoard />}
-          />
+          <Route index element={<DashBoard />} />
 
           {/* ================= NEWS ================= */}
 
-          <Route
-            path="admin/newsposting"
-            element={<NewsPosting />}
-          />
+          <Route path="admin/newsposting" element={<NewsPosting />} />
 
           <Route
             path="admin/comment-management"
@@ -181,96 +152,69 @@ function App() {
 
           {/* ================= TEACHER ================= */}
 
-          <Route
-            path="admin/teacherposting"
-            element={<Teacher />}
-          />
+          <Route path="admin/teacherposting" element={<Teacher />} />
 
           {/* ================= TESTIMONIAL ================= */}
 
-          <Route
-            path="admin/testimonial"
-            element={<Testimonial />}
-          />
+          <Route path="admin/testimonial" element={<Testimonial />} />
 
-          <Route
-            path="student/admission"
-            element={<StudentAdmission />}
-          />
+          <Route path="student/admission" element={<StudentAdmission />} />
 
           <Route
             path="student/admission/details"
             element={<StudentAdmsnDetails />}
           />
 
-          <Route
-            path="fee-collect"
-            element={<FeeCollection />}
-          />
+          <Route path="fee-collect" element={<FeeCollection />} />
 
           <Route path="/class-post" element={<ClassesAdmin />} />
           <Route path="/subject-post" element={<SubjectAdmin />} />
-          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
-         <Route path="/exam-result" element={<ExamResult />} />
-         <Route path="exam-result-manager" element={<ExamResultAdmin />} />
-         <Route path="/exam-type" element={<ExamTypeAdmin />} />
-         <Route path="/exam-report" element={<ExamProgressReport />} />
-          <Route path="/attendance/student-attendance" element={<StudentAttendance/>}/>
-          <Route path="/attendance/student-leave" element={< Studentleave/>}/>
-          <Route path="/attendance/attendance-report" element={<AttendanceReport/>}/>
-          <Route path="/expense/details" element={< AddExpense/>}/>
-          <Route path="/expense-search"element={<ExpenseSearch/>}/>
-          <Route path="/expense-head"element={<ExpenseHead/>}/>
-          <Route path="/admin/Advites" element={<AdvitesForm/>}/>
-          
           <Route
-            path="fee-type"
-            element={<FeeType />}
+            path="/classwise-subject"
+            element={<ClassWiseSubjectAdmin />}
           />
+          <Route path="/exam-result" element={<ExamResult />} />
+          <Route path="exam-result-manager" element={<ExamResultAdmin />} />
+          <Route path="/exam-type" element={<ExamTypeAdmin />} />
+          <Route path="/exam-report" element={<ExamProgressReport />} />
+          <Route
+            path="/attendance/student-attendance"
+            element={<StudentAttendance />}
+          />
+          <Route path="/attendance/student-leave" element={<Studentleave />} />
+          <Route
+            path="/attendance/attendance-report"
+            element={<AttendanceReport />}
+          />
+          <Route path="/expense/details" element={<AddExpense />} />
+          <Route path="/expense-search" element={<ExpenseSearch />} />
+          <Route path="/expense-head" element={<ExpenseHead />} />
+          <Route path="/admin/Advites" element={<AdvitesForm />} />
 
-          <Route
-            path="admin/profile"
-            element={<ProFilePicture />}
-          />
+          <Route path="fee-type" element={<FeeType />} />
+
+          <Route path="admin/profile" element={<ProFilePicture />} />
           {/* ================= GALLERY ================= */}
 
-          <Route
-            path="admin/gallery"
-            element={<Galleryposting />}
-          />
+          <Route path="admin/gallery" element={<Galleryposting />} />
 
           {/* ================= COLD LEAD ================= */}
 
-          <Route
-            path="admin/cold-lead"
-            element={<ColdLead />}
-          />
+          <Route path="admin/cold-lead" element={<ColdLead />} />
 
-          <Route
-            path="admin/cold-lead-table"
-            element={<ColdLeadTable />}
-          />
+          <Route path="admin/cold-lead-table" element={<ColdLeadTable />} />
 
           {/* ================= ADMISSION ================= */}
 
-          <Route
-            path="admin/Admission-Table"
-            element={<AdmissionTable />}
-          />
+          <Route path="admin/Admission-Table" element={<AdmissionTable />} />
 
           {/* ================= PROFILE ================= */}
 
-          <Route
-            path="admin/profile"
-            element={<ProFilePicture />}
-          />
+          <Route path="admin/profile" element={<ProFilePicture />} />
 
           {/* ================= STUDENTS ================= */}
 
-          <Route
-            path="student/admission"
-            element={<StudentAdmission />}
-          />
+          <Route path="student/admission" element={<StudentAdmission />} />
 
           <Route
             path="student/admission/details"
@@ -279,61 +223,31 @@ function App() {
 
           {/* ================= FEES ================= */}
 
-          <Route
-            path="fee-collect"
-            element={<FeeCollection />}
-          />
+          <Route path="fee-collect" element={<FeeCollection />} />
 
-          <Route
-            path="fee-type"
-            element={<FeeType />}
-          />
+          <Route path="fee-type" element={<FeeType />} />
 
           {/* ================= CLASS ================= */}
 
-          <Route
-            path="class-post"
-            element={<ClassesAdmin />}
-          />
+          <Route path="class-post" element={<ClassesAdmin />} />
 
-          <Route
-            path="class/post"
-            element={<ClassPost />}
-          />
+          <Route path="class/post" element={<ClassPost />} />
 
           {/* ================= SUBJECT ================= */}
 
-          <Route
-            path="subject-post"
-            element={<SubjectAdmin />}
-          />
+          <Route path="subject-post" element={<SubjectAdmin />} />
 
-          <Route
-            path="classwise-subject"
-            element={<ClassWiseSubjectAdmin />}
-          />
+          <Route path="classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
           {/* ================= EXAM ================= */}
 
-          <Route
-            path="exam-result"
-            element={<ExamResult />}
-          />
+          <Route path="exam-result" element={<ExamResult />} />
 
-          <Route
-            path="exam-result-manager"
-            element={<ExamResultAdmin />}
-          />
+          <Route path="exam-result-manager" element={<ExamResultAdmin />} />
 
-          <Route
-            path="exam-type"
-            element={<ExamTypeAdmin />}
-          />
+          <Route path="exam-type" element={<ExamTypeAdmin />} />
 
-          <Route
-            path="exam-report"
-            element={<ExamProgressReport />}
-          />
+          <Route path="exam-report" element={<ExamProgressReport />} />
 
           {/* ================= ATTENDANCE ================= */}
 
@@ -342,10 +256,7 @@ function App() {
             element={<StudentAttendance />}
           />
 
-          <Route
-            path="attendance/student-leave"
-            element={<Studentleave />}
-          />
+          <Route path="attendance/student-leave" element={<Studentleave />} />
 
           <Route
             path="attendance/attendance-report"
@@ -354,72 +265,38 @@ function App() {
 
           {/* ================= EXPENSE ================= */}
 
-          <Route
-            path="expense/details"
-            element={<AddExpense />}
-          />
+          <Route path="expense/details" element={<AddExpense />} />
 
-          <Route
-            path="expense-search"
-            element={<ExpenseSearch />}
-          />
+          <Route path="expense-search" element={<ExpenseSearch />} />
 
-          <Route
-            path="expense-head"
-            element={<ExpenseHead />}
-          />
-          
+          <Route path="expense-head" element={<ExpenseHead />} />
+
           <Route path="/class/post" element={<ClassPost />} />
-          
-           
-          
-          
-          
 
           {/* ================= ADVERTISE ================= */}
 
-          <Route
-            path="admin/advites"
-            element={<AdvitesForm />}
-          />
+          <Route path="admin/advites" element={<AdvitesForm />} />
 
           <Route path="/wallet" element={<Wallet />} />
-          
-          <Route path="/fee-group" element={<FeeGroup/>} />
+
+          <Route path="/fee-group" element={<FeeGroup />} />
           <Route path="/fee-head" element={<FeeHead />} />
 
-
-          
           {/* <Route path="/fee-edit-manual" element={<FeeEditManual />} /> */}
-          <Route path="/fee-structure" element={<FeeStructure/>}/>
+          <Route path="/fee-structure" element={<FeeStructure />} />
 
-          
           {/* <Route path="/fee-concession" element={<FeeConcession />} /> */}
           {/* <Route path="/sibling-fee-entry" element={<Siblingfeeentry  />} />  */}
           <Route path="/cancel-fee" element={<CancelFeeReceipt />} />
           {/* <Route path="/board-fee-manual-entry" element={<BoardFeeCollection/>}/> */}
-         
+
           <Route path="/fee-entry" element={<FeeEntry />} />
-          
-          </Route>
+        </Route>
 
         {/* ================= INVALID ================= */}
 
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/"
-              replace
-            />
-          }
-        />
-
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      
-        
-      
-
     </BrowserRouter>
   );
 }
