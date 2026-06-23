@@ -1,0 +1,9 @@
+# Ignore upload folder
+upload/
+
+# If upload folder is inside backend
+backend/upload/
+
+# Ignore all files inside upload
+upload/*
+backend/upload/*------
