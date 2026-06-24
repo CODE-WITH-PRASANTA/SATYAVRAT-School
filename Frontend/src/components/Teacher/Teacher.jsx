@@ -12,6 +12,7 @@ const Teacher = () => {
   const [teachersData, setTeachersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(3);
+const [expandedCards, setExpandedCards] = useState({});
 
   /* ================= FETCH ================= */
 
@@ -66,8 +67,14 @@ const Teacher = () => {
     startIndex,
     startIndex + cardsPerPage
   );
-
+const toggleReadMore = (id) => {
+  setExpandedCards((prev) => ({
+    ...prev,
+    [id]: !prev[id],
+  }));
+};
   return (
+    
     <section className="teacher">
       <div className="teacher__container">
         {/* TOP */}
@@ -131,9 +138,29 @@ const Teacher = () => {
                     {teacher.role}
                   </h4>
 
-                  <p className="teacher__desc">
-                    {teacher.description}
-                  </p>
+                <div className="teacher__description">
+  <p
+    className={`teacher__desc ${
+      expandedCards[teacher._id]
+        ? "teacher__desc--expanded"
+        : ""
+    }`}
+  >
+    {teacher.description}
+  </p>
+
+  {teacher.description && teacher.description.length > 100 && (
+    <button
+      type="button"
+      className="teacher__readMore"
+      onClick={() => toggleReadMore(teacher._id)}
+    >
+      {expandedCards[teacher._id]
+        ? "Read Less"
+        : "Read More"}
+    </button>
+  )}
+</div>
 
                   <div className="teacher__line"></div>
 

@@ -10,8 +10,8 @@ import { FiCalendar } from "react-icons/fi";
 import "./EnrollSection.css";
 import API from "../../Api/axios";
 
-import topImage from "../../assets/git.webp";
-import bottomImage from "../../assets/git-2.webp";
+import topImage from "../../assets/img 4.jpeg";
+import bottomImage from "../../assets/img5.jpeg";
 
 const featureItems = [
   "Assign practice exercises",
@@ -150,7 +150,7 @@ const EnrollSection = () => {
               {/* FIRST NAME */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  First Name <em>(Required)</em>
+                  First Name <em></em>
                 </span>
 
                 <input
@@ -164,7 +164,7 @@ const EnrollSection = () => {
               {/* LAST NAME */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Last Name <em>(Required)</em>
+                  Last Name <em></em>
                 </span>
 
                 <input
@@ -178,7 +178,7 @@ const EnrollSection = () => {
               {/* DOB */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Child DOB <em>(Required)</em>
+                  Child DOB <em></em>
                 </span>
 
                 <div className="enrollSection__inputWrap">
@@ -203,7 +203,7 @@ const EnrollSection = () => {
               {/* PARENT NAME */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Parent Name <em>(Required)</em>
+                  Parent Name <em></em>
                 </span>
 
                 <input
@@ -217,7 +217,7 @@ const EnrollSection = () => {
               {/* DESIGNATION */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Parent Designation <em>(Required)</em>
+                  Parent Designation <em></em>
                 </span>
 
                 <input
@@ -231,7 +231,7 @@ const EnrollSection = () => {
               {/* EMAIL */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Email <em>(Required)</em>
+                  Email <em></em>
                 </span>
 
                 <input
@@ -245,7 +245,7 @@ const EnrollSection = () => {
               {/* PHONE */}
               <label className="enrollSection__field">
                 <span className="enrollSection__label">
-                  Phone No <em>(Required)</em>
+                  Phone No <em></em>
                 </span>
 
                 <input

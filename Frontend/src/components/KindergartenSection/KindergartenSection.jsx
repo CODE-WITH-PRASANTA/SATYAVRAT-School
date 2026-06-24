@@ -1,6 +1,6 @@
 import React from "react";
 import "./KindergartenSection.css";
-import kidImg from "../../assets/welcome-2.png";
+import kidImg from "../../assets/img7.jpeg";
 
 import {
   FaBookOpen,

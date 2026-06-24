@@ -2,7 +2,7 @@ import React from "react";
 import "./VissionMission.css";
 
 // IMPORT IMAGES
-import mainImg from "../../assets/Home-About.webp";
+import mainImg from "../../assets/img7.jpeg";
 import shapeBorder from "../../assets/border-shape.png";
 import iconMission from "../../assets/Mission-icon.svg";
 import iconVision from "../../assets/Vision-icon.svg";
@@ -24,11 +24,6 @@ const VissionMission = () => {
               className="aboutSection__mainImg"
             />
 
-            <img
-              src={shapeBorder}
-              alt="border shape"
-              className="aboutSection__shape"
-            />
 
           </div>
 

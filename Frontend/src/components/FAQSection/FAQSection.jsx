@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./FAQSection.css";
-import childImg from "../../assets/Ankita.webp";
+import childImg from "../../assets/img6.jpeg";
 
 const FAQSection = () => {
   const [activeIndex, setActiveIndex] =
