@@ -214,7 +214,10 @@ function App() {
 
           {/* ================= STUDENTS ================= */}
 
-          <Route path="student/admission" element={<StudentAdmission />} />
+        <Route
+    path="student/admission/:id"
+    element={<StudentAdmission />}
+/>
 
           <Route
             path="student/admission/details"

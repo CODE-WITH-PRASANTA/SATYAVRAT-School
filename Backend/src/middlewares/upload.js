@@ -34,6 +34,8 @@ const routeFolderMap = {
   "/subjects": "uploads/subjects",
   "/blogs": "uploads/blogs",
   "/banner": "uploads/banner",
+  "/profile": "uploads/profile", // FIXED: Changed "uploades/profile" to "uploads/profile"
+  "/newadmi": "uploads/newadmi",
 
   /* ================= STUDENTS ================= */
   "/students": "uploads/students",
@@ -269,14 +271,10 @@ const convertToWebp = async (req, res, next) => {
 
     if (req.files) {
       for (const fieldName in req.files) {
-        req.body[fieldName] = [];
-
         for (const file of req.files[fieldName]) {
           const savedPath = await processFile(file, uploadPath);
 
           file.path = savedPath;
-
-          req.body[fieldName].push(savedPath);
         }
       }
     }

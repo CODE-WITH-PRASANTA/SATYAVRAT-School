@@ -56,6 +56,9 @@ const feeStructureRoutes = require("./src/routes/Fee/feeStructure.routes");
 
 const feeEntryRoutes = require("./src/routes/Fee/feeEntry.routes");
 
+const newadmiRoutes= require("./src/routes/newadmi.routes");
+const profileRoutes= require("./src/routes/profile.routes");
+
 /* ================= INIT APP ================= */
 
 const app = express();
@@ -145,6 +148,8 @@ app.use("/api/fee-group", feeGroupRoutes);
 app.use("/api/fee-head", feeHeadRoutes);
 app.use("/api/fee-structure", feeStructureRoutes);
 app.use("/api/fee-entry", feeEntryRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/newadmi", newadmiRoutes);
 /* ================= HEALTH CHECK ================= */
 
 app.get("/", (req, res) => {

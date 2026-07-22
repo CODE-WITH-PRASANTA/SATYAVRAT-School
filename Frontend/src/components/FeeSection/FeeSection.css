@@ -1,145 +1,245 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
 .fee-section {
+  --navy-950: #0a1730;
+  --navy-800: #13294f;
+  --navy-700: #1c3663;
+  --gold-500: #c6a15b;
+  --gold-300: #e7d3a4;
+  --ivory-50: #faf7f1;
+  --ivory-100: #f1ecdf;
+  --ink-900: #191a1f;
+  --slate-500: #66707e;
+  --red-600: #b8342f;
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Manrope", "Segoe UI", sans-serif;
+
   width: 100%;
-  padding: 20px 10px;
-  background: #f4f7fb;
+  padding: 80px 5%;
+  background: var(--ivory-50);
+  font-family: var(--font-body);
+  color: var(--ink-900);
 }
 
 .fee-container {
-  max-width: 1500px;
-  margin: auto;
+  max-width: 880px;
+  margin: 0 auto;
 }
 
+/* ============================= */
+/* HEADER */
+/* ============================= */
 .fee-header {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 40px;
+}
+
+.fee-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-500);
+}
+
+.fee-tagLine {
+  width: 34px;
+  height: 2px;
+  background: var(--gold-500);
+  display: inline-block;
 }
 
 .fee-header h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 38px;
-  color: #1e293b;
-  font-weight: 700;
-  margin-bottom: 10px;
+  line-height: 1.25;
+  color: var(--navy-950);
+  margin: 16px 0 12px;
+}
+
+.fee-header h2 span {
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-500);
+  font-size: 0.72em;
 }
 
 .fee-header p {
-  color: #64748b;
-  font-size: 16px;
+  color: var(--slate-500);
+  font-size: 15.5px;
 }
 
-.fee-table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-  background: white;
+/* ============================= */
+/* TABLE CARD */
+/* ============================= */
+.fee-tableCard {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid var(--ivory-100);
+  box-shadow: 0 30px 60px -30px rgba(10, 23, 48, 0.15);
+  overflow: hidden;
 }
 
-.fee-table {
-  width: 100%;
-  min-width: 1400px;
-  border-collapse: collapse;
-}
-
-.fee-table thead tr {
-  background: #2ea3da;
-}
-
-.fee-table thead th {
-  color: white;
-  padding: 18px 15px;
-  text-align: center;
-  font-size: 17px;
+.fee-tableHead {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: linear-gradient(135deg, var(--navy-800), var(--navy-950));
+  color: #fff;
+  font-family: var(--font-display);
   font-weight: 600;
-  border-right: 1px solid rgba(255,255,255,0.2);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.fee-table tbody td {
-  padding: 18px 15px;
-  text-align: center;
-  border-bottom: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
-  font-size: 16px;
+.fee-group + .fee-group {
+  border-top: 1px solid var(--ivory-100);
 }
 
-.row-title {
+.fee-groupLabel {
+  padding: 10px 28px 8px;
+  background: var(--ivory-100);
+}
+
+.fee-groupLabel span {
+  font-size: 11.5px;
   font-weight: 700;
-  color: #334155;
-  min-width: 280px;
-  text-align: left !important;
-  padding-left: 25px !important;
-  background: #fafafa;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--navy-700);
 }
 
-.fee-table tbody tr:hover {
-  background: #f1f8ff;
-  transform: scale(1.002);
+.fee-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 28px;
+  border-top: 1px solid var(--ivory-100);
+  transition: background 0.25s ease;
 }
 
-.fee-table tbody tr:hover td {
-  color: #0284c7;
+.fee-row:hover {
+  background: var(--ivory-50);
 }
 
-.total-row {
-  background: #edf8ff;
-}
-
-.total-row td {
+.fee-className {
+  flex: 1;
   font-weight: 700;
-  font-size: 18px;
-  color: #0f172a;
+  font-size: 15.5px;
+  color: var(--navy-950);
 }
 
-.total-row:hover {
-  background: #dff2ff !important;
+.fee-arrow {
+  color: var(--gold-500);
+  font-size: 20px;
+  line-height: 1;
+  transform: translateY(-1px);
 }
 
-.fee-table::-webkit-scrollbar {
-  height: 8px;
+.fee-amount {
+  min-width: 150px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--navy-800);
 }
 
-.fee-table::-webkit-scrollbar-thumb {
-  background: #2ea3da;
-  border-radius: 20px;
+.fee-amount small {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--slate-500);
+  margin-left: 4px;
 }
 
-@media (max-width: 1200px) {
-  .fee-header h2 {
-    font-size: 32px;
-  }
+/* ============================= */
+/* NOTE CARD */
+/* ============================= */
+.fee-noteCard {
+  margin-top: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--ivory-100);
+  border-left: 4px solid var(--red-600);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 16px 32px -26px rgba(10, 23, 48, 0.15);
 }
 
+.fee-noteTag {
+  flex-shrink: 0;
+  background: var(--red-600);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.fee-noteCard p {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--slate-500);
+  line-height: 1.8;
+}
+
+.fee-noteItem {
+  color: var(--navy-800);
+}
+
+.fee-noteDot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  margin: 0 8px;
+  vertical-align: middle;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
 @media (max-width: 768px) {
+  .fee-section {
+    padding: 60px 5%;
+  }
 
   .fee-header h2 {
-    font-size: 26px;
+    font-size: 28px;
   }
 
-  .fee-header p {
-    font-size: 14px;
-  }
-
-  .fee-table thead th,
-  .fee-table tbody td {
-    padding: 14px 12px;
-    font-size: 14px;
-  }
-
-  .row-title {
-    min-width: 220px;
+  .fee-tableHead,
+  .fee-groupLabel,
+  .fee-row {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .fee-header h2 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
-  .fee-table {
-    min-width: 1250px;
+  .fee-className {
+    font-size: 14px;
   }
 
-  .fee-table thead th,
-  .fee-table tbody td {
-    font-size: 13px;
-    padding: 12px 10px;
+  .fee-noteCard {
+    flex-direction: column;
   }
 }

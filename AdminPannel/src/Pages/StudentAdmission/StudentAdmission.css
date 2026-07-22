@@ -1,358 +1,805 @@
-/* ================= PAGE ================= */
+/* ===================================================================== */
+/* ============================== TOKENS ================================ */
+/* ===================================================================== */
 
-.Student-Admission-Page{
-  min-height:100vh;
-  background:linear-gradient(135deg,#eef2ff,#f8fafc);
-  padding:10px;
-  font-family:"Segoe UI",sans-serif;
+.Student-Admission-Page {
+  --sa-navy: #10213f;
+  --sa-navy-light: #1c3560;
+  --sa-gold: #c9a24b;
+  --sa-gold-soft: #f4e9d2;
+  --sa-bg: #f3f5fa;
+  --sa-card: #ffffff;
+  --sa-border: #e1e5ee;
+  --sa-text: #1c2536;
+  --sa-text-muted: #64748b;
+  --sa-radius: 14px;
+  --sa-radius-sm: 8px;
+
+  min-height: 100vh;
+  background: var(--sa-bg);
+  padding: 28px 16px;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--sa-text);
 }
 
-/* ================= CONTAINER ================= */
+/* ===================================================================== */
+/* ============================ CONTAINER =============================== */
+/* ===================================================================== */
 
-.Student-Admission-Container{
-  max-width:1350px;
-  margin:auto;
-  background:#fff;
-  padding:40px;
-  border-radius:18px;
-  box-shadow:0 25px 60px rgba(0,0,0,.08);
-}
-
-.Student-Admission-Container>*{
-  margin-bottom:20px;
-}
-.Student-Admission-RemoveBtn {
-  margin-top: 5px;
-  padding: 4px 8px;
-  font-size: 12px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.Student-Admission-RemoveBtn {
-  margin-top: 6px;
-  padding: 4px 8px;
-  font-size: 12px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-/* ================= HEADER ================= */
-
-.Student-Admission-Header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
+.Student-Admission-Container {
+  max-width: 1300px;
+  margin: auto;
+  background: var(--sa-card);
+  padding: 36px 40px 44px;
+  border-radius: 20px;
+  box-shadow: 0 30px 70px rgba(16, 33, 63, 0.1);
+  border: 1px solid var(--sa-border);
 }
 
-.Student-Admission-Title{
-  font-size:28px;
-  font-weight:700;
-  color:#1e293b;
+.Student-Admission-Container > * {
+  margin-bottom: 24px;
 }
 
-/* ================= BUTTONS ================= */
+.Student-Admission-Container > *:last-child {
+  margin-bottom: 0;
+}
+
+/* ===================================================================== */
+/* ============================== HEADER ================================ */
+/* ===================================================================== */
+
+.Student-Admission-Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--sa-navy);
+}
+
+.Student-Admission-Title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--sa-navy);
+  letter-spacing: -0.02em;
+}
+
+.Student-Admission-Subtitle {
+  margin-top: 4px;
+  font-size: 13.5px;
+  color: var(--sa-text-muted);
+}
 
 .Student-Admission-DownloadBtn,
-.Student-Admission-SubmitBtn{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(135deg,#2563eb,#1e40af);
-  color:#fff;
-  border:none;
-  padding:10px 22px;
-  border-radius:10px;
-  cursor:pointer;
-  transition:.25s;
-  box-shadow:0 8px 20px rgba(37,99,235,.3);
+.Student-Admission-SubmitBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--sa-navy), var(--sa-navy-light));
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: 0.25s;
+  box-shadow: 0 10px 24px rgba(16, 33, 63, 0.25);
 }
 
 .Student-Admission-DownloadBtn:hover,
-.Student-Admission-SubmitBtn:hover{
-  transform:translateY(-2px);
+.Student-Admission-SubmitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(16, 33, 63, 0.32);
 }
 
-/* ================= FORM GRID ================= */
+/* ===================================================================== */
+/* ========================== SECTION TITLES ============================ */
+/* ===================================================================== */
 
-.Student-Admission-FormGrid{
-  display:grid;
-  grid-template-columns:3fr 1fr;
-  gap:35px;
+.Student-Admission-SectionTitle {
+  margin: 8px 0 16px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--sa-navy);
+  border-left: 4px solid var(--sa-gold);
+  padding-left: 10px;
 }
 
-.Student-Admission-Left{
-  display:flex;
-  flex-direction:column;
-  gap:22px;
+/* ===================================================================== */
+/* ============================== ROW / GROUP ============================ */
+/* ===================================================================== */
+
+.Student-Admission-Row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
-.Student-Admission-Row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
+.Student-Admission-Group {
+  display: flex;
+  flex-direction: column;
 }
 
-.Student-Admission-TwoColumn{
-  grid-template-columns:repeat(2,1fr);
-}
-
-/* ================= INPUT ================= */
-
-.Student-Admission-Group{
-  display:flex;
-  flex-direction:column;
-}
-
-.Student-Admission-Label{
-  font-size:13px;
-  margin-bottom:6px;
-  font-weight:600;
-  color:#334155;
+.Student-Admission-Label {
+  font-size: 12.5px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #334155;
 }
 
 .Student-Admission-Input,
-.Student-Admission-Textarea{
-  padding:12px 14px;
-  border-radius:10px;
-  border:1px solid #d1d5db;
-  font-size:14px;
-  background:#f9fafb;
-  transition:.25s;
+.Student-Admission-Textarea {
+  padding: 11px 13px;
+  border-radius: var(--sa-radius-sm);
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background: #f9fafb;
+  transition: 0.2s;
 }
 
 .Student-Admission-Input:focus,
-.Student-Admission-Textarea:focus{
-  background:#fff;
-  border-color:#2563eb;
-  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+.Student-Admission-Textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--sa-navy-light);
+  box-shadow: 0 0 0 3px rgba(28, 53, 96, 0.12);
 }
 
-.Student-Admission-Textarea{
-  min-height:100px;
-  resize:vertical;
+.Student-Admission-Textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
-/* ================= PHOTO BOX ================= */
+/* ===================================================================== */
+/* ============================= INFO BAR (Img 1) ======================== */
+/* ===================================================================== */
 
-.Student-Admission-PhotoBox{
-  position:relative;
-  width:100%;
-  max-width:220px;
-  height:240px;
-  border:2px dashed #2563eb;
-  border-radius:14px;
-  background:#f1f5ff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+.Student-Admission-InfoBar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: start;
+  background: linear-gradient(180deg, #f8fafc, #eef1f8);
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius);
+  padding: 20px;
 }
 
-.Student-Admission-PhotoInput{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  cursor:pointer;
+.Student-Admission-InfoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
 }
 
-.Student-Admission-PhotoPreview{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.Student-Admission-InfoField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.Student-Admission-PhotoOverlay{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  text-align:center;
-  padding:8px;
-  font-size:13px;
-  opacity:0;
-  transition:.3s;
+.Student-Admission-InfoField label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--sa-text-muted);
 }
 
-.Student-Admission-PhotoBox:hover .Student-Admission-PhotoOverlay{
-  opacity:1;
+.Student-Admission-InfoField input,
+.Student-Admission-InfoField select {
+  padding: 9px 10px;
+  border-radius: 7px;
+  border: 1px solid #d7dbe6;
+  background: #fff;
+  font-size: 13.5px;
 }
 
-/* ================= SECTION ================= */
-
-.Student-Admission-SectionTitle{
-  margin:30px 0 15px;
-  font-size:18px;
-  font-weight:600;
-  border-left:4px solid #2563eb;
-  padding-left:10px;
+.Student-Admission-InfoField input:focus,
+.Student-Admission-InfoField select:focus {
+  outline: none;
+  border-color: var(--sa-navy-light);
+  box-shadow: 0 0 0 3px rgba(28, 53, 96, 0.12);
 }
 
-/* ================= ADDRESS GRID ================= */
+/* ===================================================================== */
+/* ============================= PHOTO BOX =============================== */
+/* ===================================================================== */
 
-.Student-Admission-AddressGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:25px;
+.Student-Admission-PhotoBox {
+  position: relative;
+  width: 150px;
+  height: 180px;
+  border: 2px dashed var(--sa-gold);
+  border-radius: var(--sa-radius-sm);
+  background: var(--sa-gold-soft);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-/* ================= DOCUMENT TABLE ================= */
-
-.Student-Admission-DocumentWrapper{
-  width:100%;
-  overflow-x:auto;
+.Student-Admission-PhotoBox--compact {
+  width: 76px;
+  height: 90px;
 }
 
-.Student-Admission-DocumentTable{
-  width:100%;
-  min-width:550px;
-  border-collapse:collapse;
+.Student-Admission-PhotoInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.Student-Admission-DocumentTable th{
-  background:#f1f5f9;
-  padding:12px;
-  font-weight:600;
-  font-size:14px;
-  text-align:left;
+.Student-Admission-PhotoPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.Student-Admission-DocumentTable td{
-  padding:12px;
-  border-top:1px solid #e5e7eb;
+.Student-Admission-PhotoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  color: #92722f;
+  padding: 8px;
 }
 
-.Student-Admission-DocName{
-  font-weight:500;
-  color:#1f2937;
+.Student-Admission-PhotoPlaceholder span {
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-.Student-Admission-DocumentCell{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
+.Student-Admission-PhotoBox--compact .Student-Admission-PhotoPlaceholder span {
+  font-size: 8.5px;
 }
 
-.Student-Admission-ViewFile{
-  background:#2563eb;
-  color:white;
-  padding:6px 12px;
-  border-radius:6px;
-  font-size:13px;
-  text-decoration:none;
+.Student-Admission-PhotoOverlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(16, 33, 63, 0.72);
+  color: #fff;
+  text-align: center;
+  padding: 6px;
+  font-size: 11px;
+  opacity: 0;
+  transition: 0.3s;
 }
 
-.Student-Admission-ViewFile:hover{
-  background:#1d4ed8;
+.Student-Admission-PhotoBox:hover .Student-Admission-PhotoOverlay {
+  opacity: 1;
 }
 
-.Student-Admission-FileInput{
-  font-size:13px;
+.Student-Admission-RemoveBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
 }
 
-/* ================= SUBMIT ================= */
+/* ===================================================================== */
+/* ======================== NUMBERED STUDENT LIST ========================= */
+/* ===================================================================== */
 
-.Student-Admission-SubmitWrapper{
-  text-align:right;
+.Student-Admission-NumberedList {
+  list-style: none;
+  counter-reset: sa-counter;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 22px;
 }
 
-/* ================================================= */
-/* =============== RESPONSIVE ====================== */
-/* ================================================= */
-
-@media (max-width:1200px){
-
-.Student-Admission-Container{
-  padding:30px;
+.Student-Admission-NumberedList > li {
+  counter-increment: sa-counter;
+  position: relative;
+  padding: 14px 18px 14px 46px;
+  background: #f9fafc;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius-sm);
 }
 
+.Student-Admission-NumberedList > li::before {
+  content: counter(sa-counter);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--sa-navy);
+  color: var(--sa-gold-soft);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (max-width:1024px){
-
-.Student-Admission-FormGrid{
-  grid-template-columns:1fr;
+.Student-Admission-ItemLabel {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--sa-navy);
+  margin-bottom: 8px;
 }
 
-.Student-Admission-PhotoBox{
-  margin:auto;
+.Student-Admission-InlineRow {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.Student-Admission-Row{
-  grid-template-columns:repeat(2,1fr);
+.Student-Admission-InlineRow--triple {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
+.Student-Admission-PlainField {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 4px;
+  border: none;
+  border-bottom: 1.5px solid #c3c9d6;
+  background: transparent;
+  font-size: 14px;
+  color: var(--sa-text);
 }
 
-@media (max-width:768px){
-
-.Student-Admission-Header{
-  flex-direction:column;
-  align-items:flex-start;
+.Student-Admission-PlainField--wide {
+  flex: 2;
 }
 
-.Student-Admission-Title{
-  font-size:22px;
+.Student-Admission-PlainField:focus {
+  outline: none;
+  border-bottom-color: var(--sa-navy-light);
 }
 
-.Student-Admission-Row{
-  grid-template-columns:1fr;
+.Student-Admission-GenderToggle {
+  display: flex;
+  gap: 6px;
 }
 
-.Student-Admission-TwoColumn{
-  grid-template-columns:1fr;
+.Student-Admission-GenderBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid #c3c9d6;
+  background: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--sa-text-muted);
+  transition: 0.2s;
 }
 
-.Student-Admission-AddressGrid{
-  grid-template-columns:1fr;
+.Student-Admission-GenderBtn.is-active {
+  background: var(--sa-navy);
+  border-color: var(--sa-navy);
+  color: #fff;
 }
 
-.Student-Admission-DownloadBtn,
-.Student-Admission-SubmitBtn{
-  width:100%;
-  justify-content:center;
+/* ===================================================================== */
+/* ============================ PARENT CARDS (Img 2) ====================== */
+/* ===================================================================== */
+
+.Student-Admission-ParentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
 }
 
+.Student-Admission-ParentCard {
+  background: #f9fafc;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-@media (max-width:576px){
-
-.Student-Admission-Container{
-  padding:20px;
+.Student-Admission-ParentCardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
 }
 
-.Student-Admission-Input,
-.Student-Admission-Textarea{
-  font-size:13px;
-  padding:10px;
+.Student-Admission-ParentCardHead > span {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sa-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.Student-Admission-PhotoBox{
-  height:210px;
+.Student-Admission-ParentField {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  gap: 10px;
 }
 
-.Student-Admission-SubmitWrapper{
-  text-align:center;
+.Student-Admission-ParentField label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
 }
 
+.Student-Admission-ParentField input,
+.Student-Admission-ParentField select {
+  padding: 9px 11px;
+  border-radius: 7px;
+  border: 1px solid #d7dbe6;
+  background: #fff;
+  font-size: 13.5px;
 }
 
-@media (max-width:400px){
-
-.Student-Admission-Title{
-  font-size:18px;
+.Student-Admission-ParentField input:focus,
+.Student-Admission-ParentField select:focus {
+  outline: none;
+  border-color: var(--sa-navy-light);
+  box-shadow: 0 0 0 3px rgba(28, 53, 96, 0.12);
 }
 
-.Student-Admission-PhotoBox{
-  height:190px;
+/* ===================================================================== */
+/* ============================ DOCUMENT CARDS =========================== */
+/* ===================================================================== */
+
+.Student-Admission-DocGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
+.Student-Admission-DocCard {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--sa-border);
+  border-radius: var(--sa-radius-sm);
+  background: #f9fafc;
+  transition: 0.2s;
+  min-height: 78px;
+}
+
+.Student-Admission-DocCard:hover {
+  border-color: var(--sa-navy-light);
+  box-shadow: 0 8px 20px rgba(16, 33, 63, 0.08);
+}
+
+.Student-Admission-DocCard.is-filled {
+  border-color: #86c19a;
+  background: #f2faf5;
+}
+
+.Student-Admission-DocCardIcon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: var(--sa-gold-soft);
+  color: var(--sa-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Student-Admission-DocCard.is-filled .Student-Admission-DocCardIcon {
+  background: #d3f0dd;
+  color: #16a34a;
+}
+
+.Student-Admission-DocCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.Student-Admission-DocCardLabel {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--sa-text);
+}
+
+.Student-Admission-DocCardStatus {
+  font-size: 11.5px;
+  color: var(--sa-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Student-Admission-DocCardAction {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 92px;
+  flex-shrink: 0;
+}
+
+.Student-Admission-DocCardUpload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sa-navy);
+  border: 1.5px solid var(--sa-navy);
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+
+.Student-Admission-DocCardUpload:hover {
+  background: var(--sa-navy);
+  color: #fff;
+}
+
+.Student-Admission-DocCardUpload input {
+  display: none;
+}
+
+.Student-Admission-DocCardRemove {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #ef4444;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ===================================================================== */
+/* ========================= FOR OFFICE USE ONLY (Img 3) ================= */
+/* ===================================================================== */
+
+.Student-Admission-OfficeUse {
+  border: 2px solid var(--sa-navy);
+  border-radius: var(--sa-radius);
+  overflow: hidden;
+}
+
+.Student-Admission-OfficeUseHead {
+  background: linear-gradient(135deg, var(--sa-navy), var(--sa-navy-light));
+  color: var(--sa-gold-soft);
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 11px;
+}
+
+.Student-Admission-OfficeUseRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  background: #fbfbfd;
+}
+
+.Student-Admission-OfficeUseRow:not(:last-child) {
+  border-bottom: 1px dashed var(--sa-border);
+}
+
+.Student-Admission-OfficeUseText {
+  font-size: 14px;
+  color: var(--sa-text);
+}
+
+.Student-Admission-OfficeUseRow .Student-Admission-PlainField {
+  min-width: 90px;
+  max-width: 130px;
+}
+
+.Student-Admission-OfficeUseRow--signatures {
+  justify-content: space-between;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.Student-Admission-OfficeUseField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.Student-Admission-OfficeUseField label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--sa-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.Student-Admission-SignatureLine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.Student-Admission-SignatureBlank {
+  width: 160px;
+  border-bottom: 1.5px solid #94a3b8;
+  height: 32px;
+}
+
+.Student-Admission-SignatureLine label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--sa-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ===================================================================== */
+/* =============================== SUBMIT ================================ */
+/* ===================================================================== */
+
+.Student-Admission-SubmitWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.Student-Admission-SuccessTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #16a34a;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* ===================================================================== */
+/* ============================= RESPONSIVE =============================== */
+/* ===================================================================== */
+
+@media (max-width: 1100px) {
+  .Student-Admission-InfoBar {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-InfoBar .Student-Admission-PhotoBox {
+    margin: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .Student-Admission-Container {
+    padding: 28px;
+  }
+
+  .Student-Admission-InfoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .Student-Admission-ParentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-DocGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-Row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .Student-Admission-Header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Student-Admission-Title {
+    font-size: 22px;
+  }
+
+  .Student-Admission-InfoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-InlineRow--triple {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-Row {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-ParentField {
+    grid-template-columns: 1fr;
+  }
+
+  .Student-Admission-DownloadBtn,
+  .Student-Admission-SubmitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .Student-Admission-DocCard {
+    grid-template-columns: 34px 1fr;
+    grid-template-areas:
+      "icon body"
+      "action action";
+    row-gap: 10px;
+  }
+
+  .Student-Admission-DocCardIcon {
+    grid-area: icon;
+  }
+
+  .Student-Admission-DocCardBody {
+    grid-area: body;
+  }
+
+  .Student-Admission-DocCardAction {
+    grid-area: action;
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .Student-Admission-DocCardRemove {
+    margin-left: 0;
+  }
+
+  .Student-Admission-OfficeUseRow--signatures {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Student-Admission-SignatureLine {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .Student-Admission-Container {
+    padding: 20px;
+  }
+
+  .Student-Admission-Title {
+    font-size: 19px;
+  }
+
+  .Student-Admission-NumberedList > li {
+    padding-left: 40px;
+  }
 }

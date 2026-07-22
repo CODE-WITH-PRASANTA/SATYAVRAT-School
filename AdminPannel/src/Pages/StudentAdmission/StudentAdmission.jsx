@@ -1,337 +1,241 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AccordionSection from "../../Component/AccordionSection/AccordionSection";
-import API, { IMAGE_URL } from "../../api/axios";
-import { Download } from "lucide-react";
+import { Download, Upload, FileText, X, Check, RefreshCw, Eraser } from "lucide-react";
 import "./StudentAdmission.css";
-import { useNavigate } from "react-router-dom";
 import DownloadFrom from "../../assets/ApplicationForm.pdf.pdf";
+import { useParams, useNavigate } from "react-router-dom";
+import API, { IMAGE_URL } from "../../Api/axios";
+
+// Base API configuration
+const API_BASE_URL = "http://localhost:5000/api/newadmi";
+const SERVER_URL = "http://localhost:5000";
+
+const getFileUrl = (filePath) => {
+  if (!filePath) return "";
+
+  if (filePath.startsWith("http")) {
+    return filePath;
+  }
+
+  return `${SERVER_URL}${filePath.startsWith("/") ? filePath : `/${filePath}`}`;
+};
 
 const initialFormState = {
-  /* Student Details */
-
-  rollNumber: "",
+  /* ===== Top Info Bar ===== */
+  formNo: "",
   admissionNo: "",
   admissionDate: "",
-
   class: "",
-  section: "",
   medium: "",
   samagraId: "",
-
-  aadharNumber: "",
+  aadharCardNo: "",
   apaarId: "",
   penNo: "",
+  familyId: "",
   enrollmentNo: "",
 
+  /* ===== Student Details ===== */
   studentName: "",
   gender: "",
-  dob: "",
-
+  dobWords: "",
   nationality: "",
   motherTongue: "",
   religion: "",
-
   category: "",
   caste: "",
   bloodGroup: "",
-
-  height: "",
-  weight: "",
-
   bankAccountNumber: "",
-  bankName: "",
   ifscCode: "",
-
-  previousSchool: "",
+  bankName: "",
+  lastExamSchool: "",
   tcNumber: "",
 
-  /* Father Details */
-
+  /* ===== Father's Details ===== */
   fatherName: "",
-  fatherPhone: "",
-  fatherDob: "",
-  fatherOccupation: "",
   fatherQualification: "",
+  fatherOccupation: "",
   fatherIncome: "",
+  fatherMobile: "",
   fatherAadhar: "",
-  marriageAnniversary: "",
 
-  /* Mother Details */
-
+  /* ===== Mother's Details ===== */
   motherName: "",
-  motherPhone: "",
-  motherDob: "",
-  motherOccupation: "",
   motherQualification: "",
+  motherOccupation: "",
   motherIncome: "",
+  motherMobile: "",
   motherAadhar: "",
 
-  /* Guardian */
-
-  guardianType: "",
-  guardianName: "",
-  guardianRelation: "",
-  guardianEmail: "",
-  guardianPhone: "",
-  guardianOccupation: "",
-  guardianAddress: "",
-
-  /* Address */
-
-  guardianAddressSame: false,
-  permanentAddressSame: false,
-
-  currentAddress: "",
-  permanentAddress: "",
-
+  /* ===== Address Details ===== */
+  residentialAddress: "",
   district: "",
   pinCode: "",
+  transportRequired: "",
   whatsappNo: "",
   area: "",
 
-  /* Transport */
-
-  transportRequired: "",
-
-  /* Documents */
-
-  documents: {},
+  /* ===== For Office Use Only ===== */
+  admittedClass: "",
+  section: "",
+  regNo: "",
 };
 
+const classOptions = [
+  "LKG", "UKG", "1st", "2nd", "3rd", "4th", "5th",
+  "6th", "7th", "8th", "9th", "10th",
+];
+
+const sectionOptions = ["A", "B", "C", "D"];
+
 export default function StudentAdmission() {
-  const [formData, setFormData] = useState(initialFormState);
-  const [files, setFiles] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const [classes, setClasses] = useState([]);
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const classOptions = [
-    "LKG",
-    "UKG",
-    "1st",
-    "2nd",
-    "3rd",
-    "4th",
-    "5th",
-    "6th",
-    "7th",
-    "8th",
-    "9th",
-    "10th",
-  ];
+  const [formData, setFormData] = useState(initialFormState);
+  const [files, setFiles] = useState({});
+  const [existingFiles, setExistingFiles] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
+  // Fetch admission details when an `id` parameter exists in URL
   useEffect(() => {
-    const id = localStorage.getItem("editStudentId");
-
-    if (!id) return;
-
-    const loadStudent = async () => {
-      try {
-        const res = await API.get(`/students/${id}`);
-
-        const studentData = res.data?.data || res.data;
-
-        setFormData({
-          ...initialFormState,
-          ...studentData,
-
-          // 🔥 ADD THIS LINE
-          documents: studentData.documents || {},
-
-          studentBehaviour: Array.isArray(studentData.studentBehaviour)
-            ? studentData.studentBehaviour
-            : studentData.studentBehaviour
-              ? JSON.parse(studentData.studentBehaviour)
-              : [],
-        });
-
-        setEditId(id);
-      } catch (error) {
-        console.error("Edit load error:", error);
-      }
-    };
-
-    loadStudent();
-  }, []);
-
-  useEffect(() => {
-    if (formData.guardianAddressSame && formData.guardianAddress) {
-      setFormData((prev) => ({
-        ...prev,
-        currentAddress: formData.guardianAddress,
-      }));
+    if (id) {
+      fetchAdmissionDetails(id);
     }
-  }, [formData.guardianAddressSame, formData.guardianAddress]);
+  }, [id]);
 
-  useEffect(() => {
-    if (formData.permanentAddressSame && formData.currentAddress) {
-      setFormData((prev) => ({
-        ...prev,
-        permanentAddress: formData.currentAddress,
-      }));
-    }
-  }, [formData.permanentAddressSame, formData.currentAddress]);
-
-  useEffect(() => {
-    if (formData.guardianType === "Father") {
-      setFormData((prev) => ({
-        ...prev,
-        guardianName: prev.fatherName,
-        guardianPhone: prev.fatherPhone,
-        guardianRelation: "Father",
-      }));
-    }
-
-    if (formData.guardianType === "Mother") {
-      setFormData((prev) => ({
-        ...prev,
-        guardianName: prev.motherName,
-        guardianPhone: prev.motherPhone,
-        guardianRelation: "Mother",
-      }));
-    }
-
-    if (formData.guardianType === "Other") {
-      setFormData((prev) => ({
-        ...prev,
-        guardianName: "",
-        guardianPhone: "",
-        guardianRelation: "",
-      }));
-    }
-  }, [
-    formData.guardianType,
-    formData.fatherName,
-    formData.fatherPhone,
-    formData.motherName,
-    formData.motherPhone,
-  ]);
-
-  useEffect(() => {
-    const fetchClasses = async () => {
-      try {
-        const res = await API.get("/classes");
-        setClasses(res.data.data || []);
-      } catch (err) {
-        console.error("Class fetch error:", err);
-      }
-    };
-
-    fetchClasses();
-  }, []);
-
-  const handleChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  const handleFileChange = (name, file) => {
-    setFiles((prev) => ({
-      ...prev,
-      [name]: file,
-    }));
-
-    // 🔥 ALSO update formData (IMPORTANT)
-    if (!file) {
-      setFormData((prev) => ({
-        ...prev,
-        documents: {
-          ...prev.documents,
-          [name]: null,
-        },
-      }));
-    }
-  };
-
-  const handleSubmit = async () => {
+  const fetchAdmissionDetails = async (admissionId) => {
     try {
-      if (
-        !formData.admissionNo ||
-        !formData.class ||
-        // !formData.section ||
-        !formData.studentName ||
-        !formData.gender ||
-        !formData.dob
-      ) {
-        alert("Please fill all required fields");
-        return;
-      }
-
-      for (const file of Object.values(files)) {
-        if (file && file.size > 2 * 1024 * 1024) {
-          alert("Each file must be under 2MB");
-          return;
-        }
-      }
-
       setLoading(true);
-
-      const data = new FormData();
-      Object.keys(formData).forEach((key) => {
-        const value = formData[key];
-
-        if (value !== undefined) {
-          if (Array.isArray(value)) {
-            data.append(key, JSON.stringify(value));
-          } else if (value === null) {
-            data.append(key, ""); // 🔥 FIX
-          } else {
-            data.append(key, value);
-          }
-        }
-      });
-
-      Object.keys(files).forEach((key) => {
-        if (files[key]) {
-          data.append(key, files[key]);
-        }
-      });
-
-      /* ================= CREATE OR UPDATE ================= */
-
-      if (editId) {
-        await API.put(`/students/${editId}`, data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      const res = await axios.get(`${API_BASE_URL}/${admissionId}`);
+      if (res.data && res.data.data) {
+        const data = res.data.data;
+        
+        // Extract text fields
+        const textData = {};
+        Object.keys(initialFormState).forEach((key) => {
+          textData[key] = data[key] || "";
         });
+        setFormData(textData);
 
-        alert("Student Updated Successfully");
-
-        localStorage.removeItem("editStudentId");
-        navigate("/student/admission/details");
-      } else {
-        await API.post("/students", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        // Store existing server uploaded file paths
+        setExistingFiles({
+          studentPhoto: data.studentPhoto || null,
+          fatherPhoto: data.fatherPhoto || null,
+          motherPhoto: data.motherPhoto || null,
+          casteCertificate: data.casteCertificate || null,
+          incomeCertificate: data.incomeCertificate || null,
+          residentCertificate: data.residentCertificate || null,
+          birthCertificate: data.birthCertificate || null,
+          admissionInchargeSignature: data.admissionInchargeSignature || null,
+          principalSignature: data.principalSignature || null,
         });
-
-        alert("Student Created Successfully");
       }
-
-      setFormData(initialFormState);
-      setFiles({});
-      setEditId(null);
-    } catch (error) {
-      console.error(error);
-      alert("Error saving student");
+    } catch (err) {
+      console.error("Error fetching admission details:", err);
+      alert(err.response?.data?.message || "Failed to fetch student details");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleChange = (name, value) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (name, file) => {
+    setFiles((prev) => ({ ...prev, [name]: file }));
+  };
+
+  const handleReset = () => {
+    setFormData(initialFormState);
+    setFiles({});
+    setExistingFiles({});
+  };
+
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault();
+
+    // Required Field Validations
+    if (
+      !formData.admissionNo ||
+      !formData.class ||
+      !formData.studentName ||
+      !formData.gender ||
+      !formData.dobWords
+    ) {
+      alert("Please fill all required fields (Admission No., Class, Student Name, Gender, Date of Birth in words)");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const payload = new FormData();
+
+      // Append text fields
+      Object.keys(formData).forEach((key) => {
+        payload.append(key, formData[key] !== undefined ? formData[key] : "");
+      });
+
+      // Append newly attached files (photos, signatures, certificates)
+      Object.keys(files).forEach((key) => {
+        if (files[key]) {
+          payload.append(key, files[key]);
+        }
+      });
+
+      let response;
+      if (id) {
+        // UPDATE existing entry
+        response = await axios.put(`${API_BASE_URL}/update/${id}`, payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      } else {
+        // CREATE new entry
+        response = await axios.post(`${API_BASE_URL}/create`, payload, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+
+      if (response.data && (response.data.success || response.status === 200 || response.status === 201)) {
+        setSubmitted(true);
+        alert(id ? "Student record updated successfully!" : "Student admission submitted successfully!");
+        
+        if (!id) {
+          handleReset();
+        } else {
+          fetchAdmissionDetails(id);
+        }
+
+        setTimeout(() => setSubmitted(false), 2500);
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert(error.response?.data?.message || "Failed to save student admission data. Check console for details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading && id && !formData.studentName) {
+    return <div className="Student-Admission-Loading">Loading Admission Record...</div>;
+  }
+
   return (
     <div className="Student-Admission-Page">
-      <div className="Student-Admission-Container">
+      <form onSubmit={handleSubmit} className="Student-Admission-Container">
         {/* HEADER */}
         <div className="Student-Admission-Header">
-          <h1 className="Student-Admission-Title">
-            {editId ? "Edit Student" : "Student Admission"}
-          </h1>
+          <div>
+            <h1 className="Student-Admission-Title">
+              {id ? "Edit Student Admission" : "Student Admission"}
+            </h1>
+            <p className="Student-Admission-Subtitle">
+              Fill in the student, parent and document details below
+            </p>
+          </div>
           <button
+            type="button"
             className="Student-Admission-DownloadBtn"
             onClick={() => {
               const link = document.createElement("a");
@@ -349,581 +253,431 @@ export default function StudentAdmission() {
 
         {/* ================= STUDENT DETAILS ================= */}
         <AccordionSection title="Student Details">
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              {/* Row 1 */}
+          <div className="Student-Admission-InfoBar">
+            <div className="Student-Admission-InfoGrid">
+              <InfoField label="Form No." name="formNo" value={formData.formNo} onChange={handleChange} />
+              <InfoField label="Admission No." name="admissionNo" value={formData.admissionNo} onChange={handleChange} />
+              <InfoField label="Date" type="date" name="admissionDate" value={formData.admissionDate} onChange={handleChange} />
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Roll Number"
-                  name="rollNumber"
-                  value={formData.rollNumber}
-                  onChange={handleChange}
-                />
+              <InfoSelect label="Class" name="class" value={formData.class} options={classOptions} onChange={handleChange} />
+              <InfoField label="Medium" name="medium" value={formData.medium} onChange={handleChange} />
+              <InfoField label="Samagra ID" name="samagraId" value={formData.samagraId} onChange={handleChange} />
 
-                <FormInput
-                  label="Admission No"
-                  name="admissionNo"
-                  value={formData.admissionNo}
-                  onChange={handleChange}
-                />
+              <InfoField label="Aadhar Card No." name="aadharCardNo" value={formData.aadharCardNo} onChange={handleChange} numericLimit={12} />
+              <InfoField label="APAAR ID" name="apaarId" value={formData.apaarId} onChange={handleChange} />
+              <InfoField label="PEN No." name="penNo" value={formData.penNo} onChange={handleChange} />
 
-                <FormInput
-                  label="Admission Date"
-                  type="date"
-                  name="admissionDate"
-                  value={formData.admissionDate}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 2 */}
-
-              <div className="Student-Admission-Row">
-                <FormSelect
-                  label="Class"
-                  name="class"
-                  value={formData.class}
-                  options={classOptions}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Medium"
-                  name="medium"
-                  value={formData.medium}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Samagra ID"
-                  name="samagraId"
-                  value={formData.samagraId}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 3 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Aadhar Card No"
-                  name="aadharNumber"
-                  value={formData.aadharNumber}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="APAAR ID"
-                  name="apaarId"
-                  value={formData.apaarId}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="PEN No"
-                  name="penNo"
-                  value={formData.penNo}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 4 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Enrollment No"
-                  name="enrollmentNo"
-                  value={formData.enrollmentNo}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Student Weight"
-                  name="weight"
-                  value={formData.weight}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Height"
-                  name="height"
-                  value={formData.height}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 5 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Student Name"
-                  name="studentName"
-                  value={formData.studentName}
-                  onChange={handleChange}
-                />
-
-                <FormSelect
-                  label="Gender"
-                  name="gender"
-                  value={formData.gender}
-                  options={["Male", "Female"]}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Date of Birth"
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 6 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Nationality"
-                  name="nationality"
-                  value={formData.nationality}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Mother Tongue"
-                  name="motherTongue"
-                  value={formData.motherTongue}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Religion"
-                  name="religion"
-                  value={formData.religion}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 7 */}
-
-              <div className="Student-Admission-Row">
-                <FormSelect
-                  label="Category"
-                  name="category"
-                  value={formData.category}
-                  options={["SC", "ST", "OBC", "GEN"]}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Caste"
-                  name="caste"
-                  value={formData.caste}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Blood Group"
-                  name="bloodGroup"
-                  value={formData.bloodGroup}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 8 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Bank A/C Number"
-                  name="bankAccountNumber"
-                  value={formData.bankAccountNumber}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="IFSC Code"
-                  name="ifscCode"
-                  value={formData.ifscCode}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Bank Name & Place"
-                  name="bankName"
-                  value={formData.bankName}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Row 9 */}
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Previous School Name"
-                  name="previousSchool"
-                  value={formData.previousSchool}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="TC Number"
-                  name="tcNumber"
-                  value={formData.tcNumber}
-                  onChange={handleChange}
-                />
-
-                <div></div>
-              </div>
+              <InfoField label="Family ID" name="familyId" value={formData.familyId} onChange={handleChange} />
+              <InfoField label="Enrollment No." name="enrollmentNo" value={formData.enrollmentNo} onChange={handleChange} />
             </div>
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="studentPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.studentPhoto}
-              />
-            </div>
+            <PhotoUploadBox
+              name="studentPhoto"
+              label="Recent Passport Size Coloured Photograph"
+              onFileChange={handleFileChange}
+              file={files.studentPhoto}
+              existingUrl={existingFiles.studentPhoto}
+            />
           </div>
+
+          <ol className="Student-Admission-NumberedList">
+            <li>
+              <span className="Student-Admission-ItemLabel">Name of the Student</span>
+              <div className="Student-Admission-InlineRow">
+                <PlainField name="studentName" value={formData.studentName} onChange={handleChange} placeholder="Full name" wide />
+                <div className="Student-Admission-GenderToggle">
+                  {["Male", "Female"].map((g) => (
+                    <button
+                      type="button"
+                      key={g}
+                      className={`Student-Admission-GenderBtn ${formData.gender === g ? "is-active" : ""}`}
+                      onClick={() => handleChange("gender", g)}
+                    >
+                      {g === "Male" ? "M" : "F"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <span className="Student-Admission-ItemLabel">Date of Birth (in words)</span>
+              <PlainField name="dobWords" value={formData.dobWords} onChange={handleChange} placeholder="e.g. Twelfth March, Two Thousand Fifteen" wide />
+            </li>
+
+            <li>
+              <span className="Student-Admission-ItemLabel">Nationality / Mother Tongue / Religion</span>
+              <div className="Student-Admission-InlineRow Student-Admission-InlineRow--triple">
+                <PlainField name="nationality" value={formData.nationality} onChange={handleChange} placeholder="Nationality" />
+                <PlainField name="motherTongue" value={formData.motherTongue} onChange={handleChange} placeholder="Mother Tongue" />
+                <PlainField name="religion" value={formData.religion} onChange={handleChange} placeholder="Religion" />
+              </div>
+            </li>
+
+            <li>
+              <span className="Student-Admission-ItemLabel">Category / Caste / Blood Group</span>
+              <div className="Student-Admission-InlineRow Student-Admission-InlineRow--triple">
+                <PlainSelect name="category" value={formData.category} options={["SC", "ST", "OBC", "GEN"]} onChange={handleChange} placeholder="Category" />
+                <PlainField name="caste" value={formData.caste} onChange={handleChange} placeholder="Caste" />
+                <PlainField name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} placeholder="Blood Group" />
+              </div>
+            </li>
+
+            <li>
+              <span className="Student-Admission-ItemLabel">Bank A/C No. / IFSC Code / Bank Name &amp; Place</span>
+              <div className="Student-Admission-InlineRow Student-Admission-InlineRow--triple">
+                <PlainField name="bankAccountNumber" value={formData.bankAccountNumber} onChange={handleChange} placeholder="Bank A/C No." />
+                <PlainField name="ifscCode" value={formData.ifscCode} onChange={handleChange} placeholder="IFSC Code" />
+                <PlainField name="bankName" value={formData.bankName} onChange={handleChange} placeholder="Bank Name & Place" />
+              </div>
+            </li>
+
+            <li>
+              <span className="Student-Admission-ItemLabel">Details of Last Exam</span>
+              <div className="Student-Admission-InlineRow">
+                <PlainField name="lastExamSchool" value={formData.lastExamSchool} onChange={handleChange} placeholder="Name of School" wide />
+                <PlainField name="tcNumber" value={formData.tcNumber} onChange={handleChange} placeholder="T.C. No." />
+              </div>
+            </li>
+          </ol>
         </AccordionSection>
 
-        {/* ================= PARENT / GUARDIAN ================= */}
+        {/* ================= PARENT DETAILS ================= */}
         <AccordionSection title="Parent Details">
-          {/* ================= FATHER ================= */}
+          <h3 className="Student-Admission-SectionTitle">Parent&apos;s Background</h3>
 
-          <h3 className="Student-Admission-SectionTitle">Father Details</h3>
-
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Father Name"
-                  name="fatherName"
-                  value={formData.fatherName}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Qualification"
-                  name="fatherQualification"
-                  value={formData.fatherQualification}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Occupation"
-                  name="fatherOccupation"
-                  value={formData.fatherOccupation}
-                  onChange={handleChange}
+          <div className="Student-Admission-ParentGrid">
+            {/* FATHER */}
+            <div className="Student-Admission-ParentCard">
+              <div className="Student-Admission-ParentCardHead">
+                <span>Father</span>
+                <PhotoUploadBox
+                  name="fatherPhoto"
+                  label="Photograph (Optional)"
+                  compact
+                  onFileChange={handleFileChange}
+                  file={files.fatherPhoto}
+                  existingUrl={existingFiles.fatherPhoto}
                 />
               </div>
 
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Annual Income"
-                  name="fatherIncome"
-                  value={formData.fatherIncome}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Mobile Number"
-                  name="fatherPhone"
-                  value={formData.fatherPhone}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Aadhar Number"
-                  name="fatherAadhar"
-                  value={formData.fatherAadhar}
-                  onChange={handleChange}
-                />
-              </div>
+              <ParentField label="Father's Name" name="fatherName" value={formData.fatherName} onChange={handleChange} />
+              <ParentField label="Qualification" name="fatherQualification" value={formData.fatherQualification} onChange={handleChange} />
+              <ParentSelect
+                label="Occupation"
+                name="fatherOccupation"
+                value={formData.fatherOccupation}
+                options={["Service", "Business"]}
+                onChange={handleChange}
+              />
+              <ParentField label="Annual Income" name="fatherIncome" value={formData.fatherIncome} onChange={handleChange} />
+              <ParentField label="Mobile No." name="fatherMobile" value={formData.fatherMobile} onChange={handleChange} numericLimit={10} />
+              <ParentField label="Aadhar No." name="fatherAadhar" value={formData.fatherAadhar} onChange={handleChange} numericLimit={12} />
             </div>
 
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="fatherPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.fatherPhoto}
+            {/* MOTHER */}
+            <div className="Student-Admission-ParentCard">
+              <div className="Student-Admission-ParentCardHead">
+                <span>Mother</span>
+                <PhotoUploadBox
+                  name="motherPhoto"
+                  label="Photograph (Optional)"
+                  compact
+                  onFileChange={handleFileChange}
+                  file={files.motherPhoto}
+                  existingUrl={existingFiles.motherPhoto}
+                />
+              </div>
+
+              <ParentField label="Mother's Name" name="motherName" value={formData.motherName} onChange={handleChange} />
+              <ParentField label="Qualification" name="motherQualification" value={formData.motherQualification} onChange={handleChange} />
+              <ParentSelect
+                label="Occupation"
+                name="motherOccupation"
+                value={formData.motherOccupation}
+                options={["Service", "Business", "Housewife"]}
+                onChange={handleChange}
               />
+              <ParentField label="Annual Income" name="motherIncome" value={formData.motherIncome} onChange={handleChange} />
+              <ParentField label="Mobile No." name="motherMobile" value={formData.motherMobile} onChange={handleChange} numericLimit={10} />
+              <ParentField label="Aadhar No." name="motherAadhar" value={formData.motherAadhar} onChange={handleChange} numericLimit={12} />
             </div>
           </div>
-
-          {/* ================= MOTHER ================= */}
-
-          <h3 className="Student-Admission-SectionTitle">Mother Details</h3>
-
-          <div className="Student-Admission-FormGrid">
-            <div className="Student-Admission-Left">
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Mother Name"
-                  name="motherName"
-                  value={formData.motherName}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Qualification"
-                  name="motherQualification"
-                  value={formData.motherQualification}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Occupation"
-                  name="motherOccupation"
-                  value={formData.motherOccupation}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="Student-Admission-Row">
-                <FormInput
-                  label="Annual Income"
-                  name="motherIncome"
-                  value={formData.motherIncome}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Mobile Number"
-                  name="motherPhone"
-                  value={formData.motherPhone}
-                  onChange={handleChange}
-                />
-
-                <FormInput
-                  label="Aadhar Number"
-                  name="motherAadhar"
-                  value={formData.motherAadhar}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div className="Student-Admission-Right">
-              <PhotoUploadBox
-                name="motherPhoto"
-                onFileChange={handleFileChange}
-                existingImage={formData.motherPhoto}
-              />
-            </div>
-          </div>
-
-          {/* ================= ADDRESS DETAILS ================= */}
 
           <h3 className="Student-Admission-SectionTitle">Address Details</h3>
 
           <div className="Student-Admission-Row">
             <FormTextarea
               label="Residential Address"
-              name="currentAddress"
-              value={formData.currentAddress}
+              name="residentialAddress"
+              value={formData.residentialAddress}
               onChange={handleChange}
             />
           </div>
 
           <div className="Student-Admission-Row">
-            <FormInput
-              label="District"
-              name="district"
-              value={formData.district}
-              onChange={handleChange}
-            />
-
-            <FormInput
-              label="Pin Code"
-              name="pinCode"
-              value={formData.pinCode}
-              onChange={handleChange}
-            />
-
-            <FormInput
-              label="WhatsApp Number"
-              name="whatsappNo"
-              value={formData.whatsappNo}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="Student-Admission-Row">
+            <FormInput label="Distt." name="district" value={formData.district} onChange={handleChange} />
+            <FormInput label="Pin Code" name="pinCode" value={formData.pinCode} onChange={handleChange} numericLimit={6} />
             <FormSelect
-              label="School Transportation"
+              label="Availing School Transportation"
               name="transportRequired"
               value={formData.transportRequired}
               options={["Yes", "No"]}
               onChange={handleChange}
             />
+          </div>
 
-            <FormInput
-              label="Area"
-              name="area"
-              value={formData.area}
-              onChange={handleChange}
-            />
-
+          <div className="Student-Admission-Row">
+            <FormInput label="WhatsApp No." name="whatsappNo" value={formData.whatsappNo} onChange={handleChange} numericLimit={10} />
+            <FormInput label="Area" name="area" value={formData.area} onChange={handleChange} />
             <div></div>
           </div>
         </AccordionSection>
 
         {/* ================= UPLOAD DOCUMENTS ================= */}
         <AccordionSection title="Upload Documents">
-          <table className="Student-Admission-DocumentTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Document Name</th>
-                <th>Upload / View File</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {[
-                {
-                  label: "Student Passport Photo",
-                  field: "studentPhoto",
-                },
-
-                {
-                  label: "Father Passport Photo",
-                  field: "fatherPhoto",
-                },
-
-                {
-                  label: "Mother Passport Photo",
-                  field: "motherPhoto",
-                },
-
-                {
-                  label: "Student Aadhaar Card",
-                  field: "studentAadhar",
-                },
-
-                {
-                  label: "Father Aadhaar Card",
-                  field: "fatherAadhar",
-                },
-
-                {
-                  label: "Mother Aadhaar Card",
-                  field: "motherAadhar",
-                },
-
-                {
-                  label: "Samagra ID",
-                  field: "samagraIdDoc",
-                },
-
-                {
-                  label: "Birth Certificate",
-                  field: "birthCertificate",
-                },
-
-                {
-                  label: "Transfer Certificate (TC)",
-                  field: "tcCertificate",
-                },
-
-                {
-                  label: "Previous School Marksheet",
-                  field: "previousMarksheet",
-                },
-
-                {
-                  label: "Bank Passbook",
-                  field: "bankPassbook",
-                },
-
-                {
-                  label: "Income Certificate",
-                  field: "incomeCertificate",
-                },
-              ].map((item, index) => (
-                <tr key={item.field}>
-                  <td>{index + 1}</td>
-
-                  <td className="Student-Admission-DocName">{item.label}</td>
-
-                  <td className="Student-Admission-DocumentCell">
-                    <DocumentUpload
-                      name={item.field}
-                      existingFile={(formData.documents || {})[item.field]}
-                      onFileChange={handleFileChange}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="Student-Admission-DocGrid">
+            {[
+              { label: "Caste Certificate", field: "casteCertificate" },
+              { label: "Income Certificate", field: "incomeCertificate" },
+              { label: "Residential Certificate", field: "residentCertificate" },
+              { label: "Birth Certificate", field: "birthCertificate" },
+            ].map((item) => (
+              <DocumentCard
+                key={item.field}
+                label={item.label}
+                name={item.field}
+                file={files[item.field]}
+                existingUrl={existingFiles[item.field]}
+                onFileChange={handleFileChange}
+              />
+            ))}
+          </div>
         </AccordionSection>
 
-        {/* SUBMIT */}
+        {/* ================= FOR OFFICE USE ONLY ================= */}
+        <AccordionSection title="For Office Use Only">
+          <div className="Student-Admission-OfficeUse">
+            <div className="Student-Admission-OfficeUseHead">For Office Use Only</div>
+
+            <div className="Student-Admission-OfficeUseRow">
+              <span className="Student-Admission-OfficeUseText">
+                Student: <strong>{formData.studentName || "—"}</strong> is admitted in class
+              </span>
+              <PlainSelect
+                name="admittedClass"
+                value={formData.admittedClass}
+                options={classOptions}
+                onChange={handleChange}
+                placeholder="Class"
+              />
+              <span className="Student-Admission-OfficeUseText">Section</span>
+              <PlainSelect
+                name="section"
+                value={formData.section}
+                options={sectionOptions}
+                onChange={handleChange}
+                placeholder="Section"
+              />
+            </div>
+
+            <div className="Student-Admission-OfficeUseRow Student-Admission-OfficeUseRow--signatures">
+              <div className="Student-Admission-OfficeUseField">
+                <label>Reg. No.</label>
+                <PlainField name="regNo" value={formData.regNo} onChange={handleChange} placeholder="Registration No." />
+              </div>
+
+              {/* Admission In-Charge Signature Area */}
+              <SignaturePad
+                title="ADMISSION IN-CHARGE"
+                name="admissionInchargeSignature"
+                file={files.admissionInchargeSignature}
+                existingUrl={existingFiles.admissionInchargeSignature}
+                onFileChange={handleFileChange}
+              />
+
+              {/* Principal Signature Area */}
+              <SignaturePad
+                title="PRINCIPAL"
+                name="principalSignature"
+                file={files.principalSignature}
+                existingUrl={existingFiles.principalSignature}
+                onFileChange={handleFileChange}
+              />
+            </div>
+          </div>
+        </AccordionSection>
+
+        {/* ACTIONS / SUBMIT */}
         <div className="Student-Admission-SubmitWrapper">
           <button
             type="button"
-            className="Student-Admission-SubmitBtn"
-            onClick={handleSubmit}
+            className="Student-Admission-ResetBtn"
+            onClick={handleReset}
             disabled={loading}
           >
-            {loading ? "Submitting..." : editId ? "Update Student" : "Submit"}
+            <RefreshCw size={16} /> Reset
+          </button>
+
+          {submitted && (
+            <span className="Student-Admission-SuccessTag">
+              <Check size={16} /> Saved to server
+            </span>
+          )}
+
+          <button
+            type="submit"
+            className="Student-Admission-SubmitBtn"
+            disabled={loading}
+          >
+            {loading ? "Saving..." : id ? "Update Admission" : "Submit Admission"}
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
 
-const FormInput = ({
-  label,
-  type = "text",
-  name,
-  onChange,
-  value,
-  disabled,
-}) => {
+/* ===================================================================== */
+/* ============================ SUBCOMPONENTS =========================== */
+/* ===================================================================== */
+
+const sanitizeNumeric = (val, limit) => val.replace(/[^0-9]/g, "").slice(0, limit || undefined);
+
+const SignaturePad = ({ title, name, file, existingUrl, onFileChange }) => {
+  const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [hasDrawn, setHasDrawn] = useState(false);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000000";
+    }
+  }, []);
+
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const rect = canvas.getBoundingClientRect();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    setIsDrawing(true);
+    setHasDrawn(true);
+  };
+
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const rect = canvas.getBoundingClientRect();
+    ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+    ctx.stroke();
+  };
+
+  const stopDrawing = () => {
+    if (!isDrawing) return;
+    setIsDrawing(false);
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const signatureFile = new File([blob], `${name}.png`, { type: "image/png" });
+          onFileChange(name, signatureFile);
+        }
+      });
+    }
+  };
+
+  const handleClear = () => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    setHasDrawn(false);
+    onFileChange(name, null);
+  };
+
+  const handleUpload = (e) => {
+    const selected = e.target.files?.[0];
+    if (selected) {
+      onFileChange(name, selected);
+    }
+  };
+
+  return (
+    <div className="Student-Admission-SignatureLine">
+      <div className="Student-Admission-SignatureCanvasWrapper" style={{ position: "relative", borderBottom: "2px solid #94a3b8", marginBottom: "8px" }}>
+        {file || existingUrl ? (
+          <div style={{ position: "relative", height: "80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img
+              src={file ? URL.createObjectURL(file) : (existingUrl.startsWith("http") ? existingUrl : `${SERVER_URL}/uploads/${existingUrl}`)}
+              alt={title}
+              style={{ maxHeight: "70px", maxWidth: "100%", objectFit: "contain" }}
+            />
+            <button
+              type="button"
+              onClick={() => onFileChange(name, null)}
+              style={{ position: "absolute", top: "2px", right: "2px", background: "#ef4444", color: "#fff", border: "none", borderRadius: "50%", padding: "2px", cursor: "pointer" }}
+            >
+              <X size={12} />
+            </button>
+          </div>
+        ) : (
+          <>
+            <canvas
+              ref={canvasRef}
+              width={220}
+              height={80}
+              onMouseDown={startDrawing}
+              onMouseMove={draw}
+              onMouseUp={stopDrawing}
+              onMouseLeave={stopDrawing}
+              style={{ cursor: "crosshair", display: "block", background: "transparent" }}
+            />
+            {hasDrawn && (
+              <button
+                type="button"
+                onClick={handleClear}
+                style={{ position: "absolute", top: "2px", right: "2px", background: "none", border: "none", color: "#64748b", cursor: "pointer" }}
+                title="Clear Signature"
+              >
+                <Eraser size={14} />
+              </button>
+            )}
+            <label style={{ position: "absolute", bottom: "2px", right: "2px", cursor: "pointer", color: "#2563eb", fontSize: "10px", display: "flex", alignItems: "center", gap: "2px" }}>
+              <Upload size={10} />
+              <span>Upload</span>
+              <input type="file" accept="image/*" onChange={handleUpload} style={{ display: "none" }} />
+            </label>
+          </>
+        )}
+      </div>
+      <label style={{ fontSize: "12px", fontWeight: "bold", color: "#334155", letterSpacing: "0.5px" }}>{title}</label>
+    </div>
+  );
+};
+
+const FormInput = ({ label, type = "text", name, onChange, value, numericLimit }) => {
   const handleInputChange = (e) => {
     let val = e.target.value;
-
-    // Only numbers for phone / aadhar
-    if (
-      name === "mobile" ||
-      name === "fatherPhone" ||
-      name === "motherPhone" ||
-      name === "guardianPhone" ||
-      name === "aadharNumber"
-    ) {
-      val = val.replace(/[^0-9]/g, "");
-
-      // limit length
-      if (
-        name === "mobile" ||
-        name === "fatherPhone" ||
-        name === "motherPhone" ||
-        name === "guardianPhone"
-      ) {
-        val = val.slice(0, 10);
-      }
-
-      if (name === "aadharNumber") {
-        val = val.slice(0, 12);
-      }
-    }
-
+    if (numericLimit) val = sanitizeNumeric(val, numericLimit);
     onChange(name, val);
   };
 
   return (
     <div className="Student-Admission-Group">
       <label className="Student-Admission-Label">{label}</label>
-
       <input
         type={type}
         name={name}
         value={value || ""}
-        disabled={disabled}
         className="Student-Admission-Input"
         onChange={handleInputChange}
       />
@@ -934,7 +688,6 @@ const FormInput = ({
 const FormSelect = ({ label, name, onChange, options = [], value }) => (
   <div className="Student-Admission-Group">
     <label className="Student-Admission-Label">{label}</label>
-
     <select
       name={name}
       value={value || ""}
@@ -942,141 +695,173 @@ const FormSelect = ({ label, name, onChange, options = [], value }) => (
       onChange={(e) => onChange(name, e.target.value)}
     >
       <option value="">Select</option>
-
-      {options.map((opt) =>
-        typeof opt === "object" ? (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ) : (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ),
-      )}
+      {options.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      ))}
     </select>
   </div>
 );
 
-const FormTextarea = ({ label, name, onChange, value, disabled }) => (
+const FormTextarea = ({ label, name, onChange, value }) => (
   <div className="Student-Admission-Group">
     <label className="Student-Admission-Label">{label}</label>
-
     <textarea
       name={name}
       value={value || ""}
-      disabled={disabled}
       className="Student-Admission-Textarea"
       onChange={(e) => onChange(name, e.target.value)}
     />
   </div>
 );
-const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
+
+const PlainField = ({ name, value, onChange, placeholder, wide, numericLimit }) => (
+  <input
+    type="text"
+    name={name}
+    value={value || ""}
+    placeholder={placeholder}
+    className={`Student-Admission-PlainField ${wide ? "Student-Admission-PlainField--wide" : ""}`}
+    onChange={(e) => {
+      let val = e.target.value;
+      if (numericLimit) val = sanitizeNumeric(val, numericLimit);
+      onChange(name, val);
+    }}
+  />
+);
+
+const PlainSelect = ({ name, value, options = [], onChange, placeholder }) => (
+  <select
+    name={name}
+    value={value || ""}
+    className="Student-Admission-PlainField"
+    onChange={(e) => onChange(name, e.target.value)}
+  >
+    <option value="">{placeholder || "Select"}</option>
+    {options.map((opt) => (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    ))}
+  </select>
+);
+
+const InfoField = ({ label, type = "text", name, value, onChange, numericLimit }) => (
+  <div className="Student-Admission-InfoField">
+    <label>{label}</label>
+    <input
+      type={type}
+      value={value || ""}
+      onChange={(e) => {
+        let val = e.target.value;
+        if (numericLimit) val = sanitizeNumeric(val, numericLimit);
+        onChange(name, val);
+      }}
+    />
+  </div>
+);
+
+const InfoSelect = ({ label, name, value, options = [], onChange }) => (
+  <div className="Student-Admission-InfoField">
+    <label>{label}</label>
+    <select value={value || ""} onChange={(e) => onChange(name, e.target.value)}>
+      <option value="">Select</option>
+      {options.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
+const ParentField = ({ label, name, value, onChange, numericLimit }) => (
+  <div className="Student-Admission-ParentField">
+    <label>{label}</label>
+    <input
+      type="text"
+      value={value || ""}
+      onChange={(e) => {
+        let val = e.target.value;
+        if (numericLimit) val = sanitizeNumeric(val, numericLimit);
+        onChange(name, val);
+      }}
+    />
+  </div>
+);
+
+const ParentSelect = ({ label, name, value, options = [], onChange }) => (
+  <div className="Student-Admission-ParentField">
+    <label>{label}</label>
+    <select value={value || ""} onChange={(e) => onChange(name, e.target.value)}>
+      <option value="">Select</option>
+      {options.map((opt) => (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
+const PhotoUploadBox = ({ name, label, onFileChange, file, existingUrl, compact }) => {
   const [preview, setPreview] = useState(null);
 
-  // ✅ LOAD EXISTING IMAGE (SAFE)
   useEffect(() => {
-    if (!existingImage) {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      return () => URL.revokeObjectURL(url);
+    } else if (existingUrl) {
+      const fullUrl = existingUrl.startsWith("http") ? existingUrl : `${SERVER_URL}/uploads/${existingUrl}`;
+      setPreview(fullUrl);
+    } else {
       setPreview(null);
-      return;
     }
+  }, [file, existingUrl]);
 
-    let imagePath =
-      existingImage && typeof existingImage === "object"
-        ? existingImage?.path
-        : existingImage || null;
-
-    let imageUrl = imagePath;
-
-    if (
-      imagePath &&
-      typeof imagePath === "string" &&
-      !imagePath.startsWith("http")
-    ) {
-      imageUrl = `${IMAGE_URL}${imagePath}`;
-    }
-
-    setPreview(imageUrl);
-  }, [existingImage]);
-
-  // ✅ CLEANUP (MEMORY LEAK FIX)
-  useEffect(() => {
-    return () => {
-      if (preview && preview.startsWith("blob:")) {
-        URL.revokeObjectURL(preview);
-      }
-    };
-  }, [preview]);
-
-  // ✅ HANDLE FILE CHANGE
   const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const selected = e.target.files?.[0];
+    if (!selected) return;
 
-    // ✅ SIZE CHECK
-    if (file.size > 2 * 1024 * 1024) {
+    if (selected.size > 2 * 1024 * 1024) {
       alert("Image must be under 2MB");
       return;
     }
 
-    // ✅ TYPE CHECK
     const allowed = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-    if (!allowed.includes(file.type)) {
+    if (!allowed.includes(selected.type)) {
       alert("Only JPG, PNG, WEBP allowed");
       return;
     }
 
-    // ✅ CLEAN OLD PREVIEW
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
-    }
-
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-
-    onFileChange(name, file);
+    onFileChange(name, selected);
   };
 
-  // ✅ REMOVE IMAGE
-  const handleRemove = () => {
-    if (preview && preview.startsWith("blob:")) {
-      URL.revokeObjectURL(preview);
-    }
-    setPreview(null);
+  const handleRemove = (e) => {
+    e.stopPropagation();
     onFileChange(name, null);
   };
 
   return (
-    <div className="Student-Admission-PhotoBox">
+    <div className={`Student-Admission-PhotoBox ${compact ? "Student-Admission-PhotoBox--compact" : ""}`}>
       {preview ? (
         <>
-          <img
-            src={preview}
-            alt="Preview"
-            className="Student-Admission-PhotoPreview"
-          />
-
+          <img src={preview} alt="Preview" className="Student-Admission-PhotoPreview" />
           <div className="Student-Admission-PhotoOverlay">Change Photo</div>
-
-          {/* 🔥 REMOVE BUTTON */}
-          <button
-            type="button"
-            className="Student-Admission-RemoveBtn"
-            onClick={handleRemove}
-          >
-            Remove
+          <button type="button" className="Student-Admission-RemoveBtn" onClick={handleRemove}>
+            <X size={12} />
           </button>
         </>
       ) : (
         <div className="Student-Admission-PhotoPlaceholder">
-          <span>Upload Photo</span>
-          <small>JPG / PNG / WEBP (Max 2MB)</small>
+          <Upload size={compact ? 16 : 22} />
+          <span>{label}</span>
         </div>
       )}
-
       <input
         type="file"
-        name={name}
         accept="image/*"
         className="Student-Admission-PhotoInput"
         onChange={handleImageChange}
@@ -1084,76 +869,56 @@ const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
     </div>
   );
 };
-const DocumentUpload = ({ name, existingFile, onFileChange }) => {
-  // ✅ SAFE FILE PATH (no crash)
-  const filePath =
-    existingFile && typeof existingFile === "object"
-      ? existingFile?.path
-      : existingFile || null;
 
-  // ✅ SAFE URL
-  const fileUrl =
-    filePath && typeof filePath === "string" && !filePath.startsWith("http")
-      ? `${IMAGE_URL}${filePath}`
-      : filePath || "";
+const DocumentCard = ({ label, name, file, existingUrl, onFileChange }) => {
+  const handleChange = (e) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+
+    if (selected.size > 2 * 1024 * 1024) {
+      alert("File must be under 2MB");
+      return;
+    }
+
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/jpg"];
+    if (!allowedTypes.includes(selected.type)) {
+      alert("Only PDF, JPG, PNG allowed");
+      return;
+    }
+
+    onFileChange(name, selected);
+  };
+
+  const getStatusText = () => {
+    if (file) return file.name;
+    if (existingUrl) return `Uploaded file: ${existingUrl.split("/").pop()}`;
+    return "PDF, JPG or PNG · Max 2MB";
+  };
 
   return (
-    <div className="Student-Admission-DocumentBox">
-      {/* ✅ FILE PREVIEW */}
-      {filePath && (
-        <div className="Student-Admission-DocumentPreview">
-          <a href={fileUrl} target="_blank" rel="noreferrer">
-            View File
-          </a>
+    <div className={`Student-Admission-DocCard ${file || existingUrl ? "is-filled" : ""}`}>
+      <div className="Student-Admission-DocCardIcon">
+        <FileText size={20} />
+      </div>
 
-          {/* 🔥 Show file name */}
-          <p style={{ fontSize: "12px", color: "#666" }}>
-            {filePath.split("/").pop()}
-          </p>
+      <div className="Student-Admission-DocCardBody">
+        <span className="Student-Admission-DocCardLabel">{label}</span>
+        <span className="Student-Admission-DocCardStatus">{getStatusText()}</span>
+      </div>
 
-          {/* 🔥 REMOVE BUTTON */}
-          {/* <button
-            type="button"
-            className="Student-Admission-RemoveBtn"
-            onClick={() => onFileChange(name, null)}
-          >
-            Remove
-          </button> */}
-        </div>
-      )}
-
-      {/* ✅ FILE INPUT */}
-      <input
-        type="file"
-        name={name}
-        accept=".pdf,.jpg,.jpeg,.png"
-        className="Student-Admission-FileInput"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (!file) return;
-
-          // ✅ SIZE CHECK
-          if (file.size > 2 * 1024 * 1024) {
-            alert("File must be under 2MB");
-            return;
-          }
-
-          // ✅ TYPE CHECK
-          const allowedTypes = [
-            "application/pdf",
-            "image/jpeg",
-            "image/png",
-            "image/jpg",
-          ];
-
-          if (!allowedTypes.includes(file.type)) {
-            alert("Only PDF, JPG, PNG allowed");
-            return;
-          }
-
-          onFileChange(name, file);
-        }}
-      />
+      <div className="Student-Admission-DocCardAction">
+        {file || existingUrl ? (
+          <button type="button" className="Student-Admission-DocCardRemove" onClick={() => onFileChange(name, null)}>
+            <X size={14} />
+          </button>
+        ) : (
+          <label className="Student-Admission-DocCardUpload">
+            <Upload size={14} />
+            Upload
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleChange} />
+          </label>
+        )}
+      </div>
     </div>
   );
 };
